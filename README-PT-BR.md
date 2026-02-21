@@ -24,6 +24,15 @@ Otimiza conteúdo digital e estratégias de marketing para Generative Engines (L
 
 ---
 
+### 📰 Substack Expert
+Especialista na plataforma Substack. Orienta formatação de posts, otimização SEO (títulos, slugs, meta descriptions), estratégias nativas de engajamento (Notes, Chat) e conversão para assinaturas pagas.
+
+**Quando usar:** formatar e otimizar posts no Substack, melhorar SEO de newsletters (títulos, slugs, meta descriptions), crescer audiência com Notes e recomendações, converter leitores gratuitos em assinantes pagos, personalizar homepage e emails de boas-vindas.
+
+📄 [Ver documentação completa](skills/substack-expert/SKILL.md)
+
+---
+
 ## Instalacao
 
 Voce pode instalar estas skills usando qualquer instalador compativel ou manualmente. Abaixo estao as opcoes mais populares.
@@ -39,6 +48,7 @@ Ou instale uma skill especifica:
 ```bash
 npx skills add fabricioctelles/skills@premium-proposal-builder
 npx skills add fabricioctelles/skills@geo-optimization
+npx skills add fabricioctelles/skills@substack-expert
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -71,14 +81,17 @@ git clone https://github.com/fabricioctelles/skills.git
 # Exemplo para Cursor
 cp -r skills/premium-proposal-builder .cursor/skills/
 cp -r skills/geo-optimization .cursor/skills/
+cp -r skills/substack-expert .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
 cp -r skills/geo-optimization .claude/skills/
+cp -r skills/substack-expert .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
+cp -r skills/substack-expert .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -89,7 +102,9 @@ O formato Agent Skills e universal e funciona com qualquer agente compativel. Ve
 skills/
 ├── premium-proposal-builder/
 │   └── SKILL.md
-└── geo-optimization/
+├── geo-optimization/
+│   └── SKILL.md
+└── substack-expert/
     └── SKILL.md
 ```
 

@@ -26,6 +26,15 @@ Optimizes digital content and marketing strategies for Generative Engines (LLMs,
 
 ---
 
+### 📰 Substack Expert
+Substack platform expert. Guides post formatting, SEO optimization (titles, slugs, meta descriptions), native engagement strategies (Notes, Chat), and conversion to paid subscriptions.
+
+**When to use:** format and optimize Substack posts, improve newsletter SEO (titles, slugs, meta descriptions), grow audience with Notes and recommendations, convert free readers to paid subscribers, customize homepage and welcome emails.
+
+📄 [View full documentation](skills/substack-expert/SKILL.md)
+
+---
+
 ## Installation
 
 You can install these skills using any compatible installer or manually. Below are the most popular options.
@@ -41,6 +50,7 @@ Or install a specific skill:
 ```bash
 npx skills add fabricioctelles/skills@premium-proposal-builder
 npx skills add fabricioctelles/skills@geo-optimization
+npx skills add fabricioctelles/skills@substack-expert
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -73,14 +83,17 @@ git clone https://github.com/fabricioctelles/skills.git
 # Example for Cursor
 cp -r skills/premium-proposal-builder .cursor/skills/
 cp -r skills/geo-optimization .cursor/skills/
+cp -r skills/substack-expert .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
 cp -r skills/geo-optimization .claude/skills/
+cp -r skills/substack-expert .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
+cp -r skills/substack-expert .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -91,7 +104,9 @@ The Agent Skills format is universal and works with any compatible agent. See th
 skills/
 ├── premium-proposal-builder/
 │   └── SKILL.md
-└── geo-optimization/
+├── geo-optimization/
+│   └── SKILL.md
+└── substack-expert/
     └── SKILL.md
 ```
 
