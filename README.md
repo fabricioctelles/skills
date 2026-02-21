@@ -2,7 +2,9 @@
 
 # 🧠 Agent Skills by ft.ia.br
 
-A collection of skills for AI agents (Kiro, Cursor, Windsurf, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
+A collection of [Agent Skills](https://agentskills.io) for AI agents (Kiro, Cursor, Windsurf, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
+
+Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows. Each skill is a folder with a `SKILL.md` file containing metadata and instructions that agents load on demand via progressive disclosure. Learn more at [agentskills.io](https://agentskills.io/what-are-skills.md).
 
 ## Available Skills
 
@@ -25,6 +27,8 @@ Optimizes digital content and marketing strategies for Generative Engines (LLMs,
 ---
 
 ## Installation
+
+You can install these skills using any compatible installer or manually. Below are the most popular options.
 
 ### Via [Skills.sh](https://skills.sh/docs)
 
@@ -79,7 +83,7 @@ cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
 ```
 
-See the [full platform list](https://www.agentskills.in/docs/getting-started) for all 42+ supported agents and their directories.
+The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
 
 ## Repository Structure
 
@@ -91,7 +95,7 @@ skills/
     └── SKILL.md
 ```
 
-Each skill contains a `SKILL.md` file with the configuration frontmatter and all the documentation the agent needs to execute.
+Each skill contains a `SKILL.md` file with the configuration frontmatter and all the documentation the agent needs to execute. This follows the open [Agent Skills specification](https://agentskills.io/specification.md).
 
 ## Author
 

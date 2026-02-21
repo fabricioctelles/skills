@@ -1,6 +1,8 @@
 # 🧠 Agent Skills by ft.ia.br
 
-Coleção de skills para agentes de IA (Kiro, Cursor, Windsurf, Claude Code e outros). Cada skill é um módulo reutilizável que ensina o agente a executar tarefas complexas com contexto, estrutura e boas práticas.
+Colecao de [Agent Skills](https://agentskills.io) para agentes de IA (Kiro, Cursor, Windsurf, Claude Code e outros). Cada skill e um modulo reutilizavel que ensina o agente a executar tarefas complexas com contexto, estrutura e boas praticas.
+
+Agent Skills sao um formato aberto e leve para estender as capacidades de agentes de IA com conhecimento especializado e workflows. Cada skill e uma pasta com um arquivo `SKILL.md` contendo metadados e instrucoes que os agentes carregam sob demanda via progressive disclosure. Saiba mais em [agentskills.io](https://agentskills.io/what-are-skills.md).
 
 ## Skills Disponíveis
 
@@ -23,6 +25,8 @@ Otimiza conteúdo digital e estratégias de marketing para Generative Engines (L
 ---
 
 ## Instalacao
+
+Voce pode instalar estas skills usando qualquer instalador compativel ou manualmente. Abaixo estao as opcoes mais populares.
 
 ### Via [Skills.sh](https://skills.sh/docs)
 
@@ -77,7 +81,7 @@ cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
 ```
 
-Veja a [lista completa de plataformas](https://www.agentskills.in/docs/getting-started) com todos os 42+ agentes suportados e seus diretorios.
+O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
 
 ## Estrutura do Repositório
 
@@ -89,7 +93,7 @@ skills/
     └── SKILL.md
 ```
 
-Cada skill contém um arquivo `SKILL.md` com o frontmatter de configuração e toda a documentação que o agente precisa para executar.
+Cada skill contem um arquivo `SKILL.md` com o frontmatter de configuracao e toda a documentacao que o agente precisa para executar. Segue a [especificacao aberta Agent Skills](https://agentskills.io/specification.md).
 
 ## Autor
 
