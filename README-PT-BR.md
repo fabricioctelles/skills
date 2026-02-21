@@ -95,6 +95,6 @@ Cada skill contém um arquivo `SKILL.md` com o frontmatter de configuração e t
 
 Criado por [ft.ia.br](https://ft.ia.br)
 
-## Licença
+## Licenca
 
-MIT
+Apache 2.0 — veja [LICENSE](LICENSE) para detalhes.

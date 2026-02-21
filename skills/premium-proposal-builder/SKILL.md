@@ -6,6 +6,7 @@ metadata:
   version: "1.0"
   date: 2026-02-20
   repository: https://github.com/fabricioctelles/skills
+  license: Apache 2.0
   focus: B2B Sales, agencies, consulting, SaaS, marketing, enterprise
 ---
 
