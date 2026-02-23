@@ -35,6 +35,16 @@ Substack platform expert. Guides post formatting, SEO optimization (titles, slug
 
 ---
 
+### ☁️ Pier Cloud API
+Complete guide to consuming the [Pier Cloud](https://piercloud.com/en/) (Lighthouse) API with authentication, context management, workspaces, and data views.
+*Note: The documentation for this skill is in Portuguese, but it can be used in any language.*
+
+**When to use:** authenticate with Pier Cloud, list available contexts (AWS, etc), manage workspaces, access cost analysis views, run FinOps scripts.
+
+📄 [View full documentation](skills/pier-cloud/SKILL.md)
+
+---
+
 ## Installation
 
 You can install these skills using any compatible installer or manually. Below are the most popular options.
@@ -51,6 +61,7 @@ Or install a specific skill:
 npx skills add fabricioctelles/skills@premium-proposal-builder
 npx skills add fabricioctelles/skills@geo-optimization
 npx skills add fabricioctelles/skills@substack-expert
+npx skills add fabricioctelles/skills@pier-cloud
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -84,16 +95,19 @@ git clone https://github.com/fabricioctelles/skills.git
 cp -r skills/premium-proposal-builder .cursor/skills/
 cp -r skills/geo-optimization .cursor/skills/
 cp -r skills/substack-expert .cursor/skills/
+cp -r skills/pier-cloud .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
 cp -r skills/geo-optimization .claude/skills/
 cp -r skills/substack-expert .claude/skills/
+cp -r skills/pier-cloud .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
 cp -r skills/substack-expert .kiro/skills/
+cp -r skills/pier-cloud .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -106,7 +120,9 @@ skills/
 │   └── SKILL.md
 ├── geo-optimization/
 │   └── SKILL.md
-└── substack-expert/
+├── substack-expert/
+│   └── SKILL.md
+└── pier-cloud/
     └── SKILL.md
 ```
 
