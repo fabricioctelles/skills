@@ -42,6 +42,15 @@ Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, ge
 
 ---
 
+### 🎨 Ultimate Design System Master
+Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 10 prompts especializados com role-play. Cobre Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code e Apresentações Executivas.
+
+**Quando usar:** criar design system, construir identidade de marca, gerar padrões UI/UX, produzir assets de marketing, escrever specs para Figma, obter crítica de design, analisar tendências de design, rodar auditoria de acessibilidade, traduzir design para código, criar decks de apresentação.
+
+📄 [Ver documentação completa](skills/ultimate-design-system-master/SKILL.md)
+
+---
+
 ## Instalacao
 
 Voce pode instalar estas skills usando qualquer instalador compativel ou manualmente. Abaixo estao as opcoes mais populares.
@@ -59,6 +68,7 @@ npx skills add fabricioctelles/skills@premium-proposal-builder
 npx skills add fabricioctelles/skills@geo-optimization
 npx skills add fabricioctelles/skills@substack-expert
 npx skills add fabricioctelles/skills@pier-cloud
+npx skills add fabricioctelles/skills@ultimate-design-system-master
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -93,18 +103,21 @@ cp -r skills/premium-proposal-builder .cursor/skills/
 cp -r skills/geo-optimization .cursor/skills/
 cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
+cp -r skills/ultimate-design-system-master .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
 cp -r skills/geo-optimization .claude/skills/
 cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
+cp -r skills/ultimate-design-system-master .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
 cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
+cp -r skills/ultimate-design-system-master .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -119,11 +132,12 @@ skills/
 │   └── SKILL.md
 ├── substack-expert/
 │   └── SKILL.md
-└── pier-cloud/
-    └── SKILL.md
+├── pier-cloud/
+│   └── SKILL.md
+└── ultimate-design-system-master/
+    ├── SKILL.md
+    └── references/        # 10 arquivos de prompt especializados
 ```
-
-Cada skill contem um arquivo `SKILL.md` com o frontmatter de configuracao e toda a documentacao que o agente precisa para executar. Segue a [especificacao aberta Agent Skills](https://agentskills.io/specification.md).
 
 ## Autor
 
