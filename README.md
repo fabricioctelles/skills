@@ -54,6 +54,15 @@ Generates Apple/Pentagram/frog/Vercel/Figma-level design deliverables using 10 s
 
 ---
 
+### 🗂️ Front-End Checklist
+An exhaustive list of all elements you need to have or to test before launching your website or HTML page to production. Inspired by the [Front-End-Checklist](https://github.com/thedaviddias/Front-End-Checklist).
+
+**When to use:** review code before production, validate accessibility, SEO, performance, and enforce front-end best practices.
+
+📄 [View full documentation](skills/front-end-checklist/SKILL.md)
+
+---
+
 ## Installation
 
 You can install these skills using any compatible installer or manually. Below are the most popular options.
@@ -72,6 +81,7 @@ npx skills add fabricioctelles/skills@geo-optimization
 npx skills add fabricioctelles/skills@substack-expert
 npx skills add fabricioctelles/skills@pier-cloud
 npx skills add fabricioctelles/skills@ultimate-design-system-master
+npx skills add fabricioctelles/skills@front-end-checklist
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -107,6 +117,7 @@ cp -r skills/geo-optimization .cursor/skills/
 cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
 cp -r skills/ultimate-design-system-master .cursor/skills/
+cp -r skills/front-end-checklist .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -114,6 +125,7 @@ cp -r skills/geo-optimization .claude/skills/
 cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
 cp -r skills/ultimate-design-system-master .claude/skills/
+cp -r skills/front-end-checklist .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -121,6 +133,7 @@ cp -r skills/geo-optimization .kiro/skills/
 cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
 cp -r skills/ultimate-design-system-master .kiro/skills/
+cp -r skills/front-end-checklist .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -137,6 +150,9 @@ skills/
 │   └── SKILL.md
 ├── pier-cloud/
 │   └── SKILL.md
+├── front-end-checklist/
+│   ├── SKILL.md
+│   └── references/        # design, head, performance checklists
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # 10 specialized prompt files
