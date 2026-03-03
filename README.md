@@ -63,6 +63,15 @@ An exhaustive list of all elements you need to have or to test before launching 
 
 ---
 
+### 📄 Resume ATS Beater
+Rewrites resumes from scratch for ATS compatibility and recruiter impact, with a workflow tailored to ATS platforms in Brazil (Gupy, Vagas.com, PandaPé, Sólides).
+
+**When to use:** optimize resume for ATS, adapt CV to a target role/industry, improve experience bullets with measurable outcomes, validate eliminatory requirements and semantic matching.
+
+📄 [View full documentation](skills/resume-ats-beater/SKILL.md)
+
+---
+
 ## Installation
 
 You can install these skills using any compatible installer or manually. Below are the most popular options.
@@ -82,6 +91,7 @@ npx skills add fabricioctelles/skills@substack-expert
 npx skills add fabricioctelles/skills@pier-cloud
 npx skills add fabricioctelles/skills@ultimate-design-system-master
 npx skills add fabricioctelles/skills@front-end-checklist
+npx skills add fabricioctelles/skills@resume-ats-beater
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -118,6 +128,7 @@ cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
 cp -r skills/ultimate-design-system-master .cursor/skills/
 cp -r skills/front-end-checklist .cursor/skills/
+cp -r skills/resume-ats-beater .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -126,6 +137,7 @@ cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
 cp -r skills/ultimate-design-system-master .claude/skills/
 cp -r skills/front-end-checklist .claude/skills/
+cp -r skills/resume-ats-beater .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -134,6 +146,7 @@ cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
 cp -r skills/ultimate-design-system-master .kiro/skills/
 cp -r skills/front-end-checklist .kiro/skills/
+cp -r skills/resume-ats-beater .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -153,6 +166,8 @@ skills/
 ├── front-end-checklist/
 │   ├── SKILL.md
 │   └── references/        # design, head, performance checklists
+├── resume-ats-beater/
+│   └── SKILL.md
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # 10 specialized prompt files
