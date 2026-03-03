@@ -60,6 +60,15 @@ Uma lista exaustiva de todos os elementos que você precisa ter ou testar antes 
 
 ---
 
+### 📄 Resume ATS Beater
+Reescreve currículos do zero para compatibilidade ATS e impacto para recrutadores, com workflow adaptado ao contexto de ATS no Brasil (Gupy, Vagas.com, PandaPé, Sólides).
+
+**Quando usar:** otimizar currículo para ATS, adaptar CV para cargo/indústria alvo, fortalecer bullets com resultados mensuráveis, validar requisitos eliminatórios e aderência semântica.
+
+📄 [Ver documentação completa](skills/resume-ats-beater/SKILL.md)
+
+---
+
 ## Instalacao
 
 Voce pode instalar estas skills usando qualquer instalador compativel ou manualmente. Abaixo estao as opcoes mais populares.
@@ -79,6 +88,7 @@ npx skills add fabricioctelles/skills@substack-expert
 npx skills add fabricioctelles/skills@pier-cloud
 npx skills add fabricioctelles/skills@ultimate-design-system-master
 npx skills add fabricioctelles/skills@front-end-checklist
+npx skills add fabricioctelles/skills@resume-ats-beater
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -115,6 +125,7 @@ cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
 cp -r skills/ultimate-design-system-master .cursor/skills/
 cp -r skills/front-end-checklist .cursor/skills/
+cp -r skills/resume-ats-beater .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -123,6 +134,7 @@ cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
 cp -r skills/ultimate-design-system-master .claude/skills/
 cp -r skills/front-end-checklist .claude/skills/
+cp -r skills/resume-ats-beater .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -131,6 +143,7 @@ cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
 cp -r skills/ultimate-design-system-master .kiro/skills/
 cp -r skills/front-end-checklist .kiro/skills/
+cp -r skills/resume-ats-beater .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -150,6 +163,8 @@ skills/
 ├── front-end-checklist/
 │   ├── SKILL.md
 │   └── references/        # design, head, performance checklists
+├── resume-ats-beater/
+│   └── SKILL.md
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # 10 arquivos de prompt especializados
