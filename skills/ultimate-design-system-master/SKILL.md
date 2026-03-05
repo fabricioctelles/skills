@@ -1,46 +1,22 @@
 ---
 name: ultimate-design-system-master
-description: Definitive skill that generates Apple/Pentagram/frog/Vercel/Figma-level Design Systems based on 10 specialized prompts. Use when the user wants to create a Design System, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, frontend Code from design, or executive Presentation. Triggers on keywords like design system, brand identity, UI patterns, design tokens, figma specs, design critique, trend analysis, accessibility audit, design-to-code, presentation design.
+description: Este skill deve ser usado quando o usuário quiser criar um Design System, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, código frontend a partir de design, ou Apresentação executiva. Acionar ao detectar palavras-chave como: design system, brand identity, UI patterns, design tokens, figma specs, design critique, trend analysis, accessibility audit, design-to-code, presentation design.
 metadata:
   author: ft.ia.br
-  version: "2.0"
+  version: "2.1"
+  date: 2026-03-05
 ---
 
 # Ultimate Design System Master
 
-10 role-play generators for professional design deliverables. Each prompt loads a specialized persona and produces production-ready output.
-
 ## Workflow
 
-1. **Gather briefing** — Run the 18-question questionnaire below. Keep answers in conversation context.
-2. **Present menu** — Show the 10 options. Allow single or multiple selection.
-3. **Execute** — Load the selected `references/prompt-*.md` file as sole source. Apply briefing data. Generate output.
-4. **Loop** — After delivery, present menu again until user chooses "Exit".
-
-## Briefing Questionnaire
-
-1. Brand / Product Name?
-2. Industry / Sector?
-3. Target audience (demographics + psychographics)?
-4. Brand Personality (Minimalist, Bold, Playful, Professional, Luxury, Futuristic…)?
-5. Primary Emotion (Trust, Excitement, Calm, Sophistication…)?
-6. Company mission (1-2 sentences)?
-7. Company vision (1-2 sentences)?
-8. Core Values (3–5)?
-9. Unique Positioning?
-10. Product/app type (fintech dashboard, e-commerce mobile, SaaS…)?
-11. Platforms (Web, iOS, Android, macOS, All…)?
-12. Top 3 end-user goals?
-13. Pain points with current solutions?
-14. Campaign objective (Awareness, Conversion, Retention…)?
-15. Campaign tone (Professional, Playful, Urgent, Luxury…)?
-16. Existing references (logo, colors, fonts, competitors, moodboard…)?
-17. Tech stack (React, Next.js, Tailwind…)?
-18. Extra requirements (dark mode, accessibility level, motion…)?
+1. **Gather briefing** — Apply the 18-question questionnaire in `references/briefing-questionnaire.md`. Retain all answers in conversation context.
+2. **Present menu** — Display the 10 generators below. Accept single or multiple selections.
+3. **Execute** — Load the selected `references/prompt-*.md` file as the sole source. Apply briefing data. Generate output.
+4. **Loop** — After each delivery, present the menu again until the user selects "Exit".
 
 ## Menu
-
-Choose one or more options:
 
 | # | Generator | Role-play | Reference |
 |---|-----------|-----------|-----------|
@@ -61,4 +37,12 @@ Choose one or more options:
 - Maintain full consistency with briefing data across all outputs.
 - Load only the selected prompt file — do not mix prompts.
 - Use clear, professional, immediately usable formatting.
-- After each delivery, present the menu again.
+- Present the menu again after each delivery.
+
+## Quality Checklist
+
+- [ ] All 18 briefing questions answered before generating output.
+- [ ] Only the selected prompt file was loaded.
+- [ ] Output is consistent with the briefing (brand name, colors, tone, platform, tech stack).
+- [ ] Formatting is production-ready (no placeholders left unfilled).
+- [ ] Menu presented again after delivery.

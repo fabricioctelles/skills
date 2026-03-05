@@ -1,85 +1,87 @@
 ---
 name: geo-optimization
-description: Optimizes digital content and marketing strategies for Generative Engines (LLMs, AI agents) to maximize citations. Use when the user wants to improve visibility in AI responses (ChatGPT, Perplexity, Google AI Overview), needs a GEO/AEO strategy, wants to measure citation rate, align terminology for LLMs, audit current pages for AI, or create optimized pages (such as roundups and FAQs).
+description: This skill should be used when the user wants to improve content visibility in AI-generated responses (ChatGPT, Perplexity, Google AI Overview, Grok, Claude, Gemini), needs a GEO/AEO strategy, wants to measure citation rate, align terminology for LLMs, audit existing pages for AI discoverability, or create optimized pages such as roundups and FAQs.
 metadata:
   author: ft.ia.br
-  version: "1.0"
-  date: 2026-02-20
+  version: "1.1"
+  date: 2026-03-05
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
 ---
 
 # GEO Optimization (Generative Engine Optimization)
 
-This skill provides strategies to make brands, products, and content consistently cited by LLMs (ChatGPT, Google AI Overview, Perplexity, Grok, Claude, Gemini). Based on insights extracted from X posts and the Product Hunt 2026 case study.
-
-## Guiding Principles
-
-- **AI Visibility is measurable**: Treat it like SEO, measure the citation % (Citation Rate).
-- **Terminology drives retrieval**: Align the title with how users ask LLMs.
-- **Authority beats volume**: One high-signal page is worth more than dozens of weak pages.
-- **Authentic community is the new gold**: Real reviews and discussions (Product Hunt, Reddit) are the strongest signal.
-- **Models are volatile**: Monitor continuously, as model updates change visibility.
-- **Traditional SEO + Structured Data are still the foundation**: JSON-LD and schemas remain essential.
-
 ## Quick Actions Menu
 
-When starting the interaction, offer these options to the user to guide the work:
+Present the following options at the start of the interaction to guide the work:
 
 1. **Full GEO Audit**: Analyze the current page, deliver a score and a prioritized roadmap.
 2. **Roundup Page Builder**: Create a comparison page optimized for LLMs.
 3. **Terminology Optimizer**: Generate new titles, metas, and headings aligned with LLM searches.
-4. **FAQ + Schema Generator**: Create a complete set of FAQs with schema markup.
+4. **FAQ + Schema Generator**: Create a complete FAQ set with schema markup.
 5. **Community Signal Booster**: Structure a strategy to generate reviews on Product Hunt and Reddit.
 6. **Citation Rate Test Kit**: Create 50 ready-made prompts for visibility measurement.
-7. **FULL PACKAGE**: All of the above in a complete optimization package - Execute using Multi Agents.
+7. **FULL PACKAGE**: Execute all of the above as a complete optimization package using Multi Agents.
+
+Default to option 1 (Full GEO Audit) when no specific action is requested.
 
 ## GEO Workflow
 
-Execute the following steps according to the user's needs:
+Execute the following steps according to the selected action or user need.
+
+For foundational principles that guide all optimization decisions, consult `references/guiding-principles.md`.
 
 ### 1. Measurement and Tracking (Initial Diagnosis)
 
-Always start by evaluating the current state of visibility.
-- Offer to create an initial set of 50–100 real prompts to test against ChatGPT, Google AI Overview, Perplexity, and Grok.
-- Define the main metric: **Citation Rate** (% of responses that cite the brand/product).
+Always begin by evaluating the current state of AI visibility.
+
+- Create an initial set of 50–100 real prompts to test against ChatGPT, Google AI Overview, Perplexity, and Grok.
+- Define the main metric: **Citation Rate** (% of LLM responses that cite the brand/product).
 
 ### 2. Terminology Alignment
 
-- Map how people actually ask LLMs (don't focus only on Google keywords).
-- Adjust titles, meta descriptions, and headings to reflect this natural terminology.
-- *Example*: Change from "AI dictation apps" to "AI dictation and speech-to-text software".
+- Map how people actually query LLMs — do not rely solely on Google keyword patterns.
+- Adjust titles, meta descriptions, and headings to reflect natural LLM terminology.
+- Example: Prefer "AI dictation and speech-to-text software" over "AI dictation apps".
 
-### 3. Page Format and Structure Selection
+### 3. Page Format and Structure
 
-Recommend and create the formats that LLMs value most, such as **Roundup / Comparison pages** (e.g., "The best [category] in 2026").
+Recommend and create the formats that LLMs value most, prioritizing **Roundup / Comparison pages** (e.g., "The best [category] in 2026").
 
-When creating the page, include:
-- Title optimized with LLM terminology.
+Include in each optimized page:
+- Title aligned with LLM terminology.
 - 8–12 products with authentic community reviews.
 - Comparison table.
-- Complete FAQ Schema.
-- "What the community is saying" section (embed Product Hunt/Reddit).
+- Complete FAQPage schema.
+- "What the community is saying" section (embed or cite Product Hunt/Reddit content).
 
-### 4. Hard-to-Fake Signals & Community
+### 4. Hard-to-Fake Signals and Community
 
-- Guide the user to encourage real reviews and discussions on Product Hunt, Reddit, Quora.
-- Suggest embedding or citing community content directly on the page.
+- Encourage real reviews and discussions on Product Hunt, Reddit, and Quora.
+- Embed or cite community content directly on the page to strengthen trust signals.
 
-### 5. Technical & Structured Data
+### 5. Technical and Structured Data
 
-Verify and implement the mandatory technical requirements:
+Verify and implement the required technical elements:
 - Add JSON-LD + FAQPage schema.
-- Add Product schema (if applicable).
-- Confirm that `robots.txt` allows AI bots (don't block Perplexity, ChatGPT, etc.).
+- Add Product schema where applicable.
+- Confirm `robots.txt` allows AI crawlers (do not block Perplexity, ChatGPT, etc.).
 
 ### 6. Continuous Monitoring and Iteration
 
-- Establish a routine of weekly tests or after model updates.
-- Adjust terminology and add more community content according to model volatility.
+- Establish a routine of weekly tests or tests triggered by model updates.
+- Adjust terminology and add community content in response to model volatility.
 
-## Edge Cases & Warnings
+## Quality Checklist
 
-- Avoid purely self-promotional listicles (LLMs detect and penalize them).
-- Monitor bot blocks (e.g., Perplexity temporarily blocked Product Hunt).
-- Focus on the user's actual search channels (ChatGPT generally has more volume than Perplexity).
+Before delivering any output, verify:
+
+- [ ] Citation Rate baseline is defined or a test kit has been created.
+- [ ] Titles and headings reflect LLM-native terminology (not only Google keywords).
+- [ ] Page structure includes comparison table and FAQPage schema.
+- [ ] Community signals (Product Hunt, Reddit) are referenced or embedded.
+- [ ] `robots.txt` does not block major AI crawlers.
+- [ ] JSON-LD schemas are present and valid.
+- [ ] Monitoring cadence is defined (weekly or post-model-update).
+- [ ] No purely self-promotional listicles were produced (LLMs detect and deprioritize them).
+- [ ] Bot-blocking risks have been flagged (e.g., Perplexity has temporarily blocked some platforms).
