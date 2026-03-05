@@ -13,6 +13,12 @@ Creates and structures premium proposals, slide decks, and scrollable sites opti
 
 **When to use:** create a business proposal, improve a pitch, generate prompts for design tools, adapt structure for different industries (agencies, SaaS, enterprise).
 
+**Improvements in v1.1 (Mar 2026):**
+- Added Parameters table with explicit defaults for client type, delivery mode, and tool
+- Moved format profiles, client-type templates, and 9-section proposal structure to `references/proposal-formats-and-templates.md`
+- Converted Premium Design Tips into an actionable Quality Checklist
+- Fixed second-person language to imperative form throughout
+
 📄 [View full documentation](skills/premium-proposal-builder/SKILL.md)
 
 ---
@@ -22,6 +28,12 @@ Optimizes digital content and marketing strategies for Generative Engines (LLMs,
 
 **When to use:** improve visibility in AI responses (ChatGPT, Perplexity, Google AI Overview), measure citation rate, align terminology for LLMs, audit pages for AI, create optimized roundups and FAQs.
 
+**Improvements in v1.1 (Mar 2026):**
+- Moved Guiding Principles and case study context to `references/guiding-principles.md`
+- Fixed second-person language to imperative form throughout
+- Added explicit default action (Full GEO Audit) when no specific request is made
+- Converted Edge Cases section into a structured Quality Checklist with checkboxes
+
 📄 [View full documentation](skills/geo-optimization/SKILL.md)
 
 ---
@@ -30,6 +42,14 @@ Optimizes digital content and marketing strategies for Generative Engines (LLMs,
 Substack platform expert. Guides post formatting, SEO optimization (titles, slugs, meta descriptions), native engagement strategies (Notes, Chat), and conversion to paid subscriptions.
 
 **When to use:** format and optimize Substack posts, improve newsletter SEO (titles, slugs, meta descriptions), grow audience with Notes and recommendations, convert free readers to paid subscribers, customize homepage and welcome emails.
+
+**Improvements in v1.1 (Mar 2026):**
+- Removed duplicate Overview section and stray Portuguese artifact/orphaned code fence
+- Moved formatting tips to `references/formatting-best-practices.md`
+- Moved Input/Output Examples to `references/seo-output-example.md`
+- Added Parameters table with defaults for topic, goal, and language
+- Added explicit Clarify Scope step for ambiguous requests
+- Added Quality Checklist with 8 pre-delivery verification points
 
 📄 [View full documentation](skills/substack-expert/SKILL.md)
 
@@ -41,6 +61,14 @@ Complete guide to consuming the [Pier Cloud](https://piercloud.com/en/) (Lightho
 
 **When to use:** authenticate with Pier Cloud, list available contexts (AWS, etc), manage workspaces, access cost analysis views, run FinOps scripts.
 
+**Improvements in v1.1 (Mar 2026):**
+- Rewrote description to third-person trigger format
+- Removed verbatim Overview section that duplicated the frontmatter description
+- Fixed broken and incomplete Prerequisites section
+- Converted second-person language to imperative form throughout
+- Cleaned up workflow links to properly defer to `references/REFERENCE.md`
+- Added Quality Checklist
+
 📄 [View full documentation](skills/pier-cloud/SKILL.md)
 
 ---
@@ -49,6 +77,12 @@ Complete guide to consuming the [Pier Cloud](https://piercloud.com/en/) (Lightho
 Generates Apple/Pentagram/frog/Vercel/Figma-level design deliverables using 10 specialized role-play prompts. Covers Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code, and Executive Presentations.
 
 **When to use:** create a design system, build brand identity, generate UI/UX patterns, produce marketing assets, write Figma specs, get design critique, analyze design trends, run accessibility audit, translate design to code, create presentation decks.
+
+**Improvements in v2.1 (Mar 2026):**
+- Rewrote description to third-person trigger format
+- Moved 18-question Briefing Questionnaire to `references/briefing-questionnaire.md`
+- Added Quality Checklist with 5 concrete verification conditions
+- Removed intro sentence that duplicated frontmatter description
 
 📄 [View full documentation](skills/ultimate-design-system-master/SKILL.md)
 
@@ -59,6 +93,13 @@ An exhaustive list of all elements you need to have or to test before launching 
 
 **When to use:** review code before production, validate accessibility, SEO, performance, and enforce front-end best practices.
 
+**Improvements in v1.1 (Mar 2026):**
+- Rewrote description to third-person trigger format with concrete trigger phrases
+- Added Parameters section with explicit defaults for checklist and scope
+- Added Quality Checklist covering high-priority items, actionable fixes, and blocking vs. non-blocking separation
+- Restructured workflow steps to imperative voice with full execution flow
+- Added explicit References section documenting all 5 reference files
+
 📄 [View full documentation](skills/front-end-checklist/SKILL.md)
 
 ---
@@ -68,9 +109,20 @@ Rewrites resumes from scratch for ATS compatibility and recruiter impact, with a
 
 **When to use:** optimize resume for ATS, adapt CV to a target role/industry, improve experience bullets with measurable outcomes, validate eliminatory requirements and semantic matching.
 
+**Improvements in v1.2 (Mar 2026):**
+- Merged overlapping diagnostic steps (Etapas 2+3) into a single unified step
+- Moved diagnostic output templates to 3 new references files: `diagnostico-ats.md`, `diagnostico-avancado.md`, `template-saida.md`
+- Added explicit default mode (`modo_completo`) when execution mode is not specified
+- Added guardrail: block all workflow steps until `curriculo_atual` is provided
+- Added skip instruction: `modo_reescrita` bypasses the diagnostic step entirely
+- Added behavioral note for `plataforma_ats_alvo` when platform is known
+
 📄 [View full documentation](skills/resume-ats-beater/SKILL.md)
 
 ---
+
+> **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
+> Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
 ## Installation
 
@@ -156,21 +208,27 @@ The Agent Skills format is universal and works with any compatible agent. See th
 ```
 skills/
 ├── premium-proposal-builder/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # format profiles, client types, proposal templates
 ├── geo-optimization/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # guiding principles and case studies
 ├── substack-expert/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # formatting best practices, SEO output example
 ├── pier-cloud/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/           # Python scripts for API consumption
+│   └── references/        # API reference, troubleshooting guide
 ├── front-end-checklist/
 │   ├── SKILL.md
 │   └── references/        # design, head, performance checklists
 ├── resume-ats-beater/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # diagnostic templates, output structure
 └── ultimate-design-system-master/
     ├── SKILL.md
-    └── references/        # 10 specialized prompt files
+    └── references/        # briefing questionnaire, 10 specialized prompt files
 ```
 
 ## Author

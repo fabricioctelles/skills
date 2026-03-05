@@ -11,6 +11,12 @@ Cria e estrutura propostas premium, slide decks e sites scrolláveis otimizados 
 
 **Quando usar:** criar proposta comercial, melhorar pitch, gerar prompts para ferramentas de design, adaptar estrutura para diferentes indústrias (agências, SaaS, enterprise).
 
+**Melhorias na v1.1 (Mar 2026):**
+- Adicionada tabela de Parâmetros com defaults explícitos para tipo de cliente, modo de entrega e ferramenta
+- Movidos perfis de formato, templates por tipo de cliente e estrutura de 9 seções para `references/proposal-formats-and-templates.md`
+- Premium Design Tips convertido em Checklist de Qualidade acionável
+- Linguagem em segunda pessoa corrigida para forma imperativa
+
 📄 [Ver documentação completa](skills/premium-proposal-builder/SKILL.md)
 
 ---
@@ -19,6 +25,12 @@ Cria e estrutura propostas premium, slide decks e sites scrolláveis otimizados 
 Otimiza conteúdo digital e estratégias de marketing para Generative Engines (LLMs, AI agents) visando maximizar citações em respostas de IA.
 
 **Quando usar:** melhorar visibilidade em respostas de IA (ChatGPT, Perplexity, Google AI Overview), medir citation rate, alinhar terminologia para LLMs, auditar páginas para IA, criar roundups e FAQs otimizadas.
+
+**Melhorias na v1.1 (Mar 2026):**
+- Princípios Orientadores e contexto de casos movidos para `references/guiding-principles.md`
+- Linguagem em segunda pessoa corrigida para forma imperativa
+- Adicionado comportamento padrão explícito (Full GEO Audit) quando nenhuma ação específica é solicitada
+- Seção Edge Cases convertida em Checklist de Qualidade estruturado com checkboxes
 
 📄 [Ver documentação completa](skills/geo-optimization/SKILL.md)
 
@@ -29,6 +41,14 @@ Especialista na plataforma Substack. Orienta formatação de posts, otimização
 
 **Quando usar:** formatar e otimizar posts no Substack, melhorar SEO de newsletters (títulos, slugs, meta descriptions), crescer audiência com Notes e recomendações, converter leitores gratuitos em assinantes pagos, personalizar homepage e emails de boas-vindas.
 
+**Melhorias na v1.1 (Mar 2026):**
+- Removida seção Overview duplicada e artefato em português com code fence órfão
+- Dicas de formatação movidas para `references/formatting-best-practices.md`
+- Exemplos de Input/Output movidos para `references/seo-output-example.md`
+- Adicionada tabela de Parâmetros com defaults para tópico, objetivo e idioma
+- Adicionado passo explícito de Clarificação de Escopo para pedidos ambíguos
+- Adicionado Checklist de Qualidade com 8 pontos de verificação pré-entrega
+
 📄 [Ver documentação completa](skills/substack-expert/SKILL.md)
 
 ---
@@ -37,6 +57,14 @@ Especialista na plataforma Substack. Orienta formatação de posts, otimização
 Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, gerenciamento de contextos, workspaces e visualizações de dados.
 
 **Quando usar:** autenticar na Pier Cloud, listar contextos disponíveis (AWS, etc), gerenciar workspaces, acessar visualizações de análise de custos, executar scripts de FinOps.
+
+**Melhorias na v1.1 (Mar 2026):**
+- Descrição reescrita no formato de gatilho em terceira pessoa
+- Seção Overview verbatim que duplicava a descrição removida
+- Seção Pré-requisitos quebrada e incompleta corrigida e consolidada
+- Linguagem em segunda pessoa convertida para forma imperativa
+- Links de workflow limpos para delegar corretamente ao `references/REFERENCE.md`
+- Adicionado Checklist de Qualidade
 
 📄 [Ver documentação completa](skills/pier-cloud/SKILL.md)
 
@@ -47,6 +75,12 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 
 **Quando usar:** criar design system, construir identidade de marca, gerar padrões UI/UX, produzir assets de marketing, escrever specs para Figma, obter crítica de design, analisar tendências de design, rodar auditoria de acessibilidade, traduzir design para código, criar decks de apresentação.
 
+**Melhorias na v2.1 (Mar 2026):**
+- Descrição reescrita no formato de gatilho em terceira pessoa
+- Questionário de Briefing com 18 perguntas movido para `references/briefing-questionnaire.md`
+- Adicionado Checklist de Qualidade com 5 condições concretas de verificação
+- Frase de introdução que duplicava a descrição do frontmatter removida
+
 📄 [Ver documentação completa](skills/ultimate-design-system-master/SKILL.md)
 
 ---
@@ -55,6 +89,13 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 Uma lista exaustiva de todos os elementos que você precisa ter ou testar antes de lançar seu site ou página HTML em produção. Inspirado no [Front-End-Checklist by thedaviddias](https://github.com/thedaviddias/Front-End-Checklist).
 
 **Quando usar:** revisar código antes de ir para produção, validar acessibilidade, SEO, performance e garantir as melhores práticas de front-end.
+
+**Melhorias na v1.1 (Mar 2026):**
+- Descrição reescrita no formato de gatilho em terceira pessoa com frases de acionamento concretas
+- Adicionada seção de Parâmetros com defaults explícitos para checklist e escopo
+- Adicionado Checklist de Qualidade cobrindo itens de alta prioridade, correções acionáveis e separação de bloqueantes vs. não-bloqueantes
+- Passos do workflow reestruturados para voz imperativa com fluxo de execução completo
+- Adicionada seção de Referências documentando todos os 5 arquivos de referência
 
 📄 [Ver documentação completa](skills/front-end-checklist/SKILL.md)
 
@@ -65,9 +106,20 @@ Reescreve currículos do zero para compatibilidade ATS e impacto para recrutador
 
 **Quando usar:** otimizar currículo para ATS, adaptar CV para cargo/indústria alvo, fortalecer bullets com resultados mensuráveis, validar requisitos eliminatórios e aderência semântica.
 
+**Melhorias na v1.2 (Mar 2026):**
+- Etapas de diagnóstico sobrepostas (Etapas 2+3) mescladas em uma única etapa unificada
+- Templates de saída do diagnóstico movidos para 3 novos arquivos: `diagnostico-ats.md`, `diagnostico-avancado.md`, `template-saida.md`
+- Adicionado modo padrão explícito (`modo_completo`) quando o modo de execução não é especificado
+- Adicionado guardrail: bloquear todo o workflow até que `curriculo_atual` seja fornecido
+- Adicionada instrução de skip: `modo_reescrita` ignora a etapa de diagnóstico
+- Adicionada nota comportamental para `plataforma_ats_alvo` quando a plataforma é conhecida
+
 📄 [Ver documentação completa](skills/resume-ats-beater/SKILL.md)
 
 ---
+
+> **Skills revisadas em março de 2026** seguindo o padrão Anthropic para estrutura e qualidade de Agent Skills.
+> Fonte: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
 ## Instalacao
 
@@ -153,21 +205,27 @@ O formato Agent Skills e universal e funciona com qualquer agente compativel. Ve
 ```
 skills/
 ├── premium-proposal-builder/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # perfis de formato, tipos de cliente, templates de proposta
 ├── geo-optimization/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # princípios orientadores e casos de estudo
 ├── substack-expert/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # boas práticas de formatação, exemplo de saída SEO
 ├── pier-cloud/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/           # scripts Python para consumo da API
+│   └── references/        # referência da API, guia de troubleshooting
 ├── front-end-checklist/
 │   ├── SKILL.md
-│   └── references/        # design, head, performance checklists
+│   └── references/        # checklists de design, head e performance
 ├── resume-ats-beater/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/        # templates de diagnóstico, estrutura de saída
 └── ultimate-design-system-master/
     ├── SKILL.md
-    └── references/        # 10 arquivos de prompt especializados
+    └── references/        # questionário de briefing, 10 arquivos de prompt especializados
 ```
 
 ## Autor
