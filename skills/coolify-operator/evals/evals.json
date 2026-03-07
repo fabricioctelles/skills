@@ -1,0 +1,61 @@
+{
+  "skill_name": "coolify-operator",
+  "evals": [
+    {
+      "id": 1,
+      "name": "configurar-contexto-inicial",
+      "prompt": "Preciso configurar minha conexão com o Coolify. Tenho o token '3|AbCdEf123456' e a URL é 'http://192.168.1.106:8000'. Como faço pra conectar usando o CLI? Quero que seja o contexto padrão com nome 'producao'.",
+      "expected_output": "Comandos CLI para adicionar contexto do Coolify, incluindo leitura segura do token (evitando problemas com pipe |), adicionar contexto com URL sem /api/v1, verificar conexão e testar",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "listar-e-restart-app",
+      "prompt": "Pode me ajudar a reiniciar a aplicação 'meu-site-nextjs' no coolify? Não sei o UUID dela, então preciso listar primeiro. Depois quero fazer um restart forçando rebuild porque atualizei umas variáveis de ambiente.",
+      "expected_output": "Sequência de comandos: listar apps para encontrar UUID, depois restart da aplicação específica, com flag de force rebuild se necessário",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "troubleshooting-403",
+      "prompt": "tô tentando usar a API do coolify mas tá dando erro 403 'You are not allowed to access the API'. Já verifiquei o token no dashboard e parece estar correto. o que pode ser?",
+      "expected_output": "Explicação sobre possíveis causas do erro 403, passos para verificar token, regenerar se necessário, checklist de troubleshooting, e comandos para testar a conexão",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "multi-ambiente-deploy",
+      "prompt": "Tenho 3 ambientes coolify (dev, staging e prod). Quero fazer deploy da mesma app nos 3 ambientes. Como configuro os contextos e faço o deploy em cada um? Os URLs são: dev em http://dev.coolify.local:8000, staging em https://staging.coolify.empresa.com e prod em https://coolify.empresa.com",
+      "expected_output": "Comandos para configurar múltiplos contextos CLI, adicionar cada ambiente, trocar entre contextos e fazer deploy/operações em cada um",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "atualizar-env-vars",
+      "prompt": "Preciso atualizar as variáveis de ambiente da minha app no coolify. Tenho um arquivo .env.production local com as novas configs. UUID da app é 'app-abc-123'. Como sincronizo e aplico as mudanças?",
+      "expected_output": "Comandos para sincronizar variáveis de ambiente de arquivo usando CLI, seguido de restart da aplicação para aplicar as mudanças",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "monitorar-logs-deploy",
+      "prompt": "Acabei de fazer um deploy da aplicação com UUID 'app-xyz-789' mas parece que tá travado. Como vejo os logs em tempo real pra debugar o que tá acontecendo?",
+      "expected_output": "Comando CLI para ver logs da aplicação em tempo real, ou comandos API alternativos",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "erro-token-pipe",
+      "prompt": "Coloquei meu token do coolify no .env assim: COOLIFY_KEY=3|abc123def456 mas quando faço 'source .env' no bash e tento usar dá erro. O que tá errado?",
+      "expected_output": "Explicação sobre o problema do pipe (|) no token com source .env, e solução usando sed para leitura segura do arquivo",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "listar-databases-e-restart",
+      "prompt": "Meu postgres no coolify tá com problema. Preciso listar todos os databases e depois reiniciar o que tem 'postgres-main' no nome.",
+      "expected_output": "Comandos para listar databases via CLI ou API, encontrar o UUID correto e executar restart do database específico",
+      "files": []
+    }
+  ]
+}
