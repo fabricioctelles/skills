@@ -101,6 +101,15 @@ Uma lista exaustiva de todos os elementos que você precisa ter ou testar antes 
 
 ---
 
+### 🚀 Coolify Operator
+Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Gerencia aplicações, servidores, databases e serviços via API REST e CLI oficial.
+
+**Quando usar:** conectar em instâncias Coolify, fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), troubleshooting de conexão e autenticação.
+
+📄 [Ver documentação completa](skills/coolify-operator/SKILL.md)
+
+---
+
 ### 📄 Resume ATS Beater
 Reescreve currículos do zero para compatibilidade ATS e impacto para recrutadores, com workflow adaptado ao contexto de ATS no Brasil (Gupy, Vagas.com, PandaPé, Sólides).
 
@@ -141,6 +150,7 @@ npx skills add fabricioctelles/skills@pier-cloud
 npx skills add fabricioctelles/skills@ultimate-design-system-master
 npx skills add fabricioctelles/skills@front-end-checklist
 npx skills add fabricioctelles/skills@resume-ats-beater
+npx skills add fabricioctelles/skills@coolify-operator
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -178,6 +188,7 @@ cp -r skills/pier-cloud .cursor/skills/
 cp -r skills/ultimate-design-system-master .cursor/skills/
 cp -r skills/front-end-checklist .cursor/skills/
 cp -r skills/resume-ats-beater .cursor/skills/
+cp -r skills/coolify-operator .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -187,6 +198,7 @@ cp -r skills/pier-cloud .claude/skills/
 cp -r skills/ultimate-design-system-master .claude/skills/
 cp -r skills/front-end-checklist .claude/skills/
 cp -r skills/resume-ats-beater .claude/skills/
+cp -r skills/coolify-operator .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -196,6 +208,7 @@ cp -r skills/pier-cloud .kiro/skills/
 cp -r skills/ultimate-design-system-master .kiro/skills/
 cp -r skills/front-end-checklist .kiro/skills/
 cp -r skills/resume-ats-beater .kiro/skills/
+cp -r skills/coolify-operator .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -223,6 +236,9 @@ skills/
 ├── resume-ats-beater/
 │   ├── SKILL.md
 │   └── references/        # templates de diagnóstico, estrutura de saída
+├── coolify-operator/
+│   ├── SKILL.md
+│   └── evals/             # 8 cenários de teste
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # questionário de briefing, 10 arquivos de prompt especializados
