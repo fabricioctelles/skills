@@ -1,10 +1,11 @@
 ---
 name: ultimate-design-system-master
-description: Este skill deve ser usado quando o usuário quiser criar um Design System, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, código frontend a partir de design, ou Apresentação executiva. Acionar ao detectar palavras-chave como: design system, brand identity, UI patterns, design tokens, figma specs, design critique, trend analysis, accessibility audit, design-to-code, presentation design.
+description: Create comprehensive design systems, brand identities, and UI component libraries. Use when the user says "create design system", "build brand identity", "design UI components", "generate design tokens", "create figma specs", "review my design", "analyze design trends", "audit accessibility", "convert design to code", or "create presentation deck". Covers 10 specialized roles from system architecture to executive presentations.
 metadata:
   author: ft.ia.br
-  version: "2.1"
-  date: 2026-03-05
+  version: "2.2"
+  date: 2026-03-08
+  license: Apache 2.0
 ---
 
 # Ultimate Design System Master

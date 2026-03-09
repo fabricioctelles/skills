@@ -31,6 +31,7 @@ Otimiza conteúdo digital e estratégias de marketing para Generative Engines (L
 - Linguagem em segunda pessoa corrigida para forma imperativa
 - Adicionado comportamento padrão explícito (Full GEO Audit) quando nenhuma ação específica é solicitada
 - Seção Edge Cases convertida em Checklist de Qualidade estruturado com checkboxes
+- Description otimizada para maior concisão e acionabilidade (8 Mar)
 
 📄 [Ver documentação completa](skills/geo-optimization/SKILL.md)
 
@@ -81,6 +82,11 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 - Adicionado Checklist de Qualidade com 5 condições concretas de verificação
 - Frase de introdução que duplicava a descrição do frontmatter removida
 
+**Melhorias na v2.2 (8 Mar 2026):**
+- Description reescrita com frases de acionamento que usuários realmente falam para melhor ativação da skill
+- License Apache 2.0 adicionada ao metadata
+- Conformidade 100% com Guia Oficial Anthropic para Agent Skills alcançada
+
 📄 [Ver documentação completa](skills/ultimate-design-system-master/SKILL.md)
 
 ---
@@ -105,6 +111,13 @@ Uma lista exaustiva de todos os elementos que você precisa ter ou testar antes 
 Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Gerencia aplicações, servidores, databases e serviços via API REST e CLI oficial.
 
 **Quando usar:** conectar em instâncias Coolify, fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), troubleshooting de conexão e autenticação.
+
+**Melhorias na v1.1 (8 Mar 2026):**
+- Description otimizada para clareza e brevidade (350→250 caracteres)
+- License MIT adicionada ao metadata
+- Quality Checklist com 10 pontos de verificação adicionado
+- README.md interno removido para conformidade total com Guia Oficial Anthropic
+- Conformidade 100% com Guia Oficial Anthropic para Agent Skills alcançada
 
 📄 [Ver documentação completa](skills/coolify-operator/SKILL.md)
 

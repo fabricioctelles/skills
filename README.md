@@ -33,6 +33,7 @@ Optimizes digital content and marketing strategies for Generative Engines (LLMs,
 - Fixed second-person language to imperative form throughout
 - Added explicit default action (Full GEO Audit) when no specific request is made
 - Converted Edge Cases section into a structured Quality Checklist with checkboxes
+- Description optimized to be more concise and actionable (Mar 8)
 
 📄 [View full documentation](skills/geo-optimization/SKILL.md)
 
@@ -84,6 +85,11 @@ Generates Apple/Pentagram/frog/Vercel/Figma-level design deliverables using 10 s
 - Added Quality Checklist with 5 concrete verification conditions
 - Removed intro sentence that duplicated frontmatter description
 
+**Improvements in v2.2 (Mar 8, 2026):**
+- Description rewritten with user-spoken trigger phrases for better skill activation
+- License Apache 2.0 added to metadata
+- Full compliance with Official Anthropic Guide for Agent Skills achieved
+
 📄 [View full documentation](skills/ultimate-design-system-master/SKILL.md)
 
 ---
@@ -108,6 +114,13 @@ An exhaustive list of all elements you need to have or to test before launching 
 Master operator for Coolify — the self-hosted open-source deployment platform (alternative to Heroku/Vercel/Netlify). Manages applications, servers, databases and services via REST API and official CLI.
 
 **When to use:** connect to Coolify instances, deploy/restart/stop applications, manage environment variables, list servers and databases, monitor deployment logs, manage multiple environments (dev/staging/prod), troubleshoot connection and auth issues.
+
+**Improvements in v1.1 (Mar 8, 2026):**
+- Description optimized for clarity and brevity (350→250 characters)
+- License MIT added to metadata
+- Quality Checklist with 10 verification points added
+- Internal README.md removed for full compliance with Official Anthropic Guide
+- Full compliance with Official Anthropic Guide for Agent Skills achieved
 
 📄 [View full documentation](skills/coolify-operator/SKILL.md)
 

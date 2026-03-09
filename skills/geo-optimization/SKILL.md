@@ -1,6 +1,6 @@
 ---
 name: geo-optimization
-description: This skill should be used when the user wants to improve content visibility in AI-generated responses (ChatGPT, Perplexity, Google AI Overview, Grok, Claude, Gemini), needs a GEO/AEO strategy, wants to measure citation rate, align terminology for LLMs, audit existing pages for AI discoverability, or create optimized pages such as roundups and FAQs.
+description: Optimize content for AI-generated responses and LLM citations (ChatGPT, Perplexity, Google AI Overview, Claude, Gemini). Use when the user mentions 'GEO', 'AEO', 'AI SEO', 'LLM optimization', 'citation rate', 'AI visibility', 'optimize for ChatGPT', 'roundup pages', or wants to audit pages for AI discoverability. Includes terminology alignment, FAQ schemas, and community signal strategies.
 metadata:
   author: ft.ia.br
   version: "1.1"

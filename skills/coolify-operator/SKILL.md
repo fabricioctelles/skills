@@ -1,10 +1,11 @@
 ---
 name: coolify-operator
-description: Operador mestre do Coolify - plataforma self-hosted de deployment. Use quando o usuário mencionar 'coolify', 'deploy', 'fazer deploy no coolify', 'listar serviços coolify', 'reiniciar aplicação', 'redeploy', 'restart aplicação coolify', 'ver logs coolify', 'conectar no coolify', 'API coolify', 'CLI coolify', 'servidores coolify', 'databases coolify', 'apps coolify', 'coolify context', ou quando precisar gerenciar deployments, servidores, aplicações ou databases em instâncias Coolify.
+description: Operador mestre do Coolify para plataforma self-hosted de deployment. Use quando o usuário mencionar 'coolify', 'deploy no coolify', 'listar/reiniciar/redeploy aplicações', 'ver logs coolify', 'API/CLI coolify', 'gerenciar servidores/databases/apps coolify', ou 'coolify context'. Automatiza deployments e gerenciamento via API REST ou CLI oficial.
 metadata:
   author: ft.ia.br
-  version: "1.0"
-  date: 2026-03-07
+  version: "1.1"
+  date: 2026-03-08
+  license: MIT
 ---
 
 # Coolify Operator
@@ -493,6 +494,21 @@ coolify --context=dev server list
 4. **Force rebuild quando necessário**: `?force=true` no start garante rebuild completo
 5. **Segurança do token**: Nunca commitar tokens. Use `.env` com `.gitignore`
 6. **Formato JSON para scripts**: Use `--format json` no CLI para parsear com `jq`
+
+## Quality Checklist
+
+Antes de executar qualquer operação, verificar:
+
+- [ ] Arquivo `.env` presente com `COOLIFY_KEY` e `COOLIFY` corretos
+- [ ] Token lido de forma segura (usando `sed` ou método adequado, não `source`)
+- [ ] Contexto correto selecionado (`coolify context use <nome>`)
+- [ ] Conexão verificada (`coolify context verify`)
+- [ ] UUIDs confirmados antes de operações destrutivas
+- [ ] Endpoint URL correto (API tem `/api/v1`, contexto CLI não tem)
+- [ ] Headers de autenticação incluídos em chamadas API (`Authorization: Bearer <token>`)
+- [ ] Tratamento de erros implementado (401, 403, 404, 500)
+- [ ] Logs consultados em caso de falha de deploy
+- [ ] Operações críticas (delete, stop) executadas com confirmação
 
 ## Referências
 
