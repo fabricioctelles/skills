@@ -126,6 +126,20 @@ Master operator for Coolify — the self-hosted open-source deployment platform 
 
 ---
 
+### 🧠 Coolify Master
+Expert in Coolify deployment, operations, and troubleshooting. Guides build pack selection, environment configurations, and diagnosing failures like No available server or 404s.
+
+**When to use:** plan and execute deployments, configure domains/SSL/health checks, review self-hosting operations, troubleshoot recurrent platform failures.
+
+**Improvements in v1.1:**
+- Standardized documentation structure (Overview, Onboarding, Usage Examples)
+- Integrated diagnostic checklists and decision rules
+- Removed unstructured instructions in favor of clear workflows
+
+📄 [View full documentation](skills/coolify-master/SKILL.md)
+
+---
+
 ### 📄 Resume ATS Beater
 Rewrites resumes from scratch for ATS compatibility and recruiter impact, with a workflow tailored to ATS platforms in Brazil (Gupy, Vagas.com, PandaPé, Sólides).
 
@@ -167,6 +181,7 @@ npx skills add fabricioctelles/skills@ultimate-design-system-master
 npx skills add fabricioctelles/skills@front-end-checklist
 npx skills add fabricioctelles/skills@resume-ats-beater
 npx skills add fabricioctelles/skills@coolify-operator
+npx skills add fabricioctelles/skills@coolify-master
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -205,6 +220,7 @@ cp -r skills/ultimate-design-system-master .cursor/skills/
 cp -r skills/front-end-checklist .cursor/skills/
 cp -r skills/resume-ats-beater .cursor/skills/
 cp -r skills/coolify-operator .cursor/skills/
+cp -r skills/coolify-master .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -215,6 +231,7 @@ cp -r skills/ultimate-design-system-master .claude/skills/
 cp -r skills/front-end-checklist .claude/skills/
 cp -r skills/resume-ats-beater .claude/skills/
 cp -r skills/coolify-operator .claude/skills/
+cp -r skills/coolify-master .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -225,6 +242,7 @@ cp -r skills/ultimate-design-system-master .kiro/skills/
 cp -r skills/front-end-checklist .kiro/skills/
 cp -r skills/resume-ats-beater .kiro/skills/
 cp -r skills/coolify-operator .kiro/skills/
+cp -r skills/coolify-master .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -255,6 +273,9 @@ skills/
 ├── coolify-operator/
 │   ├── SKILL.md
 │   └── evals/             # 8 test scenarios
+├── coolify-master/
+│   ├── SKILL.md
+│   └── references/        # coolify concepts, deploy best practices, troubleshooting playbooks
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # briefing questionnaire, 10 specialized prompt files
