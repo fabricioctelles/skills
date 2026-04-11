@@ -150,20 +150,20 @@ Voce pode instalar estas skills usando qualquer instalador compativel ou manualm
 ### Via [Skills.sh](https://skills.sh/docs)
 
 ```bash
-npx skills add fabricioctelles/skills
+npx skills add https://gitlab.com/fabriciotelles/skills
 ```
 
 Ou instale uma skill especifica:
 
 ```bash
-npx skills add fabricioctelles/skills@premium-proposal-builder
-npx skills add fabricioctelles/skills@geo-optimization
-npx skills add fabricioctelles/skills@substack-expert
-npx skills add fabricioctelles/skills@pier-cloud
-npx skills add fabricioctelles/skills@ultimate-design-system-master
-npx skills add fabricioctelles/skills@front-end-checklist
-npx skills add fabricioctelles/skills@resume-ats-beater
-npx skills add fabricioctelles/skills@coolify-operator
+npx skills add https://gitlab.com/fabriciotelles/skills@premium-proposal-builder
+npx skills add https://gitlab.com/fabriciotelles/skills@geo-optimization
+npx skills add https://gitlab.com/fabriciotelles/skills@substack-expert
+npx skills add https://gitlab.com/fabriciotelles/skills@pier-cloud
+npx skills add https://gitlab.com/fabriciotelles/skills@ultimate-design-system-master
+npx skills add https://gitlab.com/fabriciotelles/skills@front-end-checklist
+npx skills add https://gitlab.com/fabriciotelles/skills@resume-ats-beater
+npx skills add https://gitlab.com/fabriciotelles/skills@coolify-operator
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -175,20 +175,20 @@ npm install -g agent-skills-cli
 Depois instale as skills:
 
 ```bash
-skills add fabricioctelles/skills
+skills add https://gitlab.com/fabriciotelles/skills
 ```
 
 Ou use sem instalar globalmente:
 
 ```bash
-npx agent-skills-cli install fabricioctelles/skills
+npx agent-skills-cli install https://gitlab.com/fabriciotelles/skills
 ```
 
 ### Instalacao Manual
 
 1. Clone este repositorio:
 ```bash
-git clone https://github.com/fabricioctelles/skills.git
+git clone https://gitlab.com/fabriciotelles/skills.git
 ```
 
 2. Copie a pasta da skill desejada para o diretorio de skills do seu agente:

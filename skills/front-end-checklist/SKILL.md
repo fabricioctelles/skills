@@ -5,7 +5,7 @@ metadata:
   author: https://github.com/thedaviddias/Front-End-Checklist
   version: "1.1"
   date: 2026-03-05
-  repository: https://github.com/fabricioctelles/skills
+  repository: https://gitlab.com/fabriciotelles/skills
   license: Apache 2.0
 ---
 

@@ -153,20 +153,20 @@ You can install these skills using any compatible installer or manually. Below a
 ### Via [Skills.sh](https://skills.sh/docs)
 
 ```bash
-npx skills add fabricioctelles/skills
+npx skills add https://gitlab.com/fabriciotelles/skills
 ```
 
 Or install a specific skill:
 
 ```bash
-npx skills add fabricioctelles/skills@premium-proposal-builder
-npx skills add fabricioctelles/skills@geo-optimization
-npx skills add fabricioctelles/skills@substack-expert
-npx skills add fabricioctelles/skills@pier-cloud
-npx skills add fabricioctelles/skills@ultimate-design-system-master
-npx skills add fabricioctelles/skills@front-end-checklist
-npx skills add fabricioctelles/skills@resume-ats-beater
-npx skills add fabricioctelles/skills@coolify-operator
+npx skills add https://gitlab.com/fabriciotelles/skills@premium-proposal-builder
+npx skills add https://gitlab.com/fabriciotelles/skills@geo-optimization
+npx skills add https://gitlab.com/fabriciotelles/skills@substack-expert
+npx skills add https://gitlab.com/fabriciotelles/skills@pier-cloud
+npx skills add https://gitlab.com/fabriciotelles/skills@ultimate-design-system-master
+npx skills add https://gitlab.com/fabriciotelles/skills@front-end-checklist
+npx skills add https://gitlab.com/fabriciotelles/skills@resume-ats-beater
+npx skills add https://gitlab.com/fabriciotelles/skills@coolify-operator
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -178,20 +178,20 @@ npm install -g agent-skills-cli
 Then install the skills:
 
 ```bash
-skills add fabricioctelles/skills
+skills add https://gitlab.com/fabriciotelles/skills
 ```
 
 Or use without global install:
 
 ```bash
-npx agent-skills-cli install fabricioctelles/skills
+npx agent-skills-cli install https://gitlab.com/fabriciotelles/skills
 ```
 
 ### Manual Installation
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/fabricioctelles/skills.git
+git clone https://gitlab.com/fabriciotelles/skills.git
 ```
 
 2. Copy the desired skill folder to your agent's skills directory:
