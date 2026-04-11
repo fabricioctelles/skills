@@ -1,0 +1,41 @@
+{
+  "skill_name": "startup-idea",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Tive uma ideia: quero criar um app que conecta donos de cachorros a passeadores no bairro deles. Tipo um Uber pra dog walker. Acho que tem mercado porque todo mundo que eu conheço reclama que nao tem com quem deixar o cachorro quando viaja ou trabalha o dia todo. Sera que vale a pena?",
+      "expected_output": "Analise completa que va alem do pressure test: precisa avaliar urgencia do problema, comportamento atual do cliente, dinamica de marketplace, monetizacao/take rate, risco operacional e de confianca, forma de conquistar os primeiros 10 clientes, MVP realista e veredito claro sobre a tese.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Sou nutricionista e quero criar uma plataforma SaaS pra clinicas de nutricao gerenciarem planos alimentares, agendamentos e acompanhamento de pacientes. Ja conversei com 5 donos de clinica e todos disseram que usam planilha do Excel hoje. Quero saber se devo seguir em frente e como consigo meus primeiros clientes.",
+      "expected_output": "Analise que reconheca o estagio mais avancado, trate planilha como prova de dor real, avalie nicho de entrada, competicao com softwares existentes como Nutrium, pricing plausivel, posicionamento da oferta, plano de aquisicao founder-led e proximos experimentos de validacao comercial.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I have a startup idea: an AI tool that automatically generates legal contracts for freelancers. No lawyers needed. The freelancer describes the project and the tool creates a customized contract. I'm a software engineer with no legal background. What do you think?",
+      "expected_output": "Response in English. It should deliver a severe but useful analysis covering founder-market fit, regulatory/compliance risk, user trust, real buyer motivation, competitive alternatives, monetization logic, MVP scope reduction, and a clear verdict that distinguishes between a bad startup thesis and a potentially viable narrower wedge.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Quero criar uma startup para ajudar PMEs de e-commerce a prever ruptura de estoque com IA. A ideia seria conectar Shopify, ERP e anuncios para prever quando um produto vai faltar e sugerir recompra. Tenho acesso a 12 lojistas porque trabalho numa agencia de performance, mas nenhum deles pediu isso explicitamente ainda. Se fizer sentido, tambem quero entender qual oferta inicial vender e como usar conteudo para gerar demanda.",
+      "expected_output": "Analise em portugues cobrindo founder advantage, se a dor e realmente prioritaria para o lojista, qual nicho inicial atacar, quem compra, como cobrar, oferta inicial viavel, tese de conteudo/distribuicao, primeiros 10 clientes, ideia saliente para o nicho e quais sinais provariam que existe uma startup aqui em vez de apenas um servico com camada de software.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Estamos construindo uma startup para psicologos independentes venderem programas de acompanhamento por WhatsApp com IA fazendo check-ins entre sessoes. A parte de produto eu entendo razoavelmente, mas todo mundo diz algo parecido no mercado de saude mental. Quero uma analise brutal da ideia e, se ainda fizer sentido, preciso sair com um angulo de posicionamento que seja memoravel sem soar marketeiro demais.",
+      "expected_output": "Analise em portugues que nao pare em dor e monetizacao. Deve avaliar saturacao competitiva, risco regulatorio e clinico, clareza da oferta, smallest viable audience, ideia saliente ou signature surprise plausivel e deixar explicito se ainda e cedo demais para trabalhar branding profundo.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Tenho uma startup B2B que ajuda empresas a melhorar onboarding interno com agentes de IA, base de conhecimento, treinamentos e analytics. So que quanto mais eu explico, mais parece que eu sirvo qualquer empresa com qualquer problema de enablement. Quero uma analise completa da tese e principalmente ajuda para descobrir qual seria meu menor mercado viavel, qual historia esse publico ja acredita e como montar um caminho de conteudo ate virar algo que recomendam sem eu precisar empurrar tanto.",
+      "expected_output": "Analise em portugues cobrindo tese de produto, risco de categoria ampla demais, smallest viable audience psicografico, worldview e status do comprador, exclusion principle, permission ladder inicial, possivel shareable artifact e um veredito sobre se a startup esta tentando atingir gente demais cedo demais.",
+      "files": []
+    }
+  ]
+}
