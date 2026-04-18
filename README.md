@@ -143,6 +143,15 @@ Rewrites resumes from scratch for ATS compatibility and recruiter impact, with a
 
 ---
 
+### 🤖 Agent Ready — Cloudflare Scanner
+Audits any website for AI agent readiness using the Cloudflare [isitagentready.com](https://isitagentready.com) scanner. Scans 18 checks across 5 categories (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), assigns a level (0–5), and generates copy-paste fix prompts for every failing check. Includes 20 implementation sub-skills covering robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP, and more.
+
+**When to use:** scan a site for agent readiness, check agent-ready score, fix failing checks, implement MCP Server Card, add Content Signals, publish Agent Skills index, set up Markdown for Agents, batch scan multiple domains, improve AI agent discoverability.
+
+📄 [View full documentation](skills/agent-ready-cloudflare/README.md)
+
+---
+
 > **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
 > Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -167,6 +176,7 @@ npx skills add https://gitlab.com/fabriciotelles/skills@ultimate-design-system-m
 npx skills add https://gitlab.com/fabriciotelles/skills@front-end-checklist
 npx skills add https://gitlab.com/fabriciotelles/skills@resume-ats-beater
 npx skills add https://gitlab.com/fabriciotelles/skills@coolify-operator
+npx skills add https://gitlab.com/fabriciotelles/skills@agent-ready-cloudflare
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -205,6 +215,7 @@ cp -r skills/ultimate-design-system-master .cursor/skills/
 cp -r skills/front-end-checklist .cursor/skills/
 cp -r skills/resume-ats-beater .cursor/skills/
 cp -r skills/coolify-operator .cursor/skills/
+cp -r skills/agent-ready-cloudflare .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -215,6 +226,7 @@ cp -r skills/ultimate-design-system-master .claude/skills/
 cp -r skills/front-end-checklist .claude/skills/
 cp -r skills/resume-ats-beater .claude/skills/
 cp -r skills/coolify-operator .claude/skills/
+cp -r skills/agent-ready-cloudflare .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -225,6 +237,7 @@ cp -r skills/ultimate-design-system-master .kiro/skills/
 cp -r skills/front-end-checklist .kiro/skills/
 cp -r skills/resume-ats-beater .kiro/skills/
 cp -r skills/coolify-operator .kiro/skills/
+cp -r skills/agent-ready-cloudflare .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -258,6 +271,10 @@ skills/
 └── ultimate-design-system-master/
     ├── SKILL.md
     └── references/        # briefing questionnaire, 10 specialized prompt files
+├── agent-ready-cloudflare/
+│   ├── README.md          # human-readable documentation with examples
+│   ├── SKILL.md           # main skill (API docs, operational flow, prompt templates)
+│   └── */SKILL.md         # 20 implementation sub-skills (robots-txt, mcp-server-card, etc.)
 ```
 
 ## Author
