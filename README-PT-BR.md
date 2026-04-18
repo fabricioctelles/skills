@@ -165,15 +165,15 @@ npx skills add https://gitlab.com/fabriciotelles/skills
 Ou instale uma skill especifica:
 
 ```bash
-npx skills add https://gitlab.com/fabriciotelles/skills@premium-proposal-builder
-npx skills add https://gitlab.com/fabriciotelles/skills@geo-optimization
-npx skills add https://gitlab.com/fabriciotelles/skills@substack-expert
-npx skills add https://gitlab.com/fabriciotelles/skills@pier-cloud
-npx skills add https://gitlab.com/fabriciotelles/skills@ultimate-design-system-master
-npx skills add https://gitlab.com/fabriciotelles/skills@front-end-checklist
-npx skills add https://gitlab.com/fabriciotelles/skills@resume-ats-beater
-npx skills add https://gitlab.com/fabriciotelles/skills@coolify-operator
-npx skills add https://gitlab.com/fabriciotelles/skills@agent-ready-cloudflare
+npx skills add https://gitlab.com/fabriciotelles/skills -s premium-proposal-builder
+npx skills add https://gitlab.com/fabriciotelles/skills -s geo-optimization
+npx skills add https://gitlab.com/fabriciotelles/skills -s substack-expert
+npx skills add https://gitlab.com/fabriciotelles/skills -s pier-cloud
+npx skills add https://gitlab.com/fabriciotelles/skills -s ultimate-design-system-master
+npx skills add https://gitlab.com/fabriciotelles/skills -s front-end-checklist
+npx skills add https://gitlab.com/fabriciotelles/skills -s resume-ats-beater
+npx skills add https://gitlab.com/fabriciotelles/skills -s coolify-operator
+npx skills add https://gitlab.com/fabriciotelles/skills -s agent-ready-cloudflare
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
