@@ -152,6 +152,15 @@ Audits any website for AI agent readiness using the Cloudflare [isitagentready.c
 
 ---
 
+### 🔁 Ralph Loop for Kiro Specs
+Automated iterative agent runner for spec-based development in [Kiro](https://kiro.dev). Wraps `kiro-cli` in a self-correcting bash loop that picks up tasks from a Kiro spec, implements them one at a time, verifies against exit criteria, and accumulates corrections and codebase patterns across iterations. Based on [ralph-loop-kiro-specs](https://github.com/mreferre/ralph-loop-kiro-specs) by [mreferre](https://github.com/mreferre).
+
+**When to use:** automate Kiro spec task implementation, run kiro-cli in a loop, drive a spec to completion through repeated agent iterations, set up or troubleshoot the Ralph Loop workflow, understand progress tracking, corrections, codebase patterns, and the summary dashboard.
+
+📄 [View full documentation](skills/ralph-loop-kiro-specs/SKILL.md)
+
+---
+
 > **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
 > Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -177,6 +186,7 @@ npx skills add https://gitlab.com/fabriciotelles/skills -s front-end-checklist
 npx skills add https://gitlab.com/fabriciotelles/skills -s resume-ats-beater
 npx skills add https://gitlab.com/fabriciotelles/skills -s coolify-operator
 npx skills add https://gitlab.com/fabriciotelles/skills -s agent-ready-cloudflare
+npx skills add https://gitlab.com/fabriciotelles/skills -s ralph-loop-kiro-specs
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -216,6 +226,7 @@ cp -r skills/front-end-checklist .cursor/skills/
 cp -r skills/resume-ats-beater .cursor/skills/
 cp -r skills/coolify-operator .cursor/skills/
 cp -r skills/agent-ready-cloudflare .cursor/skills/
+cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -227,6 +238,7 @@ cp -r skills/front-end-checklist .claude/skills/
 cp -r skills/resume-ats-beater .claude/skills/
 cp -r skills/coolify-operator .claude/skills/
 cp -r skills/agent-ready-cloudflare .claude/skills/
+cp -r skills/ralph-loop-kiro-specs .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -238,6 +250,7 @@ cp -r skills/front-end-checklist .kiro/skills/
 cp -r skills/resume-ats-beater .kiro/skills/
 cp -r skills/coolify-operator .kiro/skills/
 cp -r skills/agent-ready-cloudflare .kiro/skills/
+cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -275,6 +288,10 @@ skills/
 │   ├── README.md          # human-readable documentation with examples
 │   ├── SKILL.md           # main skill (API docs, operational flow, prompt templates)
 │   └── */SKILL.md         # 20 implementation sub-skills (robots-txt, mcp-server-card, etc.)
+├── ralph-loop-kiro-specs/
+│   ├── SKILL.md
+│   ├── scripts/           # bash loop runner script
+│   └── references/        # Ralph agent prompt template
 ```
 
 ## Author
