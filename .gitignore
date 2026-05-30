@@ -1,3 +1,4 @@
 .env
 skills/pier-cloud/.env
 skills/coolify-operator/.env
+.playwright-mcp

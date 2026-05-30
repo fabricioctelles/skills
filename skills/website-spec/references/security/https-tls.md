@@ -1,0 +1,73 @@
+---
+title: "HTTPS and TLS"
+category: security
+status: required
+updated: "2026-05-29T09:13:20.000Z"
+sources:
+  - title: "RFC 8446 — The Transport Layer Security (TLS) Protocol Version 1.3"
+    url: "https://www.rfc-editor.org/rfc/rfc8446"
+    publisher: "IETF"
+  - title: "Mozilla SSL Configuration Generator"
+    url: "https://ssl-config.mozilla.org/"
+    publisher: "Mozilla"
+  - title: "MDN — Transport Layer Security"
+    url: "https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security"
+    publisher: "MDN"
+  - title: "Qualys SSL Labs Server Test"
+    url: "https://www.ssllabs.com/ssltest/"
+    publisher: "Qualys"
+licence: CC-BY-4.0
+---
+
+# HTTPS and TLS
+
+> Serve every page over HTTPS using TLS 1.2 or 1.3, redirect plain HTTP to HTTPS, and disable obsolete SSL and early TLS versions on every host you control.
+
+## What it is
+
+HTTPS is HTTP carried over TLS, a protocol that encrypts and authenticates the connection between the browser and the server. TLS 1.3 (RFC 8446) is the current version; TLS 1.2 remains acceptable. Everything earlier — TLS 1.0, TLS 1.1, and all versions of SSL — is broken and must be disabled.
+
+## Why it matters
+
+- **Confidentiality.** Without TLS, anyone on the path can read form data, cookies, and page content.
+- **Integrity.** Network operators and middleboxes routinely inject ads, trackers, and malware into plain HTTP.
+- **Authentication.** The certificate proves the visitor is talking to the right host, not a captive portal or attacker.
+- **Modern web features.** Service workers, HTTP/2, HTTP/3, geolocation, camera, and most powerful browser APIs require a secure context.
+- **SEO and trust.** Browsers mark HTTP pages as "Not Secure". Search engines prefer HTTPS.
+
+## How to implement
+
+Get a certificate from an ACME-supported certificate authority — Let's Encrypt and ZeroSSL are free, automated, and well supported. Most hosting platforms issue and renew certificates automatically.
+
+Configure your server using the Mozilla SSL Configuration Generator. The "Intermediate" profile is the right default for public sites in 2026 — it supports TLS 1.2 and 1.3 and works on every browser still in use.
+
+Redirect every HTTP request to HTTPS with a 301:
+
+```http
+HTTP/1.1 301 Moved Permanently
+Location: https://example.com/path
+```
+
+Serve the same redirect on every hostname you own, including the apex, `www`, and any legacy subdomains. After HTTPS works, add [HSTS](/security/hsts/) so browsers stop trying HTTP at all.
+
+Cipher and protocol checklist:
+
+- TLS 1.3 enabled, TLS 1.2 enabled, everything older disabled.
+- OCSP stapling on.
+- Forward-secret cipher suites only (ECDHE).
+- A complete certificate chain — serve the intermediate, not just the leaf.
+
+## Common mistakes
+
+- Mixed content: an HTTPS page that loads a script, image, or iframe over HTTP. Browsers block it.
+- Self-signed certificates on production. Use a real CA.
+- A valid certificate on `www.example.com` but not the apex `example.com`, or vice versa.
+- Leaving TLS 1.0 or 1.1 enabled "for old clients" that no longer exist.
+- Forgetting to renew. Automate it.
+
+## Verification
+
+- Run the [Qualys SSL Labs test](https://www.ssllabs.com/ssltest/) and aim for an A or A+.
+- `curl -vI https://example.com` should report `TLS 1.3` or `TLS 1.2` and a valid chain.
+- Visit `http://example.com` and confirm it 301s to `https://`.
+- Check the browser console for mixed-content warnings.

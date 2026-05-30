@@ -170,6 +170,15 @@ Generates, validates, and explains [auth.md](https://auth-md.com) files — the 
 
 ---
 
+### 🌐 Website Spec (Offline Edition)
+Self-contained offline version of [The Website Specification](https://specification.website/) by Joost de Valk. A platform-agnostic spec of what a good website does — 128 topics across 10 categories (Foundations, SEO, Accessibility, Security, Well-Known URIs, Agent Readiness, Performance, Privacy, Resilience, i18n), each tagged required/recommended/optional/avoid with implementation guidance and verification steps. Designed to run without network access in air-gapped environments, maximum-privacy workflows, and internal projects.
+
+**When to use:** audit a website against web standards, check what is required for production, verify agent readiness, review security headers, run accessibility checks, generate implementation checklists, compare audit results between runs. All content is bundled locally — no external requests needed.
+
+📄 [View full documentation](skills/website-spec/SKILL.md) | 🌐 [specification.website](https://specification.website/) (online/updated version)
+
+---
+
 > **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
 > Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -197,6 +206,7 @@ npx skills add https://gitlab.com/fabriciotelles/skills -s coolify-operator
 npx skills add https://gitlab.com/fabriciotelles/skills -s agent-ready-cloudflare
 npx skills add https://gitlab.com/fabriciotelles/skills -s ralph-loop-kiro-specs
 npx skills add https://gitlab.com/fabriciotelles/skills -s auth-md
+npx skills add https://gitlab.com/fabriciotelles/skills -s website-spec
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -238,6 +248,7 @@ cp -r skills/coolify-operator .cursor/skills/
 cp -r skills/agent-ready-cloudflare .cursor/skills/
 cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
+cp -r skills/website-spec .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -251,6 +262,7 @@ cp -r skills/coolify-operator .claude/skills/
 cp -r skills/agent-ready-cloudflare .claude/skills/
 cp -r skills/ralph-loop-kiro-specs .claude/skills/
 cp -r skills/auth-md .claude/skills/
+cp -r skills/website-spec .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -264,6 +276,7 @@ cp -r skills/coolify-operator .kiro/skills/
 cp -r skills/agent-ready-cloudflare .kiro/skills/
 cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
+cp -r skills/website-spec .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -308,6 +321,9 @@ skills/
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/        # protocol template, validation rules, metadata schema, example, implementation guide
+├── website-spec/
+│   ├── SKILL.md
+│   └── references/        # 128 spec topics in 10 category folders (offline bundle from specification.website)
 ```
 
 ## Author
