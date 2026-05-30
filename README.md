@@ -175,7 +175,21 @@ Self-contained offline version of [The Website Specification](https://specificat
 
 **When to use:** audit a website against web standards, check what is required for production, verify agent readiness, review security headers, run accessibility checks, generate implementation checklists, compare audit results between runs. All content is bundled locally — no external requests needed.
 
+**Update (May 2026) — Full LGPD compliance:**
+- Privacy section rewritten for 100% compatibility with Brazil's LGPD (Lei 13.709/2018)
+- Covers ANPD's 2026 reorganization (Resolution 33), Brazil-EU mutual adequacy decision (Resolution 32/2026), mandatory SCCs (Resolution 19/2024), opt-in cookie consent model, 15-day DSAR deadline, 3-business-day breach notification, 10 legal bases, DPO/Encarregado requirements, children's data (ECA Digital), and AI/automated decisions (Art. 20)
+- All 6 privacy reference files updated: privacy-policy, cookie-consent, data-minimization, global-privacy-control, analytics-privacy, third-party-scripts
+
 📄 [View full documentation](skills/website-spec/SKILL.md) | 🌐 [specification.website](https://specification.website/) (online/updated version)
+
+---
+
+### 🔒 LGPD Check
+Audits websites for compliance with Brazil's LGPD (Lei 13.709/2018). Validates privacy policy, cookie consent, data minimization, international transfers, data subject rights, third-party scripts, and analytics. Generates a compliance report with score and prioritized fixes. Fully written in Portuguese.
+
+**When to use:** audit a website for LGPD compliance, validate privacy policy against Brazilian law, check cookie consent implementation, verify data subject rights channels, assess international data transfers, review third-party scripts for privacy risks, generate LGPD compliance score.
+
+📄 [View full documentation](skills/lgpd-check/SKILL.md)
 
 ---
 
@@ -207,6 +221,7 @@ npx skills add https://gitlab.com/fabriciotelles/skills -s agent-ready-cloudflar
 npx skills add https://gitlab.com/fabriciotelles/skills -s ralph-loop-kiro-specs
 npx skills add https://gitlab.com/fabriciotelles/skills -s auth-md
 npx skills add https://gitlab.com/fabriciotelles/skills -s website-spec
+npx skills add https://gitlab.com/fabriciotelles/skills -s lgpd-check
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -249,6 +264,7 @@ cp -r skills/agent-ready-cloudflare .cursor/skills/
 cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
 cp -r skills/website-spec .cursor/skills/
+cp -r skills/lgpd-check .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -263,6 +279,7 @@ cp -r skills/agent-ready-cloudflare .claude/skills/
 cp -r skills/ralph-loop-kiro-specs .claude/skills/
 cp -r skills/auth-md .claude/skills/
 cp -r skills/website-spec .claude/skills/
+cp -r skills/lgpd-check .claude/skills/
 
 # Example for Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -277,6 +294,7 @@ cp -r skills/agent-ready-cloudflare .kiro/skills/
 cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
 cp -r skills/website-spec .kiro/skills/
+cp -r skills/lgpd-check .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.
@@ -324,6 +342,9 @@ skills/
 ├── website-spec/
 │   ├── SKILL.md
 │   └── references/        # 128 spec topics in 10 category folders (offline bundle from specification.website)
+├── lgpd-check/
+│   ├── SKILL.md
+│   └── references/        # 6 compliance check modules (privacy policy, cookies, data minimization, transfers, rights, scripts)
 ```
 
 ## Author

@@ -172,7 +172,21 @@ Versão autocontida e offline de [The Website Specification](https://specificati
 
 **Quando usar:** auditar um website contra padrões web, verificar o que é obrigatório para produção, checar agent readiness, revisar security headers, rodar verificações de acessibilidade, gerar checklists de implementação, comparar resultados de auditoria entre execuções. Todo o conteúdo está empacotado localmente — nenhuma requisição externa necessária.
 
+**Atualização (Mai 2026) — Compliance total com LGPD:**
+- Seção de privacidade reescrita para 100% de compatibilidade com a LGPD brasileira (Lei 13.709/2018)
+- Cobre reorganização da ANPD em 2026 (Resolução 33), decisão de adequação mútua Brasil-UE (Resolução 32/2026), SCCs obrigatórias (Resolução 19/2024), modelo opt-in de consentimento para cookies, prazo de 15 dias para DSAR, notificação de incidentes em 3 dias úteis, 10 bases legais, requisitos de DPO/Encarregado, dados de crianças (ECA Digital) e decisões automatizadas/IA (Art. 20)
+- Todos os 6 arquivos de referência de privacidade atualizados: privacy-policy, cookie-consent, data-minimization, global-privacy-control, analytics-privacy, third-party-scripts
+
 📄 [Ver documentação completa](skills/website-spec/SKILL.md) | 🌐 [specification.website](https://specification.website/) (versão online/atualizada)
+
+---
+
+### 🔒 LGPD Check
+Audita websites para conformidade com a LGPD brasileira (Lei 13.709/2018). Valida política de privacidade, consentimento de cookies, minimização de dados, transferência internacional, direitos do titular, scripts de terceiros e analytics. Gera relatório de conformidade com score e correções prioritárias. Totalmente em português.
+
+**Quando usar:** auditar um site para conformidade LGPD, validar política de privacidade contra a lei brasileira, verificar implementação de consentimento de cookies, checar canais de direitos do titular, avaliar transferências internacionais de dados, revisar scripts de terceiros quanto a riscos de privacidade, gerar score de conformidade LGPD.
+
+📄 [Ver documentação completa](skills/lgpd-check/SKILL.md)
 
 ---
 
@@ -204,6 +218,7 @@ npx skills add https://gitlab.com/fabriciotelles/skills -s agent-ready-cloudflar
 npx skills add https://gitlab.com/fabriciotelles/skills -s ralph-loop-kiro-specs
 npx skills add https://gitlab.com/fabriciotelles/skills -s auth-md
 npx skills add https://gitlab.com/fabriciotelles/skills -s website-spec
+npx skills add https://gitlab.com/fabriciotelles/skills -s lgpd-check
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -246,6 +261,7 @@ cp -r skills/agent-ready-cloudflare .cursor/skills/
 cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
 cp -r skills/website-spec .cursor/skills/
+cp -r skills/lgpd-check .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -260,6 +276,7 @@ cp -r skills/agent-ready-cloudflare .claude/skills/
 cp -r skills/ralph-loop-kiro-specs .claude/skills/
 cp -r skills/auth-md .claude/skills/
 cp -r skills/website-spec .claude/skills/
+cp -r skills/lgpd-check .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -274,6 +291,7 @@ cp -r skills/agent-ready-cloudflare .kiro/skills/
 cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
 cp -r skills/website-spec .kiro/skills/
+cp -r skills/lgpd-check .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -321,6 +339,9 @@ skills/
 ├── website-spec/
 │   ├── SKILL.md
 │   └── references/        # 128 tópicos da spec em 10 pastas por categoria (bundle offline de specification.website)
+├── lgpd-check/
+│   ├── SKILL.md
+│   └── references/        # 6 módulos de verificação de conformidade (política de privacidade, cookies, minimização, transferências, direitos, scripts)
 ```
 
 ## Autor
