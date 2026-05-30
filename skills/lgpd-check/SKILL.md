@@ -107,6 +107,9 @@ Produzir relatório em markdown com:
 
 ## Referências legais
 [artigos da LGPD e resoluções ANPD aplicáveis]
+
+---
+⚠️ **Aviso importante:** Este relatório é uma ferramenta de apoio técnico. Não substitui parecer jurídico nem a consulta a um advogado especializado em proteção de dados.
 ```
 
 ## Contexto regulatório (2026)
@@ -128,3 +131,4 @@ Antes de entregar o relatório, verificar:
 - [ ] Recomendações incluem esforço estimado de implementação
 - [ ] Relatório está inteiramente em português
 - [ ] Nenhuma informação sensível do site foi exposta no relatório
+- [ ] Disclaimer incluído: "ferramenta de apoio técnico — não substitui parecer jurídico nem advogado"
