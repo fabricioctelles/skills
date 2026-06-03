@@ -229,6 +229,55 @@ Use a sliding-window counter with a shared store. Fail open on store errors.
 
 ---
 
+## Agent Readiness Scanner Check
+
+The [isitagentready.com](https://isitagentready.com) scanner validates auth.md as the `authMd` check. Pass criteria:
+
+1. `/auth.md` served from site root with HTTP 200
+2. Content is Markdown with H1 heading containing "auth.md" (e.g., `# auth.md` or `# Example auth.md`)
+3. Optionally validates OAuth Protected Resource Metadata at `/.well-known/oauth-protected-resource`
+4. Optionally validates Authorization Server metadata at `/.well-known/oauth-authorization-server`
+
+**Scanner does NOT:**
+- Probe `POST /agent/auth` (passive scan only)
+- Require OAuth metadata to pass (self-contained auth.md is sufficient)
+
+**To pass the check minimally:**
+```markdown
+# auth.md
+
+This service accepts AI agent registrations.
+
+## Authentication
+
+Agents can register via POST /agent/auth with a valid ID-JAG.
+See below for supported methods and credential types.
+```
+
+**To pass with full marks (all metadata):**
+- Serve `/auth.md` with proper heading
+- Publish `/.well-known/oauth-protected-resource` with `resource`, `authorization_servers`, `scopes_supported`, `bearer_methods_supported: ["header"]`
+- Publish `/.well-known/oauth-authorization-server` with `issuer`, `agent_auth` block containing `skill`, `register_uri`, and registration methods
+
+**Scan command:**
+```bash
+curl -s -X POST 'https://isitagentready.com/api/scan' \
+  -H 'Content-Type: application/json' \
+  -d '{"url":"https://YOUR-DOMAIN/","enabledChecks":["authMd"]}' | jq '.checks.discovery.authMd'
+```
+
+### Flow Metadata Fields (per scanner SKILL.md)
+
+For each flow the scanner may look for:
+
+| Flow | Required in AS metadata |
+|------|------------------------|
+| **ID-JAG** | `identity_types_supported: ["identity_assertion"]`, `identity_assertion.assertion_types_supported` with `urn:ietf:params:oauth:token-type:id-jag`, credential types. Optional: `revocation_uri`, `events_supported` |
+| **Verified email** | `identity_assertion.assertion_types_supported` with `verified_email`, credential types, `claim_uri` |
+| **Anonymous** | `identity_types_supported: ["anonymous"]`, `anonymous.credential_types_supported`, `claim_uri` |
+
+---
+
 ## Quality Checklist
 
 Before delivering output, verify:
