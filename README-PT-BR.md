@@ -182,11 +182,11 @@ Versão autocontida e offline de [The Website Specification](https://specificati
 ---
 
 ### 🔒 LGPD Check
+> **Migrado** → Esta skill foi movida para [github.com/lgpd-app/skills](https://github.com/lgpd-app/skills)
 Audita websites para conformidade com a LGPD brasileira (Lei 13.709/2018). Valida política de privacidade, consentimento de cookies, minimização de dados, transferência internacional, direitos do titular, scripts de terceiros e analytics. Gera relatório de conformidade com score e correções prioritárias. Totalmente em português.
 
 **Quando usar:** auditar um site para conformidade LGPD, validar política de privacidade contra a lei brasileira, verificar implementação de consentimento de cookies, checar canais de direitos do titular, avaliar transferências internacionais de dados, revisar scripts de terceiros quanto a riscos de privacidade, gerar score de conformidade LGPD.
 
-📄 [Ver documentação completa](skills/lgpd-check/SKILL.md)
 
 ---
 
@@ -218,7 +218,6 @@ npx skills add https://github.com/fabriciotelles/skills -s agent-ready-cloudflar
 npx skills add https://github.com/fabriciotelles/skills -s ralph-loop-kiro-specs
 npx skills add https://github.com/fabriciotelles/skills -s auth-md
 npx skills add https://github.com/fabriciotelles/skills -s website-spec
-npx skills add https://github.com/fabriciotelles/skills -s lgpd-check
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -261,7 +260,6 @@ cp -r skills/agent-ready-cloudflare .cursor/skills/
 cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
 cp -r skills/website-spec .cursor/skills/
-cp -r skills/lgpd-check .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/premium-proposal-builder .claude/skills/
@@ -276,7 +274,6 @@ cp -r skills/agent-ready-cloudflare .claude/skills/
 cp -r skills/ralph-loop-kiro-specs .claude/skills/
 cp -r skills/auth-md .claude/skills/
 cp -r skills/website-spec .claude/skills/
-cp -r skills/lgpd-check .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/premium-proposal-builder .kiro/skills/
@@ -291,7 +288,6 @@ cp -r skills/agent-ready-cloudflare .kiro/skills/
 cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
 cp -r skills/website-spec .kiro/skills/
-cp -r skills/lgpd-check .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
@@ -339,7 +335,6 @@ skills/
 ├── website-spec/
 │   ├── SKILL.md
 │   └── references/        # 128 tópicos da spec em 10 pastas por categoria (bundle offline de specification.website)
-├── lgpd-check/
 │   ├── SKILL.md
 │   └── references/        # 6 módulos de verificação de conformidade (política de privacidade, cookies, minimização, transferências, direitos, scripts)
 ```
