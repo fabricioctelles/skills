@@ -1,0 +1,54 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Marketing & SEO",
+      "description": "Content optimization, AI visibility, and newsletter growth.",
+      "skills": [
+        "geo-optimization",
+        "substack-expert",
+        "premium-proposal-builder"
+      ]
+    },
+    {
+      "title": "DevOps & Cloud",
+      "description": "Deployment platforms and cloud API management.",
+      "skills": [
+        "coolify-operator",
+        "pier-cloud"
+      ]
+    },
+    {
+      "title": "Web Quality & Standards",
+      "description": "Frontend audits, website specs, and agent readiness.",
+      "skills": [
+        "front-end-checklist",
+        "website-spec",
+        "agent-ready-cloudflare"
+      ]
+    },
+    {
+      "title": "Career & Productivity",
+      "description": "Resume optimization and automated development workflows.",
+      "skills": [
+        "resume-ats-beater",
+        "ralph-loop-kiro-specs"
+      ]
+    },
+    {
+      "title": "Design",
+      "description": "Design systems, brand identity, and UI component libraries.",
+      "skills": [
+        "ultimate-design-system-master"
+      ]
+    },
+    {
+      "title": "Agent Protocols",
+      "description": "Authentication and identity protocols for AI agents.",
+      "skills": [
+        "auth-md"
+      ]
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+[![skills.sh](https://skills.sh/b/fabricioctelles/skills)](https://skills.sh/fabricioctelles/skills)
+
 # 🧠 Agent Skills by ft.ia.br
 
 Colecao de [Agent Skills](https://agentskills.io) para agentes de IA (Kiro, Cursor, Windsurf, Claude Code e outros). Cada skill e um modulo reutilizavel que ensina o agente a executar tarefas complexas com contexto, estrutura e boas praticas.

@@ -1,5 +1,7 @@
 🇧🇷 [Versao em Portugues do Brasil](README-PT-BR.md)
 
+[![skills.sh](https://skills.sh/b/fabricioctelles/skills)](https://skills.sh/fabricioctelles/skills)
+
 # 🧠 Agent Skills by ft.ia.br
 
 A collection of [Agent Skills](https://agentskills.io) for AI agents (Kiro, Cursor, Windsurf, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
