@@ -33,6 +33,33 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "Você recebe" / "Chega até sexta"
 - "Providencio" / "Resolvo"
 
+### Gerúndio Conclusivo (Falsa Análise de Impacto)
+
+**Palavras/expressões gatilho:** "..., destacando a importância de...", "..., contribuindo para...", "..., demonstrando que...", "..., reforçando a necessidade de...", "..., evidenciando que...", "..., mostrando como...", "..., sublinhando o papel de...", "..., consolidando a posição de..."
+
+**Problema:** LLMs fecham frases com orações reduzidas de gerúndio que fingem ser análise de impacto — mas não dizem nada que o leitor não já deduziu. É um tique que infla o texto com falsa profundidade. Funciona como "conclusão automática por frase" que humanos não fazem: nós ou tiramos a conclusão em frase separada, ou deixamos o leitor tirar sozinho.
+
+**Antes (IA):**
+> A Nubank atingiu 100 milhões de clientes em 2025, consolidando sua posição como maior fintech da América Latina. O app teve nota 4.8 na App Store, demonstrando que a experiência do usuário continua sendo prioridade. A empresa expandiu para México e Colômbia, reforçando a necessidade de adaptação local.
+
+**Depois (humano):**
+> A Nubank bateu 100 milhões de clientes em 2025 — maior fintech da América Latina, disparada. O app tem nota 4.8 na App Store (UX continua boa). Expandiram pro México e Colômbia, e o desafio agora é adaptar o produto pra cada mercado.
+
+**Evitar em PT-BR:**
+- "..., destacando a importância de [coisa óbvia]"
+- "..., contribuindo para o fortalecimento de..."
+- "..., demonstrando que [conclusão que já estava implícita]"
+- "..., reforçando a necessidade de..."
+- "..., evidenciando o compromisso com..."
+- "..., consolidando [posição/presença/papel]"
+- Qualquer gerúndio no final que funciona como "mini-conclusão" redundante
+
+**Alternativas naturais:**
+- Cortar o gerúndio inteiro (a frase principal já diz o necessário)
+- Se a conclusão importa, fazer frase separada: "Isso mostra que..."
+- Trocar por detalhe concreto: em vez de "demonstrando que UX é prioridade", dizer "4.8 na App Store"
+- Usar coordenação simples: "e agora é a maior" em vez de "consolidando sua posição como a maior"
+
 ---
 
 ## 2. Conectivos Arcaicos Fora de Contexto
@@ -201,9 +228,9 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 
 ### Substituição de "É/São/Tem" por Eufemismos Rebuscados
 
-**Palavras/expressões gatilho:** "constitui", "configura-se como", "dispõe de", "encontra-se", "figura como", "representa", "serve como", "afigura-se como", "situa-se", "apresenta-se como"
+**Palavras/expressões gatilho:** "constitui", "configura-se como", "dispõe de", "encontra-se", "figura como", "representa", "serve como", "afigura-se como", "situa-se", "apresenta-se como", "há [quantidade]", "existem [quantidade]", "haver necessidade"
 
-**Problema:** Estudos mostram >10% de queda no uso de copulativas simples ("é", "são", "está") em textos gerados por IA pós-2023. LLMs evitam verbos simples e os substituem por construções rebuscadas — provavelmente porque o RLHF penaliza respostas "simples demais". Em PT-BR, isso cria frases que nenhum brasileiro falaria em voz alta.
+**Problema:** Estudos mostram >10% de queda no uso de copulativas simples ("é", "são", "está") em textos gerados por IA pós-2023. LLMs evitam verbos simples e os substituem por construções rebuscadas — provavelmente porque o RLHF penaliza respostas "simples demais". Em PT-BR, isso cria frases que nenhum brasileiro falaria em voz alta. Inclui também a substituição sistemática do verbo "ter" existencial (uso coloquial consagrado no Brasil) por "haver" ou "existir" para soar "correto" — um hipercorrecionismo que nenhum brasileiro pratica na fala e que cada vez menos pratica na escrita.
 
 **Antes (IA):**
 > O Nubank constitui uma das maiores fintechs da América Latina e configura-se como referência em experiência do usuário. A empresa dispõe de mais de 80 milhões de clientes e encontra-se em expansão para novos mercados. Seu modelo de negócios figura como paradigma para startups do setor.
@@ -220,6 +247,9 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "situa-se" (quando "fica" ou "está" resolve)
 - "apresenta-se como" (quando "parece" ou "é" resolve)
 - "afigura-se como" (ninguém fala isso)
+- "há muitos/muitas [X]" (quando "tem muito/muita [X]" é mais natural — presets Crônica, Corporativo Informal, WhatsApp)
+- "existem diversas opções" (quando "tem várias opções" resolve)
+- "não há como negar" (quando "não tem como negar" soa brasileiro)
 
 **Alternativas naturais:**
 - "constitui uma referência" → "é referência" / "virou referência"
@@ -227,6 +257,12 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "encontra-se em expansão" → "tá expandindo" / "está crescendo"
 - "configura-se como líder" → "é líder" / "lidera"
 - "situa-se entre os maiores" → "está entre os maiores" / "é um dos maiores"
+- "há muitas pessoas" → "tem muita gente"
+- "existem diversos fatores" → "tem vários fatores" / "são vários fatores"
+- "há necessidade de" → "precisa de" / "tem que"
+- "não há dúvidas de que" → "não tem dúvida que" / "é claro que"
+
+**Nota sobre "ter" existencial:** Em presets formais (Acadêmico), "haver" pode ser mantido. Em Crônica, Corporativo Informal, Rede Social e WhatsApp, "ter" existencial é a forma natural brasileira e sua ausência denuncia IA hipercorreta.
 
 ---
 
@@ -332,6 +368,72 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 
 ---
 
+## 11. Colocação Pronominal Artificial
+
+### Ênclise Forçada e Mesóclise Fantasma
+
+**Palavras/expressões gatilho:** "Apresento-lhe", "Trata-se de", "Faz-se necessário", "Encontra-se disponível", "Realizou-se", "Dar-se-á", "Enviar-lhe-ei", "Diga-se de passagem", "Permite-nos afirmar"
+
+**Problema:** LLMs seguem regras prescritivas de colocação pronominal com rigor artificial — colocam pronomes em ênclise (verbo + pronome) e até mesóclise em situações onde o brasileiro usa próclise (pronome + verbo) intuitivamente. Na fala e escrita real brasileira, a próclise domina em quase todos os contextos. A ênclise excessiva soa como tradução de manual de gramática portuguesa (de Portugal), não como brasileiro escrevendo.
+
+**Antes (IA):**
+> O sistema permite-nos monitorar métricas em tempo real. Trata-se de uma solução que integra-se facilmente ao stack existente. Encontra-se disponível para todos os planos. Enviar-lhe-emos o relatório até sexta.
+
+**Depois (humano):**
+> O sistema nos permite monitorar métricas em tempo real. É uma solução que se integra fácil ao stack existente. Tá disponível pra todos os planos. A gente te manda o relatório até sexta.
+
+**Evitar em PT-BR:**
+- "Permite-nos" (quando "nos permite" é mais natural)
+- "Trata-se de" em excesso (quando "é" resolve)
+- "Encontra-se" (quando "está" ou "fica" resolve)
+- "Integra-se" no início ou meio de frase (quando "se integra" soa melhor)
+- Qualquer mesóclise fora de texto jurídico ou literário intencional ("dar-se-á", "enviar-lhe-ei")
+- Ênclise após sujeito explícito: "O usuário cadastra-se" → "O usuário se cadastra"
+
+**Alternativas naturais:**
+- "Permite-nos" → "nos permite" / "deixa a gente"
+- "Trata-se de" → "É" / "Isso é" / "Estamos falando de"
+- "Encontra-se disponível" → "Tá disponível" / "Está disponível"
+- "Realizou-se a migração" → "A migração foi feita" / "Migramos"
+- "Dar-se-á início" → "Começa" / "Vai começar"
+- "Faz-se necessário" → "Precisa" / "É necessário"
+
+**Nota:** A ênclise é legítima após vírgula, no início absoluto de frase, e em imperativos ("Diga-me", "Faça-o"). O problema é quando a IA a usa em posições onde o brasileiro naturalmente coloca o pronome antes do verbo.
+
+---
+
+## 12. Voz Passiva Analítica
+
+### Passiva por Influência do Inglês
+
+**Palavras/expressões gatilho:** "foi realizado por", "foi implementado pela equipe", "será desenvolvido pelo time", "foi identificado que", "é considerado como", "foi constatado que", "foram obtidos resultados", "foi tomada a decisão"
+
+**Problema:** IAs abusam da voz passiva analítica (ser + particípio) por influência direta do inglês, onde a passiva é muito mais frequente que em português. Em PT-BR natural, preferimos voz ativa ou passiva sintética (com "se"). Sequências de 3+ frases em passiva soam como tradução automática de release notes em inglês.
+
+**Antes (IA):**
+> O relatório foi finalizado pela equipe de dados. A análise foi conduzida utilizando metodologia ágil. Foram identificados 3 gargalos principais. A decisão foi tomada de priorizar o módulo de pagamentos. Os testes foram realizados em ambiente de staging.
+
+**Depois (humano):**
+> O time de dados fechou o relatório. Acharam 3 gargalos na análise — e decidiram priorizar o módulo de pagamentos. Já testaram em staging.
+
+**Evitar em PT-BR:**
+- "O relatório foi finalizado pela equipe" → "A equipe finalizou o relatório" / "O time fechou o relatório"
+- "Foi identificado que" → "Identificamos que" / "Achamos que" / "Percebemos"
+- "A decisão foi tomada" → "Decidimos" / "A equipe decidiu"
+- "Foram obtidos resultados positivos" → "Deu resultado" / "Funcionou"
+- "É considerado como referência" → "É referência" / "Virou referência"
+- 3+ frases consecutivas em voz passiva
+
+**Alternativas naturais:**
+- Voz ativa (sujeito age): "O time entregou" em vez de "Foi entregue pelo time"
+- Passiva sintética (com "se"): "Identificaram-se 3 bugs" ou "Se identificaram 3 bugs"
+- Indeterminação do sujeito: "Testaram em staging" (3ª pessoa plural sem sujeito)
+- Inversão simples: "O relatório ficou pronto" em vez de "O relatório foi concluído"
+
+**Nota:** A passiva é legítima quando o agente é desconhecido ou irrelevante ("O servidor foi invadido"). O problema é usá-la quando existe um sujeito claro que deveria estar agindo.
+
+---
+
 ## Resumo: Checklist Rápido Anti-IA em PT-BR
 
 | # | Padrão | Teste rápido |
@@ -342,10 +444,12 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 | 4 | Hedging burocrático | Tem "Vale ressaltar que" ou "Cumpre salientar"? |
 | 5 | Formalidade deslocada | Tem "No que tange a" num email de startup? |
 | 6 | Officialese | Tem "Venho por meio deste" fora de ofício? |
-| 7 | Evitação de verbos simples | "É" virou "constitui" ou "configura-se como"? |
+| 7 | Evitação de verbos simples | "É" virou "constitui"? "Tem" virou "há"? |
 | 8 | Expressões infladas | Tem "contribui significativamente" sem número? |
 | 9 | Transições mecânicas | Todo parágrafo começa com conectivo? |
 | 10 | Purismo linguístico | Traduziu "feedback", "deploy", "churn"? |
+| 11 | Colocação pronominal artificial | Tem "permite-nos", "trata-se de", mesóclise? |
+| 12 | Voz passiva analítica | 3+ frases com "foi X pelo Y" em sequência? |
 
 **Se 3+ padrões aparecem no mesmo texto: alta probabilidade de geração por IA.**
 

@@ -6,9 +6,9 @@ Padrões que denunciam texto gerado por IA no nível da escolha de palavras, con
 
 ### 1. Vocabulário de IA em PT-BR
 
-**Palavras/expressões gatilho:** crucial, fundamental, cenário, landscape/panorama, no âmbito de, no bojo de, nesse diapasão, destarte, outrossim, mister se faz, em última análise, inegável, indubitavelmente, exponencialmente, de forma exponencial, disruptivo, paradigma, holístico, sinergia, alavancar, robusto, escalável, ecossistema (abstrato), jornada (figurativo)
+**Palavras/expressões gatilho:** crucial, fundamental, cenário, landscape/panorama, no âmbito de, no bojo de, nesse diapasão, destarte, outrossim, mister se faz, em última análise, inegável, indubitavelmente, exponencialmente, de forma exponencial, disruptivo, paradigma, holístico, sinergia, alavancar, robusto, escalável, ecossistema (abstrato), jornada (figurativo), mergulhar em (delve into), desbloquear (unlock), desvendar insights (uncover insights), rica tapeçaria (rich tapestry), um testemunho de (a testament to), serve como um lembrete (serves as a reminder), na paisagem/cenário em constante evolução (ever-evolving landscape), navegar [complexidades] (navigate), ponta de lança (spearhead), sem costura/sem fricção (seamless), multifacetado, catalisador, orquestrar, delinear
 
-**Problema:** LLMs em PT-BR abusam de um vocabulário pomposo e repetitivo que nenhum brasileiro usa em conversas normais — nem em textos profissionais. São equivalentes tupiniquins do "delve", "crucial" e "landscape" do inglês.
+**Problema:** LLMs em PT-BR abusam de um vocabulário pomposo e repetitivo que nenhum brasileiro usa em conversas normais — nem em textos profissionais. São equivalentes tupiniquins do "delve", "crucial" e "landscape" do inglês. Muitos são traduções diretas de slop em inglês que soam ainda mais artificiais em português — ninguém fala "rica tapeçaria" ou "desbloquear potencial" no Brasil.
 
 **Antes (IA):**
 > É fundamental destacar que o ecossistema de startups brasileiro passa por um momento crucial de maturação. No âmbito da inovação, diversas empresas estão alavancando soluções disruptivas que prometem transformar o panorama do mercado de forma exponencial.
@@ -20,6 +20,17 @@ Padrões que denunciam texto gerado por IA no nível da escolha de palavras, con
 - "É fundamental/crucial/inegável destacar que..."
 - "No âmbito/bojo/cenário de..."
 - "Alavancar soluções robustas e escaláveis"
+- "Mergulhar em/Mergulhar fundo em" → "explorar" / "ver de perto" / "entrar em"
+- "Desbloquear o potencial" → "aproveitar" / "usar melhor"
+- "Desvendar insights" → "descobrir" / "achar" / "perceber"
+- "Rica tapeçaria de experiências" → cortar (sempre é enchimento)
+- "É um testemunho de/da" → "mostra que" / "prova que"
+- "Serve como um lembrete de que" → "lembra que" / cortar
+- "No cenário/paisagem em constante evolução" → cortar o cenário, ir direto ao ponto
+- "Navegar as complexidades de" → "lidar com" / "resolver"
+- "Sem costura" / "sem fricção" → "fluido" / "que funciona bem" / "redondo"
+- "Catalisador de mudanças" → "o que mudou" / "o que fez acontecer"
+- "Orquestrar a transformação" → "coordenar" / "fazer acontecer"
 
 ---
 
@@ -153,3 +164,38 @@ Padrões que denunciam texto gerado por IA no nível da escolha de palavras, con
 - "O resultado? Um time coeso."
 - "O segredo? Consistência."
 - "A resposta? Simplicidade." (especialmente em sequência)
+
+---
+
+### 9. Decalques Sintáticos (Anglicismos Ocultos)
+
+**Palavras/expressões gatilho:** "endereçar um problema" (to address), "no final do dia" (at the end of the day), "performar" (to perform), "fazer sentido" (em excesso — to make sense), "estar no lugar" (to be in place), "correr um experimento" (to run an experiment), "levantar uma questão" (to raise a question), "colocar de outra forma" (to put it another way), "em termos de" (in terms of), "baseado em" sem sujeito (based on)
+
+**Problema:** Diferente dos estrangeirismos legítimos (deploy, feedback, sprint), os decalques são **estruturas do inglês traduzidas literalmente** que quebram a naturalidade sintática do português. A IA faz isso porque pensa em inglês e traduz — e o resultado parece texto de legendista apressado. Brasileiro de verdade usa o jargão inglês cru OU a expressão portuguesa equivalente — nunca a tradução literal da estrutura.
+
+**Antes (IA):**
+> Precisamos endereçar esse problema antes do próximo sprint. No final do dia, o que importa é se a feature performa bem em produção. Temos todas as peças no lugar para correr esse experimento. Isso levanta uma questão importante em termos de escalabilidade.
+
+**Depois (humano):**
+> Precisamos resolver isso antes do próximo sprint. No fim das contas, o que importa é se a feature roda bem em prod. Tá tudo pronto pra rodar o experimento. Isso abre uma dúvida sobre escalabilidade.
+
+**Evitar em PT-BR:**
+- "Endereçar um problema" → "resolver" / "tratar" / "atacar"
+- "No final do dia" → "no fim das contas" / "no fundo" / "na prática"
+- "Performar" (como verbo intransitivo) → "funcionar" / "rodar" / "se sair"
+- "Fazer sentido" em excesso (1-2x ok; 5x no texto = cacoete de tradução)
+- "Estar no lugar" / "ter no lugar" → "estar pronto" / "ter configurado"
+- "Correr um experimento" → "rodar" / "fazer" / "executar"
+- "Levantar uma questão" → "abrir uma dúvida" / "criar uma pergunta" / "trazer um ponto"
+- "Colocar de outra forma" → "dizendo de outro jeito" / "ou seja"
+- "Em termos de" → "sobre" / "quanto a" / "de" (geralmente dá pra cortar)
+- "Baseado em" sem sujeito ("Baseado nisso, decidimos...") → "Com base nisso" / "A partir disso"
+- "Dar uma olhada em" (to take a look at) → "ver" / "conferir" / "olhar"
+- "Estar na mesma página" (to be on the same page) → "estar alinhado" / "ter combinado"
+
+**Alternativas naturais:**
+- Preferir o verbo português que o brasileiro usa na fala: "resolver", "rodar", "funcionar"
+- Quando o jargão inglês é mais natural que a tradução literal, usar o inglês: "roda o A/B test" é melhor que "correr um experimento"
+- Testar lendo em voz alta: se soa como legenda de série, é decalque
+
+**Nota:** "Fazer sentido" é caso especial — já se naturalizou no PT-BR. O problema é a frequência: 1-2x num texto é normal; 5+ vezes é fingerprint de IA traduzindo "makes sense" mecanicamente.
