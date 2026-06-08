@@ -158,3 +158,64 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Palavra isolada como parágrafo ("Radicalmente.", "Literalmente.", "Ponto.")
 - Mais de um fragmento dramático por texto
 - Fragmento + ponto final para criar "peso" artificial
+
+---
+
+### Vírgula de Oxford (Oxford Comma)
+
+**Problema:** IA treinada em inglês frequentemente insere vírgula antes do "e" final em enumerações (ex: "maçãs, bananas, e laranjas"). Em português brasileiro, essa vírgula é atípica e desnecessária — a norma é não usar vírgula antes de "e" em listas. Sua presença é marcador tipográfico de texto gerado por modelo anglófono.
+
+**Antes (IA):**
+> A plataforma oferece dashboards, relatórios customizados, e integração com APIs externas. O time trabalha com React, Node.js, e PostgreSQL.
+
+**Depois (humano):**
+> A plataforma oferece dashboards, relatórios customizados e integração com APIs externas. O time trabalha com React, Node.js e PostgreSQL.
+
+**Evitar em PT-BR:**
+- Vírgula antes de "e" no último item de lista: "A, B, e C" → "A, B e C"
+- Vírgula antes de "ou" final: "X, Y, ou Z" → "X, Y ou Z"
+- Exceção legítima: quando o "e" liga orações com sujeitos diferentes (vírgula de clareza, não de lista)
+
+---
+
+### Ponto final e aspas (convenção brasileira)
+
+**Problema:** IA segue a convenção americana de colocar ponto final DENTRO das aspas, mesmo quando a citação não é frase completa. Em português brasileiro, o ponto vai FORA quando as aspas envolvem apenas parte da frase.
+
+**Antes (IA — convenção americana):**
+> O CEO disse que a empresa está "no caminho certo."
+>
+> A meta é atingir o que chamam de "product-market fit."
+
+**Depois (humano — convenção brasileira):**
+> O CEO disse que a empresa está "no caminho certo".
+>
+> A meta é atingir o que chamam de "product-market fit".
+
+**Regra PT-BR:**
+- Citação é frase completa e independente → ponto dentro: Ele disse: "Vamos resolver isso."
+- Citação é parte da frase do autor → ponto fora: O plano é "escalar rápido".
+- Na dúvida: ponto fora (é o padrão brasileiro em texto corrido)
+
+---
+
+### Hedging com Preamble (Minimiza → Infla)
+
+**Problema:** Padrão de IA de 2025/2026 onde o texto admite que o assunto é simples ou já conhecido, mas imediatamente em seguida usa linguagem inflada para compensar. É um hedging disfarçado de humildade — "sei que parece óbvio, mas na verdade é TRANSFORMADOR". Humanos ou dizem que é simples (e tratam como simples), ou dizem que é importante (e explicam por quê com dados). Não fazem os dois na mesma frase.
+
+**Antes (IA):**
+> Embora pareça um conceito simples, a consistência na publicação de conteúdo representa um dos pilares mais fundamentais e transformadores de qualquer estratégia de marketing digital moderna.
+>
+> À primeira vista, essa pode parecer uma mudança incremental, mas na verdade constitui uma transformação paradigmática na forma como organizações interagem com seus stakeholders.
+
+**Depois (humano):**
+> Publicar com consistência funciona. Não é insight novo — mas quase ninguém faz direito.
+>
+> A mudança parece pequena. O efeito não é.
+
+**Evitar em PT-BR:**
+- "Embora pareça simples, na verdade é [superlativo]"
+- "À primeira vista... mas na verdade constitui..."
+- "Pode parecer óbvio, porém [inflação]"
+- "Apesar de ser um conceito básico, representa um dos mais [superlativo]"
+- Qualquer estrutura que minimiza no preamble e infla na main clause
