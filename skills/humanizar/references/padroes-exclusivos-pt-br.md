@@ -33,6 +33,16 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "Você recebe" / "Chega até sexta"
 - "Providencio" / "Resolvo"
 
+**Sinais adicionais de detecção:**
+- "Vai estar + gerúndio" em e-mails de SAC e respostas de chatbot
+- "Iremos estar + gerúndio" em comunicações formais de empresas
+- Gerundismo em texto que deveria ser direto (mensagens de WhatsApp, Slack)
+
+**Técnicas avançadas de correção:**
+- Converter para futuro simples: "vou estar enviando" → "mando" / "envio"
+- Se o gerúndio indica processo contínuo real → usar "está" + gerúndio: "Está rodando o deploy"
+- "Teste do áudio" — ler a frase em voz alta; se soa como atendente de telemarketing, é gerundismo
+
 ### Gerúndio Conclusivo (Falsa Análise de Impacto)
 
 **Palavras/expressões gatilho:** "..., destacando a importância de...", "..., contribuindo para...", "..., demonstrando que...", "..., reforçando a necessidade de...", "..., evidenciando que...", "..., mostrando como...", "..., sublinhando o papel de...", "..., consolidando a posição de..."
@@ -59,6 +69,16 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - Se a conclusão importa, fazer frase separada: "Isso mostra que..."
 - Trocar por detalhe concreto: em vez de "demonstrando que UX é prioridade", dizer "4.8 na App Store"
 - Usar coordenação simples: "e agora é a maior" em vez de "consolidando sua posição como a maior"
+
+**Sinais adicionais de detecção:**
+- Orações reduzidas de gerúndio no final de frase como "conclusão automática"
+- Padrão: [afirmação], [gerúndio conclusivo] → "O app tem nota 4.8, demonstrando que UX é prioridade"
+- O gerúndio repete o que já foi dito sem adicionar informação
+
+**Técnicas avançadas de correção:**
+- Cortar o gerúndio se ele não adiciona nada novo
+- Se a conclusão é legítima → transformar em frase independente com sujeito claro
+- "Teste do copy-paste" — se você pode remover a oração com gerúndio e a frase ainda diz tudo, o gerúndio é redundante
 
 ---
 
@@ -90,6 +110,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "Destarte" → "Então" / "Por isso" / "Resultado:"
 - "Não obstante" → "Mesmo assim" / "Apesar disso" / "Mas"
 - "Doravante" → "A partir de agora" / "De agora em diante"
+
+**Sinais adicionais de detecção:**
+- "Outrossim" em qualquer contexto que não seja petição judicial
+- "Destarte" em textos pós-2000
+- "Nesse diapasão" em comunicação corporativa moderna
+- Texto que parece ter sido escrito por alguém que leu muito Diário Oficial
+
+**Técnicas avançadas de correção:**
+- Substituir por conectivos modernos ou cortar
+- Se o texto é jurídico → manter (é o registro esperado)
+- "Teste do Slack" — se você não escreveria no Slack da empresa, é arcaico
 
 ---
 
@@ -124,6 +155,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - Começar com exemplo: "Maria, 23, de Recife, nunca pisou num banco."
 - Começar pelo meio: pular o contexto e ir direto ao ponto
 
+**Sinais adicionais de detecção:**
+- "É inegável que" como abertura de parágrafo
+- "No contexto contemporâneo" como introdução genérica
+- "Diante do exposto" como transição entre seções
+- Abertura que poderia ser copiada para qualquer redação de vestibular
+
+**Técnicas avançadas de correção:**
+- Começar com **dado concreto**, **pergunta real** ou **afirmação direta**
+- Se o texto precisa de contexto → colocar o contexto DEPOIS do gancho, não antes
+- "Teste do primeiro tweet" — se a abertura seria um tweet que ninguém leria, é ENEM demais
+
 ---
 
 ## 4. Hedging Burocrático
@@ -155,6 +197,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - Se precisa enfatizar: usar posição na frase (colocar no início) ou itálico
 - Se precisa transição: "Detalhe importante:" / "O ponto aqui é:" / "Olha isso:"
 - Para tom mais informal: "E tem mais:" / "O melhor:" / "Agora, atenção:"
+
+**Sinais adicionais de detecção:**
+- "Cumpre salientar" como abertura de frase
+- "Faz-se necessário" em e-mails de trabalho
+- "Importa registrar" em textos que não são registro oficial
+- 2+ expressões de hedging no mesmo parágrafo
+
+**Técnicas avançadas de correção:**
+- Cortar a expressão e ir direto à informação
+- Se precisa de ênfase → usar posição na frase (começo) ou repetição intencional
+- "Teste do post-it" — se a informação cabe num post-it sem perder sentido, a muleta não era necessária
 
 ---
 
@@ -189,6 +242,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "Em face do exposto" → "Então" / "Resumindo"
 - "Haja vista que" → "Já que" / "Porque"
 
+**Sinais adicionais de detecção:**
+- "No que tange a" em e-mails de produto
+- "Tendo em vista que" em mensagens de Slack
+- "O referido projeto" em comunicação interna
+- Registro formal em contexto onde a informalidade é esperada
+
+**Técnicas avançadas de correção:**
+- Mapear o **preset de voz** antes de reescrever — se é Corporativo Informal, cortar toda formalidade
+- Substituir por equivalentes coloquiais brasileiros
+- "Teste do almoço" — se você não diria na hora de pedir comida, não escreva
+
 ---
 
 ## 6. Officialese Brasileiro
@@ -221,6 +285,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "Solicito a gentileza" → "Pode [fazer X]?" / "Preciso que"
 - "Para conhecimento" → "Pra vocês saberem:" / "FYI:" / "Contexto:"
 - "Para os devidos fins" → cortar (nunca serve pra nada)
+
+**Sinais adicionais de detecção:**
+- "Venho por meio deste" em qualquer canal que não seja ofício público
+- "Para os devidos fins" como fechamento de e-mail
+- "Solicito a gentileza de" em mensagens internas
+- Texto que parece ter sido gerado por um chatbot de órgão público
+
+**Técnicas avançadas de correção:**
+- Converter para linguagem direta: "Preciso que você faça X até sexta"
+- Se é comunicação externa formal → manter um nível mínimo de polidez, mas sem officialese
+- "Teste do WhatsApp do chefe" — se você não mandaria assim pro seu chefe, é formal demais
 
 ---
 
@@ -264,6 +339,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 
 **Nota sobre "ter" existencial:** Em presets formais (Acadêmico), "haver" pode ser mantido. Em Crônica, Corporativo Informal, Rede Social e WhatsApp, "ter" existencial é a forma natural brasileira e sua ausência denuncia IA hipercorreta.
 
+**Sinais adicionais de detecção:**
+- "Dispõe de" em vez de "tem"
+- "Configura-se como" em vez de "é"
+- "Encontra-se em" em vez de "está"
+- Texto onde os verbos "ser", "ter", "estar" foram sistematicamente substituídos
+
+**Técnicas avançadas de correção:**
+- Restaurar verbos simples quando apropriado ao registro
+- Se o texto é acadêmico ou jurídico → manter a formalidade, mas evitar excesso
+- "Teste da fala" — se você não falaria assim, não escreva assim
+
 ---
 
 ## 8. Expressões Infladas
@@ -298,6 +384,17 @@ Estes padrões exploram vícios do português corporativo, jurídico e acadêmic
 - "de forma expressiva" → dizer o quanto: "3x mais" / "dobrou"
 - "no que diz respeito a" → "sobre" / "quanto a"
 - "sob a ótica de" → "pra [quem]" / "do lado de [quem]"
+
+**Sinais adicionais de detecção:**
+- "No que diz respeito a" em vez de "sobre"
+- "Sob a ótica de" em vez de "do ponto de vista de"
+- "À luz de" em vez de "com base em"
+- Expressões que parecem tradução literal de "in terms of", "from the perspective of"
+
+**Técnicas avançadas de correção:**
+- Substituir por equivalentes diretos em português
+- Aplicar regra de compressão: se a expressão tem 5+ palavras e pode ser dita em 1-2, comprimir
+- "Teste da tradução reversa" — se a expressão parece que foi traduzida do inglês corporativo, substituir pelo equivalente que brasileiro realmente fala
 
 ---
 

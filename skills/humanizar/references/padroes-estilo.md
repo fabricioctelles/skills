@@ -19,6 +19,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Travessão onde vírgula resolve
 - Encadeamento de apartes com travessão (— X — Y — Z)
 
+**Sinais adicionais de detecção:**
+- Travessões usados para **tudo**: apartes, conclusões, reformulações, exemplos
+- Texto onde >10% dos sinais de pontuação são travessões
+- Travessão duplo usado como parênteses em toda ocorrência
+
+**Técnicas avançadas de correção:**
+- **Limite de 2 travessões por parágrafo** — se passar, converter os extras em vírgulas, pontos ou parênteses
+- Diferenciar uso: travessão para contraste forte, parênteses para comentário lateral, vírgula para aparte leve
+- "Teste do editor" — se um editor humano teria cortado o travessão, cortar
+
 ---
 
 ### Negrito excessivo
@@ -35,6 +45,17 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Bold em mais de 1-2 termos por parágrafo
 - Negrito em palavras comuns (plataforma, equipe, resultado)
 - Negrito como substituto de boa estrutura frasal
+
+**Sinais adicionais de detecção:**
+- Negrito em substantivos comuns (plataforma, equipe, resultado) sem razão editorial
+- Negrito usado como substituto de hierarquia de informação (quando a estrutura deveria fazer o trabalho)
+- Texto onde >5% das palavras estão em negrito
+
+**Técnicas avançadas de correção:**
+- **Limite de 1-2 negritos por seção** — nunca por parágrafo
+- Usar negrito apenas para **contraste intencional**: "O problema não é a ferramenta — é o **processo**"
+- Se o negrito está tentando compensar falta de clareza, **reestruturar a frase** em vez de negritar
+- "Teste do impresso" — se o texto parece ter sido formatado para um leitor com TDAH, o negrito é excessivo
 
 ---
 
@@ -55,6 +76,17 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Listas de 3+ itens onde prosa corrida resolve
 - Forçar categorias artificiais para criar bullets
 
+**Sinais adicionais de detecção:**
+- Estrutura repetitiva: "**Termo:** frase explicativa" em 3+ itens consecutivos
+- Bullets que são mini-tópicos de documentação, não pontos argumentativos
+- A lista poderia ser uma tabela 2xN
+
+**Técnicas avançadas de correção:**
+- Se a informação é factual → converter em **tabela** (mais limpo, mais honesto)
+- Se a informação é argumentativa → converter em **prosa corrida** com conectivos naturais
+- Se a lista é inevitável → usar bullets simples sem cabeçalho em negrito
+- "Teste do slide" — se a lista parece um slide de apresentação, formatar como slide (ou reescrever como parágrafo)
+
 ---
 
 ### Title Case em títulos
@@ -71,6 +103,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Capitalizar preposições (De, Para, Com, Em)
 - Capitalizar substantivos comuns em títulos (Empresas, Estratégias, Resultados)
 - Qualquer padrão que lembre capa de livro americano
+
+**Sinais adicionais de detecção:**
+- Títulos onde preposições e artigos estão capitalizados
+- Títulos que parecem capa de livro americano ("Estratégias De Marketing Para Pequenas Empresas")
+- Mistura de Title Case com sentenças em minúsculo no mesmo documento
+
+**Técnicas avançadas de correção:**
+- Aplicar **regra ABNT**: só a primeira letra do título e nomes próprios em maiúsculas
+- Exceção: se o documento é explicitamente para público americano, Title Case é aceitável
+- "Teste do jornal brasileiro" — abrir matéria da Folha ou Piauí; os títulos usam minúsculas em preposições
 
 ---
 
@@ -92,6 +134,17 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - 🚀💡✅🎯📊 como decoração de estrutura
 - Qualquer emoji em texto que não seja mensagem pessoal ou post de rede social
 
+**Sinais adicionais de detecção:**
+- Emojis em headings de seção, títulos de artigo, ou como marcadores em texto profissional
+- Sequência de emojis sem função comunicativa (decoração pura)
+- Emoji em texto que não é mensagem pessoal ou post de rede social
+
+**Técnicas avançadas de correção:**
+- **Regra zero**: se o texto não é WhatsApp ou post de rede social, emoji é proibido
+- Em posts de rede social: máximo 1 emoji por parágrafo, nunca no início de heading
+- Se o emoji está tentando criar "energia", **substituir por linguagem** (humor, ironia, surpresa)
+- "Teste do e-mail profissional" — se você não mandaria com emoji para um cliente, não use
+
 ---
 
 ### Aspas curvas vs retas
@@ -108,6 +161,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - " " (curvas) em qualquer contexto que não seja diagramação profissional
 - ' ' (apóstrofos curvos) no lugar de ' '
 - Misturar aspas curvas e retas no mesmo texto
+
+**Sinais adicionais de detecção:**
+- Mistura de aspas curvas e retas no mesmo documento
+- Aspas curvas em texto que claramente veio de teclado brasileiro (onde o padrão é reta)
+- Aspas curvas em mensagens de WhatsApp ou Slack (impossível no mobile)
+
+**Técnicas avançadas de correção:**
+- **Regra de consistência**: escolher um padrão e manter — se o texto é de teclado brasileiro, usar aspas retas
+- Em diagramação profissional (livro, revista), aspas curvas são aceitáveis
+- "Teste do WhatsApp" — se o texto parece conversa de app, aspas retas obrigatórias
 
 ---
 
@@ -136,6 +199,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - │ como separador (usar vírgula, barra ou ponto)
 - ✓ e ✗ no corpo do texto (usar "sim/não" ou "funciona/não funciona")
 
+**Sinais adicionais de detecção:**
+- Setas (→, ↗), bullets especiais (▸, ▪), checks (✓, ✗), e separadores (│, ─) que não são renderizados pelo teclado padrão brasileiro
+- Uso de emojis como marcadores em texto formal
+- Texto que parece ter sido copiado de um Notion com templates de produtividade
+
+**Técnicas avançadas de correção:**
+- Converter setas em hífens ou asteriscos: "→" → "-"
+- Remover separadores Unicode: "React │ Node.js │ PostgreSQL" → "React, Node.js, PostgreSQL"
+- "Teste do terminal" — se o texto renderiza com caracteres quebrados num terminal sem Unicode, é decoração artificial
+
 ---
 
 ### Fragmentos curtos dramáticos
@@ -159,6 +232,17 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Mais de um fragmento dramático por texto
 - Fragmento + ponto final para criar "peso" artificial
 
+**Sinais adicionais de detecção:**
+- Palavra ou frase de 1-3 palavras isolada como parágrafo inteiro
+- Uso repetido (mais de 1 por texto) em contexto que não é Twitter
+- Fragmento que não acrescenta informação — só "peso" artificial
+
+**Técnicas avançadas de correção:**
+- **Limite de 1 fragmento dramático por texto** — se usado, deve ser o clímax
+- Integrar fragmentos redundantes ao parágrafo anterior
+- Se o fragmento é pura ênfase, **usar pontuação** em vez de isolamento: "É urgente. Realmente urgente."
+- "Teste do Twitter" — se o fragmento ocupa mais de 140 caracteres como tweet, ele não pertence ao Twitter
+
 ---
 
 ### Vírgula de Oxford (Oxford Comma)
@@ -175,6 +259,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Vírgula antes de "e" no último item de lista: "A, B, e C" → "A, B e C"
 - Vírgula antes de "ou" final: "X, Y, ou Z" → "X, Y ou Z"
 - Exceção legítima: quando o "e" liga orações com sujeitos diferentes (vírgula de clareza, não de lista)
+
+**Sinais adicionais de detecção:**
+- Vírgula antes de "e" em listas de 3+ itens
+- Vírgula antes de "ou" em alternativas
+- Mistura de textos com e sem Oxford comma no mesmo documento
+
+**Técnicas avançadas de correção:**
+- **Regra PT-BR**: sem vírgula antes de "e"/"ou" em listas
+- Exceção: quando a vírgula evita ambiguidade real (sujeitos diferentes nas orações)
+- "Teste do vestibular" — se a frase passaria no ENEM como correta, a vírgula está certa
 
 ---
 
@@ -196,6 +290,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Citação é frase completa e independente → ponto dentro: Ele disse: "Vamos resolver isso."
 - Citação é parte da frase do autor → ponto fora: O plano é "escalar rápido".
 - Na dúvida: ponto fora (é o padrão brasileiro em texto corrido)
+
+**Sinais adicionais de detecção:**
+- Ponto dentro das aspas quando a citação é parte da frase do autor
+- Inconsistência: às vezes dentro, às vezes fora, no mesmo texto
+- Citações de 1 palavra com ponto dentro ("impacto.")
+
+**Técnicas avançadas de correção:**
+- **Regra PT-BR**: se a citação é parte da frase → ponto fora. Se a citação é frase completa → ponto dentro
+- Padronizar em todo o documento
+- "Teste da citação" — se a citação termina com "que", o ponto vai fora
 
 ---
 
@@ -219,3 +323,13 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - "Pode parecer óbvio, porém [inflação]"
 - "Apesar de ser um conceito básico, representa um dos mais [superlativo]"
 - Qualquer estrutura que minimiza no preamble e infla na main clause
+
+**Sinais adicionais de detecção:**
+- Estrutura "minimiza → infla" em uma única frase: "Embora pareça simples, é transformador"
+- Uso de "na verdade" como ponte entre minimização e inflação
+- O preamble é sempre genérico ("parece simples", "à primeira vista") e a inflação é sempre superlativa
+
+**Técnicas avançadas de correção:**
+- Escolher um lado: ou é simples (e aí não precisa inflar) ou é importante (e aí não precisa minimizar)
+- Se o contraste é legítimo, **mostrar a tensão com dados**: "Parece simples — mas custou 6 meses e 3 engenheiros"
+- "Teste do podcast host" — se o apresentador diria isso sem soar como vendedor, a frase é honesta

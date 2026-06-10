@@ -21,6 +21,16 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "moldando o futuro do ecossistema de..."
 - "em um cenário em constante transformação"
 
+**Sinais adicionais de detecção:**
+- Superlativos absolutos sem quantificação ("maior", "melhor", "sem precedentes", "inédito")
+- Verbos de transformação grandiosa ("redefinir", "moldar", "preparar o terreno")
+- Texto que descreve qualquer coisa como "ponto de inflexão" sem dizer o que muda depois
+
+**Técnicas avançadas de correção:**
+- Converter superlativos em **dados concretos**: "maior fintech" → "80 milhões de clientes"
+- Substituir verbos grandiosos por **verbos de ação específica**: "preparar o terreno" → "contratar 3 engenheiros"
+- "Teste do jornalista" — se um repórter leria a frase e perguntaria "como assim?", o termo é vazio
+
 ---
 
 ### 2. Ênfase forçada em notabilidade e cobertura de mídia
@@ -39,6 +49,16 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "amplamente reconhecido(a) como referência em..."
 - "destaque nos principais veículos do setor"
 - "mantém presença ativa nas redes com X seguidores"
+
+**Sinais adicionais de detecção:**
+- Listagem de veículos sem citação de matéria específica (data, título, link)
+- "Presença ativa nas redes" sem métrica (seguidores, engajamento)
+- Menção a prêmios ou rankings sem fonte verificável
+
+**Técnicas avançadas de correção:**
+- Se há fonte real → citar com data e link: "Segundo matéria da Exame de 12/03/2025 (link)"
+- Se não há fonte → cortar a alegação de notabilidade
+- "Teste de verificabilidade" — se o leitor não pode checar em 30 segundos, a informação é puffery
 
 ---
 
@@ -59,6 +79,16 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "consolidando sua posição como líder em..."
 - "contribuindo para o fortalecimento do ecossistema"
 
+**Sinais adicionais de detecção:**
+- Frases que terminam com gerúndio como se fosse conclusão de análise
+- Construções "verbo composto + gerúndio" em sequência ("vem demonstrando", "vai estar consolidando")
+- Gerúndio usado como adjetivo ("inovando", "transformando", "impulsionando")
+
+**Técnicas avançadas de correção:**
+- Converter a oração gerundial em **oração finita** com sujeito claro: "demonstrando compromisso" → "mostra que se compromete"
+- Se o gerúndio é puramente decorativo, **cortar**: "impulsionando a transformação" → (nada — a frase principal já diz)
+- "Teste do podcast" — ler a frase em voz alta; se soa como narração de vídeo institucional, o gerúndio é excessivo
+
 ---
 
 ### 4. Linguagem promocional e de propaganda
@@ -77,6 +107,16 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "solução inovadora e disruptiva que empodera..."
 - "experiência única de ponta/estado da arte"
 - "potencializar/alavancar a transformação digital"
+
+**Sinais adicionais de detecção:**
+- Combinação de 2+ buzzwords na mesma frase ("solução inovadora e disruptiva de ponta")
+- Adjetivos que são autocontraditórios ("seamless mas robusto", "simples mas poderoso")
+- Texto que poderia ser usado como copy de qualquer produto sem mudar nada
+
+**Técnicas avançadas de correção:**
+- **Regra de 1 adjetivo por substantivo** — se o texto tem "solução inovadora, disruptiva e transformadora", cortar para "solução que funciona"
+- Substituir adjetivos por **dados ou comparações**: "de ponta" → "roda em 40ms vs 120ms do concorrente"
+- "Teste do pitch deck" — se a frase apareceria em qualquer slide de qualquer startup, ela é genérica demais
 
 ---
 
@@ -97,6 +137,17 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "analistas de mercado reconhecem que..."
 - "estudos/pesquisas apontam/indicam que..."
 
+**Sinais adicionais de detecção:**
+- Quantificadores vagos: "muitos especialistas", "diversos estudos", "alguns analistas"
+- Referências sem data: "pesquisas recentes mostram..."
+- Ausência de fonte quando a afirmação é controversa ou específica
+
+**Técnicas avançadas de correção:**
+- Se a fonte existe → citar especificamente (autor, ano, título, link)
+- Se a fonte não existe → **admitir incerteza**: "Não achei fonte — pode ser que sim, pode ser que não"
+- Converter "segundo especialistas" em **opinião pessoal**: "Eu acho que..." ou "Na minha experiência..."
+- "Teste da fonte" — se você não consegue encontrar a fonte em 2 minutos de busca, a atribuição é weasel
+
 ---
 
 ### 6. Conclusões formulaicas sobre desafios e perspectivas futuras
@@ -115,3 +166,13 @@ Padrões onde a IA infla importância, fabrica autoridade, ou encerra textos com
 - "apesar dos desafios, o futuro é promissor"
 - "a empresa segue bem posicionada para continuar..."
 - "trilhando um caminho de crescimento sustentável"
+
+**Sinais adicionais de detecção:**
+- Fórmula "Apesar de X, o futuro é Y" onde X é genérico e Y é otimista
+- Uso de "perspectivas animadoras" sem dizer o que anima
+- A conclusão poderia ser aplicada a QUALQUER empresa do setor
+
+**Técnicas avançadas de correção:**
+- Substituir a fórmula por **previsão específica com prazo**: "Se a reforma tributária passar, o impacto será X até 2027"
+- Se o futuro é incerto, **dizer que é incerto**: "Ninguém sabe como a regulamentação vai cair. O plano B é absorver custo"
+- "Teste do horóscopo" — se a conclusão poderia aparecer no horóscopo de qualquer signo, ela é genérica demais
