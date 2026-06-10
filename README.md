@@ -222,25 +222,25 @@ You can install these skills using any compatible installer or manually. Below a
 ### Via [Skills.sh](https://skills.sh/docs)
 
 ```bash
-npx skills add https://github.com/fabriciotelles/skills
+npx skills add https://github.com/fabricioctelles/skills
 ```
 
 Or install a specific skill:
 
 ```bash
-npx skills add https://github.com/fabriciotelles/skills -s premium-proposal-builder
-npx skills add https://github.com/fabriciotelles/skills -s geo-optimization
-npx skills add https://github.com/fabriciotelles/skills -s substack-expert
-npx skills add https://github.com/fabriciotelles/skills -s pier-cloud
-npx skills add https://github.com/fabriciotelles/skills -s ultimate-design-system-master
-npx skills add https://github.com/fabriciotelles/skills -s front-end-checklist
-npx skills add https://github.com/fabriciotelles/skills -s resume-ats-beater
-npx skills add https://github.com/fabriciotelles/skills -s coolify-operator
-npx skills add https://github.com/fabriciotelles/skills -s agent-ready-cloudflare
-npx skills add https://github.com/fabriciotelles/skills -s ralph-loop-kiro-specs
-npx skills add https://github.com/fabriciotelles/skills -s humanizar
-npx skills add https://github.com/fabriciotelles/skills -s auth-md
-npx skills add https://github.com/fabriciotelles/skills -s website-spec
+npx skills add https://github.com/fabricioctelles/skills -s premium-proposal-builder
+npx skills add https://github.com/fabricioctelles/skills -s geo-optimization
+npx skills add https://github.com/fabricioctelles/skills -s substack-expert
+npx skills add https://github.com/fabricioctelles/skills -s pier-cloud
+npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
+npx skills add https://github.com/fabricioctelles/skills -s front-end-checklist
+npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
+npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
+npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
+npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
+npx skills add https://github.com/fabricioctelles/skills -s humanizar
+npx skills add https://github.com/fabricioctelles/skills -s auth-md
+npx skills add https://github.com/fabricioctelles/skills -s website-spec
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -252,20 +252,20 @@ npm install -g agent-skills-cli
 Then install the skills:
 
 ```bash
-skills add https://github.com/fabriciotelles/skills
+skills add https://github.com/fabricioctelles/skills
 ```
 
 Or use without global install:
 
 ```bash
-npx agent-skills-cli install https://github.com/fabriciotelles/skills
+npx agent-skills-cli install https://github.com/fabricioctelles/skills
 ```
 
 ### Manual Installation
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/fabriciotelles/skills.git
+git clone https://github.com/fabricioctelles/skills.git
 ```
 
 2. Copy the desired skill folder to your agent's skills directory:
