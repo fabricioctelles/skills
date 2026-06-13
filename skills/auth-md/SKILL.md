@@ -14,7 +14,7 @@ description: >
   "/.well-known/oauth-protected-resource", "/.well-known/oauth-authorization-server",
   "/agent/auth", or any variation of AI agent authentication/registration in APIs.
 metadata:
-  author: hello@auth-md.com
+  author: https://ft.ia.br
   version: "1.0"
   date: 2026-03-05
   repository: https://gitlab.com/fabriciotelles/skills

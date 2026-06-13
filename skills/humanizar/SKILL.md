@@ -1,6 +1,5 @@
 ---
 name: humanizar
-version: 1.1.0
 description: |
   Reescreve texto em português brasileiro para soar humano, natural e indetectável
   por ferramentas de IA. Remove padrões de linguagem de máquina e AI slop, restaura
@@ -8,7 +7,13 @@ description: |
   parecer genérico, burocrático, ou gerado por IA — ou quando pedido para "humanizar",
   "dar vida", "tirar cara de IA", "remover AI slop", "reescrever com voz", ou
   "revisar tom".
-license: Apache-2.0
+metadata:
+  author: https://ft.ia.br
+  version: "1.1"
+  date: 2026-03-05
+  repository: https://gitlab.com/fabriciotelles/skills
+  license: Apache 2.0
+
 ---
 
 # Humanizar: Escrita Viva em Português Brasileiro
