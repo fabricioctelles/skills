@@ -51,10 +51,11 @@
       ]
     },
     {
-      "title": "Agent Protocols",
-      "description": "Authentication and identity protocols for AI agents.",
+      "title": "Agent Protocols & Knowledge",
+      "description": "Authentication, identity, and knowledge formats for AI agents.",
       "skills": [
-        "auth-md"
+        "auth-md",
+        "okf-open-knowledge-format"
       ]
     }
   ]

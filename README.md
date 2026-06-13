@@ -191,6 +191,15 @@ Generates, validates, and explains [auth.md](https://auth-md.com) files — the 
 
 ---
 
+### 📦 OKF — Open Knowledge Format
+Create, validate, and enrich [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) bundles — the open spec (v0.1, Google Cloud, June 2026) for representing organizational knowledge as markdown files with YAML frontmatter, consumable by AI agents. Includes a bash validator script and conversion guides for Notion, Obsidian, and CSV sources.
+
+**When to use:** create OKF bundles, validate conformance, enrich concepts with schema/citations/cross-links, convert existing knowledge (Notion exports, Obsidian vaults, spreadsheets) to OKF, structure a knowledge base for AI agent consumption, generate index.md and log.md files.
+
+📄 [View full documentation](skills/okf-open-knowledge-format/SKILL.md) | 🌐 [okf.md](https://okf.md)
+
+---
+
 ### 🌐 Website Spec (Offline Edition)
 Self-contained offline version of [The Website Specification](https://specification.website/) by Joost de Valk. A platform-agnostic spec of what a good website does — 128 topics across 10 categories (Foundations, SEO, Accessibility, Security, Well-Known URIs, Agent Readiness, Performance, Privacy, Resilience, i18n), each tagged required/recommended/optional/avoid with implementation guidance and verification steps. Designed to run without network access in air-gapped environments, maximum-privacy workflows, and internal projects.
 
