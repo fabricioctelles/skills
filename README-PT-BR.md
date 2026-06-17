@@ -175,6 +175,13 @@ Reescreve texto em português brasileiro para soar humano, natural e indetectáv
 
 **Quando usar:** humanizar texto PT-BR, remover AI slop, reescrever com voz, corrigir tom genérico/burocrático, revisar texto de outro agente, "tirar cara de IA", "dar vida ao texto".
 
+**Melhorias na v1.2 (Jun 2026):**
+- Adicionada detecção automática de tipo de documento com fallback (Passo 0.5) — seleciona o melhor preset de voz automaticamente
+- Adicionado scoring pós-reescrita com 5 dimensões ponderadas (Passo 5.5) — gate de qualidade quantificável
+- Adicionado loop iterativo com fallback de estratégia — retenta com abordagens diferentes quando score < 60
+- Protocolo de loop compatível com skills de orquestração externas (ralph-wiggum, goal)
+- Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest)
+
 📄 [Ver documentação completa](skills/humanizar/SKILL.md)
 
 ---

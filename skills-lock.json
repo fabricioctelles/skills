@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-ready-cloudflare": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "882b626807031174f939ef72bcc798acd4532d0a7c15033883ec6578806f7421"
+    },
+    "auth-md": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "3c3fcea72e452315cdf9d650ce0a1269a989ceaa33297f545177eac382ea2fb2"
+    },
+    "coolify-operator": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "675904a42d06de5f99ad9da113e52eaffeea3bc334aab522f7f0f1d4d2a377f6"
+    },
+    "front-end-checklist": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "cfc18572c06bef51ad56efb313c40ac0f8679f7a6a34bf5af4e2aeaa44bca1d6"
+    },
+    "geo-optimization": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "5b486b3aef36cc5d2fe6d4cf750e6800d164d14e3d6cea713f4a31fa7bcba3cc"
+    },
+    "humanizar": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "de86f22cf09d7be8d779651a9f8343692e52ed6d7663daf530a3fd18bcc70346"
+    },
+    "okf-open-knowledge-format": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "13782c58d501c2b27a4cb8c2b1d3cd2bf322930949d62c48b8dd2b66aa3bc8bf"
+    },
+    "pier-cloud": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "83c04004f196830492ef28d3224bfb297aa44af4c796bf5a22b0e041616df603"
+    },
+    "premium-proposal-builder": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "70a97639e290b4e2b3fbf952708c0071353695ad3079670299343870f1c1daaf"
+    },
+    "ralph-loop-kiro-specs": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "d133ed1b25c3aed4a3c9dadd29f6a092b74c10fe80b99b9af2255071b8d7ea9c"
+    },
+    "resume-ats-beater": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "107b6f3282d7efcb55ff711790ccbf6e86e1aeb10344443d74dc9c834c8af197"
+    },
+    "substack-expert": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "fac82d8af4aab269fd827801025d763706526ad1ecd1632599cf9b1edf2e58b4"
+    },
+    "ultimate-design-system-master": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "54119e84d5fb454caafec1d6ad1499c317e082bb95ef1bd7d73065913ac00ccc"
+    },
+    "website-spec": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "063bfa6216a3dac71a0c87de2e95590f69a1e6fd74d589fc662f83e96b4e920d"
+    }
+  }
+}

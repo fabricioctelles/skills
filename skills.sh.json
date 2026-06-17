@@ -36,6 +36,13 @@
       ]
     },
     {
+      "title": "Startup & Strategy",
+      "description": "Startup idea analysis with Paul Graham, Dan Koe, and Seth Godin frameworks.",
+      "skills": [
+        "startup-idea"
+      ]
+    },
+    {
       "title": "Career & Productivity",
       "description": "Resume optimization and automated development workflows.",
       "skills": [

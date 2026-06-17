@@ -15,7 +15,7 @@ description: Analise startups de forma completa e compreensiva com mentalidade P
   use a palavra "startup" explicitamente.
 metadata:
   author: ft.ia.br
-   version: "1.3"
+  version: "1.3"
   date: 2026-04-04
   repository: https://gitlab.com/fabriciotelles/skills
   license: Apache 2.0

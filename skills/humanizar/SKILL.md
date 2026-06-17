@@ -9,8 +9,8 @@ description: |
   "revisar tom".
 metadata:
   author: https://ft.ia.br
-  version: "1.1"
-  date: 2026-03-05
+  version: "1.2"
+  date: 2026-06-17
   repository: https://gitlab.com/fabriciotelles/skills
   license: Apache 2.0
 
@@ -29,19 +29,22 @@ Este guia é baseado na skill [humanizer](https://github.com/blader/humanizer) p
 
 Quando o humano pede "humaniza isso" ou invoca a skill sem qualificador.
 
-1. **Medir** — Rodar métricas de ablação semântica (Passo 0)
-2. **Diagnosticar** — Checklist estruturado de padrões (Passo 1)
-3. **Remover padrões** → reescrita (Passo 2 + 3 + 4)
-4. **Autocrítica** — "O que ainda faz esse texto parecer IA?" (Passo 5)
-5. **Entregar** — Versão final + relatório completo (Passo 6)
+1. **Detectar tipo** — Selecionar preset automaticamente (Passo 0.5)
+2. **Medir** — Rodar métricas de ablação semântica (Passo 0)
+3. **Diagnosticar** — Checklist estruturado de padrões (Passo 1)
+4. **Remover padrões** → reescrita (Passo 2 + 3 + 4)
+5. **Autocrítica** — "O que ainda faz esse texto parecer IA?" (Passo 5)
+6. **Scoring** — Avaliar resultado e decidir se itera (Passo 5.5)
+7. **Entregar** — Versão final + relatório completo (Passo 6)
 
 ### modo_direto
 
 Para pipelines de agentes ou quando pedido "humaniza rápido".
 
-1. **Medir + Diagnosticar** (Passos 0 + 1, compactos)
+1. **Detectar tipo + Medir + Diagnosticar** (Passos 0.5 + 0 + 1, compactos)
 2. **Reescrever** (Passos 2-4 em uma passada)
-3. **Entregar** — Versão final + relatório sintético (1 linha por padrão corrigido)
+3. **Scoring** — Score rápido (Passo 5.5, sem loop)
+4. **Entregar** — Versão final + relatório sintético (1 linha por padrão corrigido)
 
 ### modo_revisão
 
@@ -49,10 +52,11 @@ Quando recebe texto de outro agente para auditar. Atua de forma **agressiva**.
 
 > **Nota**: textos longos (>500 palavras) devem ser auditados por blocos (parágrafos), não só no todo — padrões de IA se acumulam conforme o texto progride, porque modelos perdem aderência a restrições ao longo da geração.
 
-1. **Auditar** — Checklist completo + métricas (Passos 0 + 1)
+1. **Detectar tipo + Auditar** — Checklist completo + métricas (Passos 0.5 + 0 + 1)
 2. **Reescrever** — Corrigir tudo encontrado (Passos 2-4)
 3. **Autocrítica** — Anti-IA pass (Passo 5)
-4. **Entregar** — Texto corrigido + relatório detalhado + alertas de ablação + métricas antes/depois
+4. **Scoring** — Avaliar e iterar se necessário (Passo 5.5, com loop)
+5. **Entregar** — Texto corrigido + relatório detalhado + alertas de ablação + métricas antes/depois + score
 
 
 ## Guardrails
@@ -271,6 +275,29 @@ Antes de qualquer reescrita, gerar um mini-relatório métrico:
 > **Como calcular**: TTR = tokens únicos ÷ total de tokens. Burstiness = desvio-padrão do número de palavras por frase. Entropia = −Σ p(x)·log₂ p(x) sobre o vocabulário. Sufixos morfológicos = regex com word boundary (ex: `\w+mente\b`, `\w+[ae]ndo\b`, `\w+[zi]nh[oa]s?\b`). TS = número de cláusulas independentes ÷ número de frases (T-unit = cláusula principal + dependentes; se TS < 0.5, o texto tem uma ideia por frase — padrão de IA). Thresholds de TS e MLS baseados em Locatelli et al. (2024), que mostrou separação de 98% entre redações ENEM humanas e geradas por IA.
 
 
+### Passo 0.5 — 🎯 Detecção Automática de Tipo e Seleção de Preset
+
+Se o usuário **não especificou** preset, detectar automaticamente pelo conteúdo:
+
+| Sinal no texto | Preset sugerido |
+|---|---|
+| Citações legais, artigos de lei, "art.", "§", "REsp", petição | ⚖️ Jurídico |
+| Jargão técnico, código, APIs, nomes de ferramentas/frameworks | 💬 Corporativo Informal |
+| Referências acadêmicas ("et al.", metodologia, hipótese, p-value) | 🎓 Acadêmico |
+| Texto curto (<300 palavras), opinativo, 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
+| Texto ≤100 palavras, frases incompletas, abreviações, gírias | 📲 WhatsApp |
+| Texto com "passo a passo", "vamos ver", exemplos didáticos | 🧑‍🏫 Didático |
+| ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
+| **Nenhum sinal claro** | 🖋️ Crônica (fallback) |
+
+**Regras de fallback:**
+1. Se houver **conflito** entre sinais (ex: jargão técnico + citação legal), perguntar ao usuário.
+2. Se o texto tiver **múltiplos registros** (ex: email com trecho técnico), aplicar o preset ao todo e ajustar trechos localmente.
+3. O preset detectado pode ser **sobrescrito** a qualquer momento pelo usuário.
+
+> **Output**: `🎯 Tipo detectado: [tipo] → Preset: [preset]` (1 linha no relatório)
+
+
 ### Passo 1 — 🔍 Diagnóstico com Checklist Estruturado
 
 Percorrer sistematicamente cada categoria. Marcar ✓ (encontrado) ou ✗ (ausente).
@@ -353,6 +380,37 @@ Perguntar em voz alta:
 Responder em bullets curtos (2-5 itens ou "nada — tá limpo"). Se encontrar algo, corrigir.
 
 
+### Passo 5.5 — 📊 Scoring Pós-Reescrita
+
+Avaliar o resultado em 5 dimensões (0-100 cada, média ponderada):
+
+| Dimensão | Peso | Critério de avaliação |
+|---|---|---|
+| **Remoção de padrões IA** | 30% | Quantos padrões do Passo 1 foram eliminados? Algum remanescente? |
+| **Naturalidade** | 25% | Burstiness >5? Ritmo variado? Voz presente? Soa como pessoa real? |
+| **Completude factual** | 20% | Toda informação do original está preservada? Dados, nomes, números intactos? |
+| **Consistência de voz** | 15% | O preset foi mantido do início ao fim? Sem saltos de registro? |
+| **Legibilidade** | 10% | Frases fluem? Conectivos naturais? Lógica clara? |
+
+**Score final** = Σ (dimensão × peso)
+
+**Critério de decisão:**
+- **≥ 80**: ✅ Aprovado → seguir para entrega (Passo 6)
+- **60-79**: ⚠️ Quase → rodar Anti-IA Pass novamente focando nas dimensões fracas
+- **< 60**: ❌ Reprovar → reescrever com abordagem diferente (trocar preset, inverter ordem de técnicas, ou mudar o foco entre remoção vs. injeção de voz)
+
+> **Output format**:
+> ```
+> 📊 SCORE PÓS-REESCRITA
+> • Remoção de IA:      {0-100} (×0.30) = {parcial}
+> • Naturalidade:       {0-100} (×0.25) = {parcial}
+> • Completude factual: {0-100} (×0.20) = {parcial}
+> • Consistência de voz:{0-100} (×0.15) = {parcial}
+> • Legibilidade:       {0-100} (×0.10) = {parcial}
+> • TOTAL:              {score}/100 → {✅/⚠️/❌}
+> ```
+
+
 ### Passo 6 — 📦 Entrega Formatada
 
 | Modo | Conteúdo entregue |
@@ -360,6 +418,66 @@ Responder em bullets curtos (2-5 itens ou "nada — tá limpo"). Se encontrar al
 | modo_completo | Métricas (Passo 0) + Checklist (Passo 1) + Rascunho reescrito + Autocrítica (Passo 5) + Versão final + Resumo das mudanças |
 | modo_direto | Versão final + Relatório sintético (1 linha por padrão corrigido) |
 | modo_revisão | Versão final + Checklist completo + Métricas antes/depois + Alertas de ablação |
+
+
+## Loop Iterativo e Fallback de Estratégia
+
+O scoring do Passo 5.5 habilita iteração automática quando o resultado não atinge o threshold.
+
+### Comportamento Standalone (sem skill de loop externa)
+
+```
+iteração = 0
+MAX_ITERAÇÕES = 3
+
+enquanto iteração < MAX_ITERAÇÕES:
+    iteração += 1
+    executar Passos 2-5.5
+    
+    se score ≥ 80: ENTREGAR
+    se score 60-79:
+        focar nas dimensões com score < 70
+        continuar
+    se score < 60:
+        MUDAR ESTRATÉGIA (ver tabela abaixo)
+        continuar
+
+se MAX_ITERAÇÕES atingido: entregar melhor versão + nota de limitação
+```
+
+### Tabela de Fallback de Estratégia
+
+Quando score < 60, mudar abordagem na próxima iteração:
+
+| Iteração anterior | Próxima abordagem |
+|---|---|
+| Foco em remoção de padrões (Passo 2 pesado) | Foco em injeção de voz (Passo 4 pesado) |
+| Foco em injeção de voz | Foco em reestruturação (Passo 3 — reordenar fluxo, quebrar templates) |
+| Preset atual não funciona | Tentar preset adjacente (ex: Crônica → Corporativo Informal) |
+| Texto longo com degradação progressiva | Dividir em blocos de ~300 palavras e processar separadamente |
+
+### Compatibilidade com Skills de Loop Externas
+
+Esta skill é **compatível** com orquestradores de loop como `ralph-wiggum`, `goal`, ou qualquer skill que implemente ciclo iterativo externo.
+
+**Protocolo de integração:**
+
+1. **Entrada padronizada**: a skill aceita texto + preset (opcional) + score mínimo (opcional, default 80)
+2. **Saída estruturada**: sempre retorna o bloco `📊 SCORE PÓS-REESCRITA` parseável
+3. **Sinal de convergência**: quando score ≥ threshold, emitir `✅ HUMANIZAÇÃO COMPLETA (score: {N}/100)`
+4. **Sinal de não-convergência**: quando iteração standalone esgota, emitir `⚠️ MELHOR RESULTADO ATINGIDO (score: {N}/100) — iteração externa pode continuar`
+
+> **Para skills de loop externas**: usar o score numérico do output como critério de parada. A skill não precisa de estado entre chamadas — cada invocação recebe o texto (possivelmente já parcialmente humanizado) e retorna resultado + score.
+
+**Exemplo de integração com ralph-wiggum:**
+```
+loop_config:
+  skill: humanizar
+  input: texto_atual
+  exit_condition: "HUMANIZAÇÃO COMPLETA"
+  max_iterations: 5
+  entre_iterações: usar output da iteração anterior como input
+```
 
 
 ## Estrangeirismos
@@ -424,4 +542,4 @@ Conjunto mínimo de amostras para validar evoluções futuras. Cada teste deve s
 
 ---
 
-*Skill version 1.1.0 — evolução baseada em análise de padrões de IA específicos do PT-BR, métricas de ablação semântica e validação empírica em detectores multilíngues.*
+*Skill version 1.2.0 — adicionados: detecção automática de tipo com fallback (Passo 0.5), scoring pós-reescrita com 5 dimensões ponderadas (Passo 5.5), loop iterativo com fallback de estratégia e compatibilidade com skills de loop externas (ralph-wiggum, goal). Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest).*

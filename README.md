@@ -178,6 +178,13 @@ Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by 
 
 **When to use:** humanize PT-BR text, remove AI slop, rewrite with voice, fix generic/bureaucratic tone, review text from another agent, "tirar cara de IA", "dar vida ao texto".
 
+**Improvements in v1.2 (Jun 2026):**
+- Added automatic document type detection with fallback (Step 0.5) — auto-selects the best voice preset
+- Added post-rewrite scoring with 5 weighted dimensions (Step 5.5) — quantifiable quality gate
+- Added iterative loop with strategy fallback — retries with different approaches when score < 60
+- Loop protocol compatible with external orchestrator skills (ralph-wiggum, goal)
+- Inspired by [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) by [@smallnest](https://github.com/smallnest)
+
 📄 [View full documentation](skills/humanizar/SKILL.md)
 
 ---
