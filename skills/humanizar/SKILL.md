@@ -371,13 +371,24 @@ Aplicar o preset escolhido (ou espelhar amostra de voz fornecida):
 > **Quando o usuário fornece amostra de voz**: ler primeiro e anotar: comprimento de frases, nível vocabular, como começa parágrafos, hábitos de pontuação, tiques verbais, uso de estrangeirismos. **Espelhar** — não apenas remover padrões, substituir pelos padrões da amostra.
 
 
-### Passo 5 — 🔥 Anti-IA Pass Final
+### Passo 5 — 🔥 Anti-IA Pass Final (Checklist Binário)
 
-Perguntar em voz alta:
+Verificar cada item. Marcar ✓ (ok) ou ✗ (falhou). Se qualquer item falhar, corrigir antes de prosseguir.
 
-> **"O que ainda faz esse texto parecer gerado por IA?"**
+| # | Verificação | ✓/✗ |
+|---|---|---|
+| 1 | Comprimentos de frase variam? (min 3 tamanhos distintos por parágrafo) | |
+| 2 | Transições mecânicas eliminadas? ("Além disso", "Primeiramente", "Nesse sentido") | |
+| 3 | Placeholders abstratos substituídos por termos concretos? | |
+| 4 | Pelo menos 1 opinião, dúvida ou sentimento pessoal presente? | |
+| 5 | Nenhum template de abertura/fechamento sobreviveu? | |
+| 6 | Estrangeirismos naturais preservados (não traduzidos forçadamente)? | |
+| 7 | Informação factual do original 100% intacta? | |
+| 8 | Preset de voz consistente do início ao fim? | |
+| 9 | Nenhuma frase soa como press release ou verbete de Wikipedia? | |
+| 10 | Lido em voz alta, soa como pessoa real falando/escrevendo? | |
 
-Responder em bullets curtos (2-5 itens ou "nada — tá limpo"). Se encontrar algo, corrigir.
+**Regra**: se ≥ 2 itens falharem → corrigir e re-verificar. Se todos ✓ → prosseguir.
 
 
 ### Passo 5.5 — 📊 Scoring Pós-Reescrita
@@ -408,7 +419,19 @@ Avaliar o resultado em 5 dimensões (0-100 cada, média ponderada):
 > • Consistência de voz:{0-100} (×0.15) = {parcial}
 > • Legibilidade:       {0-100} (×0.10) = {parcial}
 > • TOTAL:              {score}/100 → {✅/⚠️/❌}
+>
+> 📊 DELTA MÉTRICAS (pré → pós)
+> • TTR:              {pré} → {pós} ({+/-}%)
+> • Burstiness:       {pré} → {pós} ({+/-}%)
+> • Entropia Shannon: {pré} → {pós} ({+/-}%)
+> • Gerúndios/100p:   {pré} → {pós}
+> • Palavras -mente:  {pré} → {pós}
+> • MLS (comp. médio):{pré} → {pós}
+> • T-units/frase:    {pré} → {pós}
+> • Subst. concretos: {pré}% → {pós}%
 > ```
+>
+> **Interpretação da delta**: TTR, burstiness, entropia e substantivos concretos devem **subir**. Gerúndios, palavras em -mente devem **descer**. MLS e T-units devem **se aproximar dos valores humanos** (MLS ≈ 40, TS ≈ 0.7).
 
 
 ### Passo 6 — 📦 Entrega Formatada
