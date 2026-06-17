@@ -196,9 +196,9 @@ Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo a
 ---
 
 ### 📦 OKF — Open Knowledge Format
-Cria, valida e enriquece bundles no [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) — spec aberta (v0.1, Google Cloud, junho 2026) para representar conhecimento organizacional como arquivos Markdown com YAML frontmatter, consumíveis por agentes IA. Inclui script bash de validação e guias de conversão para Notion, Obsidian e CSV.
+Cria, valida e enriquece bundles no [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) — spec aberta (v0.1, anunciada 12 Jun 2026 por Sam McVeety & Amir Hormati, Google Cloud) que formaliza o pattern "LLM Wiki" num formato portável e interoperável para conhecimento organizacional. Arquivos Markdown com YAML frontmatter, consumíveis por qualquer agente IA sem SDK. Inclui script bash de validação, guias de conversão (Notion, Obsidian, CSV) e integração com Google Cloud Knowledge Catalog via kcmd CLI/MCP.
 
-**Quando usar:** criar bundles OKF, validar conformidade, enriquecer conceitos com schema/citations/cross-links, converter conhecimento existente (exports Notion, vaults Obsidian, planilhas) para OKF, estruturar base de conhecimento para agentes IA, gerar index.md e log.md.
+**Quando usar:** criar bundles OKF, validar conformidade, enriquecer conceitos com schema/citations/cross-links, converter conhecimento existente (exports Notion, vaults Obsidian, planilhas) para OKF, estruturar base de conhecimento para agentes IA, gerar index.md e log.md, enviar bundles para o Knowledge Catalog via kcmd.
 
 📄 [Ver documentação completa](skills/okf-open-knowledge-format/SKILL.md) | 🌐 [okf.md](https://okf.md)
 

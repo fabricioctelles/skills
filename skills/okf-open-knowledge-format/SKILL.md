@@ -6,24 +6,33 @@ description: >
   frontmatter. Use when the user mentions 'OKF', 'Open Knowledge Format',
   'knowledge bundle', 'OKF bundle', 'create a knowledge base for agents',
   'validate OKF', 'convert to OKF', 'enrich knowledge docs', 'agent-readable
-  knowledge', 'LLM wiki', 'knowledge catalog', or wants to structure knowledge
-  as markdown files for AI agent consumption. Also use when the user has a
-  directory of markdown files and wants to make them interoperable or conformant
-  with the OKF standard. Even for simple requests like 'make this folder OKF
-  conformant' — the skill has critical structural rules the agent needs.
+  knowledge', 'LLM wiki', 'knowledge catalog', 'kcmd', or wants to structure
+  knowledge as markdown files for AI agent consumption. Also use when the user
+  has a directory of markdown files and wants to make them interoperable or
+  conformant with the OKF standard. Even for simple requests like 'make this
+  folder OKF conformant' — the skill has critical structural rules the agent
+  needs.
 metadata:
   author: ft.ia.br
-  version: "1.0"
-  date: 2026-06-13
+  version: "1.1"
+  date: 2026-06-17
   repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
 ---
 
 # Open Knowledge Format (OKF)
 
-OKF is a vendor-neutral, open spec (v0.1, June 2026, Google Cloud) for representing knowledge as a directory of markdown files with YAML frontmatter. No SDK required — if you can `cat` a file, you can read OKF.
+OKF is a vendor-neutral, open spec (v0.1, announced June 12, 2026 by Sam McVeety & Amir Hormati at Google Cloud) for representing knowledge as a directory of markdown files with YAML frontmatter. No SDK required — if you can `cat` a file, you can read OKF.
+
+It formalizes the "LLM Wiki" pattern ([Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)) into an interoperable format: wikis written by different producers can be consumed by different agents without translation.
 
 For the full spec, see [references/spec-v01.md](references/spec-v01.md).
+
+### Design Principles
+
+1. **Minimally opinionated** — Only `type` is required. The spec defines interoperability surface, not content model.
+2. **Producer/consumer independence** — Who writes and who reads are decoupled. Human-authored bundles feed agents; LLM-generated bundles are browsed by humans.
+3. **Format, not platform** — No cloud, SDK, or vendor dependency. Value comes from how many parties speak it.
 
 ---
 
@@ -260,6 +269,15 @@ Weave links into natural prose. Don't create a standalone "links" section — ex
 
 If `title`, `description`, `tags`, or `timestamp` are missing, add them. Derive values from body content when possible.
 
+### Enrichment workflow reference
+
+The official enrichment agent follows this pattern — apply the same logic manually:
+1. Start with metadata-only docs (just frontmatter + minimal body)
+2. Add schema/structure from source system
+3. Add citations from authoritative documentation
+4. Weave cross-links based on discovered relationships (FKs, shared tags, join paths)
+5. Generate `index.md` files for progressive disclosure
+
 ---
 
 ## Convert Sources to OKF
@@ -284,6 +302,57 @@ For detailed conversion guides, see [references/conversion.md](references/conver
 4. **Broken links are OK.** The spec explicitly permits them — they represent not-yet-written knowledge.
 5. **Minimal by default.** Generate only `type` (required) + recommended fields that are warranted. Don't pad with empty values.
 6. **Ask before assuming.** If the domain is unclear, ask what types and structure make sense.
+
+---
+
+## Serve via Google Cloud Knowledge Catalog
+
+Google Cloud's Knowledge Catalog **natively ingests OKF bundles** and serves them to agents. This is the enterprise path — optional but powerful.
+
+### kcmd CLI (Metadata as Code)
+
+`kcmd` is a bidirectional sync tool between OKF-like local metadata and Knowledge Catalog. Think "git for metadata."
+
+```bash
+# Initialize from BigQuery dataset
+kcmd init --bigquery-dataset <project>.<dataset>
+
+# Pull current state from catalog
+kcmd pull
+
+# Push local changes
+kcmd push --dry-run
+kcmd push
+```
+
+Also ships as an **MCP server** for agent integration:
+
+```json
+{
+  "mcpServers": {
+    "kc-mac": {
+      "command": "kcmd",
+      "args": ["mcp", "--path", "/path/to/root"]
+    }
+  }
+}
+```
+
+MCP tools: `pull`, `push`, `list-entries`, `lookup-entry`, `modify-entry`.
+
+### Reference Enrichment Agent
+
+The official enrichment agent (Python, ADK, Gemini) auto-generates OKF bundles from BigQuery metadata. Two-pass architecture:
+
+1. **BQ pass** — one OKF doc per table/view from metadata
+2. **Web pass** — LLM crawls seed URLs and for each page decides to:
+   - **(a) Enrich** existing concepts with citations/schemas
+   - **(b) Mint** a new `references/<slug>` doc
+   - **(c) Skip** irrelevant content
+
+Controls: `--web-seed-file`, `--web-max-pages`, `--web-allowed-host`, `--no-web`.
+
+**When to mention this to users:** If they're enriching BigQuery datasets, point them to the [reference agent](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf). If they want enterprise catalog integration, point to [kcmd](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/toolbox/mdcode) and the [ingest demo](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/toolbox/mdcode/demo).
 
 ---
 
