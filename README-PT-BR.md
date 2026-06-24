@@ -227,6 +227,26 @@ Audita websites para conformidade com a LGPD brasileira (Lei 13.709/2018). Valid
 
 ---
 
+---
+
+### 🛡️ Security Specialist
+Agente completo de segurança de aplicações — executa SAST (análise estática de código), DAST (testes dinâmicos contra apps rodando), threat modeling, triagem de vulnerabilidades, remediação e penetration testing. Combina revisão de código com testes ao vivo contra servidores dev locais ou targets de produção para correlação completa de evidências.
+
+**Quando usar:** escanear repositório por segurança, revisar PR por vulnerabilidades, construir threat model, triar findings, corrigir bug de segurança, fazer pentest em app web, validar fix de segurança, exportar findings para GitHub/Jira/Linear, gerar relatório de segurança.
+
+**Funcionalidades:**
+- **SOP baseado em input**: path → SAST + DAST dev; path + URL → SAST + dev + prod; URL → DAST
+- **11 steering workflows**: full-scan, diff-review, pentest, threat-model, attack-paths, discovery, triage, remediation, tracking, validation, reporting
+- **4 scripts Python**: banco de dados SQLite, ranqueamento de arquivos, finalizador de relatório, automação de pentest
+- **Cascata de ferramentas**: nmap → python-nmap → socket; nikto → wapiti3 → header checks; gobuster → dirsearch → urllib
+- **Detecção auto de dev server**: lê package.json, docker-compose.yml, Makefile, manage.py
+- **Gate de autorização**: auto-aprova localhost/IPs privados, confirma antes de probes externos
+- **Correlação em 3 camadas**: finding no source → exploit no dev → confirmação no prod
+
+📄 [Ver documentação completa](skills/security-specialist/SKILL.md)
+
+---
+
 ### 🚀 Astro Sites Manager
 Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo completo: boas práticas, migração v6→v7 com plano estruturado, validação de breaking/deprecated patterns, dev server com AI (background mode, JSON logging), advanced routing com src/fetch.ts, route caching, Sätteri Markdown, compilador Rust, Starlight docs, Pagefind search, SEO, testes e deploy em 8+ plataformas incluindo Coolify.
 
@@ -271,6 +291,7 @@ npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-spec
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s website-spec
+npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)

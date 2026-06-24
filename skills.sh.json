@@ -28,6 +28,13 @@
       ]
     },
     {
+      "title": "Security",
+      "description": "Application security scanning, penetration testing, threat modeling, and vulnerability management.",
+      "skills": [
+        "security-specialist"
+      ]
+    },
+    {
       "title": "Web Quality & Standards",
       "description": "Frontend audits, website specs, and agent readiness.",
       "skills": [

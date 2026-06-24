@@ -228,6 +228,35 @@ Audits websites for compliance with Brazil's LGPD (Lei 13.709/2018).
 
 ---
 
+---
+
+### 🛡️ Security Specialist
+Full-stack application security agent — performs SAST (static code analysis), DAST (dynamic testing against running apps), threat modeling, vulnerability triage, remediation, and penetration testing. Combines source code review with live testing against local dev servers or production targets for complete evidence correlation.
+
+**When to use:** security scan a repository, review a PR for security issues, build a threat model, triage vulnerability findings, fix a security bug, pentest a web application, validate a security fix, track findings to GitHub/Jira/Linear, generate a security report.
+
+**Key features:**
+- **Input-driven SOP**: path only → SAST + dev DAST; path + URL → SAST + dev + prod; URL only → DAST
+- **11 steering workflows**: full-scan, diff-review, pentest, threat-model, attack-paths, discovery, triage, remediation, tracking, validation, reporting
+- **4 Python scripts**: scan database (SQLite), file ranker, report finalizer, pentest automation
+- **Pentest tool cascade**: nmap → python-nmap → socket scan; nikto → wapiti3 → header checks; gobuster → dirsearch → urllib brute
+- **Auto dev server detection**: reads package.json, docker-compose.yml, Makefile, manage.py
+- **Authorization gate**: auto-approves localhost/private IPs, confirms before probing external targets
+- **Three-layer correlation**: source finding → dev exploit → prod confirmation
+
+**Architecture:**
+```
+security-specialist/
+├── SKILL.md              (router + SOP)
+├── steering/             (11 workflow docs)
+├── scripts/              (4 Python tools, stdlib + optional pip deps)
+└── references/           (4 spec docs: finding format, report format, severity policy, artifacts)
+```
+
+📄 [View full documentation](skills/security-specialist/SKILL.md)
+
+---
+
 ### 🚀 Astro Sites Manager
 Comprehensive skill for building, migrating, and maintaining Astro v7 projects. Covers the full lifecycle: best practices, v6→v7 migration with structured plan, validation of breaking/deprecated patterns, AI-enhanced dev server (background mode, JSON logging), advanced routing with src/fetch.ts, route caching, Sätteri Markdown, Rust compiler, Starlight docs, Pagefind search, SEO, testing, and deployment to 8+ platforms including Coolify.
 
@@ -273,6 +302,7 @@ npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s website-spec
 npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
+npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
