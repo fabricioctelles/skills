@@ -115,8 +115,21 @@ Common mistakes that inflate severity beyond what the evidence supports:
 | Information disclosure of software version marked as high | Version numbers alone don't enable attack; they help an attacker enumerate but require a corresponding vulnerability | Low |
 | Self-XSS (user can only attack themselves) marked as medium | No impact on other users; no realistic attack scenario | Info |
 | CORS misconfiguration on a public API with no auth | If the API is intentionally public and has no user context, CORS is irrelevant | Info |
+| **Multiple dependency CVEs listed at face value without project context** | If 9 CVEs are listed but only 1 is exploitable due to missing preconditions, reporting "9 CRITICAL CVEs" is misleading and erodes trust | Analyze each individually, assign per-CVE real severity |
 
 **The rule:** Severity reflects *demonstrated impact*, not *theoretical worst case*. If you can't articulate the realistic attack scenario and its consequences in 2 sentences, you're probably overcalling.
+
+### CVE Cross-Reference Protocol (Mandatory)
+
+Before assigning severity to any dependency CVE:
+
+1. **Read the advisory** — identify the exact precondition (which function, which feature, which config)
+2. **Grep the codebase** — does the project use that function/feature? Cite the evidence (file:line or "0 results")
+3. **Check the environment** — does prod have the infrastructure the CVE requires? (CDN, multi-user, Windows, etc.)
+4. **DAST validate** — did the probe confirm exploitability in localhost? In production?
+5. **Assign real severity** — based on what you proved, not what the advisory says generically
+
+A bulk "upgrade all deps" recommendation is fine. But the *severity* must reflect this project, not all projects.
 
 ---
 

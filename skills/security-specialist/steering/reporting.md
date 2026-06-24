@@ -79,73 +79,22 @@ Structure:
 
 Write to: `<scan-dir>/report.json`
 
-## Step 4: Generate Markdown Report
+## Step 4: Generate HTML Report
 
-Structure the markdown report with these sections:
+The human-readable report is a **self-contained HTML file** (`security-report.html`). Follow the template in `references/report-format.md`.
 
-### 4.1 Executive Summary
-- 3-5 sentences. What was scanned, what was found, what's the overall risk posture.
-- Lead with the most critical finding if one exists.
-- State clearly: "X critical, Y high findings require immediate attention."
+Key features:
+- Dark theme, color-coded severity badges
+- Collapsible evidence and remediation sections
+- Interactive filter buttons (filter by severity)
+- CVE analysis table with exploitability cross-reference
+- Pentest results with all tests numbered (P1, P2...)
+- Negative results table (what was tested and passed)
+- Zero external dependencies — opens offline
 
-### 4.2 Methodology
-- What tools were run (with versions if available)
-- What was in scope (directories, languages, specific threat models)
-- What was out of scope
-- Whether dynamic testing was performed or static-only
+Build the HTML by replacing `{{placeholders}}` in the template with actual data. Repeat blocks for each finding/CVE/test.
 
-### 4.3 Findings Summary Table
-
-```markdown
-| # | Severity | Category | Location | Status |
-|---|----------|----------|----------|--------|
-| 1 | Critical | CWE-89 | api/users.py:42 | Open |
-| 2 | High | CWE-79 | templates/search.html:15 | Fixed |
-```
-
-Sort by severity (critical first), then by status (open first).
-
-### 4.4 Detailed Findings
-
-For each confirmed finding (not false positives):
-```markdown
-### SEC-001: SQL Injection in User Search
-
-**Severity:** Critical
-**Category:** CWE-89 (SQL Injection)
-**Location:** `src/api/users.py:42`
-**Status:** Open
-
-**Description:**
-User-controlled input from the `q` query parameter is concatenated directly into a SQL query without parameterization.
-
-**Evidence:**
-\`\`\`python
-query = f"SELECT * FROM users WHERE name LIKE '%{request.args.get('q')}%'"
-db.execute(query)
-\`\`\`
-
-**Impact:**
-Full database read/write access. Attacker can extract all user records, modify data, or potentially achieve RCE via database features (xp_cmdshell, COPY FROM PROGRAM).
-
-**Recommendation:**
-Use parameterized queries via the ORM or prepared statements.
-```
-
-### 4.5 Recommendations
-
-Prioritized list:
-1. Immediate actions (critical/high open findings)
-2. Short-term improvements (medium findings, systemic patterns)
-3. Long-term hardening (defense-in-depth, tooling, process improvements)
-
-Include specific, actionable guidance — not generic "improve security." Name the file, the pattern, and the fix direction.
-
-### 4.6 False Positives (Appendix)
-
-Brief list of dismissed findings with one-line rationale each. This shows the work was thorough and prevents re-reporting.
-
-Write to: `<scan-dir>/report.md`
+Write to: `<scan-dir>/security-report.html` (and also repo root for easy access)
 
 ## Step 5: Finalize
 
@@ -155,8 +104,8 @@ python3 scripts/finalize.py --scan-dir <dir>
 ```
 
 This script:
-- Validates both report files exist and are well-formed
-- Computes SHA-256 hashes of report.json and report.md
+- Validates both report files exist and are well-formed (JSON valid, HTML parseable)
+- Computes SHA-256 hashes of report.json and security-report.html
 - Writes a `manifest.json` with file hashes and completion timestamp
 - Marks the scan as complete in the database
 
@@ -170,8 +119,10 @@ Show:
 
 ## Principles
 
-- Reports are for two audiences: machines (JSON) and humans (Markdown). Both must be complete.
-- False positives go in an appendix — they prove rigor but shouldn't clutter the main findings.
-- Severity in the report is the **validated** severity, not the scanner's original rating.
+- Reports are for two audiences: machines (JSON) and humans (HTML). Both must be complete.
+- The HTML report is self-contained, interactive, and opens offline in any browser.
+- False positives go in a collapsible appendix — they prove rigor but shouldn't clutter the main findings.
+- Severity in the report is the **validated** severity (cross-referenced against project context), not the scanner's original rating.
 - Every recommendation must be specific enough that a developer can act on it without further research.
 - The executive summary is for people who won't read the rest. Make it count.
+- All pentest tests performed must appear in the report — positive and negative results.
