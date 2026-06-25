@@ -1,0 +1,104 @@
+version: 1
+meta:
+  name: ai-workflow-mapping
+  description: Map a customer's manual workflow into an agent-ready process.
+  author: ksimback
+  created: 2026-06-18
+
+goal:
+  statement: >
+    Produce an agent workflow map that converts the process notes into a
+    stepwise design with tool calls, model responsibilities, and human
+    checkpoints.
+  context_sources:
+    - file: ./inputs/process-notes.md
+  definition_of_done: >
+    A LOOP.md-style workflow map exists, every step has an owner, input,
+    output, and checkpoint decision where needed, and there are no TBDs.
+  verification:
+    - id: required-sections
+      type: programmatic
+      check: ["python", "scripts/check-loop-doc.py", "loop-workspace/delivery-1.md"]
+      expect: exit_zero
+    - id: covers-goal
+      type: judge
+      rubric: >
+        Every part of the goal statement is addressed. Each workflow step has
+        an owner, required input, output artifact, and human checkpoint where
+        business judgment is needed. No step depends on information the loop
+        never gathers. There are no unresolved TBDs.
+
+host:
+  cli: codex
+  model: gpt-5
+  invoke: ["codex", "exec", "--model", "gpt-5"]
+  timeout_sec: 600
+
+council:
+  - id: reviewer-1
+    role: judge
+    cli: claude
+    model: default
+    invoke: ["claude", "-p"]
+    timeout_sec: 600
+    scope: [plan, delivery]
+    local: false
+
+gates:
+  plan_gate:
+    when: after_plan
+    members: [reviewer-1]
+    verdict_policy: revise_until_clean
+    verdict_source: reviewer-1
+    criteria: [covers-goal]
+    max_revisions: 3
+  delivery_gate:
+    when: after_each_delivery
+    members: [reviewer-1]
+    verdict_policy: revise_until_clean
+    verdict_source: reviewer-1
+    criteria: [required-sections, covers-goal]
+    max_revisions: 3
+
+loop_control:
+  max_iterations: 12
+  budget:
+    usd: 5.0
+    tokens: 2000000
+    wall_clock_min: 30
+  no_progress:
+    max_stalled_iterations: 2
+    signals:
+      - same blocking issue repeats
+      - delivery artifact has no material change
+      - verifier output is unchanged
+    action: stop
+  human_checkpoints: []
+  stop_conditions:
+    - all deliveries pass their gate clean
+    - max_iterations reached
+    - same blocker repeats for 2 iterations
+    - any budget cap exceeded
+
+execution:
+  mode: in_session
+  isolation: current_workspace
+  side_effects:
+    requires_approval: true
+    duplicate_action_check: true
+
+observability:
+  state_file: state.json
+  run_log: run-log.md
+  checkpoint_granularity: gate
+
+privacy:
+  egress:
+    - to: reviewer-1
+      sends: [plan, deliveries]
+      redact: [".env", ".env.*", "secrets/**", "**/*.key"]
+      consent: required
+
+workspace:
+  dir: ./loop-workspace
+  layout: [plan.md, "delivery-{n}.md", "review-{n}.md", state.json, run-log.md]

@@ -163,6 +163,15 @@ Automated iterative agent runner for spec-based development in [Kiro](https://ki
 
 ---
 
+### 🏗️ Loop Architect — Agent Loop Design Coach
+Design well-structured agent loops with best-practice coaching and cross-model review gates before you run them. Interviews you, critiques your design against built-in rubrics, wires in reviewers/judges, and emits portable artifacts (`loop.yaml`, `RUN_IN_SESSION.md`, `run-loop.py`). Integrates natively with Kiro CLI's `/goal` and subagent review loops. Based on [Looper](https://github.com/ksimback/looper) by [Kevin Simback](https://github.com/ksimback).
+
+**When to use:** design an agent loop, set up a self-review or LLM-as-judge loop, build a multi-model council, create review-gated iterative workflows, or scaffold a `/goal`-driven process with typed verification and termination guards.
+
+📄 [View full documentation](skills/loop-architect/SKILL.md)
+
+---
+
 ### ✍️ Humanizar — AI Text Humanizer for Brazilian Portuguese
 Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by AI detection tools. Removes AI slop patterns, restores semantic entropy, and injects voice and personality. Born from the English `humanizer` skill but evolved into something far more complete — with 55+ patterns specific to PT-BR that no other source has cataloged.
 
@@ -315,6 +324,7 @@ npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
 npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
 npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
+npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s website-spec
@@ -360,6 +370,7 @@ cp -r skills/resume-ats-beater .cursor/skills/
 cp -r skills/coolify-operator .cursor/skills/
 cp -r skills/agent-ready-cloudflare .cursor/skills/
 cp -r skills/ralph-loop-kiro-specs .cursor/skills/
+cp -r skills/loop-architect .cursor/skills/
 cp -r skills/humanizar .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
 cp -r skills/website-spec .cursor/skills/
@@ -376,6 +387,7 @@ cp -r skills/resume-ats-beater .claude/skills/
 cp -r skills/coolify-operator .claude/skills/
 cp -r skills/agent-ready-cloudflare .claude/skills/
 cp -r skills/ralph-loop-kiro-specs .claude/skills/
+cp -r skills/loop-architect .claude/skills/
 cp -r skills/humanizar .claude/skills/
 cp -r skills/auth-md .claude/skills/
 cp -r skills/website-spec .claude/skills/
@@ -392,6 +404,7 @@ cp -r skills/resume-ats-beater .kiro/skills/
 cp -r skills/coolify-operator .kiro/skills/
 cp -r skills/agent-ready-cloudflare .kiro/skills/
 cp -r skills/ralph-loop-kiro-specs .kiro/skills/
+cp -r skills/loop-architect .kiro/skills/
 cp -r skills/humanizar .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
 cp -r skills/website-spec .kiro/skills/
@@ -437,6 +450,13 @@ skills/
 │   ├── SKILL.md
 │   ├── scripts/           # bash loop runner script
 │   └── references/        # Ralph agent prompt template
+├── loop-architect/
+│   ├── SKILL.md           # loop design coach (adapted from Looper by ksimback)
+│   ├── scripts/           # compiler and model detection
+│   ├── templates/         # portable Python runner
+│   ├── references/        # rubrics (goal, verification, council, control)
+│   ├── schemas/           # loop.yaml JSON schema
+│   └── examples/          # ai-workflow-mapping example
 ├── humanizar/
 │   ├── SKILL.md
 │   └── references/        # 55+ AI patterns specific to Brazilian Portuguese (6 files)

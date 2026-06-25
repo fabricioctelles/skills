@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ksimback/looper/schema/loop.v1.json",
+  "title": "Looper authoring spec v1",
+  "type": "object",
+  "required": ["version", "goal", "host", "gates", "loop_control", "workspace"],
+  "properties": {
+    "version": { "const": 1 },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "goal": {
+      "type": "object",
+      "required": ["statement", "definition_of_done", "verification"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 1 },
+        "definition_of_done": { "type": "string", "minLength": 1 },
+        "context_sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "anyOf": [
+              { "required": ["file"] },
+              { "required": ["cmd"] }
+            ]
+          }
+        },
+        "verification": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/criterion" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "host": { "$ref": "#/$defs/model_invocation" },
+    "council": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/$defs/model_invocation" },
+          {
+            "type": "object",
+            "required": ["id", "role"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "role": { "enum": ["reviewer", "judge"] },
+              "scope": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "local": { "type": "boolean" }
+            }
+          }
+        ]
+      }
+    },
+    "gates": {
+      "type": "object",
+      "required": ["plan_gate", "delivery_gate"],
+      "properties": {
+        "plan_gate": { "$ref": "#/$defs/gate" },
+        "delivery_gate": { "$ref": "#/$defs/gate" }
+      }
+    },
+    "loop_control": {
+      "type": "object",
+      "required": ["max_iterations"],
+      "properties": {
+        "max_iterations": { "type": "integer", "minimum": 1 },
+        "budget": { "type": "object" },
+        "no_progress": {
+          "type": "object",
+          "properties": {
+            "max_stalled_iterations": { "type": "integer", "minimum": 1 },
+            "signals": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "action": { "enum": ["stop", "human_checkpoint"] }
+          },
+          "additionalProperties": true
+        },
+        "human_checkpoints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "stop_conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "mode": { "enum": ["in_session", "external_runner", "orchestrated"] },
+        "isolation": { "enum": ["current_workspace", "branch", "worktree", "sandbox"] },
+        "side_effects": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "observability": {
+      "type": "object",
+      "properties": {
+        "state_file": { "type": "string" },
+        "run_log": { "type": "string" },
+        "checkpoint_granularity": { "enum": ["gate", "step"] }
+      },
+      "additionalProperties": true
+    },
+    "privacy": { "type": "object" },
+    "workspace": {
+      "type": "object",
+      "required": ["dir"],
+      "properties": {
+        "dir": { "type": "string", "minLength": 1 },
+        "layout": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "argv": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "model_invocation": {
+      "type": "object",
+      "required": ["cli", "invoke"],
+      "properties": {
+        "cli": { "type": "string" },
+        "model": { "type": "string" },
+        "invoke": { "$ref": "#/$defs/argv" },
+        "timeout_sec": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": true
+    },
+    "criterion": {
+      "type": "object",
+      "required": ["id", "type"],
+      "oneOf": [
+        {
+          "properties": {
+            "type": { "const": "programmatic" },
+            "check": { "$ref": "#/$defs/argv" },
+            "expect": { "enum": ["exit_zero", "exit_nonzero", "stdout_contains"] },
+            "contains": { "type": "string" }
+          },
+          "required": ["check", "expect"]
+        },
+        {
+          "properties": {
+            "type": { "const": "judge" },
+            "rubric": { "type": "string", "minLength": 1 }
+          },
+          "required": ["rubric"]
+        },
+        {
+          "properties": {
+            "type": { "const": "human" },
+            "prompt": { "type": "string", "minLength": 1 }
+          },
+          "required": ["prompt"]
+        }
+      ]
+    },
+    "gate": {
+      "type": "object",
+      "required": ["when", "members", "verdict_policy", "criteria", "max_revisions"],
+      "properties": {
+        "when": { "type": "string" },
+        "members": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "verdict_policy": { "enum": ["revise_until_clean", "fixed_passes"] },
+        "verdict_source": { "type": "string" },
+        "criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "max_revisions": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

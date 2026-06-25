@@ -1,0 +1,194 @@
+{
+  "$schema": "https://github.com/ksimback/looper/schema/loop.resolved.v1.json",
+  "compiled_at": "2026-06-19T07:09:26+00:00",
+  "council": [
+    {
+      "cli": "claude",
+      "id": "reviewer-1",
+      "invoke": [
+        "claude",
+        "-p"
+      ],
+      "local": false,
+      "model": "default",
+      "role": "judge",
+      "scope": [
+        "plan",
+        "delivery"
+      ],
+      "timeout_sec": 600
+    }
+  ],
+  "council_by_id": {
+    "reviewer-1": {
+      "cli": "claude",
+      "id": "reviewer-1",
+      "invoke": [
+        "claude",
+        "-p"
+      ],
+      "local": false,
+      "model": "default",
+      "role": "judge",
+      "scope": [
+        "plan",
+        "delivery"
+      ],
+      "timeout_sec": 600
+    }
+  },
+  "criteria_by_id": {
+    "covers-goal": {
+      "id": "covers-goal",
+      "rubric": "Every part of the goal statement is addressed. Each workflow step has an owner, required input, output artifact, and human checkpoint where business judgment is needed. No step depends on information the loop never gathers. There are no unresolved TBDs.\n",
+      "type": "judge"
+    },
+    "required-sections": {
+      "check": [
+        "python",
+        "scripts/check-loop-doc.py",
+        "loop-workspace/delivery-1.md"
+      ],
+      "expect": "exit_zero",
+      "id": "required-sections",
+      "type": "programmatic"
+    }
+  },
+  "execution": {
+    "isolation": "current_workspace",
+    "mode": "in_session",
+    "side_effects": {
+      "duplicate_action_check": true,
+      "requires_approval": true
+    }
+  },
+  "gates": {
+    "delivery_gate": {
+      "criteria": [
+        "required-sections",
+        "covers-goal"
+      ],
+      "max_revisions": 3,
+      "members": [
+        "reviewer-1"
+      ],
+      "verdict_policy": "revise_until_clean",
+      "verdict_source": "reviewer-1",
+      "when": "after_each_delivery"
+    },
+    "plan_gate": {
+      "criteria": [
+        "covers-goal"
+      ],
+      "max_revisions": 3,
+      "members": [
+        "reviewer-1"
+      ],
+      "verdict_policy": "revise_until_clean",
+      "verdict_source": "reviewer-1",
+      "when": "after_plan"
+    }
+  },
+  "goal": {
+    "context_sources": [
+      {
+        "file": "./inputs/process-notes.md"
+      }
+    ],
+    "definition_of_done": "A LOOP.md-style workflow map exists, every step has an owner, input, output, and checkpoint decision where needed, and there are no TBDs.\n",
+    "statement": "Produce an agent workflow map that converts the process notes into a stepwise design with tool calls, model responsibilities, and human checkpoints.\n",
+    "verification": [
+      {
+        "check": [
+          "python",
+          "scripts/check-loop-doc.py",
+          "loop-workspace/delivery-1.md"
+        ],
+        "expect": "exit_zero",
+        "id": "required-sections",
+        "type": "programmatic"
+      },
+      {
+        "id": "covers-goal",
+        "rubric": "Every part of the goal statement is addressed. Each workflow step has an owner, required input, output artifact, and human checkpoint where business judgment is needed. No step depends on information the loop never gathers. There are no unresolved TBDs.\n",
+        "type": "judge"
+      }
+    ]
+  },
+  "host": {
+    "cli": "codex",
+    "invoke": [
+      "codex",
+      "exec",
+      "--model",
+      "gpt-5"
+    ],
+    "model": "gpt-5",
+    "timeout_sec": 600
+  },
+  "loop_control": {
+    "budget": {
+      "tokens": 2000000,
+      "usd": 5.0,
+      "wall_clock_min": 30
+    },
+    "human_checkpoints": [],
+    "max_iterations": 12,
+    "no_progress": {
+      "action": "stop",
+      "max_stalled_iterations": 2,
+      "signals": [
+        "same blocking issue repeats",
+        "delivery artifact has no material change",
+        "verifier output is unchanged"
+      ]
+    },
+    "stop_conditions": [
+      "all deliveries pass their gate clean",
+      "max_iterations reached",
+      "same blocker repeats for 2 iterations",
+      "any budget cap exceeded"
+    ]
+  },
+  "meta": {
+    "author": "ksimback",
+    "created": "2026-06-18",
+    "description": "Map a customer's manual workflow into an agent-ready process.",
+    "name": "ai-workflow-mapping"
+  },
+  "observability": {
+    "checkpoint_granularity": "gate",
+    "run_log": "run-log.md",
+    "state_file": "state.json"
+  },
+  "privacy": {
+    "egress": [
+      {
+        "consent": "required",
+        "redact": [
+          ".env",
+          ".env.*",
+          "secrets/**",
+          "**/*.key"
+        ],
+        "sends": [
+          "plan",
+          "deliveries"
+        ],
+        "to": "reviewer-1"
+      }
+    ]
+  },
+  "source": "C:\\Users\\kevin\\looper\\examples\\ai-workflow-mapping\\loop.yaml",
+  "version": 1,
+  "workspace": {
+    "dir": "./loop-workspace",
+    "layout": [
+      "plan.md",
+      "delivery-{n}.md",
+      "review-{n}.md",
+      "state.json",
+      "run-log.md"
+    ]
+  }
+}
