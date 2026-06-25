@@ -128,18 +128,21 @@ Master operator for Coolify — the self-hosted open-source deployment platform 
 
 ---
 
-### 📄 Resume ATS Beater
-Rewrites resumes from scratch for ATS compatibility and recruiter impact, with a workflow tailored to ATS platforms in Brazil (Gupy, Vagas.com, PandaPé, Sólides).
+### 📄 Resume ATS Beater + LinkedIn Optimizer
+Rewrites resumes for ATS compatibility and audits LinkedIn profiles for professional positioning. Covers CV optimization for Brazilian ATS platforms (Gupy, Vagas.com, PandaPé, Sólides) and LinkedIn audit with heuristic scoring, SSI analysis, fix prompts, and LLM rewrite mega-prompts. Works for any specialized profession — not dev-only.
 
-**When to use:** optimize resume for ATS, adapt CV to a target role/industry, improve experience bullets with measurable outcomes, validate eliminatory requirements and semantic matching.
+**When to use:** optimize resume for ATS, audit LinkedIn profile (headline, about, experiences, SSI), adapt CV to target role/industry, generate fix prompts per finding, align CV and LinkedIn in unified mode, improve bullets with measurable outcomes. Integrates with `humanizar` skill for narrative sections.
 
-**Improvements in v1.2 (Mar 2026):**
-- Merged overlapping diagnostic steps (Etapas 2+3) into a single unified step
-- Moved diagnostic output templates to 3 new references files: `diagnostico-ats.md`, `diagnostico-avancado.md`, `template-saida.md`
-- Added explicit default mode (`modo_completo`) when execution mode is not specified
-- Added guardrail: block all workflow steps until `curriculo_atual` is provided
-- Added skip instruction: `modo_reescrita` bypasses the diagnostic step entirely
-- Added behavioral note for `plataforma_ats_alvo` when platform is known
+**Improvements in v2.0 (Jun 2026):**
+- Added `modo_linkedin` (full profile audit with scoring) and `modo_unificado` (CV + LinkedIn with consistency check)
+- LinkedIn audit: headline format enforcement (Position | Areas | Tools·), about structure, experience bullets, language, skills, featured, SSI
+- Punitive scoring system: 100 - (critical×15 + warning×6 + info×2)
+- SSI analysis with 4 pillars, classification by tier, and actionable tips
+- Fix prompts per finding (standalone prompts for any LLM)
+- Mega-prompt for full profile rewrite by LLM
+- 18 career presets across tech, data, marketing, finance, engineering, legal, sales, HR, product
+- Integration with `humanizar` skill (scoped to About/Summary sections)
+- 3 new reference files: `auditoria-linkedin.md`, `ssi.md`, `presets-formatos.md`
 
 📄 [View full documentation](skills/resume-ats-beater/SKILL.md)
 

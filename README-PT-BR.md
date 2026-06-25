@@ -125,18 +125,21 @@ Operador mestre do Coolify — plataforma self-hosted open-source de deployment 
 
 ---
 
-### 📄 Resume ATS Beater
-Reescreve currículos do zero para compatibilidade ATS e impacto para recrutadores, com workflow adaptado ao contexto de ATS no Brasil (Gupy, Vagas.com, PandaPé, Sólides).
+### 📄 Resume ATS Beater + LinkedIn Optimizer
+Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para posicionamento profissional. Cobre otimização de CV para plataformas ATS brasileiras (Gupy, Vagas.com, PandaPé, Sólides) e auditoria LinkedIn com score heurístico, análise de SSI, fix prompts e mega-prompts de reescrita por LLM. Funciona para qualquer profissão especializada — não é exclusivo para devs.
 
-**Quando usar:** otimizar currículo para ATS, adaptar CV para cargo/indústria alvo, fortalecer bullets com resultados mensuráveis, validar requisitos eliminatórios e aderência semântica.
+**Quando usar:** otimizar currículo para ATS, auditar perfil LinkedIn (headline, about, experiências, SSI), adaptar CV para cargo/indústria alvo, gerar fix prompts por problema encontrado, alinhar CV e LinkedIn em modo unificado, fortalecer bullets com resultados mensuráveis. Integra com skill `humanizar` para seções narrativas.
 
-**Melhorias na v1.2 (Mar 2026):**
-- Etapas de diagnóstico sobrepostas (Etapas 2+3) mescladas em uma única etapa unificada
-- Templates de saída do diagnóstico movidos para 3 novos arquivos: `diagnostico-ats.md`, `diagnostico-avancado.md`, `template-saida.md`
-- Adicionado modo padrão explícito (`modo_completo`) quando o modo de execução não é especificado
-- Adicionado guardrail: bloquear todo o workflow até que `curriculo_atual` seja fornecido
-- Adicionada instrução de skip: `modo_reescrita` ignora a etapa de diagnóstico
-- Adicionada nota comportamental para `plataforma_ats_alvo` quando a plataforma é conhecida
+**Melhorias na v2.0 (Jun 2026):**
+- Adicionados `modo_linkedin` (auditoria completa com scoring) e `modo_unificado` (CV + LinkedIn com verificação de consistência)
+- Auditoria LinkedIn: formato obrigatório de headline (Posição | Áreas | Ferramentas·), estrutura de about, bullets de experiência, idioma, skills, featured, SSI
+- Sistema de score punitivo: 100 - (critical×15 + warning×6 + info×2)
+- Análise SSI com 4 pilares, classificação por faixa e tips acionáveis
+- Fix prompts por finding (prompts standalone para qualquer LLM)
+- Mega-prompt para reescrita completa do perfil por LLM
+- 18 presets de cargo: tecnologia, dados, marketing, finanças, engenharia, jurídico, vendas, RH, produto
+- Integração com skill `humanizar` (escopo restrito a About/Resumo Profissional)
+- 3 novos arquivos de referência: `auditoria-linkedin.md`, `ssi.md`, `presets-formatos.md`
 
 📄 [Ver documentação completa](skills/resume-ats-beater/SKILL.md)
 
