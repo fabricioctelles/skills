@@ -516,3 +516,42 @@ Astro v7 with Starlight plugins causes peer dependency conflicts. The `.npmrc` w
 COPY package*.json .npmrc ./
 RUN npm ci
 ```
+
+### @astrojs/node Must Be v11 for Astro v7
+
+`@astrojs/node@10` builds fine but **crashes at runtime** with Astro v7:
+
+```
+TypeError: app.getAdapterLogger is not a function
+    at createAppHandler (dist/server/entry.mjs)
+```
+
+The build succeeds, the image is created, the container starts — then immediately exits. Coolify shows `restarting:unknown` or `exited:unhealthy`.
+
+**Fix:** Always upgrade `@astrojs/node` alongside Astro:
+```bash
+npm install astro@latest @astrojs/node@latest @astrojs/mdx@latest
+```
+
+**Required versions for v7:**
+| Package | Minimum |
+|---------|---------|
+| `astro` | `^7.0.0` |
+| `@astrojs/node` | `^11.0.0` |
+| `@astrojs/mdx` | `^7.0.0` |
+| `@astrojs/sitemap` | `^3.7.2` (unchanged) |
+
+### pnpm 11.9+ — approve-builds Required in Docker
+
+pnpm 11.9 blocks postinstall scripts by default. `esbuild` and `sharp` need native compilation after install. Without approval the Docker build fails:
+
+```
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.28.1, sharp@0.34.5
+```
+
+**Fix:** Run `pnpm approve-builds` locally (generates `pnpm-workspace.yaml`), then copy it in Docker:
+
+```dockerfile
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+RUN pnpm install --frozen-lockfile
+```

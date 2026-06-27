@@ -22,6 +22,8 @@ Production-tested patterns for deploying Astro sites on self-hosted Coolify (v4.
 
 ## Dockerfile — Astro SSR (Node Adapter)
 
+> **Requires `@astrojs/node@^11.0.0`** for Astro v7. The v10 adapter crashes at runtime with `TypeError: app.getAdapterLogger is not a function`.
+
 ```dockerfile
 # Use node:22-slim (NOT alpine) — Sätteri needs glibc for Astro v7
 FROM node:22-slim AS build
@@ -39,7 +41,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:22-alpine
+FROM node:22-slim
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
@@ -153,6 +155,51 @@ The `.npmrc` must contain:
 legacy-peer-deps=true
 ```
 
+### @astrojs/node Must Be v11+ for Astro v7
+
+Astro v7's runtime API changed — `app.getAdapterLogger()` was added and the standalone entry module depends on it. If `@astrojs/node` stays at v10, the container builds fine but **crashes at startup**:
+
+```
+TypeError: app.getAdapterLogger is not a function
+    at createAppHandler (dist/server/entry.mjs)
+```
+
+Coolify shows `restarting:unknown` or `exited:unhealthy` — the build log looks green, but the container crash-loops.
+
+**Fix:** Always upgrade `@astrojs/node` to v11 together with Astro v7:
+```bash
+npm install astro@latest @astrojs/node@latest
+```
+
+**Checklist for SSR v7 migration:**
+- `astro` → `^7.0.0`
+- `@astrojs/node` → `^11.0.0`
+- `@astrojs/mdx` → `^7.0.0` (if used)
+
+### pnpm approve-builds in Docker (pnpm 11.9+)
+
+pnpm 11.9+ blocks install scripts (postinstall, install) by default. Packages like `esbuild` and `sharp` need native binaries built after install. Without approval, `pnpm install --frozen-lockfile` fails:
+
+```
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.28.1, sharp@0.34.5
+Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+```
+
+**Fix:** Run `pnpm approve-builds` locally, which creates `pnpm-workspace.yaml` with:
+```yaml
+allowBuilds:
+  esbuild: true
+  sharp: true
+```
+
+Then **copy `pnpm-workspace.yaml` into the Docker container** alongside the lockfile:
+```dockerfile
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+RUN pnpm install --frozen-lockfile
+```
+
+Missing this file = build fails in CI/Docker but works locally (because local node_modules already has the binaries).
+
 ### package-lock.json Desync After Major Upgrade
 
 After `npm install --legacy-peer-deps` for a major version upgrade, the lockfile may reference packages that `npm ci` (strict mode) cannot resolve. Symptoms: `npm ci` fails with "lock file's X does not satisfy Y".
@@ -229,11 +276,17 @@ curl -sS -X POST "https://gitlab.com/api/v4/projects/$PROJECT_ID/hooks" \
 ### Deploy and Validate
 
 ```bash
-# Trigger deploy
-curl -sS -X POST "$COOLIFY_URL/applications/$APP_UUID/start" \
+# Trigger deploy (Coolify 4.1+ — uses GET, NOT POST)
+# The /deploy endpoint accepts uuid as query param, force=true rebuilds from scratch
+curl -sS -X GET "$COOLIFY_URL/deploy?uuid=$APP_UUID&force=true" \
   -H "Authorization: Bearer $COOLIFY_KEY"
+# Returns: {"deployments":[{"message":"Application X deployment queued.","resource_uuid":"...","deployment_uuid":"..."}]}
 
-# Check status (~60s wait)
+# ⚠️ POST /applications/$UUID/deploy returns "Not found" in Coolify 4.1
+# ⚠️ POST /applications/$UUID/restart only restarts existing container (no rebuild)
+#    Use restart when image is already built. Use /deploy?uuid=...&force=true for rebuild.
+
+# Check status (~60s wait for build + container start)
 curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY_URL/applications/$APP_UUID" | python3 -c "
 import sys,json; d=json.load(sys.stdin); print(d['status'])"
@@ -241,6 +294,14 @@ import sys,json; d=json.load(sys.stdin); print(d['status'])"
 # Verify HTTP response
 curl -sS -o /dev/null -w "HTTP %{http_code}\n" https://mysite.com
 ```
+
+**Status interpretation:**
+| Status | Meaning |
+|--------|---------|
+| `running:healthy` | Container up and health check passing |
+| `running:unknown` | Container up, no health check configured |
+| `restarting:unknown` | Container crash-looping — check runtime logs |
+| `exited:unhealthy` | Container stopped — likely build or startup failure |
 
 ---
 
