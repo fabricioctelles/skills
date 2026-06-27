@@ -251,8 +251,8 @@ When asked to validate, check the 3 conformance rules. Report:
 ✅ PASS: index.md follows list structure (no frontmatter)
 ✅ PASS: log.md uses ISO 8601 date headings, newest first
 
-⚠️  WARNING: 3 files missing 'description' field (recommended)
-⚠️  WARNING: 2 broken cross-links (permitted but worth noting)
+⚠  WARNING: 3 files missing 'description' field (recommended)
+⚠  WARNING: 2 broken cross-links (permitted but worth noting)
 ```
 
 For a script-based check, see [scripts/validate.sh](scripts/validate.sh).

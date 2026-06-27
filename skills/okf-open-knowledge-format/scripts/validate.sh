@@ -96,7 +96,7 @@ else
   echo -e "${RED}❌ $ERRORS error(s) — bundle is NOT conformant${NC}"
 fi
 if [ $WARNINGS -gt 0 ]; then
-  echo -e "${YELLOW}⚠️  $WARNINGS warning(s)${NC}"
+  echo -e "${YELLOW}⚠  $WARNINGS warning(s)${NC}"
 fi
 
 exit $ERRORS
