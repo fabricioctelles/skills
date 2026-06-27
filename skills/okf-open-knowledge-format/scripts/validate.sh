@@ -65,7 +65,7 @@ while IFS= read -r -d '' file; do
   fi
 
   # Extract frontmatter (between first --- and second ---)
-  frontmatter=$(sed -n '2,/^---$/p' "$file" | head -n -1)
+  frontmatter=$(sed -n '2,/^---$/p' "$file" | sed '$d')
 
   # E2: Check for non-empty type field
   type_value=$(echo "$frontmatter" | grep -E "^type:" | sed 's/^type:\s*//' | tr -d '"' | tr -d "'" | xargs)
