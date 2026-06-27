@@ -1,4 +1,14 @@
 [![skills.sh](https://skills.sh/b/fabricioctelles/skills)](https://skills.sh/fabricioctelles/skills)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=white)
+![Coolify](https://img.shields.io/badge/Coolify-6B16ED?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQTEwIDEwIDAgMCAwIDIgMTJhMTAgMTAgMCAwIDAgMTAgMTAgMTAgMTAgMCAwIDAgMTAtMTBBMTAgMTAgMCAwIDAgMTIgMnoiLz48L3N2Zz4=&logoColor=white)
+![Google Analytics](https://img.shields.io/badge/Google%20Analytics-E37400?logo=googleanalytics&logoColor=white)
+![Google Search Console](https://img.shields.io/badge/Search%20Console-458CF5?logo=google&logoColor=white)
+![Substack](https://img.shields.io/badge/Substack-FF6719?logo=substack&logoColor=white)
+![SEO](https://img.shields.io/badge/SEO%20%2F%20GEO-4285F4?logo=google&logoColor=white)
+![AI Agents](https://img.shields.io/badge/AI%20Agents-8B5CF6?logo=openai&logoColor=white)
+![LGPD](https://img.shields.io/badge/LGPD%20%2F%20Privacy-059669?logo=shieldsdotio&logoColor=white)
+![Security](https://img.shields.io/badge/Security-DC2626?logo=owasp&logoColor=white)
 
 # 🧠 Agent Skills by ft.ia.br
 
