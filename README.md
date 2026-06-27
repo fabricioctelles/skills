@@ -256,7 +256,6 @@ Evaluate any agent skill against 12 best-practice criteria from Anthropic and ag
 | When | Is it well-built? | Does it work? | Did it regress? Still needed? |
 | Output | Scorecard + grade A-F | pass_rate, tokens, time | benchmark.json + comparator verdict |
 | Platform | Any agent | Any agent | Claude Code only (plugin) |
-| Cost | Zero (read-only) | Tokens (2x runs) | Tokens (2x runs + judge) |
 
 Use in sequence: **skill-evaluation** (design review) → **evals** (functional validation) → **benchmark** (ongoing monitoring).
 

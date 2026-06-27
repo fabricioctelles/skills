@@ -255,7 +255,6 @@ Avalia qualquer skill de agente contra 12 critérios de boas práticas da Anthro
 | Quando | Está bem construída? | Funciona? | Regrediu? Ainda necessária? |
 | Saída | Scorecard + grade A-F | pass_rate, tokens, time | benchmark.json + veredito comparador |
 | Plataforma | Qualquer agente | Qualquer agente | Claude Code only (plugin) |
-| Custo | Zero (read-only) | Tokens (2x runs) | Tokens (2x runs + judge) |
 
 Use em sequência: **skill-evaluation** (design review) → **evals** (validação funcional) → **benchmark** (monitoramento contínuo).
 
