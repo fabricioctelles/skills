@@ -10,21 +10,6 @@ Agent Skills are a lightweight, open format for extending AI agent capabilities 
 
 ## Available Skills
 
-### 🏆 Premium Proposal Builder
-Creates and structures premium proposals, slide decks, and scrollable sites optimized for purchase decisions. Generates effective prompts for Lovable, Gamma, Pitch, Relume, and similar tools.
-
-**When to use:** create a business proposal, improve a pitch, generate prompts for design tools, adapt structure for different industries (agencies, SaaS, enterprise).
-
-**Improvements in v1.1 (Mar 2026):**
-- Added Parameters table with explicit defaults for client type, delivery mode, and tool
-- Moved format profiles, client-type templates, and 9-section proposal structure to `references/proposal-formats-and-templates.md`
-- Converted Premium Design Tips into an actionable Quality Checklist
-- Fixed second-person language to imperative form throughout
-
-📄 [View full documentation](skills/premium-proposal-builder/SKILL.md)
-
----
-
 ### 🔍 GEO Optimization (Generative Engine Optimization)
 Optimizes digital content and marketing strategies for Generative Engines (LLMs, AI agents) to maximize citations in AI responses.
 
@@ -322,7 +307,6 @@ npx skills add https://github.com/fabricioctelles/skills
 Or install a specific skill:
 
 ```bash
-npx skills add https://github.com/fabricioctelles/skills -s premium-proposal-builder
 npx skills add https://github.com/fabricioctelles/skills -s geo-optimization
 npx skills add https://github.com/fabricioctelles/skills -s substack-expert
 npx skills add https://github.com/fabricioctelles/skills -s pier-cloud
@@ -367,7 +351,6 @@ git clone https://github.com/fabricioctelles/skills.git
 2. Copy the desired skill folder to your agent's skills directory:
 ```bash
 # Example for Cursor
-cp -r skills/premium-proposal-builder .cursor/skills/
 cp -r skills/geo-optimization .cursor/skills/
 cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
@@ -383,7 +366,6 @@ cp -r skills/website-spec .cursor/skills/
 cp -r skills/astro-sites-manager .cursor/skills/
 
 # Example for Claude Code
-cp -r skills/premium-proposal-builder .claude/skills/
 cp -r skills/geo-optimization .claude/skills/
 cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
@@ -399,7 +381,6 @@ cp -r skills/website-spec .claude/skills/
 cp -r skills/astro-sites-manager .claude/skills/
 
 # Example for Kiro
-cp -r skills/premium-proposal-builder .kiro/skills/
 cp -r skills/geo-optimization .kiro/skills/
 cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
@@ -421,9 +402,6 @@ The Agent Skills format is universal and works with any compatible agent. See th
 
 ```
 skills/
-├── premium-proposal-builder/
-│   ├── SKILL.md
-│   └── references/        # format profiles, client types, proposal templates
 ├── geo-optimization/
 │   ├── SKILL.md
 │   └── references/        # guiding principles and case studies
