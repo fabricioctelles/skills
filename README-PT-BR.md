@@ -93,19 +93,15 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 
 ---
 
-### 🗂️ Front-End Checklist
-Uma lista exaustiva de todos os elementos que você precisa ter ou testar antes de lançar seu site ou página HTML em produção. Inspirado no [Front-End-Checklist by thedaviddias](https://github.com/thedaviddias/Front-End-Checklist).
+### 🗂️ Front-End Checklist _(movido)_
 
-**Quando usar:** revisar código antes de ir para produção, validar acessibilidade, SEO, performance e garantir as melhores práticas de front-end.
-
-**Melhorias na v1.1 (Mar 2026):**
-- Descrição reescrita no formato de gatilho em terceira pessoa com frases de acionamento concretas
-- Adicionada seção de Parâmetros com defaults explícitos para checklist e escopo
-- Adicionado Checklist de Qualidade cobrindo itens de alta prioridade, correções acionáveis e separação de bloqueantes vs. não-bloqueantes
-- Passos do workflow reestruturados para voz imperativa com fluxo de execução completo
-- Adicionada seção de Referências documentando todos os 5 arquivos de referência
-
-📄 [Ver documentação completa](skills/front-end-checklist/SKILL.md)
+> **Esta skill foi aposentada.** O projeto original agora oferece 385 skills independentes (uma por regra) cobrindo HTML, CSS, JavaScript, Performance, Acessibilidade, SEO, Segurança, Imagens, Testing, Privacidade e Internacionalização — muito mais completo do que mantínhamos aqui.
+>
+> 👉 **Instale direto da fonte:** https://github.com/thedaviddias/Front-End-Checklist/tree/main/skills
+>
+> ```bash
+> npx skills add frontendchecklist/skills
+> ```
 
 ---
 
@@ -330,7 +326,6 @@ npx skills add https://github.com/fabricioctelles/skills -s geo-optimization
 npx skills add https://github.com/fabricioctelles/skills -s substack-expert
 npx skills add https://github.com/fabricioctelles/skills -s pier-cloud
 npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
-npx skills add https://github.com/fabricioctelles/skills -s front-end-checklist
 npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
 npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
@@ -375,7 +370,6 @@ cp -r skills/geo-optimization .cursor/skills/
 cp -r skills/substack-expert .cursor/skills/
 cp -r skills/pier-cloud .cursor/skills/
 cp -r skills/ultimate-design-system-master .cursor/skills/
-cp -r skills/front-end-checklist .cursor/skills/
 cp -r skills/resume-ats-beater .cursor/skills/
 cp -r skills/coolify-operator .cursor/skills/
 cp -r skills/agent-ready-cloudflare .cursor/skills/
@@ -391,7 +385,6 @@ cp -r skills/geo-optimization .claude/skills/
 cp -r skills/substack-expert .claude/skills/
 cp -r skills/pier-cloud .claude/skills/
 cp -r skills/ultimate-design-system-master .claude/skills/
-cp -r skills/front-end-checklist .claude/skills/
 cp -r skills/resume-ats-beater .claude/skills/
 cp -r skills/coolify-operator .claude/skills/
 cp -r skills/agent-ready-cloudflare .claude/skills/
@@ -407,7 +400,6 @@ cp -r skills/geo-optimization .kiro/skills/
 cp -r skills/substack-expert .kiro/skills/
 cp -r skills/pier-cloud .kiro/skills/
 cp -r skills/ultimate-design-system-master .kiro/skills/
-cp -r skills/front-end-checklist .kiro/skills/
 cp -r skills/resume-ats-beater .kiro/skills/
 cp -r skills/coolify-operator .kiro/skills/
 cp -r skills/agent-ready-cloudflare .kiro/skills/
@@ -437,9 +429,6 @@ skills/
 │   ├── SKILL.md
 │   ├── scripts/           # scripts Python para consumo da API
 │   └── references/        # referência da API, guia de troubleshooting
-├── front-end-checklist/
-│   ├── SKILL.md
-│   └── references/        # checklists de design, head e performance
 ├── resume-ats-beater/
 │   ├── SKILL.md
 │   └── references/        # templates de diagnóstico, estrutura de saída
