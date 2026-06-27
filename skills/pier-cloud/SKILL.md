@@ -1,103 +1,103 @@
 ---
 name: "pier-cloud"
-description: "Este skill deve ser usado quando o usuário precisar consumir a API Pier Cloud (Lighthouse) para gerenciamento de custos em nuvem — incluindo autenticação JWT, listagem de contextos, workspaces e visualizações de dados FinOps. Acionar sempre que houver necessidade de integrar, automatizar ou depurar chamadas à plataforma Pier Cloud via Python, Node.js ou cURL."
+description: "This skill should be used when the user needs to consume the Pier Cloud (Lighthouse) API for cloud cost management — including JWT authentication, listing contexts, workspaces, and FinOps data views. Trigger whenever there is a need to integrate, automate, or debug calls to the Pier Cloud platform via Python, Node.js, or cURL."
 metadata:
   author: ft.ia.br
   version: "1.1"
   date: 2026-03-05
   repository: https://github.com/fabriciotelles/skills
   license: Apache 2.0
-  keywords: ["pier", "piercloud", "lighthouse", "api", "finops", "cloud", "custos"]
+  keywords: ["pier", "piercloud", "lighthouse", "api", "finops", "cloud", "costs"]
   category: library-and-api-reference
 ---
 
 # Pier Cloud API
 
-## Pré-requisitos
+## Prerequisites
 
-### Credenciais
+### Credentials
 
-Localizar o arquivo `.env` no diretório do skill com as seguintes variáveis:
+Locate the `.env` file in the skill directory with the following variables:
 
 ```env
-PIERCLOUD_CLIENT_ID=seu_client_id
-PIERCLOUD_CLIENT_SECRET=seu_client_secret
-PIERCLOUD_TENANCY_ID=seu_tenancy_id
+PIERCLOUD_CLIENT_ID=your_client_id
+PIERCLOUD_CLIENT_SECRET=your_client_secret
+PIERCLOUD_TENANCY_ID=your_tenancy_id
 ```
 
-Caso o arquivo `.env` não exista, informar ao usuário que é necessário obter as credenciais na plataforma Pier Cloud antes de continuar. Não prosseguir sem o arquivo `.env`.
+If the `.env` file does not exist, inform the user that credentials must be obtained from the Pier Cloud platform before proceeding. Do not proceed without the `.env` file.
 
-> Nota: `PIERCLOUD_TENANCY_ID` equivale ao antigo `PIERCLOUD_BUSINESS_ID`. Os scripts aceitam ambos como fallback.
+> Note: `PIERCLOUD_TENANCY_ID` is equivalent to the former `PIERCLOUD_BUSINESS_ID`. Scripts accept both as fallback.
 
-### Dependências Python
+### Python Dependencies
 
 ```bash
 pip install requests python-dotenv
 ```
 
-## Configuração Básica
+## Basic Configuration
 
-A API utiliza autenticação JWT. Fluxo obrigatório:
+The API uses JWT authentication. Required flow:
 
-1. Autenticar via `POST /auth` com `client_id` e `client_secret` para obter token JWT
-2. Incluir o token em todas as requisições: `Authorization: Bearer {token}`
-3. Renovar o token ao expirar (validade padrão: 1 hora)
+1. Authenticate via `POST /auth` with `client_id` and `client_secret` to obtain a JWT token
+2. Include the token in all requests: `Authorization: Bearer {token}`
+3. Renew the token upon expiration (default validity: 1 hour)
 
-**URL Base**: `https://api.piercloud.io`
+**Base URL**: `https://api.piercloud.io`
 
-Verificar a conexão executando:
+Verify the connection by running:
 
 ```bash
 python scripts/pier-cloud-auth.py
 ```
 
-## Scripts Disponíveis
+## Available Scripts
 
-Scripts prontos para uso em `scripts/`. Consultar `scripts/README.md` para instruções detalhadas.
+Ready-to-use scripts in `scripts/`. See `scripts/README.md` for detailed instructions.
 
-| Script | Descrição |
-|--------|-----------|
-| `pier-cloud-auth.py` | Autenticar e obter token JWT |
-| `pier-cloud-list-contexts.py` | Listar contextos disponíveis |
-| `pier-cloud-list-workspaces.py` | Listar workspaces com paginação |
-| `pier-cloud-get-workspace.py` | Obter detalhes de workspace específico |
-| `pier-cloud-get-all-workspaces.py` | Obter todos os workspaces (paginação automática) |
-| `pier-cloud-list-views.py` | Listar visualizações de um workspace |
-| `pier-cloud-get-view.py` | Obter informações de visualização específica |
-| `pier-cloud-get-view-data.py` | Obter dados de visualização com filtros |
-| `pier_cloud_client.py` | Cliente robusto com CLI e biblioteca reutilizável |
+| Script | Description |
+|--------|-------------|
+| `pier-cloud-auth.py` | Authenticate and obtain JWT token |
+| `pier-cloud-list-contexts.py` | List available contexts |
+| `pier-cloud-list-workspaces.py` | List workspaces with pagination |
+| `pier-cloud-get-workspace.py` | Get specific workspace details |
+| `pier-cloud-get-all-workspaces.py` | Get all workspaces (automatic pagination) |
+| `pier-cloud-list-views.py` | List views for a workspace |
+| `pier-cloud-get-view.py` | Get specific view information |
+| `pier-cloud-get-view-data.py` | Get view data with filters |
+| `pier_cloud_client.py` | Robust client with CLI and reusable library |
 
-> Nota: Scripts de workspace-groups (`pier-cloud-list-workspace-groups.py`, `pier-cloud-get-workspace-group.py`) não funcionam — os endpoints correspondentes não existem na API atual.
+> Note: Workspace-groups scripts (`pier-cloud-list-workspace-groups.py`, `pier-cloud-get-workspace-group.py`) do not work — the corresponding endpoints do not exist in the current API.
 
 ## Workflows
 
-Seguir os workflows detalhados com exemplos de requisição e resposta em `references/REFERENCE.md`:
+Follow the detailed workflows with request and response examples in `references/REFERENCE.md`:
 
-- **Workflow 1** — Autenticação e Obtenção de Token
-- **Workflow 2** — Listar Contextos
-- **Workflow 3** — Listar Workspaces
-- **Workflow 4** — Obter Detalhes de Workspace
-- **Workflow 5** — Obter Todos os Workspaces (Paginação Automática)
-- **Workflow 6** — Cliente Robusto com Retry e Renovação de Token
-- **Workflow 9** — Listar Visualizações de Workspace
-- **Workflow 10** — Obter Informações de Visualização
-- **Workflow 11** — Obter Dados de Visualização com Filtros
+- **Workflow 1** — Authentication and Token Retrieval
+- **Workflow 2** — List Contexts
+- **Workflow 3** — List Workspaces
+- **Workflow 4** — Get Workspace Details
+- **Workflow 5** — Get All Workspaces (Automatic Pagination)
+- **Workflow 6** — Robust Client with Retry and Token Renewal
+- **Workflow 9** — List Workspace Views
+- **Workflow 10** — Get View Information
+- **Workflow 11** — Get View Data with Filters
 
-Para referência de endpoints, parâmetros, estruturas de resposta e exemplos com cURL, consultar `references/REFERENCE.md`.
+For endpoint reference, parameters, response structures, and cURL examples, see `references/REFERENCE.md`.
 
-Para diagnóstico de erros (401, 403, 404, timeout, rate limiting), consultar `references/TROUBLESHOOTING.md`.
+For error diagnosis (401, 403, 404, timeout, rate limiting), see `references/TROUBLESHOOTING.md`.
 
-## Recursos Adicionais
+## Additional Resources
 
 - **API Docs**: https://docs.piercloud.com/api-docs-pier-cloud
-- **Plataforma Pier Cloud**: https://piercloud.com/en/
+- **Pier Cloud Platform**: https://piercloud.com/en/
 
-## Checklist de Qualidade
+## Quality Checklist
 
-- [ ] Arquivo `.env` presente com `PIERCLOUD_CLIENT_ID`, `PIERCLOUD_CLIENT_SECRET` e `PIERCLOUD_TENANCY_ID`
-- [ ] Dependências Python instaladas (`requests`, `python-dotenv`)
-- [ ] Autenticação bem-sucedida (token JWT obtido sem erros)
-- [ ] Endpoint correto sendo utilizado (padrão `/lighthouse/tenancies/{tenancy_id}/...`)
-- [ ] Token sendo renovado antes de expirar em sessões longas
-- [ ] IDs de workspace/view confirmados via listagem antes de usar diretamente
-- [ ] Erros tratados conforme `references/TROUBLESHOOTING.md`
+- [ ] `.env` file present with `PIERCLOUD_CLIENT_ID`, `PIERCLOUD_CLIENT_SECRET`, and `PIERCLOUD_TENANCY_ID`
+- [ ] Python dependencies installed (`requests`, `python-dotenv`)
+- [ ] Authentication successful (JWT token obtained without errors)
+- [ ] Correct endpoint being used (default `/lighthouse/tenancies/{tenancy_id}/...`)
+- [ ] Token being renewed before expiration in long sessions
+- [ ] Workspace/view IDs confirmed via listing before using directly
+- [ ] Errors handled per `references/TROUBLESHOOTING.md`

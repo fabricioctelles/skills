@@ -1,6 +1,6 @@
 ---
 name: coolify-operator
-description: Operador mestre do Coolify para plataforma self-hosted de deployment. Use quando o usuário mencionar 'coolify', 'deploy no coolify', 'listar/reiniciar/redeploy aplicações', 'ver logs coolify', 'API/CLI coolify', 'gerenciar servidores/databases/apps coolify', ou 'coolify context'. Automatiza deployments e gerenciamento via API REST ou CLI oficial.
+description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
   version: "1.1"
@@ -11,43 +11,43 @@ metadata:
 
 # Coolify Operator
 
-Skill para operar instâncias Coolify através da **API REST** ou **CLI oficial**. Coolify é uma plataforma self-hosted open-source alternativa ao Heroku/Vercel/Netlify para deploy de aplicações, databases e serviços.
+Skill for operating Coolify instances through the **REST API** or **official CLI**. Coolify is a self-hosted open-source platform alternative to Heroku/Vercel/Netlify for deploying applications, databases, and services.
 
-## Quando usar este skill
+## When to use this skill
 
-- Conectar em instâncias Coolify (via API ou CLI)
-- Listar e gerenciar aplicações, serviços, databases e servidores
-- Fazer deploy, restart ou stop de aplicações
-- Ver logs e status de deployments
-- Gerenciar variáveis de ambiente
-- Operar múltiplas instâncias Coolify (contexts)
-- Troubleshooting de conexão com Coolify
+- Connect to Coolify instances (via API or CLI)
+- List and manage applications, services, databases, and servers
+- Deploy, restart, or stop applications
+- View logs and deployment status
+- Manage environment variables
+- Operate multiple Coolify instances (contexts)
+- Troubleshoot Coolify connection issues
 
-## Conceitos fundamentais
+## Fundamental concepts
 
-### Autenticação
+### Authentication
 
-**API REST:**
-- Endpoint base: `https://SEU-HOST/api/v1` (sempre com `/api/v1` no final)
-- Autenticação: `Authorization: Bearer SEU_TOKEN`
-- Token obtido em: Coolify Dashboard → Keys & Tokens → API Tokens
+**REST API:**
+- Base endpoint: `https://YOUR-HOST/api/v1` (always with `/api/v1` at the end)
+- Authentication: `Authorization: Bearer YOUR_TOKEN`
+- Token obtained at: Coolify Dashboard → Keys & Tokens → API Tokens
 
 **CLI:**
-- Instala contextos que armazenam HOST + TOKEN
-- HOST no contexto é SEM `/api/v1` (só a URL base)
-- CLI adiciona `/api/v1` automaticamente
+- Installs contexts that store HOST + TOKEN
+- HOST in context is WITHOUT `/api/v1` (just the base URL)
+- CLI adds `/api/v1` automatically
 
-### Configuração com pipe no token
+### Configuration with pipe in token
 
-⚠️ **IMPORTANTE**: Tokens do Coolify frequentemente contêm `|` (ex: `3|abc123...`). Nunca use `source .env` pois isso quebra no shell.
+⚠️ **IMPORTANT**: Coolify tokens often contain `|` (e.g., `3|abc123...`). Never use `source .env` as this breaks in the shell.
 
-**Leitura segura do .env:**
+**Safe .env reading:**
 ```bash
 COOLIFY_KEY=$(sed -n 's/^COOLIFY_KEY=//p' .env)
 COOLIFY=$(sed -n 's/^COOLIFY=//p' .env)
 ```
 
-**Formato esperado no .env:**
+**Expected .env format:**
 ```bash
 COOLIFY_KEY=3|abc123def456...
 COOLIFY=http://192.168.1.XXX:8000/api/v1
@@ -55,138 +55,138 @@ COOLIFY=http://192.168.1.XXX:8000/api/v1
 
 ### UUIDs
 
-Coolify usa UUIDs para identificar recursos:
+Coolify uses UUIDs to identify resources:
 - Applications: `app-uuid`
 - Servers: `server-uuid`
 - Databases: `db-uuid`
 - Services: `service-uuid`
 
-## Operações com CLI
+## CLI Operations
 
-### Setup inicial
+### Initial setup
 
 ```bash
-# Ler token do .env de forma segura
+# Read token from .env safely
 COOLIFY_KEY=$(sed -n 's/^COOLIFY_KEY=//p' .env)
 
-# Adicionar contexto (URL SEM /api/v1)
-coolify context add -d -f meu-coolify http://192.168.1.XXX:8000 "$COOLIFY_KEY"
+# Add context (URL WITHOUT /api/v1)
+coolify context add -d -f my-coolify http://192.168.1.XXX:8000 "$COOLIFY_KEY"
 
-# Usar o contexto
-coolify context use meu-coolify
+# Use the context
+coolify context use my-coolify
 
-# Verificar conexão
+# Verify connection
 coolify context verify
 
-# Ver versão da API
+# Check API version
 coolify context version
 ```
 
-### Gerenciamento de contextos
+### Context management
 
 ```bash
-# Listar contextos
+# List contexts
 coolify context list
 
-# Adicionar múltiplos contextos
+# Add multiple contexts
 coolify context add prod https://prod.coolify.io "$PROD_TOKEN" --default
 coolify context add staging https://staging.coolify.io "$STAGING_TOKEN"
 coolify context add dev https://dev.coolify.io "$DEV_TOKEN"
 
-# Trocar contexto padrão
+# Switch default context
 coolify context use staging
 
-# Usar contexto específico em um comando
+# Use specific context in a command
 coolify --context=prod app list
 
-# Atualizar token de um contexto
+# Update token for a context
 coolify context set-token prod new-token-here
 
-# Remover contexto
+# Remove context
 coolify context delete dev
 ```
 
-### Operações com applications
+### Application operations
 
 ```bash
-# Listar todas as aplicações
+# List all applications
 coolify app list
 
-# Ver detalhes de uma aplicação
+# View application details
 coolify app get <uuid>
 
 # --- LIFECYCLE ---
-# Iniciar (deploy) aplicação
+# Start (deploy) application
 coolify app start <uuid>
 
-# Parar aplicação
+# Stop application
 coolify app stop <uuid>
 
-# Reiniciar aplicação
+# Restart application
 coolify app restart <uuid>
 
 # --- LOGS ---
-# Ver logs da aplicação
+# View application logs
 coolify app logs <uuid>
 
-# --- VARIÁVEIS DE AMBIENTE ---
-# Listar variáveis de ambiente
+# --- ENVIRONMENT VARIABLES ---
+# List environment variables
 coolify app env list <uuid>
 
-# Criar variável de ambiente
+# Create environment variable
 coolify app env create <uuid> --key API_KEY --value secret123
 
-# Sincronizar variáveis de arquivo .env
+# Sync environment variables from .env file
 coolify app env sync <uuid> --file .env
 coolify app env sync <uuid> --file .env.production --build-time --preview
 ```
 
-### Operações com servers
+### Server operations
 
 ```bash
-# Listar servidores
+# List servers
 coolify server list
 
-# Ver detalhes de um servidor (incluindo recursos)
+# View server details (including resources)
 coolify server get <uuid> --resources
 
-# Adicionar novo servidor (com validação)
+# Add new server (with validation)
 coolify server add myserver 192.168.1.100 <key-uuid> --validate
 ```
 
-### Operações com team
+### Team operations
 
 ```bash
-# Listar teams disponíveis
+# List available teams
 coolify team list
 
-# Ver team atual
+# View current team
 coolify team current
 
-# Listar membros do team
+# List team members
 coolify team members list
 ```
 
-### Flags globais
+### Global flags
 
 ```bash
-# Especificar contexto
+# Specify context
 coolify --context <name> ...
 
-# Override do host
+# Override host
 coolify --host <fqdn> ...
 
-# Token direto (bypassa contexto)
+# Direct token (bypasses context)
 coolify --token <token> ...
 
-# Formato de saída (table, json, pretty)
+# Output format (table, json, pretty)
 coolify --format json ...
 
-# Mostrar dados sensíveis
+# Show sensitive data
 coolify -s ...
 coolify --show-sensitive ...
 
-# Forçar operação
+# Force operation
 coolify -f ...
 coolify --force ...
 
@@ -194,56 +194,56 @@ coolify --force ...
 coolify --debug ...
 ```
 
-## Operações com API REST
+## REST API Operations
 
-### Autenticação e teste
+### Authentication and testing
 
 ```bash
-# Ler credenciais do .env de forma segura
+# Read credentials from .env safely
 COOLIFY_KEY=$(sed -n 's/^COOLIFY_KEY=//p' .env)
 COOLIFY=$(sed -n 's/^COOLIFY=//p' .env)
 
-# Testar conexão
+# Test connection
 curl -sS -i \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/version"
 
-# Resultado esperado: HTTP 200 + {"version": "4.0.0-beta.xxx"}
+# Expected result: HTTP 200 + {"version": "4.0.0-beta.xxx"}
 ```
 
 ### Applications
 
 ```bash
-# Listar aplicações
+# List applications
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications"
 
-# Ver detalhes de aplicação
+# View application details
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}"
 
-# Iniciar (deploy) aplicação
+# Start (deploy) application
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/start"
 
-# Flags query params:
+# Query param flags:
 # ?force=true          - Force rebuild
 # ?instant_deploy=true - Skip queue
 
-# Parar aplicação
+# Stop application
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/stop"
 
-# Reiniciar aplicação
+# Restart application
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/restart"
 
-# Response exemplo:
+# Example response:
 # {
 #   "message": "Restart request queued.",
 #   "deployment_uuid": "doogksw"
@@ -253,12 +253,12 @@ curl -sS \
 ### Deployments
 
 ```bash
-# Listar todos os deployments em andamento
+# List all ongoing deployments
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/deployments"
 
-# Listar deployments de uma aplicação (com paginação)
+# List deployments for an application (with pagination)
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/deployments/applications/{uuid}?skip=0&take=10"
@@ -267,12 +267,12 @@ curl -sS \
 ### Servers
 
 ```bash
-# Listar servidores
+# List servers
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/servers"
 
-# Ver detalhes de servidor
+# View server details
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/servers/{uuid}"
@@ -281,22 +281,22 @@ curl -sS \
 ### Databases
 
 ```bash
-# Listar databases
+# List databases
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases"
 
-# Iniciar database
+# Start database
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/start"
 
-# Parar database
+# Stop database
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/stop"
 
-# Reiniciar database
+# Restart database
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/restart"
@@ -305,7 +305,7 @@ curl -sS \
 ### Services
 
 ```bash
-# Reiniciar serviço
+# Restart service
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/services/{uuid}/restart"
@@ -319,111 +319,111 @@ curl -sS \
 
 ## Troubleshooting
 
-### Erro: 403 "You are not allowed to access the API"
+### Error: 403 "You are not allowed to access the API"
 
-**Causa:** Token inválido ou sem permissão para a instância.
+**Cause:** Invalid token or no permission for the instance.
 
-**Solução:**
-1. Pedir para o usuário validar na instância em <URL_DA_INSTANCIA>/settings/advanced se a API está ativada e com o IP do cliente liberado
-2. Regenerar token em: Dashboard → Keys & Tokens → API Tokens
-3. Atualizar `.env` ou contexto CLI
-4. Verificar que está usando a instância correta
+**Solution:**
+1. Ask the user to verify in the instance at <INSTANCE_URL>/settings/advanced whether the API is enabled and the client IP is allowed
+2. Regenerate token at: Dashboard → Keys & Tokens → API Tokens
+3. Update `.env` or CLI context
+4. Verify that the correct instance is being used
 
-### Erro: 401 "Unauthenticated"
+### Error: 401 "Unauthenticated"
 
-**Causa:** Header de autenticação incorreto ou token não enviado.
+**Cause:** Incorrect authentication header or token not sent.
 
-**Solução:**
+**Solution:**
 ```bash
-# Verificar que está usando Bearer (não só "Token")
-Authorization: Bearer SEU_TOKEN
+# Verify that Bearer is being used (not just "Token")
+Authorization: Bearer YOUR_TOKEN
 
-# CLI: verificar contexto
+# CLI: verify context
 coolify context verify
 ```
 
-### Erro: 404 no context verify
+### Error: 404 on context verify
 
-**Causa:** URL do contexto CLI está incorreta (provavelmente com `/api/v1` no lugar errado).
+**Cause:** CLI context URL is incorrect (probably with `/api/v1` in the wrong place).
 
-**Solução:**
+**Solution:**
 ```bash
-# CLI context deve ter URL SEM /api/v1
-coolify context add meu-coolify http://192.168.1.XXX:8000 "$TOKEN"
+# CLI context must have URL WITHOUT /api/v1
+coolify context add my-coolify http://192.168.1.XXX:8000 "$TOKEN"
 
-# API direta deve ter URL COM /api/v1
+# Direct API must have URL WITH /api/v1
 COOLIFY=http://192.168.1.XXX:8000/api/v1
 ```
 
-### Túnel Cloudflare não é a causa
+### Cloudflare Tunnel is not the cause
 
-Se a API já retorna JSON válido do Coolify (mesmo que seja erro de auth), o túnel Cloudflare está funcionando. O problema é autenticação, não conexão.
+If the API already returns valid JSON from Coolify (even if it's an auth error), the Cloudflare tunnel is working. The problem is authentication, not connectivity.
 
-### Token com pipe (|) quebra shell
+### Token with pipe (|) breaks shell
 
 ```bash
-# ❌ ERRADO - quebra com pipe
+# ❌ WRONG - breaks with pipe
 source .env
 
-# ✅ CORRETO - leitura segura
+# ✅ CORRECT - safe reading
 COOLIFY_KEY=$(sed -n 's/^COOLIFY_KEY=//p' .env)
 ```
 
-## Workflows comuns
+## Common workflows
 
-### Deploy completo de nova aplicação
+### Full deploy of a new application
 
 ```bash
-# 1. Conectar no Coolify
-coolify context add prod https://coolify.seu-dominio.com "$TOKEN" --default
+# 1. Connect to Coolify
+coolify context add prod https://coolify.your-domain.com "$TOKEN" --default
 coolify context verify
 
-# 2. Listar servidores disponíveis
+# 2. List available servers
 coolify server list
 
-# 3. Fazer deploy (via dashboard UI ou API)
-# Nota: criação de apps é melhor via UI, API é para operações
+# 3. Deploy (via dashboard UI or API)
+# Note: app creation is better via UI, API is for operations
 
-# 4. Listar as apps para pegar UUID
+# 4. List apps to get UUID
 coolify app list
 
-# 5. Iniciar a aplicação
+# 5. Start the application
 coolify app start <uuid>
 
-# 6. Ver logs do deploy
+# 6. View deploy logs
 coolify app logs <uuid>
 ```
 
-### Redeploy com force rebuild
+### Redeploy with force rebuild
 
 ```bash
 # Via CLI
 coolify app restart <uuid>
 
-# Via API com rebuild forçado
+# Via API with forced rebuild
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/start?force=true"
 ```
 
-### Atualizar variáveis de ambiente
+### Update environment variables
 
 ```bash
-# Opção 1: Sincronizar de arquivo
+# Option 1: Sync from file
 coolify app env sync <uuid> --file .env.production
 
-# Opção 2: Criar individual
-coolify app env create <uuid> --key API_URL --value https://api.exemplo.com
+# Option 2: Create individually
+coolify app env create <uuid> --key API_URL --value https://api.example.com
 coolify app env create <uuid> --key API_KEY --value secret123
 
-# 3. Restart para aplicar mudanças
+# 3. Restart to apply changes
 coolify app restart <uuid>
 ```
 
-### Monitoramento multi-ambiente
+### Multi-environment monitoring
 
 ```bash
-# Produção
+# Production
 coolify --context=prod app list
 coolify --context=prod app logs <prod-app-uuid>
 
@@ -436,17 +436,17 @@ coolify --context=dev app list
 coolify --context=dev server list
 ```
 
-## Recursos importantes
+## Important resources
 
-### Estrutura de resposta da API
+### API response structure
 
 **Application:**
 ```json
 {
   "id": 123,
   "uuid": "app-uuid-123",
-  "name": "minha-app",
-  "fqdn": "app.exemplo.com",
+  "name": "my-app",
+  "fqdn": "app.example.com",
   "status": "running",
   "git_repository": "https://github.com/user/repo",
   "git_branch": "main",
@@ -464,7 +464,7 @@ coolify --context=dev server list
 {
   "id": 1,
   "uuid": "server-uuid-123",
-  "name": "servidor-principal",
+  "name": "main-server",
   "ip": "192.168.1.100",
   "user": "root",
   "port": 22,
@@ -487,33 +487,33 @@ coolify --context=dev server list
 }
 ```
 
-## Dicas de uso
+## Usage tips
 
-1. **Sempre verificar UUIDs**: Use `coolify app list` ou API para confirmar UUIDs antes de operações
-2. **Contextos para multi-ambiente**: Configure um contexto para cada ambiente (dev/staging/prod)
-3. **Logs em tempo real**: Use `coolify app logs <uuid>` durante deploys
-4. **Force rebuild quando necessário**: `?force=true` no start garante rebuild completo
-5. **Segurança do token**: Nunca commitar tokens. Use `.env` com `.gitignore`
-6. **Formato JSON para scripts**: Use `--format json` no CLI para parsear com `jq`
+1. **Always verify UUIDs**: Use `coolify app list` or API to confirm UUIDs before operations
+2. **Contexts for multi-environment**: Configure one context for each environment (dev/staging/prod)
+3. **Real-time logs**: Use `coolify app logs <uuid>` during deploys
+4. **Force rebuild when needed**: `?force=true` on start ensures complete rebuild
+5. **Token security**: Never commit tokens. Use `.env` with `.gitignore`
+6. **JSON format for scripts**: Use `--format json` in CLI for parsing with `jq`
 
 ## Quality Checklist
 
-Antes de executar qualquer operação, verificar:
+Before executing any operation, verify:
 
-- [ ] Arquivo `.env` presente com `COOLIFY_KEY` e `COOLIFY` corretos
-- [ ] Token lido de forma segura (usando `sed` ou método adequado, não `source`)
-- [ ] Contexto correto selecionado (`coolify context use <nome>`)
-- [ ] Conexão verificada (`coolify context verify`)
-- [ ] UUIDs confirmados antes de operações destrutivas
-- [ ] Endpoint URL correto (API tem `/api/v1`, contexto CLI não tem)
-- [ ] Headers de autenticação incluídos em chamadas API (`Authorization: Bearer <token>`)
-- [ ] Tratamento de erros implementado (401, 403, 404, 500)
-- [ ] Logs consultados em caso de falha de deploy
-- [ ] Operações críticas (delete, stop) executadas com confirmação
+- [ ] `.env` file present with correct `COOLIFY_KEY` and `COOLIFY`
+- [ ] Token read safely (using `sed` or appropriate method, not `source`)
+- [ ] Correct context selected (`coolify context use <name>`)
+- [ ] Connection verified (`coolify context verify`)
+- [ ] UUIDs confirmed before destructive operations
+- [ ] Endpoint URL correct (API has `/api/v1`, CLI context does not)
+- [ ] Authentication headers included in API calls (`Authorization: Bearer <token>`)
+- [ ] Error handling implemented (401, 403, 404, 500)
+- [ ] Logs checked in case of deploy failure
+- [ ] Critical operations (delete, stop) executed with confirmation
 
-## Referências
+## References
 
-- **Documentação oficial**: https://coolify.io/docs
+- **Official documentation**: https://coolify.io/docs
 - **API Reference**: https://coolify.io/docs/api-reference
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
 - **Coolify Core**: https://github.com/coollabsio/coolify

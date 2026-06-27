@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Script para autenticar na API Pier Cloud e obter token JWT.
+Script to authenticate with the Pier Cloud API and obtain a JWT token.
 """
 
 import requests
 import os
 from dotenv import load_dotenv
 
-# Carregar variáveis de ambiente
+# Load environment variables
 load_dotenv()
 
 API_BASE = "https://api.piercloud.io"
@@ -15,8 +15,8 @@ CLIENT_ID = os.getenv("PIERCLOUD_CLIENT_ID")
 CLIENT_SECRET = os.getenv("PIERCLOUD_CLIENT_SECRET")
 
 def authenticate():
-    """Obter token de autenticação"""
-    print("Autenticando na API Pier Cloud...")
+    """Obtain authentication token"""
+    print("Authenticating with Pier Cloud API...")
     
     url = f"{API_BASE}/auth"
     payload = {
@@ -32,31 +32,31 @@ def authenticate():
             token = data['data']['access_token']
             expires_in = data['data']['expires_in']
             
-            print(f"\n✓ Token obtido com sucesso!")
+            print(f"\n✓ Token obtained successfully!")
             print(f"Token: {token[:50]}...")
-            print(f"Expira em: {expires_in} segundos ({expires_in//60} minutos)")
-            print(f"Tipo: {data['data']['token_type']}")
+            print(f"Expires in: {expires_in} seconds ({expires_in//60} minutes)")
+            print(f"Type: {data['data']['token_type']}")
             
             return token
         else:
-            print(f"\n✗ Erro na autenticação (Status {response.status_code})")
-            print(f"Resposta: {response.text}")
+            print(f"\n✗ Authentication error (Status {response.status_code})")
+            print(f"Response: {response.text}")
             return None
             
     except requests.exceptions.RequestException as e:
-        print(f"\n✗ Erro de conexão: {e}")
+        print(f"\n✗ Connection error: {e}")
         return None
 
 if __name__ == "__main__":
-    # Validar variáveis de ambiente
+    # Validate environment variables
     if not CLIENT_ID or not CLIENT_SECRET:
-        print("✗ Erro: PIERCLOUD_CLIENT_ID e PIERCLOUD_CLIENT_SECRET devem estar definidos no .env")
+        print("✗ Error: PIERCLOUD_CLIENT_ID and PIERCLOUD_CLIENT_SECRET must be defined in .env")
         exit(1)
     
     token = authenticate()
     
     if token:
-        print("\n✓ Autenticação concluída com sucesso!")
+        print("\n✓ Authentication completed successfully!")
     else:
-        print("\n✗ Falha na autenticação")
+        print("\n✗ Authentication failed")
         exit(1)

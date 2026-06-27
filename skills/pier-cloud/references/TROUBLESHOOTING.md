@@ -1,10 +1,10 @@
 ## Troubleshooting
 
-### Erro 401 - Credenciais Inválidas
+### Error 401 - Invalid Credentials
 
-**Problema**: Autenticação falha com erro 401
+**Problem**: Authentication fails with error 401
 
-**Sintomas**:
+**Symptoms**:
 ```json
 {
   "code": "failed",
@@ -12,22 +12,22 @@
 }
 ```
 
-**Causas Comuns**:
-- `client_id` ou `client_secret` incorretos
-- Credenciais não cadastradas na plataforma Pier Cloud
-- Variáveis de ambiente não carregadas corretamente
+**Common Causes**:
+- Incorrect `client_id` or `client_secret`
+- Credentials not registered on the Pier Cloud platform
+- Environment variables not loaded correctly
 
-**Soluções**:
-1. Verificar credenciais no arquivo `.env`
-2. Confirmar que as variáveis estão sendo carregadas
-3. Validar credenciais com o time da Pier Cloud
-4. Verificar se o cliente HTTP está cadastrado na plataforma
+**Solutions**:
+1. Check credentials in the `.env` file
+2. Confirm that variables are being loaded
+3. Validate credentials with the Pier Cloud team
+4. Verify that the HTTP client is registered on the platform
 
-### Erro 403 - Acesso Negado
+### Error 403 - Access Denied
 
-**Problema**: Token válido mas sem permissão para acessar recurso
+**Problem**: Valid token but no permission to access resource
 
-**Sintomas**:
+**Symptoms**:
 ```json
 {
   "code": "authorization/forbidden",
@@ -35,21 +35,21 @@
 }
 ```
 
-**Causas**:
-- Conta sem permissões adequadas
-- `tenancy_id` incorreto
-- Recurso não pertence ao tenant especificado
+**Causes**:
+- Account without adequate permissions
+- Incorrect `tenancy_id`
+- Resource does not belong to the specified tenant
 
-**Soluções**:
-1. Verificar permissões da conta na plataforma Pier Cloud
-2. Confirmar `tenancy_id` correto
-3. Contatar administrador para solicitar permissões
+**Solutions**:
+1. Check account permissions on the Pier Cloud platform
+2. Confirm correct `tenancy_id`
+3. Contact administrator to request permissions
 
-### Erro 404 - Recurso Não Encontrado
+### Error 404 - Resource Not Found
 
-**Problema**: Endpoint ou recurso não existe
+**Problem**: Endpoint or resource does not exist
 
-**Sintomas**:
+**Symptoms**:
 ```json
 {
   "code": "workspace/not-found",
@@ -57,59 +57,59 @@
 }
 ```
 
-**Causas**:
-- `workspace_id` incorreto ou não existe
-- `tenancy_id` inválido
-- URL do endpoint incorreta
+**Causes**:
+- Incorrect or non-existent `workspace_id`
+- Invalid `tenancy_id`
+- Incorrect endpoint URL
 
-**Soluções**:
-1. Listar todos os workspaces primeiro para verificar IDs disponíveis
-2. Confirmar URL do endpoint está correta
-3. Validar tenancy_id
+**Solutions**:
+1. List all workspaces first to verify available IDs
+2. Confirm endpoint URL is correct
+3. Validate tenancy_id
 
-### Token Expirado
+### Expired Token
 
-**Problema**: Token JWT expirou após ~1 hora
+**Problem**: JWT token expired after ~1 hour
 
-**Sintomas**:
-- Requisições que funcionavam começam a retornar 401
-- Erro "invalid or expired token"
+**Symptoms**:
+- Requests that were working start returning 401
+- Error "invalid or expired token"
 
-**Solução**:
+**Solution**:
 
-Use o cliente robusto que implementa renovação automática:
+Use the robust client that implements automatic renewal:
 
 ```bash
 python scripts/pier_cloud_client.py --action list-contexts
 ```
 
-O cliente `pier_cloud_client.py` renova o token automaticamente antes de expirar.
+The `pier_cloud_client.py` client automatically renews the token before it expires.
 
-### Timeout de Conexão
+### Connection Timeout
 
-**Problema**: Requisição demora muito ou não responde
+**Problem**: Request takes too long or does not respond
 
-**Sintomas**:
-- Timeout após 30+ segundos
-- Conexão não estabelecida
-- Erro de rede
+**Symptoms**:
+- Timeout after 30+ seconds
+- Connection not established
+- Network error
 
-**Soluções**:
-1. Verificar conectividade com a internet
-2. Testar disponibilidade da API: `curl -I https://api.piercloud.io/auth`
-3. Verificar se há proxy ou firewall bloqueando
-4. Tentar novamente após alguns minutos
+**Solutions**:
+1. Check internet connectivity
+2. Test API availability: `curl -I https://api.piercloud.io/auth`
+3. Check if there is a proxy or firewall blocking
+4. Try again after a few minutes
 
-### Rate Limiting (Muitas Requisições)
+### Rate Limiting (Too Many Requests)
 
-**Problema**: API retorna erro 429 (Too Many Requests)
+**Problem**: API returns error 429 (Too Many Requests)
 
-**Sintomas**:
-- Erro 429 após várias requisições rápidas
-- Mensagem sobre limite de taxa
+**Symptoms**:
+- Error 429 after several rapid requests
+- Message about rate limit
 
-**Soluções**:
-1. Usar o cliente robusto que implementa retry automático
-2. Reduzir frequência de requisições
-3. Implementar delays entre requisições
-4. Usar paginação com `page_size` menor se necessário
+**Solutions**:
+1. Use the robust client that implements automatic retry
+2. Reduce request frequency
+3. Implement delays between requests
+4. Use pagination with smaller `page_size` if needed

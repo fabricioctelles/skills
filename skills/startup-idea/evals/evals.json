@@ -3,13 +3,13 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Tive uma ideia: quero criar um app que conecta donos de cachorros a passeadores no bairro deles. Tipo um Uber pra dog walker. Acho que tem mercado porque todo mundo que eu conheço reclama que nao tem com quem deixar o cachorro quando viaja ou trabalha o dia todo. Sera que vale a pena?",
+      "prompt": "I had an idea: I want to create an app that connects dog owners to walkers in their neighborhood. Like an Uber for dog walkers. I think there's a market because everyone I know complains that they don't have anyone to leave their dog with when they travel or work all day. Is it worth pursuing?",
       "expected_output": "Analise completa que va alem do pressure test: precisa avaliar urgencia do problema, comportamento atual do cliente, dinamica de marketplace, monetizacao/take rate, risco operacional e de confianca, forma de conquistar os primeiros 10 clientes, MVP realista e veredito claro sobre a tese.",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "Sou nutricionista e quero criar uma plataforma SaaS pra clinicas de nutricao gerenciarem planos alimentares, agendamentos e acompanhamento de pacientes. Ja conversei com 5 donos de clinica e todos disseram que usam planilha do Excel hoje. Quero saber se devo seguir em frente e como consigo meus primeiros clientes.",
+      "prompt": "I'm a nutritionist and I want to create a SaaS platform for nutrition clinics to manage meal plans, appointments and patient follow-up. I already talked to 5 clinic owners and they all said they use Excel spreadsheets today. I want to know if I should move forward and how to get my first customers.",
       "expected_output": "Analise que reconheca o estagio mais avancado, trate planilha como prova de dor real, avalie nicho de entrada, competicao com softwares existentes como Nutrium, pricing plausivel, posicionamento da oferta, plano de aquisicao founder-led e proximos experimentos de validacao comercial.",
       "files": []
     },
@@ -21,19 +21,19 @@
     },
     {
       "id": 4,
-      "prompt": "Quero criar uma startup para ajudar PMEs de e-commerce a prever ruptura de estoque com IA. A ideia seria conectar Shopify, ERP e anuncios para prever quando um produto vai faltar e sugerir recompra. Tenho acesso a 12 lojistas porque trabalho numa agencia de performance, mas nenhum deles pediu isso explicitamente ainda. Se fizer sentido, tambem quero entender qual oferta inicial vender e como usar conteudo para gerar demanda.",
+      "prompt": "I want to create a startup to help e-commerce SMBs predict stock rupture with AI. The idea would be to connect Shopify, ERP and ads to predict when a product will run out and suggest reorder. I have access to 12 merchants because I work at a performance agency, but none of them explicitly asked for this yet. If it makes sense, I also want to understand what initial offer to sell and how to use content to generate demand.",
       "expected_output": "Analise em portugues cobrindo founder advantage, se a dor e realmente prioritaria para o lojista, qual nicho inicial atacar, quem compra, como cobrar, oferta inicial viavel, tese de conteudo/distribuicao, primeiros 10 clientes, ideia saliente para o nicho e quais sinais provariam que existe uma startup aqui em vez de apenas um servico com camada de software.",
       "files": []
     },
     {
       "id": 5,
-      "prompt": "Estamos construindo uma startup para psicologos independentes venderem programas de acompanhamento por WhatsApp com IA fazendo check-ins entre sessoes. A parte de produto eu entendo razoavelmente, mas todo mundo diz algo parecido no mercado de saude mental. Quero uma analise brutal da ideia e, se ainda fizer sentido, preciso sair com um angulo de posicionamento que seja memoravel sem soar marketeiro demais.",
+      "prompt": "We are building a startup for independent psychologists to sell WhatsApp follow-up programs with AI doing check-ins between sessions. I understand the product part reasonably well, but everyone says something similar in the mental health market. I want a brutal analysis of the idea and, if it still makes sense, I need to leave with a positioning angle that is memorable without sounding too salesy.",
       "expected_output": "Analise em portugues que nao pare em dor e monetizacao. Deve avaliar saturacao competitiva, risco regulatorio e clinico, clareza da oferta, smallest viable audience, ideia saliente ou signature surprise plausivel e deixar explicito se ainda e cedo demais para trabalhar branding profundo.",
       "files": []
     },
     {
       "id": 6,
-      "prompt": "Tenho uma startup B2B que ajuda empresas a melhorar onboarding interno com agentes de IA, base de conhecimento, treinamentos e analytics. So que quanto mais eu explico, mais parece que eu sirvo qualquer empresa com qualquer problema de enablement. Quero uma analise completa da tese e principalmente ajuda para descobrir qual seria meu menor mercado viavel, qual historia esse publico ja acredita e como montar um caminho de conteudo ate virar algo que recomendam sem eu precisar empurrar tanto.",
+      "prompt": "I have a B2B startup that helps companies improve internal onboarding with AI agents, knowledge base, training and analytics. But the more I explain, the more it seems like I serve any company with any enablement problem. I want a complete analysis of the thesis and mainly help to figure out what would be my smallest viable market, what story this audience already believes and how to build a content path until it becomes something they recommend without me having to push so hard.",
       "expected_output": "Analise em portugues cobrindo tese de produto, risco de categoria ampla demais, smallest viable audience psicografico, worldview e status do comprador, exclusion principle, permission ladder inicial, possivel shareable artifact e um veredito sobre se a startup esta tentando atingir gente demais cedo demais.",
       "files": []
     }
