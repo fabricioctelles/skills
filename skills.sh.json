@@ -37,6 +37,7 @@
       "title": "Web Quality & Standards",
       "description": "Frontend audits, website specs, design system validation, and agent readiness.",
       "skills": [
+        "skill-evaluation",
         "design-md-validator",
         "agent-ready-cloudflare"
       ]

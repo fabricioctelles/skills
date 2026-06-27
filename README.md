@@ -238,6 +238,30 @@ Audits websites for compliance with Brazil's LGPD (Lei 13.709/2018).
 
 ---
 
+### 📊 Skill Evaluation · `code-quality-and-review`
+Evaluate any agent skill against 12 best-practice criteria from Anthropic and agentskills.io. Produces a structured markdown scorecard with per-criterion scores (0–100), weighted overall grade (A/B/C/D/F), category classification, bonus patterns assessment, and prioritized improvement actions.
+
+**When to use:** evaluate a skill, rate skill quality, audit SKILL.md, compare two skills, skill scorecard, review best practices compliance, or check if a skill is production-ready.
+
+**12 scored criteria:** Don't state the obvious · Gotchas · Progressive disclosure · Avoids railroading · Setup flow · Description for trigger · Memory · Scripts · Hooks · Conciseness · Coherent scope · Grounded in expertise
+
+**4 bonus patterns (measured, not scored):** Validation loops · Output templates · Procedures over declarations · Defaults over menus
+
+**How it differs from [agentskills.io evals](https://agentskills.io/skill-creation/evaluating-skills):**
+
+| | This skill | agentskills.io evals |
+|---|---|---|
+| Evaluates | Skill **structure and writing** quality | Skill **output** quality in use |
+| Method | Static inspection of SKILL.md + files | Run test cases, grade assertions, benchmark |
+| When | Before/after writing — is it well-built? | After writing — does it actually work? |
+| Output | Scorecard with grades and fix actions | pass_rate, tokens, time (with vs without) |
+
+Use this skill first to ensure solid structure, then run evals to validate real-world performance.
+
+📄 [View full documentation](skills/skill-evaluation/SKILL.md)
+
+---
+
 ### 🛡️ Security Specialist · `runbooks`
 Full-stack application security agent — performs SAST (static code analysis), DAST (dynamic testing against running apps), threat modeling, vulnerability triage, remediation, and penetration testing. Combines source code review with live testing against local dev servers or production targets for complete evidence correlation.
 
@@ -455,6 +479,8 @@ Created by [ft.ia.br](https://ft.ia.br)
 ## References
 
 - [Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Anthropic's skill category framework (9 types)
+- [Best practices for skill creators](https://agentskills.io/skill-creation/best-practices) — Writing guidance from the Agent Skills spec
+- [Evaluating skill output quality](https://agentskills.io/skill-creation/evaluating-skills) — Eval-driven iteration with test cases and benchmarks
 
 ## License
 

@@ -237,6 +237,30 @@ Audita websites para conformidade com a LGPD brasileira (Lei 13.709/2018). Valid
 
 ---
 
+### 📊 Skill Evaluation · `code-quality-and-review`
+Avalia qualquer skill de agente contra 12 critérios de boas práticas da Anthropic e agentskills.io. Produz um scorecard markdown estruturado com notas por critério (0–100), nota geral ponderada (A/B/C/D/F), classificação por categoria, avaliação de bonus patterns e ações de melhoria priorizadas.
+
+**Quando usar:** avaliar uma skill, dar nota para skill, auditar SKILL.md, comparar duas skills, scorecard de qualidade, verificar compliance com best practices, ou checar se uma skill está production-ready.
+
+**12 critérios avaliados:** Não diga o óbvio · Gotchas · Progressive disclosure · Evita railroading · Setup flow · Descrição para trigger · Memória · Scripts · Hooks · Concisão · Escopo coerente · Baseado em expertise real
+
+**4 bonus patterns (medidos, sem impacto na nota):** Validation loops · Output templates · Procedures over declarations · Defaults over menus
+
+**Diferença do [agentskills.io evals](https://agentskills.io/skill-creation/evaluating-skills):**
+
+| | Esta skill | agentskills.io evals |
+|---|---|---|
+| Avalia | Qualidade da **estrutura e escrita** | Qualidade do **output** em uso real |
+| Método | Inspeção estática do SKILL.md + arquivos | Rodar test cases, grading, benchmark |
+| Quando | Antes/depois de escrever — está bem construída? | Depois de escrever — funciona na prática? |
+| Saída | Scorecard com notas e ações de correção | pass_rate, tokens, time (com vs sem skill) |
+
+Use esta skill primeiro para garantir estrutura sólida, depois rode evals para validar performance real.
+
+📄 [Ver documentação completa](skills/skill-evaluation/SKILL.md)
+
+---
+
 ### 🛡️ Security Specialist · `runbooks`
 Agente completo de segurança de aplicações — executa SAST (análise estática de código), DAST (testes dinâmicos contra apps rodando), threat modeling, triagem de vulnerabilidades, remediação e penetration testing. Combina revisão de código com testes ao vivo contra servidores dev locais ou targets de produção para correlação completa de evidências.
 
@@ -449,7 +473,9 @@ Criado por [ft.ia.br](https://ft.ia.br)
 
 ## References
 
-- [Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Anthropic's skill category framework (9 types)
+- [Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Framework de categorias de skills da Anthropic (9 tipos)
+- [Best practices for skill creators](https://agentskills.io/skill-creation/best-practices) — Guia de escrita da spec Agent Skills
+- [Evaluating skill output quality](https://agentskills.io/skill-creation/evaluating-skills) — Iteração com evals, test cases e benchmarks
 
 ## Licenca
 

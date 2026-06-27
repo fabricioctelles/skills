@@ -66,6 +66,11 @@
       "sourceType": "local",
       "computedHash": "11301a4403827a4c2e5dbc917321d713187d7e8d6f66b5bfed37e340254acca7"
     },
+    "skill-evaluation": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
     "substack-expert": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
