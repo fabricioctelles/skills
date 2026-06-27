@@ -17,6 +17,7 @@ metadata:
   license: Apache-2.0
   original_project: https://github.com/mreferre/ralph-loop-kiro-specs
   original_author: mreferre
+  category: code-scaffolding-and-templates
 ---
 
 # Ralph Loop for Kiro Specs

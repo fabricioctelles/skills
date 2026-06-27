@@ -13,6 +13,7 @@ metadata:
   date: 2026-06-17
   repository: https://github.com/fabriciotelles/skills
   license: Apache 2.0
+  category: code-quality-and-review
 
 ---
 

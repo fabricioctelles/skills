@@ -18,6 +18,7 @@ metadata:
   date: 2026-06-17
   repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
+  category: library-and-api-reference
 ---
 
 # Open Knowledge Format (OKF)

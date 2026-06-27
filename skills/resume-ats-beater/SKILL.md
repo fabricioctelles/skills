@@ -8,6 +8,7 @@ metadata:
   repository: https://github.com/fabriciotelles/skills
   license: Apache 2.0
   language: pt-BR
+  category: code-scaffolding-and-templates
 ---
 
 # Resume ATS Beater + LinkedIn Optimizer

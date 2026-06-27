@@ -19,6 +19,7 @@ metadata:
   date: 2026-06-22
   repository: https://github.com/fabriciotelles/skills
   license: Apache-2.0
+  category: ci-cd-and-deployment
 ---
 
 # Astro Framework — v7

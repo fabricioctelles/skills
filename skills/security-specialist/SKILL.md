@@ -10,6 +10,7 @@ metadata:
   version: "2.0.0"
   date: 2026-06-24
   license: Apache-2.0
+  category: runbooks
 ---
 
 # Security Specialist

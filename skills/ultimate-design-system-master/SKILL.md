@@ -6,6 +6,7 @@ metadata:
   version: "2.2"
   date: 2026-03-08
   license: Apache 2.0
+  category: code-scaffolding-and-templates
 ---
 
 # Ultimate Design System Master

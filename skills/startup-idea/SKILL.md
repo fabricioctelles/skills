@@ -19,6 +19,7 @@ metadata:
   date: 2026-04-04
   repository: https://github.com/fabriciotelles/skills
   license: Apache 2.0
+  category: data-fetching-and-analysis
 ---
 
 # Startup Idea - Analise Completa de Startup

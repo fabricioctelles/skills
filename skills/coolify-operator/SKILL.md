@@ -6,6 +6,7 @@ metadata:
   version: "1.1"
   date: 2026-03-08
   license: MIT
+  category: ci-cd-and-deployment
 ---
 
 # Coolify Operator

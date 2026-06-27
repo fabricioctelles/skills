@@ -14,6 +14,7 @@ metadata:
   version: "3.0"
   date: 2026-06-03
   source: https://isitagentready.com
+  category: product-verification
 ---
 
 # Agent Ready — Cloudflare Scanner

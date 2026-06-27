@@ -20,6 +20,7 @@ metadata:
   attribution: >
     Reinterpretation of Looper (MIT License) by Kevin Simback, adapted for
     Kiro CLI with native /goal, subagent, and review loop integration.
+  category: code-scaffolding-and-templates
 ---
 
 # Loop Architect

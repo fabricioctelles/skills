@@ -18,7 +18,7 @@ Agent Skills sao um formato aberto e leve para estender as capacidades de agente
 
 ## Skills Disponíveis
 
-### 🔍 GEO Optimization (Generative Engine Optimization)
+### 🔍 GEO Optimization (Generative Engine Optimization) · `code-quality-and-review`
 Otimiza conteúdo digital e estratégias de marketing para Generative Engines (LLMs, AI agents) visando maximizar citações em respostas de IA.
 
 **Quando usar:** melhorar visibilidade em respostas de IA (ChatGPT, Perplexity, Google AI Overview), medir citation rate, alinhar terminologia para LLMs, auditar páginas para IA, criar roundups e FAQs otimizadas.
@@ -34,7 +34,7 @@ Otimiza conteúdo digital e estratégias de marketing para Generative Engines (L
 
 ---
 
-### 📰 Substack Expert
+### 📰 Substack Expert · `library-and-api-reference`
 Especialista na plataforma Substack. Orienta formatação de posts, otimização SEO (títulos, slugs, meta descriptions), estratégias nativas de engajamento (Notes, Chat) e conversão para assinaturas pagas.
 
 **Quando usar:** formatar e otimizar posts no Substack, melhorar SEO de newsletters (títulos, slugs, meta descriptions), crescer audiência com Notes e recomendações, converter leitores gratuitos em assinantes pagos, personalizar homepage e emails de boas-vindas.
@@ -51,7 +51,7 @@ Especialista na plataforma Substack. Orienta formatação de posts, otimização
 
 ---
 
-### ☁️ Pier Cloud API
+### ☁️ Pier Cloud API · `library-and-api-reference`
 Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, gerenciamento de contextos, workspaces e visualizações de dados.
 
 **Quando usar:** autenticar na Pier Cloud, listar contextos disponíveis (AWS, etc), gerenciar workspaces, acessar visualizações de análise de custos, executar scripts de FinOps.
@@ -68,7 +68,7 @@ Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, ge
 
 ---
 
-### 🎨 Ultimate Design System Master
+### 🎨 Ultimate Design System Master · `code-scaffolding-and-templates`
 Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 10 prompts especializados com role-play. Cobre Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code e Apresentações Executivas.
 
 **Quando usar:** criar design system, construir identidade de marca, gerar padrões UI/UX, produzir assets de marketing, escrever specs para Figma, obter crítica de design, analisar tendências de design, rodar auditoria de acessibilidade, traduzir design para código, criar decks de apresentação.
@@ -100,7 +100,7 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 
 ---
 
-### 🚀 Coolify Operator
+### 🚀 Coolify Operator · `ci-cd-and-deployment`
 Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Gerencia aplicações, servidores, databases e serviços via API REST e CLI oficial.
 
 **Quando usar:** conectar em instâncias Coolify, fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), troubleshooting de conexão e autenticação.
@@ -116,7 +116,7 @@ Operador mestre do Coolify — plataforma self-hosted open-source de deployment 
 
 ---
 
-### 📄 Resume ATS Beater + LinkedIn Optimizer
+### 📄 Resume ATS Beater + LinkedIn Optimizer · `code-scaffolding-and-templates`
 Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para posicionamento profissional. Cobre otimização de CV para plataformas ATS brasileiras (Gupy, Vagas.com, PandaPé, Sólides) e auditoria LinkedIn com score heurístico, análise de SSI, fix prompts e mega-prompts de reescrita por LLM. Funciona para qualquer profissão especializada — não é exclusivo para devs.
 
 **Quando usar:** otimizar currículo para ATS, auditar perfil LinkedIn (headline, about, experiências, SSI), adaptar CV para cargo/indústria alvo, gerar fix prompts por problema encontrado, alinhar CV e LinkedIn em modo unificado, fortalecer bullets com resultados mensuráveis. Integra com skill `humanizar` para seções narrativas.
@@ -136,7 +136,7 @@ Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para pos
 
 ---
 
-### 🤖 Agent Ready — Cloudflare Scanner
+### 🤖 Agent Ready — Cloudflare Scanner · `product-verification`
 Audita qualquer website para prontidão de agentes de IA usando o scanner [isitagentready.com](https://isitagentready.com) da Cloudflare. Verifica 18 checks em 5 categorias (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), atribui um nível (0–5) e gera prompts de correção copy-paste para cada check que falha. Inclui 20 sub-skills de implementação cobrindo robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP e mais.
 
 **Quando usar:** escanear site para prontidão de agentes, verificar score agent-ready, corrigir checks que falham, implementar MCP Server Card, adicionar Content Signals, publicar Agent Skills index, configurar Markdown for Agents, escanear múltiplos domínios em batch, melhorar descoberta por agentes de IA.
@@ -145,7 +145,7 @@ Audita qualquer website para prontidão de agentes de IA usando o scanner [isita
 
 ---
 
-### ✅ DESIGN.md Validator
+### ✅ DESIGN.md Validator · `product-verification`
 Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://github.com/google-labs-code/design.md) usando o CLI `@google/design.md`. Funciona com arquivos locais e URLs remotas. Sempre usa `npx` para rodar a versão mais recente — nunca desatualizado.
 
 **Quando usar:** validar DESIGN.md contra a spec, checar contraste WCAG, encontrar referências de tokens quebradas, comparar duas versões de design system, exportar tokens para Tailwind v3/v4 ou W3C DTCG, auditar schema do frontmatter.
@@ -154,7 +154,7 @@ Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://g
 
 ---
 
-### 🔁 Ralph Loop for Kiro Specs
+### 🔁 Ralph Loop for Kiro Specs · `code-scaffolding-and-templates`
 Runner iterativo automatizado para desenvolvimento baseado em specs no [Kiro](https://kiro.dev). Encapsula o `kiro-cli` em um loop bash auto-corretivo que pega tasks de uma Kiro spec, implementa uma por vez, verifica contra critérios de saída e acumula correções e padrões de codebase entre iterações. Baseado em [ralph-loop-kiro-specs](https://github.com/mreferre/ralph-loop-kiro-specs) por [mreferre](https://github.com/mreferre).
 
 **Quando usar:** automatizar implementação de tasks de Kiro specs, rodar kiro-cli em loop, levar uma spec até a conclusão através de iterações repetidas do agente, configurar ou fazer troubleshooting do workflow Ralph Loop, entender progress tracking, correções, padrões de codebase e o dashboard de resumo.
@@ -163,7 +163,7 @@ Runner iterativo automatizado para desenvolvimento baseado em specs no [Kiro](ht
 
 ---
 
-### 🏗️ Loop Architect — Coach de Design de Agent Loops
+### 🏗️ Loop Architect — Coach de Design de Agent Loops · `code-scaffolding-and-templates`
 Projeta loops agenticos bem estruturados com coaching de boas práticas e gates de revisão cross-model antes de executá-los. Entrevista você, critica seu design contra rubrics internas, configura reviewers/judges, e emite artefatos portáveis (`loop.yaml`, `RUN_IN_SESSION.md`, `run-loop.py`). Integra nativamente com `/goal` e subagent review loops do Kiro CLI. Baseado em [Looper](https://github.com/ksimback/looper) por [Kevin Simback](https://github.com/ksimback).
 
 **Quando usar:** projetar um agent loop, configurar um loop de self-review ou LLM-as-judge, construir um council multi-modelo, criar workflows iterativos com review gates, ou scaffoldar um processo orientado a `/goal` com verificação tipada e guardas de terminação.
@@ -172,7 +172,7 @@ Projeta loops agenticos bem estruturados com coaching de boas práticas e gates 
 
 ---
 
-### ✍️ Humanizar — Humanizador de Texto IA para Português Brasileiro
+### ✍️ Humanizar — Humanizador de Texto IA para Português Brasileiro · `code-quality-and-review`
 Reescreve texto em português brasileiro para soar humano, natural e indetectável por ferramentas de IA. Remove padrões de AI slop, restaura entropia semântica e injeta voz e personalidade. Nasceu da skill `humanizer` em inglês mas evoluiu para algo muito mais completo — com 55+ padrões específicos do PT-BR que nenhuma outra fonte catalogou.
 
 **Como nasceu:** Parti da skill [humanizer](https://github.com/blader/humanizer) em inglês por [@blader](https://github.com/blader) (baseada no artigo da Wikipedia "Signs of AI writing"), pesquisei o que torna texto de IA detectável especificamente em português brasileiro, descobri que existia *zero* material consolidado sobre padrões de IA em PT-BR, cataloguei 55+ padrões do zero (incluindo 10 exclusivos do português brasileiro como gerundismo, officialese e hedging estilo ENEM), incorporei o diretório [tropes.fyi](https://tropes.fyi) e o conceito de [ablação semântica](https://www.theregister.com/2026/02/16/semantic_ablation_ai_writing/) (The Register, 2026), e construí uma skill que não apenas remove padrões ruins — restaura a entropia que a IA arrancou.
@@ -198,7 +198,7 @@ Reescreve texto em português brasileiro para soar humano, natural e indetectáv
 
 ---
 
-### 🔐 auth.md — Protocolo de Autenticação para Agentes
+### 🔐 auth.md — Protocolo de Autenticação para Agentes · `library-and-api-reference`
 Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo aberto que permite agentes de IA registrarem-se em serviços em nome de usuários sem formulários de signup. Suporta o fluxo Agent Verified (assertions de identidade ID-JAG via providers confiáveis como OpenAI, Anthropic, Cursor) e o fluxo User Claimed (registro baseado em OTP com entrypoints anonymous start ou email required). Estende o RFC 9728 (Protected Resource Metadata) com suporte a CIMD.
 
 **Quando usar:** tornar sua app agent-ready publicando um `auth.md`, gerar Protected Resource Metadata e Authorization Server metadata com bloco `agent_auth`, validar um `auth.md` existente contra a spec do protocolo, implementar endpoints de registro de agentes (`/agent/auth`, `/agent/auth/claim`, `/agent/auth/revoke`), entender como o protocolo auth.md funciona, configurar verificação de ID-JAG e trust lists, configurar cerimônias de claim OTP.
@@ -207,7 +207,7 @@ Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo a
 
 ---
 
-### 📦 OKF — Open Knowledge Format
+### 📦 OKF — Open Knowledge Format · `library-and-api-reference`
 Cria, valida e enriquece bundles no [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) — spec aberta (v0.1, anunciada 12 Jun 2026 por Sam McVeety & Amir Hormati, Google Cloud) que formaliza o pattern "LLM Wiki" num formato portável e interoperável para conhecimento organizacional. Arquivos Markdown com YAML frontmatter, consumíveis por qualquer agente IA sem SDK. Inclui script bash de validação, guias de conversão (Notion, Obsidian, CSV) e integração com Google Cloud Knowledge Catalog via kcmd CLI/MCP.
 
 **Quando usar:** criar bundles OKF, validar conformidade, enriquecer conceitos com schema/citations/cross-links, converter conhecimento existente (exports Notion, vaults Obsidian, planilhas) para OKF, estruturar base de conhecimento para agentes IA, gerar index.md e log.md, enviar bundles para o Knowledge Catalog via kcmd.
@@ -237,7 +237,7 @@ Audita websites para conformidade com a LGPD brasileira (Lei 13.709/2018). Valid
 
 ---
 
-### 🛡️ Security Specialist
+### 🛡️ Security Specialist · `runbooks`
 Agente completo de segurança de aplicações — executa SAST (análise estática de código), DAST (testes dinâmicos contra apps rodando), threat modeling, triagem de vulnerabilidades, remediação e penetration testing. Combina revisão de código com testes ao vivo contra servidores dev locais ou targets de produção para correlação completa de evidências.
 
 **Quando usar:** escanear repositório por segurança, revisar PR por vulnerabilidades, construir threat model, triar findings, corrigir bug de segurança, fazer pentest em app web, validar fix de segurança, exportar findings para GitHub/Jira/Linear, gerar relatório de segurança.
@@ -281,7 +281,7 @@ security-specialist/
 
 ---
 
-### 🚀 Astro Sites Manager
+### 🚀 Astro Sites Manager · `ci-cd-and-deployment`
 Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo completo: boas práticas, migração v6→v7 com plano estruturado, validação de breaking/deprecated patterns, dev server com AI (background mode, JSON logging), advanced routing com src/fetch.ts, route caching, Sätteri Markdown, compilador Rust, Starlight docs, Pagefind search, SEO, testes e deploy em 8+ plataformas incluindo Coolify.
 
 **Quando usar:** construir sites Astro, atualizar para v7, deploy no Coolify/Vercel/Netlify/Cloudflare, validar breaking changes, configurar Starlight docs, configurar Pagefind search, usar background dev server como agente IA, configurar route caching.
@@ -446,6 +446,10 @@ skills/
 ## Autor
 
 Criado por [ft.ia.br](https://ft.ia.br)
+
+## References
+
+- [Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Anthropic's skill category framework (9 types)
 
 ## Licenca
 

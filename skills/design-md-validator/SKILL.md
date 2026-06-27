@@ -18,6 +18,7 @@ metadata:
   date: 2026-06-26
   repository: https://github.com/fabriciotelles/skills
   license: Apache 2.0
+  category: product-verification
   upstream:
     spec: https://github.com/google-labs-code/design.md
     cli: https://www.npmjs.com/package/@google/design.md
