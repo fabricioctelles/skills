@@ -246,16 +246,18 @@ Avalia qualquer skill de agente contra 12 critérios de boas práticas da Anthro
 
 **4 bonus patterns (medidos, sem impacto na nota):** Validation loops · Output templates · Procedures over declarations · Defaults over menus
 
-**Diferença do [agentskills.io evals](https://agentskills.io/skill-creation/evaluating-skills):**
+**Diferença do [agentskills.io evals](https://agentskills.io/skill-creation/evaluating-skills) e [skill-creator benchmark](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills):**
 
-| | Esta skill | agentskills.io evals |
-|---|---|---|
-| Avalia | Qualidade da **estrutura e escrita** | Qualidade do **output** em uso real |
-| Método | Inspeção estática do SKILL.md + arquivos | Rodar test cases, grading, benchmark |
-| Quando | Antes/depois de escrever — está bem construída? | Depois de escrever — funciona na prática? |
-| Saída | Scorecard com notas e ações de correção | pass_rate, tokens, time (com vs sem skill) |
+| | Esta skill | agentskills.io evals | skill-creator benchmark |
+|---|---|---|---|
+| Avalia | Qualidade da **estrutura** | Qualidade do **output** | Output + regressão + obsolescência |
+| Método | Inspeção estática | Test cases + grading | Comparação A/B cega + multi-agent |
+| Quando | Está bem construída? | Funciona? | Regrediu? Ainda necessária? |
+| Saída | Scorecard + grade A-F | pass_rate, tokens, time | benchmark.json + veredito comparador |
+| Plataforma | Qualquer agente | Qualquer agente | Claude Code only (plugin) |
+| Custo | Zero (read-only) | Tokens (2x runs) | Tokens (2x runs + judge) |
 
-Use esta skill primeiro para garantir estrutura sólida, depois rode evals para validar performance real.
+Use em sequência: **skill-evaluation** (design review) → **evals** (validação funcional) → **benchmark** (monitoramento contínuo).
 
 📄 [Ver documentação completa](skills/skill-evaluation/SKILL.md)
 
