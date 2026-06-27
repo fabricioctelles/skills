@@ -196,6 +196,39 @@ Three rules — all must pass:
 
 ## Validate a Bundle
 
+### Preferred: okflint (when available)
+
+[okflint](https://github.com/mattdav/okflint) is a dedicated Python linter for OKF bundles with 18 rules across 3 tiers (OKF core, profile, hygiene). If installed, always prefer it over the built-in bash script.
+
+```bash
+# Check if okflint is available
+if command -v okflint &>/dev/null; then
+  # Full validation with manifest (if okf-base.yaml exists)
+  if [ -f okf-base.yaml ]; then
+    okflint validate --manifest okf-base.yaml ./bundle/
+  else
+    # Core OKF validation only (no manifest needed)
+    okflint validate ./bundle/
+  fi
+else
+  # Fallback to built-in script
+  bash scripts/validate.sh ./bundle/
+fi
+```
+
+**okflint advantages over the built-in script:**
+- Manifest-driven profiles (enforce custom required fields, status vocabularies, per-type constraints)
+- Wikilink resolution against full Obsidian vault
+- JSON output (`--json`) for CI pipeline parsing
+- Detects broken markdown links and ambiguous wikilinks
+- Exit codes: `0` = pass, `1` = conformance failure, `2` = bad manifest
+
+**Install:** `pip install okflint` or `uv tool install okflint`
+
+### Fallback: built-in bash script
+
+When okflint is not installed, use [scripts/validate.sh](scripts/validate.sh) which checks the 3 core conformance rules.
+
 When asked to validate, check the 3 conformance rules. Report:
 
 ```
