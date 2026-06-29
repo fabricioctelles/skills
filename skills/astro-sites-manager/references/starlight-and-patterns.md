@@ -323,143 +323,20 @@ Add to your build script in `package.json`:
 
 ## 3. SEO
 
-### Manual Meta Tags Pattern
+> **Full reference:** see [SEO Full Stack](seo-full-stack.md) — covers `@jdevalk/astro-seo-graph`, JSON-LD graph, IndexNow, auto-generated OG images, agent discovery, performance SEO, and build-time validation.
 
-```astro
----
-// src/components/SEO.astro
-interface Props {
-  title: string;
-  description: string;
-  image?: string;
-  canonicalURL?: string;
-  type?: 'website' | 'article';
-}
+Below is just the minimal setup for Starlight (which already includes automatic sitemap):
 
-const {
-  title,
-  description,
-  image = '/og-default.png',
-  canonicalURL = Astro.url.href,
-  type = 'website',
-} = Astro.props;
+### Starlight SEO Basics
 
-const ogImage = new URL(image, Astro.site).href;
----
-{/* Primary Meta Tags */}
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
-<link rel="canonical" href={canonicalURL} />
-
-{/* Open Graph */}
-<meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalURL} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={ogImage} />
-
-{/* Twitter */}
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={ogImage} />
-```
-
-### JSON-LD Structured Data
-
-```astro
----
-// src/components/JsonLD.astro
-interface Props {
-  title: string;
-  description: string;
-  publishDate: Date;
-  author: string;
-  image?: string;
-}
-
-const { title, description, publishDate, author, image } = Astro.props;
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: title,
-  description,
-  author: { '@type': 'Person', name: author },
-  datePublished: publishDate.toISOString(),
-  ...(image && { image: new URL(image, Astro.site).href }),
-};
----
-<script type="application/ld+json" set:html={JSON.stringify(schema)} />
-```
-
-### Canonical URLs
-
-```astro
----
-// In your layout's <head>
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
----
-<link rel="canonical" href={canonicalURL} />
-```
-
-### Sitemap
-
-```bash
-npx astro add sitemap
-```
+Starlight generates a sitemap automatically — just set `site` in your config. For RSS and custom meta tags in non-Starlight sites, see the full reference file.
 
 ```js
-// astro.config.mjs
-import sitemap from '@astrojs/sitemap';
-
+// astro.config.mjs — minimum for Starlight SEO
 export default defineConfig({
-  site: 'https://example.com',
-  integrations: [sitemap()],
+  site: 'https://docs.example.com', // Required for sitemap and canonical
+  integrations: [starlight({ title: 'My Docs' })],
 });
-```
-
-Starlight has built-in sitemap support — just set `site` in your config.
-
-### RSS Feed
-
-```bash
-npm install @astrojs/rss
-```
-
-```js
-// src/pages/rss.xml.js
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
-
-export async function GET(context) {
-  const posts = await getCollection('blog');
-  return rss({
-    title: 'My Blog',
-    description: 'Latest posts from my blog',
-    site: context.site,
-    items: posts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.publishDate,
-      description: post.data.description,
-      link: `/blog/${post.id}/`,
-    })),
-    customData: '<language>en-us</language>',
-  });
-}
-```
-
-Enable auto-discovery in your layout `<head>`:
-
-```html
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title="My Blog"
-  href={new URL('rss.xml', Astro.site)}
-/>
 ```
 
 ---

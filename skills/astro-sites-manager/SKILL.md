@@ -243,6 +243,7 @@ image: {
 - [Astro v7 Features](references/v7-features.md) — Rust compiler, Sätteri, Advanced Routing, Route Caching, CDN providers
 - [Astro v6 Features](references/v6-features.md) — Content Collections v2, Actions, Sessions, Server Islands, env module
 - [Testing](references/testing.md) — Vitest components, Playwright E2E, link checking, CI pipeline
-- [Starlight & Patterns](references/starlight-and-patterns.md) — Docs sites, Pagefind search, SEO, i18n, pagination, RSS
+- [SEO Full Stack](references/seo-full-stack.md) — JSON-LD graph, agent discovery, IndexNow, OG images, build-time validation, performance
+- [Starlight & Patterns](references/starlight-and-patterns.md) — Docs sites, Pagefind search, i18n, pagination, RSS
 - [Deployment](references/deployment.md) — Cloudflare, Vercel, Netlify, Firebase, GitHub Pages, Docker/Coolify, Azure
 - [Coolify Deploy](references/coolify-deploy.md) — Self-hosted deploy on Coolify (Dockerfile, API, gotchas, recommended stack)
