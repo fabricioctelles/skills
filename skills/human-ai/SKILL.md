@@ -11,7 +11,7 @@ metadata:
   author: https://ft.ia.br
   version: "1.0"
   date: 2026-07-01
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
 
@@ -74,7 +74,7 @@ When receiving text from another agent to audit. Acts **aggressively**.
 
 > **🌐 Language routing:** This skill is for **English** text only. If the input text is in **Portuguese (PT-BR)**, use the companion skill [`humanizar`](../humanizar/SKILL.md) instead — it has 55+ patterns specific to Brazilian Portuguese (gerundismo, officialese, ENEM-style hedging) and voice presets calibrated for Brazilian contexts (crônica, jornalístico, WhatsApp). Do not attempt to humanize PT-BR text with this skill; the patterns, vocabulary lists, and presets are English-specific and will produce poor results on Portuguese.
 >
-> Install: `npx skills add fabriciotelles/skills/humanizar`
+> Install: `npx skills add https://github.com/fabricioctelles/skills --skill humanizar`
 
 ## Gotchas & Lessons Learned
 
@@ -501,4 +501,4 @@ AI avoids contractions far more than humans. One of the most reliable statistica
 
 ---
 
-*v1.0.0 - Based on Portuguese [humanizar](https://github.com/fabriciotelles/skills) by @fabriciotelles. Combines pattern detection (blader), statistical measurement (brandonwise), and emerging patterns (Aboudjem) with voice injection, entropy restoration, and iterative scoring.*
+*v1.0.0 - Based on Portuguese [humanizar](https://github.com/fabricioctelles/skills) by @fabriciotelles. Combines pattern detection (blader), statistical measurement (brandonwise), and emerging patterns (Aboudjem) with voice injection, entropy restoration, and iterative scoring.*

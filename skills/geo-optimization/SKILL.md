@@ -5,7 +5,7 @@ metadata:
   author: ft.ia.br
   version: "1.1"
   date: 2026-03-05
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
 ---

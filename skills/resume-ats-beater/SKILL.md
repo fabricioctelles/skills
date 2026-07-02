@@ -5,7 +5,7 @@ metadata:
   author: ft.ia.br
   version: "2.0"
   date: 2026-06-25
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   language: pt-BR
   category: code-scaffolding-and-templates

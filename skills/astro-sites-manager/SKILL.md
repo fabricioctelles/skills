@@ -17,7 +17,7 @@ metadata:
   author: ft.ia.br
   version: "1.0.0"
   date: 2026-06-22
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
   category: ci-cd-and-deployment
 ---

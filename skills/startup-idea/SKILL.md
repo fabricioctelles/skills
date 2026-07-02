@@ -16,7 +16,7 @@ metadata:
   author: ft.ia.br
   version: "1.3"
   date: 2026-04-04
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: data-fetching-and-analysis
 ---

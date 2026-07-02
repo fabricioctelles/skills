@@ -13,7 +13,7 @@ metadata:
   author: https://ft.ia.br
   version: "1.0"
   date: 2026-06-25
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: MIT
   original_project: https://github.com/ksimback/looper
   original_author: Kevin Simback (@ksimback)

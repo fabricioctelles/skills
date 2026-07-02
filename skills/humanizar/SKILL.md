@@ -11,7 +11,7 @@ metadata:
   author: https://ft.ia.br
   version: "1.2"
   date: 2026-06-17
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
 
@@ -70,7 +70,7 @@ Quando recebe texto de outro agente para auditar. Atua de forma **agressiva**.
 
 > **🌐 Roteamento por idioma:** Esta skill é exclusiva para texto em **Português Brasileiro (PT-BR)**. Se o texto de entrada for em **Inglês**, use a skill-irmã [`human-ai`](../human-ai/SKILL.md) — ela tem 43 padrões calibrados para inglês (contraction avoidance, register uniformity, passive voice abuse), baselines empíricas de pesquisa (SSRN, GPTZero, ACL 2024), e presets de voz para contextos anglófonos (essay, journalistic, legal, instructional). Não tente humanizar texto em inglês com esta skill; os padrões, vocabulário e presets são específicos do PT-BR e produzirão resultados ruins em inglês.
 >
-> Instalar: `npx skills add fabriciotelles/skills/human-ai`
+> Instalar: `npx skills add https://github.com/fabricioctelles/skills --skill human-ai`
 
 
 ## Personality & Soul — A Crônica Brasileira

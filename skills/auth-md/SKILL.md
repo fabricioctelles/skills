@@ -17,7 +17,7 @@ metadata:
   author: https://ft.ia.br
   version: "2.0"
   date: 2026-06-27
-  repository: https://github.com/fabriciotelles/skills
+  repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: library-and-api-reference
 ---
