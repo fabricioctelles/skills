@@ -12,9 +12,10 @@
     },
     {
       "title": "Writing & Humanization",
-      "description": "Remove AI slop, restore natural voice, and humanize text for Brazilian Portuguese.",
+      "description": "Remove AI slop, restore natural voice, and humanize text for Brazilian Portuguese and English.",
       "skills": [
-        "humanizar"
+        "humanizar",
+        "human-ai"
       ]
     },
     {

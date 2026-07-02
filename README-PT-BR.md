@@ -198,6 +198,27 @@ Reescreve texto em português brasileiro para soar humano, natural e indetectáv
 
 ---
 
+### 🌐 Human-AI — Humanizador de Texto IA para Inglês · `code-quality-and-review`
+Reescreve texto em inglês para soar humano, natural e indetectável por ferramentas de IA. Combina detecção de padrões (43 padrões em 3 tiers), medição estatística (burstiness, TTR, entropia) e injeção de voz em uma skill iterativa. Construída com base em pesquisas do RAID Benchmark (ACL 2024), NeurIPS 2023, e testes reais que provaram que bans de vocabulário FALHAM — reestruturação estrutural é o que realmente engana detectores.
+
+**Como nasceu:** Skill-irmã da `humanizar` (PT-BR), mas 100% trabalho original para inglês. Sintetiza o melhor de três skills open-source: [blader/humanizer](https://github.com/blader/humanizer) (10.6K stars, 29 padrões), [brandonwise/humanizer](https://github.com/brandonwise/humanizer) (filtro de 560 termos, sinais estatísticos), e [Aboudjem/humanizer-skill](https://github.com/Aboudjem/humanizer-skill) (43 padrões, P31-P43 descobertas de 2026). Vai além de todas adicionando: baselines empíricas calibradas por pesquisa, scoring iterativo com fallback de estratégia, 7 presets de voz, `scripts/measure.py` para métricas determinísticas, e o insight crítico de que trocar sinônimos piora enquanto reestruturação estrutural derruba acurácia de detectores de 70.3% para 4.6%.
+
+**Por que é diferente das skills humanizer existentes:**
+- 43 padrões (incluindo P31-P43, padrões emergentes de pesquisa comunitária 2026)
+- Métricas com base em pesquisa: TTR humano 0.553 vs AI 0.455 (SSRN), burstiness +0.70 vs 0.00 (GPTZero)
+- `scripts/measure.py` — cálculo determinístico de TTR/burstiness/entropia (zero dependências)
+- 7 presets de voz calibrados para contextos em inglês (essay, journalistic, academic, corporate, social, casual, legal, instructional)
+- Proibição de troca de sinônimos: Step 2 exige reestruturação completa da frase, não substituição de palavras
+- 7 gotchas documentados de falhas reais de skills humanizer
+- Loop iterativo com scoring (0-100) e tabela de fallback de estratégia
+- Compõe com skills de loop externas (ralph-wiggum, goal)
+
+**Quando usar:** humanize English text, remove AI slop, de-slop content, make text sound human, add voice, fix bland/generic tone, bypass AI detection, pass GPTZero/Originality.ai, review text from another agent, rewrite naturally.
+
+📄 [Ver documentação completa](skills/human-ai/SKILL.md)
+
+---
+
 ### 🔐 auth.md — Protocolo de Autenticação para Agentes · `library-and-api-reference`
 Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo aberto que permite agentes de IA registrarem-se em serviços em nome de usuários sem formulários de signup. Suporta o fluxo Agent Verified (assertions de identidade ID-JAG via providers confiáveis como OpenAI, Anthropic, Cursor) e o fluxo User Claimed (registro baseado em OTP com entrypoints anonymous start ou email required). Estende o RFC 9728 (Protected Resource Metadata) com suporte a CIMD.
 

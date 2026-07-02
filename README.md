@@ -201,6 +201,27 @@ Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by 
 
 ---
 
+### 🌐 Human-AI — AI Text Humanizer for English · `code-quality-and-review`
+Rewrites English text to sound human, natural, and undetectable by AI detection tools. Combines pattern detection (43 patterns across 3 tiers), statistical measurement (burstiness, TTR, entropy), and voice injection into a single iterative skill. Built on research from the RAID Benchmark (ACL 2024), NeurIPS 2023, and real-world testing that proved vocabulary bans alone FAIL — structural paraphrasing is what actually beats detectors.
+
+**Origin story:** Companion to the PT-BR `humanizar` skill, but 100% original English work. Synthesizes the best of three open-source humanizer skills: [blader/humanizer](https://github.com/blader/humanizer) (10.6K stars, 29 patterns), [brandonwise/humanizer](https://github.com/brandonwise/humanizer) (560-term vocab filter, statistical signals), and [Aboudjem/humanizer-skill](https://github.com/Aboudjem/humanizer-skill) (43 patterns, P31-P43 emerging 2026 discoveries). Goes beyond all three by adding: research-calibrated empirical baselines, iterative scoring with strategy fallback, 7 voice presets, a `scripts/measure.py` for deterministic metrics, and the critical insight that synonym-swapping hurts while structural paraphrasing drops detector accuracy from 70.3% to 4.6%.
+
+**Why it's different from the existing humanizer skills:**
+- 43 patterns (including P31-P43 emerging patterns from 2026 community research)
+- Research-backed metrics: TTR human 0.553 vs AI 0.455 (SSRN), burstiness +0.70 vs 0.00 (GPTZero)
+- `scripts/measure.py` — deterministic TTR/burstiness/entropy calculation (zero dependencies)
+- 7 voice presets calibrated for English contexts (essay, journalistic, academic, corporate, social, casual, legal, instructional)
+- Anti-synonym-swap enforcement: Step 2 requires full sentence restructuring, not word replacement
+- 7 documented gotchas from real-world humanizer skill failures
+- Iterative loop with scoring (0-100) and strategy fallback table
+- Composes with external loop skills (ralph-wiggum, goal)
+
+**When to use:** humanize English text, remove AI slop, de-slop content, make text sound human, add voice, fix bland/generic tone, bypass AI detection, pass GPTZero/Originality.ai, review text from another agent, rewrite naturally.
+
+📄 [View full documentation](skills/human-ai/SKILL.md)
+
+---
+
 ### 🔐 auth.md — Agent Authentication Protocol · `library-and-api-reference`
 Generates, validates, and explains [auth.md](https://auth-md.com) files — the open protocol that lets AI agents register for services on behalf of users without signup forms. Supports the Agent Verified flow (ID-JAG identity assertions via trusted providers like OpenAI, Anthropic, Cursor) and the User Claimed flow (OTP-based registration with anonymous start or email required entrypoints). Extends RFC 9728 (Protected Resource Metadata) with CIMD support.
 

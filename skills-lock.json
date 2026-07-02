@@ -36,6 +36,11 @@
       "sourceType": "local",
       "computedHash": "de86f22cf09d7be8d779651a9f8343692e52ed6d7663daf530a3fd18bcc70346"
     },
+    "human-ai": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
     "loop-architect": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
@@ -80,6 +85,6 @@
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
       "computedHash": "54119e84d5fb454caafec1d6ad1499c317e082bb95ef1bd7d73065913ac00ccc"
-    },
+    }
   }
 }
