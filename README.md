@@ -343,6 +343,32 @@ Comprehensive skill for building, migrating, and maintaining Astro v7 projects. 
 
 ---
 
+### 💰 Revenue-Centric Design · `runbooks`
+Playbook of 101 evidence-backed principles for designing SaaS and startup products that convert, retain, and monetize — landing pages & CRO, onboarding/activation, churn reduction, pricing psychology, behavioral science, feature discipline, positioning/ICP, go-to-market, and AI-era differentiation. Every principle names its mechanism (decoy effect, Zeigarnik, Schwartz awareness levels…) and links back to its source post. Ships with revenue-math scripts (A/B sample size, churn→LTV, CAC per closed deal), an audit output template, per-project memory (`rcd-log.md`), and license-enforcing guardrail hooks.
+
+**Origin story:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) published these principles as 101 posts in Portuguese on X. [Helio Costa](https://github.com/heliocosta-dev) obtained the author's permission, extracted the posts via the X API, translated them to English, and distilled them into the original skill ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). This repository hosts an evolved derivative of that work.
+
+**Evolution measured with [skill-evaluation](skills/skill-evaluation/SKILL.md):** the as-downloaded skill scored **60/100 (B, borderline C)**; one improvement pass later, **73/100 (B)**:
+
+| Criterion | before | after |
+|---|---|---|
+| Scripts & libraries | 0 | 75 |
+| Gotchas section | 35 | 88 |
+| Coherent scope | 55 | 72 |
+| Progressive disclosure | 78 | 90 |
+| Description for trigger | 78 | 90 |
+| Repo footprint | 39 MB | 176 KB |
+
+After the compared run, the skill also gained the audit template, the project log, full license compliance, and hook-based guardrails — each closing a finding the scorecard had prioritized. This is exactly the loop skill-evaluation was built for: **evaluate → fix the top findings → re-evaluate → compare.**
+
+**When to use:** improve conversion on a landing page, fix activation/onboarding, reduce churn, design pricing tables and upgrade paths, sharpen ICP/positioning, apply behavioral-science mechanisms, sanity-check A/B tests, differentiate in the AI era.
+
+**⚠️ License:** source-available, **not** Apache 2.0 — attribution to @richardrx required, and **gambling/betting/casino use is prohibited** (enforced at runtime by bundled hooks). See the [skill's LICENSE](skills/revenue-centric-design/LICENSE).
+
+📄 [View full documentation](skills/revenue-centric-design/SKILL.md)
+
+---
+
 > **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
 > Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -372,6 +398,7 @@ npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
+npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -506,4 +533,6 @@ Created by [ft.ia.br](https://ft.ia.br)
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE) for details.
+Apache 2.0 — see [LICENSE](LICENSE) for details — **except where a skill directory contains its own LICENSE file, which governs that skill instead.**
+
+⚠️ **Exception:** [`skills/revenue-centric-design/`](skills/revenue-centric-design/LICENSE) is **source-available, not open-source**. The underlying ideas are the intellectual property of Richard ([@richardrx](https://x.com/richardrx)), used with permission, and **may not be used for gambling, betting, or casino products**. That restriction survives any copy or derivative and is not waived by this repository's Apache 2.0 license.

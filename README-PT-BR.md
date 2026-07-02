@@ -342,6 +342,32 @@ Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo 
 
 ---
 
+### 💰 Revenue-Centric Design · `runbooks`
+Playbook de 101 princípios baseados em evidência para desenhar produtos SaaS e startups que convertem, retêm e monetizam — landing pages & CRO, onboarding/ativação, redução de churn, psicologia de pricing, ciência comportamental, disciplina de features, posicionamento/ICP, go-to-market e diferenciação na era da IA. Cada princípio nomeia seu mecanismo (efeito decoy, Zeigarnik, níveis de consciência de Schwartz…) e linka de volta ao post original. Inclui scripts de matemática de receita (sample size de A/B, churn→LTV, CAC por deal fechado), template de auditoria, memória por projeto (`rcd-log.md`) e guardrail hooks que fazem enforcement da licença.
+
+**Como nasceu:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) publicou esses princípios em 101 posts em português no X. [Helio Costa](https://github.com/heliocosta-dev) obteve a permissão do autor, extraiu os posts via API do X, traduziu para inglês e destilou tudo na skill original ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). Este repositório hospeda um derivado evoluído desse trabalho.
+
+**Evolução medida com a [skill-evaluation](skills/skill-evaluation/SKILL.md):** a skill como baixada marcou **60/100 (B, na divisa com C)**; um passe de melhorias depois, **73/100 (B)**:
+
+| Critério | antes | depois |
+|---|---|---|
+| Scripts & libraries | 0 | 75 |
+| Seção de Gotchas | 35 | 88 |
+| Escopo coerente | 55 | 72 |
+| Progressive disclosure | 78 | 90 |
+| Description para trigger | 78 | 90 |
+| Peso no repo | 39 MB | 176 KB |
+
+Depois da comparação, a skill ainda ganhou o template de auditoria, o log por projeto, compliance completo de licença e guardrails via hooks — cada item fechando um finding que o scorecard havia priorizado. É exatamente o loop para o qual a skill-evaluation foi construída: **avaliar → corrigir os top findings → reavaliar → comparar.**
+
+**Quando usar:** melhorar conversão de landing page, corrigir ativação/onboarding, reduzir churn, desenhar tabelas de pricing e upgrade paths, afiar ICP/posicionamento, aplicar mecanismos de ciência comportamental, validar rigor de A/B tests, diferenciar na era da IA.
+
+**⚠️ Licença:** source-available, **não** Apache 2.0 — atribuição ao @richardrx obrigatória, e **uso em apostas/cassino/gambling é proibido** (com enforcement em runtime via hooks embutidos). Veja a [LICENSE da skill](skills/revenue-centric-design/LICENSE).
+
+📄 [Ver documentação completa](skills/revenue-centric-design/SKILL.md)
+
+---
+
 > **Skills revisadas em março de 2026** seguindo o padrão Anthropic para estrutura e qualidade de Agent Skills.
 > Fonte: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -370,6 +396,7 @@ npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
+npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -501,4 +528,6 @@ Criado por [ft.ia.br](https://ft.ia.br)
 
 ## Licenca
 
-Apache 2.0 — veja [LICENSE](LICENSE) para detalhes.
+Apache 2.0 — veja [LICENSE](LICENSE) para detalhes — **exceto quando o diretório de uma skill contém seu próprio arquivo LICENSE, que passa a reger aquela skill.**
+
+⚠️ **Exceção:** [`skills/revenue-centric-design/`](skills/revenue-centric-design/LICENSE) é **source-available, não open-source**. As ideias são propriedade intelectual do Richard ([@richardrx](https://x.com/richardrx)), usadas com permissão, e **não podem ser usadas em produtos de apostas, cassino ou gambling**. Essa restrição sobrevive a qualquer cópia ou derivado e não é dispensada pela licença Apache 2.0 deste repositório.

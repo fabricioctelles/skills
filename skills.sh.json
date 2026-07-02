@@ -45,9 +45,10 @@
     },
     {
       "title": "Startup & Strategy",
-      "description": "Startup idea analysis with Paul Graham, Dan Koe, and Seth Godin frameworks.",
+      "description": "Startup idea analysis, revenue-centric product design, and go-to-market frameworks.",
       "skills": [
-        "startup-idea"
+        "startup-idea",
+        "revenue-centric-design"
       ]
     },
     {
