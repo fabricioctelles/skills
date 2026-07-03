@@ -1,17 +1,20 @@
 ---
 name: skill-evaluation
 description: >
-  Evaluate any agent skill against Anthropic's 9 best-practice criteria from
-  "Lessons from building Claude Code." Produces a structured markdown scorecard
-  with per-criterion notes (0–100), overall score, and prioritized improvement
-  actions. Use when the user says "evaluate this skill", "rate this skill",
+  Evaluate any agent skill against a merged framework — Anthropic's Claude Code
+  best practices plus Matt Pocock's writing-great-skills methodology — across
+  4 axes (Trigger, Structure, Steering, Pruning). Produces a structured
+  markdown scorecard (0–100) with per-criterion evidence, a weighted overall
+  score, and diagnosed failure modes (premature completion, duplication,
+  sediment, sprawl, no-ops, weak steering, buried steps) with prioritized
+  fixes. Use when the user says "evaluate this skill", "rate this skill",
   "audit skill quality", "how good is this skill", "skill scorecard", "review
   SKILL.md", "skill best practices check", or wants to compare skills against
-  the Anthropic framework.
+  the merged framework.
 metadata:
   author: ft.ia.br
-  version: "1.0.0"
-  date: 2026-06-27
+  version: "2.0.0"
+  date: 2026-07-03
   repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
   category: code-quality-and-review
@@ -19,14 +22,19 @@ metadata:
 
 # Skill Evaluation
 
-Evaluate agent skills against the 9 best-practice criteria defined by
-Anthropic's Claude Code team.
+Evaluate agent skills against a merged framework: Anthropic's Claude Code
+best practices plus Matt Pocock's writing-great-skills methodology. Score
+across 4 axes — Trigger, Structure, Steering, Pruning — then diagnose named
+failure modes instead of listing generic weak spots.
+
+If you need the vocabulary and tests behind Axes 1, 3, and 4 (leading words,
+completion criteria, context pointers, the deletion test, failure-mode
+definitions), read `references/mechanics.md` before scoring those axes.
 
 ## Source
 
-[Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Jun 2026
-
----
+- [Lessons from building Claude Code: How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) — Anthropic, Jun 2026
+- "The Missing Manual: How to Write Great Skills" — Matt Pocock, AI Engineer World's Fair 2026 ([video](https://www.youtube.com/watch?v=UNzCG3lw6O0)), and his `writing-great-skills` skill
 
 ## Parameters
 
@@ -36,28 +44,79 @@ Anthropic's Claude Code team.
 | `output` | Path to write the scorecard | `<target>/EVALUATION.md` |
 | `compare` | Optional second skill to compare side-by-side | None |
 
----
+## Criteria
 
-## Criteria (9)
+18 criteria: 14 core, scored on every skill, plus 4 conditional criteria
+scored only when the skill's category makes them apply — otherwise mark
+**N/A** and exclude the criterion from both the numerator and denominator of
+the weighted average. Every score is 0–100 with evidence citing file,
+section, or line.
 
-Each criterion is scored 0–100 based on evidence found in the skill files.
+### Axis 1 — Trigger (invocation)
 
-| # | Criterion | Key Question |
-|---|-----------|-------------|
-| 1 | **Don't state the obvious** | Does the skill focus on information Claude wouldn't know by default? Or does it restate standard knowledge? |
-| 2 | **Gotchas section** | Is there an explicit section capturing common failure points, edge cases, and footguns? |
-| 3 | **File system & progressive disclosure** | Does the skill use multiple files (references/, scripts/, assets/) with the SKILL.md as a hub? |
-| 4 | **Avoids railroading** | Does the skill give Claude flexibility to adapt, or does it over-prescribe exact steps? |
-| 5 | **Setup flow** | Does the skill handle first-run setup (config detection, user prompts, missing dependencies)? |
-| 6 | **Description written for model trigger** | Is the description a trigger-matching string with concrete phrases, or a human-readable summary? |
-| 7 | **Memory mechanism** | Does the skill persist state between runs (logs, config, JSON, SQLite)? |
-| 8 | **Scripts & libraries** | Does the skill include executable scripts, helpers, or code Claude can compose with? |
-| 9 | **On-demand hooks** | Does the skill define hooks that activate only when the skill is invoked? |
-| 10 | **Conciseness** | Is SKILL.md under 500 lines? Is every line earning its context cost, or is there filler/verbosity? |
-| 11 | **Coherent scope** | Does the skill do ONE thing well and compose with others? Or does it try to cover too much? |
-| 12 | **Grounded in expertise** | Does content come from real experience (observed failures, project-specific facts) or generic "best practices"? |
+| # | Criterion | Weight | Key question |
+|---|-----------|--------|---------------|
+| 1 | Invocation design | 2x | Is model-invoked vs. user-invoked deliberate and fitting? Model-invoked pays **context load** (the description loads every turn); user-invoked pays **cognitive load** (the human is the index). A skill that only ever fires by hand should be user-invoked. |
+| 2 | Description quality | 2x | Model-invoked: leading word up front, one trigger per branch (synonyms renaming the same branch are duplication), no identity that's redundant with the body. User-invoked (`disable-model-invocation: true`): a human-facing one-liner, no trigger list. Score against the mode the skill actually uses — never penalize a user-invoked skill for lacking trigger phrases. |
 
----
+### Axis 2 — Structure
+
+| # | Criterion | Weight | Key question |
+|---|-----------|--------|---------------|
+| 3 | Steps vs. reference clarity | 1x | Does the skill distinguish ordered steps from on-demand reference? All-reference and all-steps skills are both valid — score clarity, not the mix. Is related material co-located (definition, rules, caveats under one heading)? |
+| 4 | Branch-aware disclosure & pointers | 2x | Is material every branch needs inline, and material only some branches need behind a context pointer? Does each pointer's wording say when to follow it ("if you need X, read Y")? A weakly worded pointer to must-have material is a variance bug. |
+| 5 | Conciseness (no sprawl) | 2x | Is SKILL.md lean — under 500 lines as a ceiling, smaller is better — with every line earning its context cost? |
+| 6 | Coherent scope | 1x | Does the skill do one thing and compose with others, rather than covering too much? |
+
+### Axis 3 — Steering
+
+| # | Criterion | Weight | Key question |
+|---|-----------|--------|---------------|
+| 7 | Leading words | 2x | Does the skill use compact, high-prior terms ("vertical slice", "tight", "red") to anchor behavior, repeated consistently? Could any verbose passage collapse into one? |
+| 8 | Completion criteria & legwork | 2x | Skills with steps: does each step end on a checkable, exhaustive completion criterion? A vague one invites premature completion. Skills that are pure reference: is there an exhaustiveness bar over the reference itself ("every rule applied")? If neither applies, mark N/A. |
+| 9 | Gotchas section | 2x | Is there explicit capture of failure points, edge cases, footguns? |
+| 10 | Grounded in expertise | 2x | Does content come from observed failures and real project facts, or generic "best practices"? |
+| 11 | Avoids railroading | 1x | Does the skill leave room to adapt — procedures over declarations, defaults over menus — without over-prescribing? |
+
+### Axis 4 — Pruning
+
+| # | Criterion | Weight | Key question |
+|---|-----------|--------|---------------|
+| 12 | No-ops (deletion test) | 2x | Running the deletion test sentence by sentence: if removing a sentence leaves behavior unchanged, it's a no-op — including restatements of what the model already does by default. Cite line numbers for candidates. |
+| 13 | Single source of truth | 1x | Does each meaning live in exactly one place? Duplication between SKILL.md and references/ counts too. |
+| 14 | Relevance & sediment | 1x | Are there stale lines, accumulated layers, or material that no longer influences what the skill does? |
+
+### Conditional criteria
+
+Score only when the skill's category (from `references/categories.md`) makes
+the criterion apply; otherwise mark N/A and drop it from the weighted
+average entirely.
+
+| # | Criterion | Weight | Applies to category |
+|---|-----------|--------|----------------------|
+| 15 | Setup flow | 1x | library-and-api-reference, data-fetching-and-analysis, ci-cd-and-deployment, infrastructure-operations |
+| 16 | Memory mechanism | 1x | business-process-automation, data-fetching-and-analysis, runbooks |
+| 17 | Scripts & libraries | 1x | product-verification, code-scaffolding-and-templates, code-quality-and-review, data-fetching-and-analysis, infrastructure-operations |
+| 18 | On-demand hooks | 1x | code-quality-and-review, ci-cd-and-deployment |
+
+Override this table with judgment, in either direction: score a criterion
+for a skill outside these categories when it would clearly benefit (e.g., a
+non-`product-verification` skill that obviously needs a helper script), and
+mark it N/A even within an applicable category when the pattern doesn't fit
+the skill's shape (e.g., a pure-reference vocabulary skill filed under
+`code-quality-and-review` has nothing for a hook to enforce). Explain the
+override in the scorecard either way.
+
+### Overall score
+
+Weighted average of applicable criteria only:
+
+```
+overall = sum(score × weight) / sum(weight)
+```
+
+N/A criteria are excluded from both sums — never scored as 0, never counted
+as weight.
 
 ## Scoring Guide
 
@@ -70,92 +129,6 @@ Each criterion is scored 0–100 based on evidence found in the skill files.
 | 76–90 | Strong implementation, minor gaps only |
 | 91–100 | Exemplary — would use as a reference for others |
 
----
-
-## Workflow
-
-1. **Read the target skill** — SKILL.md + list all files in the skill directory (references/, scripts/, assets/, etc.)
-
-2. **For each of the 9 criteria**, examine the skill and assign a score with a 1–2 sentence justification citing specific evidence (file names, section headings, presence/absence of patterns).
-
-3. **Classify the skill** — Read `references/categories.md` and use the decision tree to assign the single best-fit category.
-
-4. **Calculate overall score** — weighted average:
-   - Criteria 1, 2, 3, 6, 10, 12 → weight 2x (highest impact on skill quality)
-   - Criteria 4, 5, 7, 8, 9, 11 → weight 1x
-
-5. **Assess bonus patterns** — check for optional patterns (scored but NOT counted in the overall score):
-
-   | Bonus | Applies when | What to look for |
-   |-------|-------------|-----------------|
-   | Validation loops | Skill produces output or modifies state | Instructs agent to self-check before finalizing |
-   | Output templates | Skill generates structured output | Includes a concrete template/example of expected format |
-   | Procedures over declarations | Skill teaches a method | Teaches *how to approach* problems, not *what to produce* for one case |
-   | Defaults over menus | Skill offers tool/approach choices | Picks a clear default, mentions alternatives briefly |
-
-   Report each as ✅ Present / ❌ Absent / N/A (not applicable to this skill type).
-
-6. **Identify top 3 improvements** — the 3 lowest-scoring criteria with specific actionable recommendations.
-
-7. **Write the scorecard** to the output path.
-
----
-
-## Output Format
-
-```markdown
-# Skill Evaluation — {skill name}
-
-> Evaluated: {date}
-> Source: {path}
-> Evaluator: skill-evaluation v1.0.0
-> Framework: [Anthropic Skill Best Practices](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills)
-
-## Summary
-
-| Metric | Value |
-|--------|-------|
-| Overall Score | {weighted}/100 |
-| Grade | {A/B/C/D/F} |
-| Category | {category} |
-| Files | {count} |
-| Has references/ | {yes/no} |
-| Has scripts/ | {yes/no} |
-| Has gotchas | {yes/no} |
-
-## Category
-
-Assign a category from the [Anthropic 9 skill types](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills).
-See `references/categories.md` for full descriptions and the classification decision tree.
-
-If the skill doesn't have a `category` field in its frontmatter, recommend adding one.
-
-## Scorecard
-
-| # | Criterion | Score | Notes |
-|---|-----------|-------|-------|
-| 1 | Don't state the obvious | {n}/100 | {justification} |
-| 2 | Gotchas section | {n}/100 | {justification} |
-| 3 | Progressive disclosure | {n}/100 | {justification} |
-| 4 | Avoids railroading | {n}/100 | {justification} |
-| 5 | Setup flow | {n}/100 | {justification} |
-| 6 | Description for trigger | {n}/100 | {justification} |
-| 7 | Memory mechanism | {n}/100 | {justification} |
-| 8 | Scripts & libraries | {n}/100 | {justification} |
-| 9 | On-demand hooks | {n}/100 | {justification} |
-| 10 | Conciseness | {n}/100 | {justification} |
-| 11 | Coherent scope | {n}/100 | {justification} |
-| 12 | Grounded in expertise | {n}/100 | {justification} |
-
-## Bonus Patterns (not counted in score)
-
-| Pattern | Status | Notes |
-|---------|--------|-------|
-| Validation loops | {✅/❌/N/A} | {detail} |
-| Output templates | {✅/❌/N/A} | {detail} |
-| Procedures over declarations | {✅/❌/N/A} | {detail} |
-| Defaults over menus | {✅/❌/N/A} | {detail} |
-
 ## Grade Scale
 
 | Grade | Range | Meaning |
@@ -166,58 +139,192 @@ If the skill doesn't have a `category` field in its frontmatter, recommend addin
 | D | 20–39 | Needs substantial rework |
 | F | 0–19 | Skeleton only, not production-ready |
 
-## Top 3 Improvements
+## Workflow
 
-### 1. {criterion name} ({score}/100)
+1. **Read the target skill** — SKILL.md, its frontmatter (check for
+   `disable-model-invocation`), and every file in the skill directory.
+2. **Read `references/mechanics.md`** — the vocabulary and tests Axes 1, 3,
+   and 4 depend on, including what makes a context pointer's wording
+   effective.
+3. **Classify** — use `references/categories.md` and its decision tree to
+   assign a category. The category determines which conditional criteria
+   apply.
+4. **Score all applicable criteria** — specific evidence per criterion; mark
+   N/A wherever the conditional table, or your own judgment, says a
+   criterion doesn't apply.
+5. **Diagnose failure modes** — see below.
+6. **Assess bonus patterns** — the 4 carried over from v1, plus a fifth:
 
-**Problem:** {what's missing or weak}
+   | Bonus | Applies when | What to look for |
+   |-------|-------------|-----------------|
+   | Validation loops | Skill produces output or modifies state | Instructs the agent to self-check before finalizing |
+   | Output templates | Skill generates structured output | Includes a concrete template/example of expected format |
+   | Procedures over declarations | Skill teaches a method | Teaches *how to approach* problems, not *what to produce* for one case |
+   | Defaults over menus | Skill offers tool/approach choices | Picks a clear default, mentions alternatives briefly |
+   | Trace-checkable steering | Skill uses leading words | The leading words are distinctive enough that a user could grep the agent's reasoning traces to confirm the skill actually fired |
 
-**Action:** {specific, actionable recommendation}
+   Report each as Present / Absent / N/A.
+7. **Compute the weighted score**, assign a grade.
+8. **Write the scorecard** to the output path.
 
-### 2. {criterion name} ({score}/100)
+## Failure-mode diagnosis
 
-**Problem:** {what's missing}
+Name the failure mode, cite evidence, prescribe the defense — this replaces
+a generic "top improvements" list.
 
-**Action:** {recommendation}
+| Mode | Evidence to look for | Defense |
+|------|----------------------|---------|
+| Premature completion | Vague completion criteria with future steps still visible | Sharpen the completion criterion first; only split by sequence if it's irreducibly vague *and* the rush is actually observed |
+| Weak steering | Instruction present but the agent doesn't reliably follow it | Find or strengthen the leading word — one too weak to beat the default is a no-op, so the fix is a stronger word, not a different technique |
+| Duplication | Same meaning in 2+ places, including SKILL.md vs. references/ | Collapse to a single source of truth, often via a leading word |
+| Sediment | Stale layers, outdated references, dead instructions | Line-by-line relevance check; delete |
+| Sprawl | Long even with no duplication or sediment | Disclose reference behind pointers; split by branch or sequence |
+| No-ops | Lines that don't change behavior versus the model's default | Sentence-by-sentence deletion test; delete the whole sentence, don't trim words |
+| Buried steps | Inline reference so heavy it soaks the steps | Progressive disclosure — push the reference behind a pointer |
 
-### 3. {criterion name} ({score}/100)
+After the table, write a **Prioritized Actions** section: 3–5 highest-impact
+actions derived directly from the detected failure modes, each citing its
+evidence.
 
-**Problem:** {what's missing}
+Note: **context overload** — too many model-invoked skills competing for
+attention in one environment — is a portfolio-level problem, out of scope
+for evaluating a single skill. Record the description's context-load cost
+when it's notable; don't score the portfolio.
 
-**Action:** {recommendation}
+## Output Format
+
+```markdown
+# Skill Evaluation — {skill name}
+
+> Evaluated: {date}
+> Source: {path}
+> Evaluator: skill-evaluation v2.0.0
+> Framework: [Anthropic Skill Best Practices](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) + Matt Pocock's [writing-great-skills](https://www.youtube.com/watch?v=UNzCG3lw6O0)
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Overall Score | {weighted}/100 |
+| Grade | {A/B/C/D/F} |
+| Category | {category} |
+| Invocation | {model-invoked / user-invoked} |
+| Files | {count} |
+| Criteria scored / N/A | {n} scored, {m} N/A |
+
+## Scorecard
+
+### Axis 1 — Trigger
+
+| # | Criterion | Weight | Score | Notes |
+|---|-----------|--------|-------|-------|
+| 1 | Invocation design | 2x | {n}/100 | {evidence} |
+| 2 | Description quality | 2x | {n}/100 | {evidence} |
+
+### Axis 2 — Structure
+
+| # | Criterion | Weight | Score | Notes |
+|---|-----------|--------|-------|-------|
+| 3 | Steps vs. reference clarity | 1x | {n}/100 | {evidence} |
+| 4 | Branch-aware disclosure & pointers | 2x | {n}/100 | {evidence} |
+| 5 | Conciseness | 2x | {n}/100 | {evidence} |
+| 6 | Coherent scope | 1x | {n}/100 | {evidence} |
+
+### Axis 3 — Steering
+
+| # | Criterion | Weight | Score | Notes |
+|---|-----------|--------|-------|-------|
+| 7 | Leading words | 2x | {n}/100 | {evidence} |
+| 8 | Completion criteria & legwork | 2x | {n/100 or N/A} | {evidence} |
+| 9 | Gotchas section | 2x | {n}/100 | {evidence} |
+| 10 | Grounded in expertise | 2x | {n}/100 | {evidence} |
+| 11 | Avoids railroading | 1x | {n}/100 | {evidence} |
+
+### Axis 4 — Pruning
+
+| # | Criterion | Weight | Score | Notes |
+|---|-----------|--------|-------|-------|
+| 12 | No-ops (deletion test) | 2x | {n}/100 | {evidence with line citations} |
+| 13 | Single source of truth | 1x | {n}/100 | {evidence} |
+| 14 | Relevance & sediment | 1x | {n}/100 | {evidence} |
+
+### Conditional criteria
+
+| # | Criterion | Weight | Score | Notes |
+|---|-----------|--------|-------|-------|
+| 15 | Setup flow | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
+| 16 | Memory mechanism | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
+| 17 | Scripts & libraries | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
+| 18 | On-demand hooks | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
+
+## Failure Modes Detected
+
+| Mode | Evidence | Root cause | Defense |
+|------|----------|------------|---------|
+| {mode, or a single row "None detected"} | {file:line} | {cause} | {defense} |
+
+## Prioritized Actions
+
+### 1. {action}
+
+**Evidence:** {file:line or section}
+
+**Fix:** {specific recommendation}
+
+### 2. {action}
+
+**Evidence:** {file:line or section}
+
+**Fix:** {specific recommendation}
+
+(3–5 total, each tied to a detected failure mode)
+
+## Bonus Patterns
+
+| Pattern | Status | Notes |
+|---------|--------|-------|
+| Validation loops | {Present/Absent/N/A} | {detail} |
+| Output templates | {Present/Absent/N/A} | {detail} |
+| Procedures over declarations | {Present/Absent/N/A} | {detail} |
+| Defaults over menus | {Present/Absent/N/A} | {detail} |
+| Trace-checkable steering | {Present/Absent/N/A} | {detail} |
+
+## Grade Scale
+
+{copy the Grade Scale table from the Grade Scale section above}
 
 ---
 
-*Generated by [skill-evaluation](https://github.com/fabricioctelles/skills) using the [Anthropic skill quality framework](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills).*
+*Generated by [skill-evaluation](https://github.com/fabricioctelles/skills) v2.0.0, merging the [Anthropic skill quality framework](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) with Matt Pocock's [writing-great-skills](https://www.youtube.com/watch?v=UNzCG3lw6O0) methodology.*
 ```
-
----
 
 ## Comparison Mode
 
-When `compare` is set, produce a side-by-side table:
+When `compare` is set, produce a side-by-side table across all 18 criteria.
+Leave a cell N/A rather than scoring it 0, and exclude N/A rows from the
+Overall row's weighted math for that skill.
 
 ```markdown
 ## Comparison: {skill A} vs {skill B}
 
-| Criterion | {A} | {B} | Delta |
-|-----------|-----|-----|-------|
-| Don't state the obvious | 60 | 85 | +25 |
-| Gotchas | 25 | 70 | +45 |
-| ... | ... | ... | ... |
-| **Overall** | **43** | **72** | **+29** |
+| # | Criterion | {A} | {B} | Delta |
+|---|-----------|-----|-----|-------|
+| 1 | Invocation design | 60 | 85 | +25 |
+| 2 | Description quality | 25 | 70 | +45 |
+| ... | ... | ... | ... | ... |
+| 15 | Setup flow | N/A | 80 | — |
+| **Overall** | | **43** | **72** | **+29** |
 ```
-
----
 
 ## Quality Checklist
 
 Before delivering the scorecard, verify:
 
-- [ ] All 12 criteria have a score and justification
-- [ ] Bonus patterns are assessed (✅/❌/N/A)
-- [ ] Justifications cite specific files/sections as evidence
-- [ ] Overall score uses the weighted formula
-- [ ] Top 3 improvements are actionable (not vague)
+- [ ] All applicable criteria (up to 18) have a score and evidence citation
+- [ ] Every N/A is justified by the skill's category, or an explained override
+- [ ] Failure modes cite file:line evidence, or the table reads "None detected"
+- [ ] The weighted average excludes N/A criteria from both sum and count
+- [ ] Prioritized actions are derived from the detected failure modes, not generic advice
+- [ ] Bonus patterns (5) are assessed as Present/Absent/N/A
 - [ ] Grade matches the score range
 - [ ] Output file is valid markdown
