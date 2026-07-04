@@ -106,6 +106,9 @@ exhaustive menus.
 - **Weak steering** — an instruction is present but the agent doesn't
   reliably follow it. Usually a leading word too weak to beat the default, or
   no leading word at all where a verbose passage is trying to do its job.
+- **Buried steps** — in-file reference so heavy it soaks the steps beneath
+  it, turning attention to them into a coin-flip. Defense: progressive
+  disclosure — push the reference behind a pointer.
 
 **Relevance vs. no-op**: relevance asks whether a line still bears on the
 task; no-op asks whether it changes behavior. A line can be relevant (right

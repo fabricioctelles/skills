@@ -3,17 +3,14 @@ name: skill-evaluation
 description: >
   Evaluate any agent skill against a merged framework — Anthropic's Claude Code
   best practices plus Matt Pocock's writing-great-skills methodology — across
-  4 axes (Trigger, Structure, Steering, Pruning). Produces a structured
-  markdown scorecard (0–100) with per-criterion evidence, a weighted overall
-  score, and diagnosed failure modes (premature completion, duplication,
-  sediment, sprawl, no-ops, weak steering, buried steps) with prioritized
-  fixes. Use when the user says "evaluate this skill", "rate this skill",
-  "audit skill quality", "how good is this skill", "skill scorecard", "review
-  SKILL.md", "skill best practices check", or wants to compare skills against
-  the merged framework.
+  4 axes (Trigger, Structure, Steering, Pruning). Produces an evidence-cited
+  scorecard (0–100), a weighted overall score, and diagnosed failure modes
+  with prioritized fixes. Use when the user asks to evaluate, rate, or audit
+  a skill ("evaluate this skill", "skill scorecard", "review SKILL.md"), or
+  to compare two skills.
 metadata:
   author: ft.ia.br
-  version: "2.0.0"
+  version: "2.1.0"
   date: 2026-07-03
   repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
@@ -21,11 +18,6 @@ metadata:
 ---
 
 # Skill Evaluation
-
-Evaluate agent skills against a merged framework: Anthropic's Claude Code
-best practices plus Matt Pocock's writing-great-skills methodology. Score
-across 4 axes — Trigger, Structure, Steering, Pruning — then diagnose named
-failure modes instead of listing generic weak spots.
 
 If you need the vocabulary and tests behind Axes 1, 3, and 4 (leading words,
 completion criteria, context pointers, the deletion test, failure-mode
@@ -43,6 +35,10 @@ definitions), read `references/mechanics.md` before scoring those axes.
 | `target` | Path to skill directory or SKILL.md to evaluate | Ask user |
 | `output` | Path to write the scorecard | `<target>/EVALUATION.md` |
 | `compare` | Optional second skill to compare side-by-side | None |
+
+Also runs unattended: in CI, point `target` at skills changed in a PR and
+gate with `scripts/score.py --fail-below 60 ...` — non-zero exit below the
+threshold fails the check.
 
 ## Criteria
 
@@ -109,8 +105,6 @@ override in the scorecard either way.
 
 ### Overall score
 
-Weighted average of applicable criteria only:
-
 ```
 overall = sum(score × weight) / sum(weight)
 ```
@@ -149,10 +143,14 @@ as weight.
 3. **Classify** — use `references/categories.md` and its decision tree to
    assign a category. The category determines which conditional criteria
    apply.
-4. **Score all applicable criteria** — specific evidence per criterion; mark
-   N/A wherever the conditional table, or your own judgment, says a
-   criterion doesn't apply.
-5. **Diagnose failure modes** — see below.
+4. **Score all applicable criteria** — **cite-or-cut**: a criterion is only
+   scored once its justification cites specific evidence (file, section, or
+   line); no citation, no score. Mark N/A wherever the conditional table, or
+   your own judgment, says a criterion doesn't apply. Done when every
+   applicable criterion carries a score and a citation, and every N/A a
+   reason.
+5. **Diagnose failure modes** — done when every mode in the table below has
+   been checked against the skill and either cited (file:line) or dismissed.
 6. **Assess bonus patterns** — the 4 carried over from v1, plus a fifth:
 
    | Bonus | Applies when | What to look for |
@@ -164,23 +162,29 @@ as weight.
    | Trace-checkable steering | Skill uses leading words | The leading words are distinctive enough that a user could grep the agent's reasoning traces to confirm the skill actually fired |
 
    Report each as Present / Absent / N/A.
-7. **Compute the weighted score**, assign a grade.
-8. **Write the scorecard** to the output path.
+7. **Compute the weighted score** — run `scripts/score.py` with one
+   `criterion:score:weight` triple per criterion (score `NA` to exclude); it
+   prints both sums, the overall, and the grade. Don't do this arithmetic by
+   hand.
+8. **Write the scorecard** to the output path — read
+   `references/output-template.md` first (it also holds the comparison-mode
+   template used when `compare` is set) and emit exactly that structure.
 
 ## Failure-mode diagnosis
 
-Name the failure mode, cite evidence, prescribe the defense — this replaces
-a generic "top improvements" list.
+Name the failure mode, cite evidence, prescribe the defense. Each mode's
+defense is defined once in `references/mechanics.md` §5 — prescribe from
+there. This replaces a generic "top improvements" list.
 
-| Mode | Evidence to look for | Defense |
-|------|----------------------|---------|
-| Premature completion | Vague completion criteria with future steps still visible | Sharpen the completion criterion first; only split by sequence if it's irreducibly vague *and* the rush is actually observed |
-| Weak steering | Instruction present but the agent doesn't reliably follow it | Find or strengthen the leading word — one too weak to beat the default is a no-op, so the fix is a stronger word, not a different technique |
-| Duplication | Same meaning in 2+ places, including SKILL.md vs. references/ | Collapse to a single source of truth, often via a leading word |
-| Sediment | Stale layers, outdated references, dead instructions | Line-by-line relevance check; delete |
-| Sprawl | Long even with no duplication or sediment | Disclose reference behind pointers; split by branch or sequence |
-| No-ops | Lines that don't change behavior versus the model's default | Sentence-by-sentence deletion test; delete the whole sentence, don't trim words |
-| Buried steps | Inline reference so heavy it soaks the steps | Progressive disclosure — push the reference behind a pointer |
+| Mode | Evidence to look for |
+|------|----------------------|
+| Premature completion | Vague completion criteria with future steps still visible |
+| Weak steering | Instruction present but the agent doesn't reliably follow it |
+| Duplication | Same meaning in 2+ places, including SKILL.md vs. references/ |
+| Sediment | Stale layers, outdated references, dead instructions |
+| Sprawl | Long even with no duplication or sediment |
+| No-ops | Lines that don't change behavior versus the model's default |
+| Buried steps | Inline reference so heavy it soaks the steps |
 
 After the table, write a **Prioritized Actions** section: 3–5 highest-impact
 actions derived directly from the detected failure modes, each citing its
@@ -191,140 +195,24 @@ attention in one environment — is a portfolio-level problem, out of scope
 for evaluating a single skill. Record the description's context-load cost
 when it's notable; don't score the portfolio.
 
-## Output Format
+## Gotchas
 
-```markdown
-# Skill Evaluation — {skill name}
-
-> Evaluated: {date}
-> Source: {path}
-> Evaluator: skill-evaluation v2.0.0
-> Framework: [Anthropic Skill Best Practices](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) + Matt Pocock's [writing-great-skills](https://www.youtube.com/watch?v=UNzCG3lw6O0)
-
-## Summary
-
-| Metric | Value |
-|--------|-------|
-| Overall Score | {weighted}/100 |
-| Grade | {A/B/C/D/F} |
-| Category | {category} |
-| Invocation | {model-invoked / user-invoked} |
-| Files | {count} |
-| Criteria scored / N/A | {n} scored, {m} N/A |
-
-## Scorecard
-
-### Axis 1 — Trigger
-
-| # | Criterion | Weight | Score | Notes |
-|---|-----------|--------|-------|-------|
-| 1 | Invocation design | 2x | {n}/100 | {evidence} |
-| 2 | Description quality | 2x | {n}/100 | {evidence} |
-
-### Axis 2 — Structure
-
-| # | Criterion | Weight | Score | Notes |
-|---|-----------|--------|-------|-------|
-| 3 | Steps vs. reference clarity | 1x | {n}/100 | {evidence} |
-| 4 | Branch-aware disclosure & pointers | 2x | {n}/100 | {evidence} |
-| 5 | Conciseness | 2x | {n}/100 | {evidence} |
-| 6 | Coherent scope | 1x | {n}/100 | {evidence} |
-
-### Axis 3 — Steering
-
-| # | Criterion | Weight | Score | Notes |
-|---|-----------|--------|-------|-------|
-| 7 | Leading words | 2x | {n}/100 | {evidence} |
-| 8 | Completion criteria & legwork | 2x | {n/100 or N/A} | {evidence} |
-| 9 | Gotchas section | 2x | {n}/100 | {evidence} |
-| 10 | Grounded in expertise | 2x | {n}/100 | {evidence} |
-| 11 | Avoids railroading | 1x | {n}/100 | {evidence} |
-
-### Axis 4 — Pruning
-
-| # | Criterion | Weight | Score | Notes |
-|---|-----------|--------|-------|-------|
-| 12 | No-ops (deletion test) | 2x | {n}/100 | {evidence with line citations} |
-| 13 | Single source of truth | 1x | {n}/100 | {evidence} |
-| 14 | Relevance & sediment | 1x | {n}/100 | {evidence} |
-
-### Conditional criteria
-
-| # | Criterion | Weight | Score | Notes |
-|---|-----------|--------|-------|-------|
-| 15 | Setup flow | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
-| 16 | Memory mechanism | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
-| 17 | Scripts & libraries | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
-| 18 | On-demand hooks | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
-
-## Failure Modes Detected
-
-| Mode | Evidence | Root cause | Defense |
-|------|----------|------------|---------|
-| {mode, or a single row "None detected"} | {file:line} | {cause} | {defense} |
-
-## Prioritized Actions
-
-### 1. {action}
-
-**Evidence:** {file:line or section}
-
-**Fix:** {specific recommendation}
-
-### 2. {action}
-
-**Evidence:** {file:line or section}
-
-**Fix:** {specific recommendation}
-
-(3–5 total, each tied to a detected failure mode)
-
-## Bonus Patterns
-
-| Pattern | Status | Notes |
-|---------|--------|-------|
-| Validation loops | {Present/Absent/N/A} | {detail} |
-| Output templates | {Present/Absent/N/A} | {detail} |
-| Procedures over declarations | {Present/Absent/N/A} | {detail} |
-| Defaults over menus | {Present/Absent/N/A} | {detail} |
-| Trace-checkable steering | {Present/Absent/N/A} | {detail} |
-
-## Grade Scale
-
-{copy the Grade Scale table from the Grade Scale section above}
-
----
-
-*Generated by [skill-evaluation](https://github.com/fabricioctelles/skills) v2.0.0, merging the [Anthropic skill quality framework](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) with Matt Pocock's [writing-great-skills](https://www.youtube.com/watch?v=UNzCG3lw6O0) methodology.*
-```
-
-## Comparison Mode
-
-When `compare` is set, produce a side-by-side table across all 18 criteria.
-Leave a cell N/A rather than scoring it 0, and exclude N/A rows from the
-Overall row's weighted math for that skill.
-
-```markdown
-## Comparison: {skill A} vs {skill B}
-
-| # | Criterion | {A} | {B} | Delta |
-|---|-----------|-----|-----|-------|
-| 1 | Invocation design | 60 | 85 | +25 |
-| 2 | Description quality | 25 | 70 | +45 |
-| ... | ... | ... | ... | ... |
-| 15 | Setup flow | N/A | 80 | — |
-| **Overall** | | **43** | **72** | **+29** |
-```
+- Tiny skills (under ~50 lines) flood the scorecard with N/A — score what's
+  there; a small, sharp skill can reach grade A on few criteria.
+- Self-evaluation bias: when the skill under review is one you (or this
+  session) wrote, apply the deletion test with extra skepticism — you will
+  want your own lines to matter.
+- Fresh rewrites still carry duplication: sediment needs time to settle, but
+  duplication can ship on day one. Run the pruning axis even on brand-new
+  skills.
 
 ## Quality Checklist
 
-Before delivering the scorecard, verify:
+Final gate before delivering — each item names the step whose completion it
+re-checks, nothing new:
 
-- [ ] All applicable criteria (up to 18) have a score and evidence citation
-- [ ] Every N/A is justified by the skill's category, or an explained override
-- [ ] Failure modes cite file:line evidence, or the table reads "None detected"
-- [ ] The weighted average excludes N/A criteria from both sum and count
-- [ ] Prioritized actions are derived from the detected failure modes, not generic advice
-- [ ] Bonus patterns (5) are assessed as Present/Absent/N/A
-- [ ] Grade matches the score range
-- [ ] Output file is valid markdown
+- [ ] cite-or-cut held everywhere (step 4)
+- [ ] every N/A justified (step 4)
+- [ ] every failure mode cited or dismissed (step 5)
+- [ ] 5 bonus patterns assessed (step 6)
+- [ ] score computed by `scripts/score.py`, not by hand (step 7)
