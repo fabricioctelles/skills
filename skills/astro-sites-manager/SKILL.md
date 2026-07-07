@@ -11,8 +11,9 @@ description: >
   'upgrade to Astro 7', 'migrate Astro', 'Astro v7', 'Astro v6', 'Sätteri',
   'route caching', 'Astro.cache', 'astro dev --background', 'src/fetch.ts',
   'advanced routing', 'Hono + Astro', 'Rolldown', 'Vite 8', 'queued
-  rendering', 'CDN cache provider', 'Astro AI', or asks about static site
-  generation with Astro.
+  rendering', 'CDN cache provider', 'Astro AI', 'related content',
+  'related posts', 'vector embeddings Astro', 'astro-related-content',
+  or asks about static site generation with Astro.
 metadata:
   author: ft.ia.br
   version: "1.0.0"
@@ -242,6 +243,7 @@ image: {
 - [AI Dev Server](references/ai-dev-server.md) — Background mode, JSON logging, agent detection
 - [Astro v7 Features](references/v7-features.md) — Rust compiler, Sätteri, Advanced Routing, Route Caching, CDN providers
 - [Astro v6 Features](references/v6-features.md) — Content Collections v2, Actions, Sessions, Server Islands, env module
+- [Related Content](references/related-content.md) — Vector embeddings para posts relacionados, deploy leve no Coolify sem modelo
 - [Testing](references/testing.md) — Vitest components, Playwright E2E, link checking, CI pipeline
 - [SEO Full Stack](references/seo-full-stack.md) — JSON-LD graph, agent discovery, IndexNow, OG images, build-time validation, performance
 - [Starlight & Patterns](references/starlight-and-patterns.md) — Docs sites, Pagefind search, i18n, pagination, RSS

@@ -250,6 +250,21 @@ npm install --legacy-peer-deps
 # Then test: npm ci must pass
 ```
 
+### Integrations That Download ML Models (transformers.js, ONNX)
+
+Integrations like `@philnash/astro-related-content` download ONNX models (~300MB) during `astro build` to generate embeddings. On Coolify servers with limited bandwidth/disk, this causes 20+ minute builds or disk exhaustion.
+
+**Pattern:** Generate artifacts locally, commit them, skip the heavy integration in CI.
+
+**Fix:** Dual-mode config with `ENV CI=true` in Dockerfile. See [Related Content reference](references/related-content.md) for complete implementation.
+
+**Key principle:**
+- **Local:** Integration runs fully (downloads model, generates embeddings)
+- **CI/Docker:** Vite plugin serves pre-built `data.json` (zero model download)
+- **Cache commitado:** `.astro-related-content/data.json` + `vectors.json` go in git (~750KB for 32 posts)
+
+This pattern applies to ANY integration that downloads large artifacts at build time.
+
 ---
 
 ## Coolify API — Create App
@@ -397,3 +412,4 @@ integrations: [mdx(), UnoCSS(), sitemap(), seoGraph(), agentmarkup(), critters()
 | @jdevalk/astro-seo-graph | All-in-one SEO (replaces astro-seo + robots-txt + indexnow) |
 | @agentmarkup/astro | LLM visibility (llms.txt, markdown mirrors) |
 | Plausible > GA4 | 1kb script, no cookie banner, self-hosted |
+| @philnash/astro-related-content | Semantic related posts via local embeddings (CI: use prebuilt data.json) |
