@@ -71,6 +71,15 @@ Complete guide to consuming the [Pier Cloud](https://piercloud.com/en/) (Lightho
 
 ---
 
+### Xquik X Data API · `library-and-api-reference`
+Routes Xquik REST API and MCP workflows for X/Twitter data: tweet search, profile lookup, follower exports, monitoring, webhooks, SDK handoff, and confirmation-gated posting.
+
+**When to use:** search tweets, look up profiles, export followers, monitor accounts, configure webhooks, set up Xquik MCP, generate SDK-backed integration steps, or prepare approved X account actions.
+
+📄 [View full documentation](skills/xquik-x-data/SKILL.md)
+
+---
+
 ### 🎨 Ultimate Design System Master · `code-scaffolding-and-templates`
 Generates Apple/Pentagram/frog/Vercel/Figma-level design deliverables using 10 specialized role-play prompts. Covers Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code, and Executive Presentations.
 

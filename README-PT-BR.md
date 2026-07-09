@@ -68,6 +68,15 @@ Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, ge
 
 ---
 
+### Xquik X Data API · `library-and-api-reference`
+Orienta workflows da API REST e MCP da Xquik para dados de X/Twitter: busca de tweets, lookup de perfis, exportação de seguidores, monitoramento, webhooks, handoff para SDKs e postagem com confirmação.
+
+**Quando usar:** buscar tweets, consultar perfis, exportar seguidores, monitorar contas, configurar webhooks, instalar Xquik MCP, gerar passos de integração com SDKs ou preparar ações aprovadas em contas X.
+
+📄 [Ver documentação completa](skills/xquik-x-data/SKILL.md)
+
+---
+
 ### 🎨 Ultimate Design System Master · `code-scaffolding-and-templates`
 Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 10 prompts especializados com role-play. Cobre Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code e Apresentações Executivas.
 

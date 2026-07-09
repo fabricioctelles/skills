@@ -28,6 +28,13 @@
       ]
     },
     {
+      "title": "Data & APIs",
+      "description": "Structured API workflows, exports, monitors, and data handoff.",
+      "skills": [
+        "xquik-x-data"
+      ]
+    },
+    {
       "title": "Security",
       "description": "Application security scanning, penetration testing, threat modeling, and vulnerability management.",
       "skills": [
