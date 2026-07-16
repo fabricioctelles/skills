@@ -2,6 +2,8 @@
 
 Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não pelo conteúdo. Ferramentas de detecção usam esses marcadores como sinais de alta confiança.
 
+> **Regra transversal:** correção de estilo altera somente apresentação, pontuação e organização. Preserve fatos, números, fontes, causalidade, prazo, estado temporal, modalidade e perfil de voz. Nunca compense a retirada de um recurso visual com dado, opinião, humor ou certeza inexistentes.
+
 ---
 
 ### Travessão (em-dash) excessivo
@@ -12,7 +14,7 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 > O projeto — que começou em 2022 — trouxe resultados impressionantes — especialmente na área de dados — e agora está sendo expandido — mesmo com orçamento limitado — para outras regionais.
 
 **Depois (humano):**
-> O projeto começou em 2022 e trouxe bons resultados na área de dados. Agora está sendo expandido para outras regionais, mesmo com orçamento apertado.
+> O projeto começou em 2022 e trouxe resultados impressionantes, especialmente na área de dados. Mesmo com orçamento limitado, agora está sendo expandido para outras regionais.
 
 **Evitar em PT-BR:**
 - Mais de 2 travessões por parágrafo
@@ -27,41 +29,42 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 **Técnicas avançadas de correção:**
 - **Limite de 2 travessões por parágrafo** — se passar, converter os extras em vírgulas, pontos ou parênteses
 - Diferenciar uso: travessão para contraste forte, parênteses para comentário lateral, vírgula para aparte leve
+- Ao trocar a pontuação, preservar a relação entre oração principal, ressalva, causa e contraste
 - "Teste do editor" — se um editor humano teria cortado o travessão, cortar
 
 ---
 
 ### Negrito excessivo
 
-**Problema:** IA aplica bold em toda palavra-chave como se o texto fosse um slide. Texto corrido com negrito em cada substantivo importante parece catálogo de produto, não escrita humana.
+**Problema:** IA aplica negrito em toda palavra-chave como se o texto fosse uma apresentação. Texto corrido com negrito em cada substantivo importante parece catálogo de produto, não escrita humana.
 
 **Antes (IA):**
 > A **plataforma** oferece **integração nativa** com os principais **CRMs do mercado**, garantindo **escalabilidade** e **segurança** para equipes de **vendas** e **marketing**.
 
 **Depois (humano):**
-> A plataforma se integra com os principais CRMs do mercado. Funciona bem para equipes de vendas e marketing que precisam escalar sem perder controle de acesso.
+> A plataforma oferece integração nativa com os principais CRMs do mercado, garantindo escalabilidade e segurança para equipes de vendas e marketing.
 
-**Evitar em PT-BR:**
-- Bold em mais de 1-2 termos por parágrafo
-- Negrito em palavras comuns (plataforma, equipe, resultado)
-- Negrito como substituto de boa estrutura frasal
+**Regra contextual canônica:**
+- Em prosa corrida, e-mail, artigo e texto autoral, usar negrito apenas quando houver contraste editorial deliberado ou quando a fonte já trouxer ênfase relevante
+- Em documentação, material didático, interfaces e listas de consulta, o negrito pode marcar rótulos e hierarquia quando isso melhora a navegação
+- Não aplicar cotas simultâneas por parágrafo e por seção. O excesso é funcional: ocorre quando a marcação se repete sem hierarquia e faz vários trechos competirem pela mesma atenção
 
 **Sinais adicionais de detecção:**
 - Negrito em substantivos comuns (plataforma, equipe, resultado) sem razão editorial
 - Negrito usado como substituto de hierarquia de informação (quando a estrutura deveria fazer o trabalho)
-- Texto onde >5% das palavras estão em negrito
+- Negrito espalhado por tantas palavras que deixa de indicar prioridade
 
 **Técnicas avançadas de correção:**
-- **Limite de 1-2 negritos por seção** — nunca por parágrafo
 - Usar negrito apenas para **contraste intencional**: "O problema não é a ferramenta — é o **processo**"
 - Se o negrito está tentando compensar falta de clareza, **reestruturar a frase** em vez de negritar
-- "Teste do impresso" — se o texto parece ter sido formatado para um leitor com TDAH, o negrito é excessivo
+- Preservar negritos funcionais do gênero; remover os decorativos sem alterar as palavras ou a ênfase semântica do trecho
+- "Teste de hierarquia" — ao olhar a página, fica claro por que cada destaque existe?
 
 ---
 
-### Listas com cabeçalho inline (bold-first bullets)
+### Listas com rótulo em negrito
 
-**Problema:** IA produz listas onde cada item começa com um termo em negrito seguido de dois-pontos e uma frase descritiva. Parece documentação interna, não texto para leitura.
+**Problema:** IA produz listas onde todo item começa com um termo em negrito seguido de dois-pontos, mesmo quando não há hierarquia real. Em documentação e material de consulta, esse formato pode ser legítimo; o sinal é seu uso automático em prosa ou em categorias artificiais.
 
 **Antes (IA):**
 > - **Agilidade:** O time reduziu o ciclo de entrega em 40%.
@@ -69,22 +72,25 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 > - **Engajamento:** A satisfação do time subiu 12 pontos no eNPS.
 
 **Depois (humano):**
-> O ciclo de entrega caiu 40%, os bugs em produção reduziram pela metade, e o eNPS do time subiu 12 pontos.
+> - Agilidade: a equipe reduziu o ciclo de entrega em 40%.
+> - Qualidade: os bugs em produção caíram pela metade.
+> - Engajamento: a satisfação da equipe subiu 12 pontos no eNPS.
 
 **Evitar em PT-BR:**
-- Estrutura "**Palavra:** frase explicativa" repetida em série
-- Listas de 3+ itens onde prosa corrida resolve
-- Forçar categorias artificiais para criar bullets
+- Estrutura "**Palavra:** frase explicativa" repetida em série sem hierarquia real
+- Listas de 3+ itens onde o gênero não pede consulta rápida e a prosa preserva melhor as relações
+- Forçar categorias artificiais para criar itens
 
 **Sinais adicionais de detecção:**
 - Estrutura repetitiva: "**Termo:** frase explicativa" em 3+ itens consecutivos
-- Bullets que são mini-tópicos de documentação, não pontos argumentativos
+- Itens que são minitópicos de documentação, não pontos argumentativos
 - A lista poderia ser uma tabela 2xN
 
 **Técnicas avançadas de correção:**
-- Se a informação é factual → converter em **tabela** (mais limpo, mais honesto)
-- Se a informação é argumentativa → converter em **prosa corrida** com conectivos naturais
-- Se a lista é inevitável → usar bullets simples sem cabeçalho em negrito
+- Se a informação é factual e tabular → converter em **tabela**, preservando rótulos, valores e correspondências
+- Se a informação é argumentativa → converter em **prosa corrida** sem criar relação causal ou conclusão nova
+- Se a lista é inevitável → usar marcadores simples sem cabeçalho em negrito
+- Manter cabeçalhos em negrito quando forem rótulos funcionais do gênero, conforme a regra contextual canônica
 - "Teste do slide" — se a lista parece um slide de apresentação, formatar como slide (ou reescrever como parágrafo)
 
 ---
@@ -118,21 +124,24 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 
 ### Emojis decorativos
 
-**Problema:** IA enfia emojis em headers e bullets como enfeite. Brasileiro usa emoji em mensagem informal, não em título de seção ou tópico técnico. A presença de 🚀💡✅🎯 em texto profissional é assinatura de máquina.
+**Problema:** IA enfia emojis em títulos e itens como enfeite. Brasileiro usa emoji em mensagem informal, não em título de seção ou tópico técnico. A presença de 🚀💡✅🎯 em texto profissional é assinatura de máquina.
 
 **Antes (IA):**
 > 🚀 **Lançamento:** Produto entra no ar em setembro
-> 💡 **Insight:** Usuários preferem onboarding curto
+> 💡 **Observação:** Usuários preferem onboarding curto
 > ✅ **Próximos passos:** Agendar reunião com stakeholders
 > 🎯 **Meta:** Crescer 30% no trimestre
 
 **Depois (humano):**
-> O produto entra no ar em setembro. A pesquisa mostrou que onboarding curto converte melhor. Próximo passo: reunião com os envolvidos para alinhar a meta de 30%.
+> Lançamento: o produto entra no ar em setembro.
+> Observação: os usuários preferem um onboarding curto.
+> Próximos passos: agendar uma reunião com os stakeholders.
+> Meta: crescer 30% no trimestre.
 
 **Evitar em PT-BR:**
-- Emoji antes de heading ou bullet point
+- Emoji antes de título ou item quando for puramente decorativo
 - 🚀💡✅🎯📊 como decoração de estrutura
-- Qualquer emoji em texto que não seja mensagem pessoal ou post de rede social
+- Emoji incompatível com o perfil de voz ou sem função comunicativa
 
 **Sinais adicionais de detecção:**
 - Emojis em headings de seção, títulos de artigo, ou como marcadores em texto profissional
@@ -140,10 +149,10 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Emoji em texto que não é mensagem pessoal ou post de rede social
 
 **Técnicas avançadas de correção:**
-- **Regra zero**: se o texto não é WhatsApp ou post de rede social, emoji é proibido
-- Em posts de rede social: máximo 1 emoji por parágrafo, nunca no início de heading
-- Se o emoji está tentando criar "energia", **substituir por linguagem** (humor, ironia, surpresa)
-- "Teste do e-mail profissional" — se você não mandaria com emoji para um cliente, não use
+- Em texto formal ou técnico, remover emoji puramente decorativo; preservar ícone que comunique estado, alerta ou categoria funcional
+- Em WhatsApp e rede social, manter emojis compatíveis com o perfil de voz e retirar apenas repetição mecânica
+- Ao remover o emoji, não acrescentar humor, ironia, surpresa nem nova ênfase para compensar
+- "Teste do canal" — o emoji cumpre uma função aceita nesse gênero ou serve apenas de enfeite?
 
 ---
 
@@ -176,7 +185,7 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 
 ### Decoração Unicode
 
-**Problema:** IA usa caracteres Unicode decorativos como setas (→, ←, ↗), bullets especiais (•, ▸, ▪), checks (✓, ✗), e separadores (│, ─) que humanos brasileiros não digitam. Teclado brasileiro produz -, *, > e ponto final.
+**Problema:** IA usa caracteres Unicode decorativos como setas (→, ←, ↗), marcadores especiais (•, ▸, ▪), marcas de verificação (✓, ✗) e separadores (│, ─) que humanos brasileiros não digitam. Teclado brasileiro produz -, *, > e ponto final.
 
 **Antes (IA):**
 > Benefícios do novo processo:
@@ -188,32 +197,33 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 
 **Depois (humano):**
 > Benefícios do novo processo:
-> - Tempo de resposta caiu 40%
-> - Satisfação do cliente subiu
-> - Integra com sistemas legados
+> - Redução de 40% no tempo de resposta
+> - Aumento na satisfação do cliente
+> - Integração com sistemas legados
 >
 > Stack: React, Node.js, PostgreSQL
 
 **Evitar em PT-BR:**
-- → como bullet point (usar - ou *)
+- → como marcador de item (usar - ou *)
 - │ como separador (usar vírgula, barra ou ponto)
-- ✓ e ✗ no corpo do texto (usar "sim/não" ou "funciona/não funciona")
+- ✓ e ✗ no corpo do texto quando não houver função; se houver, usar o estado textual equivalente sem inferi-lo
 
 **Sinais adicionais de detecção:**
-- Setas (→, ↗), bullets especiais (▸, ▪), checks (✓, ✗), e separadores (│, ─) que não são renderizados pelo teclado padrão brasileiro
+- Setas (→, ↗), marcadores especiais (▸, ▪), marcas de verificação (✓, ✗) e separadores (│, ─) que não são renderizados pelo teclado padrão brasileiro
 - Uso de emojis como marcadores em texto formal
-- Texto que parece ter sido copiado de um Notion com templates de produtividade
+- Texto que parece ter sido copiado de um Notion com modelos de produtividade
 
 **Técnicas avançadas de correção:**
 - Converter setas em hífens ou asteriscos: "→" → "-"
 - Remover separadores Unicode: "React │ Node.js │ PostgreSQL" → "React, Node.js, PostgreSQL"
+- Converter marcas de verificação em texto somente quando houver equivalente explícito, preservando o estado original: aprovado, reprovado, sim, não ou pendente
 - "Teste do terminal" — se o texto renderiza com caracteres quebrados num terminal sem Unicode, é decoração artificial
 
 ---
 
 ### Fragmentos curtos dramáticos
 
-**Problema:** IA produz frases de 1-3 palavras isoladas como parágrafo para criar "impacto". Esse recurso existe em copywriting, mas IA abusa até em texto informativo. Brasileiro escreve assim no Twitter, não em artigo ou email.
+**Problema:** IA produz frases de 1-3 palavras isoladas como parágrafo para criar "impacto". Esse recurso existe em copywriting, mas IA abusa até em texto informativo. Brasileiro escreve assim no Twitter, não em artigo ou e-mail.
 
 **Antes (IA):**
 > O mercado mudou.
@@ -225,11 +235,11 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 > Literalmente.
 
 **Depois (humano):**
-> O mercado mudou bastante nos últimos dois anos e quem não se adaptar vai perder espaço. Não é questão de se, mas de quando.
+> O mercado mudou radicalmente. Quem não se adaptar vai ficar para trás. A pergunta não é se, mas quando: o futuro já chegou, literalmente.
 
 **Evitar em PT-BR:**
-- Palavra isolada como parágrafo ("Radicalmente.", "Literalmente.", "Ponto.")
-- Mais de um fragmento dramático por texto
+- Palavra isolada como parágrafo sem função no perfil de voz ("Radicalmente.", "Literalmente.", "Ponto.")
+- Sequência de fragmentos dramáticos sem função no perfil de voz
 - Fragmento + ponto final para criar "peso" artificial
 
 **Sinais adicionais de detecção:**
@@ -238,10 +248,10 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Fragmento que não acrescenta informação — só "peso" artificial
 
 **Técnicas avançadas de correção:**
-- **Limite de 1 fragmento dramático por texto** — se usado, deve ser o clímax
-- Integrar fragmentos redundantes ao parágrafo anterior
-- Se o fragmento é pura ênfase, **usar pontuação** em vez de isolamento: "É urgente. Realmente urgente."
-- "Teste do Twitter" — se o fragmento ocupa mais de 140 caracteres como tweet, ele não pertence ao Twitter
+- Em prosa neutra, integrar fragmentos ao período correspondente; em Crônica ou Rede Social, preservá-los quando fizerem parte da voz
+- Integrar o fragmento sem perder o intensificador: "Mudou. Radicalmente." → "Mudou radicalmente."
+- Se o fragmento é pura ênfase, ajustar a pontuação sem acrescentar urgência, conclusão ou avaliação
+- "Teste do gênero" — o fragmento combina com o perfil de voz ou apenas simula impacto?
 
 ---
 
@@ -303,9 +313,9 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 
 ---
 
-### Hedging com Preamble (Minimiza → Infla)
+### Ressalva com preâmbulo (minimiza → infla)
 
-**Problema:** Padrão de IA de 2025/2026 onde o texto admite que o assunto é simples ou já conhecido, mas imediatamente em seguida usa linguagem inflada para compensar. É um hedging disfarçado de humildade — "sei que parece óbvio, mas na verdade é TRANSFORMADOR". Humanos ou dizem que é simples (e tratam como simples), ou dizem que é importante (e explicam por quê com dados). Não fazem os dois na mesma frase.
+**Problema:** Padrão de IA de 2025/2026 em que uma minimização genérica é seguida por inflação automática para compensar. O contraste pode ser legítimo e deve ser preservado; o sinal aparece quando a moldura se repete mecanicamente ou quando os dois lados não têm apoio no texto-fonte.
 
 **Antes (IA):**
 > Embora pareça um conceito simples, a consistência na publicação de conteúdo representa um dos pilares mais fundamentais e transformadores de qualquer estratégia de marketing digital moderna.
@@ -313,23 +323,23 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 > À primeira vista, essa pode parecer uma mudança incremental, mas na verdade constitui uma transformação paradigmática na forma como organizações interagem com seus stakeholders.
 
 **Depois (humano):**
-> Publicar com consistência funciona. Não é insight novo — mas quase ninguém faz direito.
+> A consistência na publicação de conteúdo é um dos pilares mais fundamentais e transformadores de qualquer estratégia moderna de marketing digital. Mesmo assim, pode parecer um conceito simples.
 >
-> A mudança parece pequena. O efeito não é.
+> A mudança constitui uma transformação paradigmática na forma como as organizações interagem com seus stakeholders, embora à primeira vista possa parecer incremental.
 
 **Evitar em PT-BR:**
 - "Embora pareça simples, na verdade é [superlativo]"
 - "À primeira vista... mas na verdade constitui..."
 - "Pode parecer óbvio, porém [inflação]"
 - "Apesar de ser um conceito básico, representa um dos mais [superlativo]"
-- Qualquer estrutura que minimiza no preamble e infla na main clause
+- Qualquer estrutura que minimiza no preâmbulo e infla na oração principal
 
 **Sinais adicionais de detecção:**
 - Estrutura "minimiza → infla" em uma única frase: "Embora pareça simples, é transformador"
 - Uso de "na verdade" como ponte entre minimização e inflação
-- O preamble é sempre genérico ("parece simples", "à primeira vista") e a inflação é sempre superlativa
+- O preâmbulo é sempre genérico ("parece simples", "à primeira vista") e a inflação é sempre superlativa
 
 **Técnicas avançadas de correção:**
-- Escolher um lado: ou é simples (e aí não precisa inflar) ou é importante (e aí não precisa minimizar)
-- Se o contraste é legítimo, **mostrar a tensão com dados**: "Parece simples — mas custou 6 meses e 3 engenheiros"
+- Preservar os dois lados quando o autor afirma um contraste; remover apenas a moldura repetitiva, sem escolher uma posição nova
+- Se o contraste é legítimo, mostrar a tensão com dados somente quando esses dados já estiverem na fonte; caso contrário, manter a formulação qualitativa
 - "Teste do podcast host" — se o apresentador diria isso sem soar como vendedor, a frase é honesta

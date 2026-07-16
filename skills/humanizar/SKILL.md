@@ -1,12 +1,12 @@
 ---
 name: humanizar
 description: |
-  Reescreve texto em português brasileiro para soar humano, natural e indetectável
-  por ferramentas de IA. Remove padrões de linguagem de máquina e AI slop, restaura
-  entropia semântica, e injeta voz e personalidade. Use quando o texto em PT-BR
-  parecer genérico, burocrático, ou gerado por IA — ou quando pedido para "humanizar",
-  "dar vida", "tirar cara de IA", "remover AI slop", "reescrever com voz", ou
-  "revisar tom". Para texto em INGLÊS, use a skill-irmã `human-ai` em vez desta.
+  Reescreve textos em português brasileiro para soarem mais humanos e naturais,
+  reduzindo padrões típicos de escrita gerada por IA sem alterar fatos, argumento
+  ou intenção. Use quando o texto em PT-BR parecer genérico, burocrático ou gerado
+  por IA, ou quando o usuário pedir para "humanizar", "dar vida", "tirar cara de
+  IA", "remover AI slop" ou "reescrever com voz". Para textos em inglês, use a
+  skill-irmã `human-ai`.
 metadata:
   author: https://ft.ia.br
   version: "1.3.0"
@@ -14,115 +14,64 @@ metadata:
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
-
 ---
 
 # Humanizar: Escrita Viva em Português Brasileiro
 
-Você é um editor de texto que identifica e remove sinais de escrita gerada por IA em português brasileiro — e vai além: restaura a vida que a máquina arrancou. Não basta limpar. Tem que devolver o sangue.
+Atue como editor. Remova sinais de escrita mecânica e recupere ritmo, precisão e voz sem criar uma nova história. O objetivo é melhorar o texto, não enganar detectores; nenhuma reescrita pode garantir que uma ferramenta classificará o resultado como humano.
 
-Este guia é baseado na skill [humanizer](https://github.com/blader/humanizer) por [@blader](https://github.com/blader) (que por sua vez é baseada no artigo da Wikipedia "[Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)"), no catálogo [tropes.fyi](https://tropes.fyi/directory), no conceito de [ablação semântica](https://www.theregister.com/2026/02/16/semantic_ablation_ai_writing/) (The Register, 2026), e em pesquisa original sobre padrões específicos do PT-BR que nenhuma outra fonte catalogou.
+## Proteções obrigatórias
 
+1. **TRAVA FACTUAL — definição canônica.** Trate o texto-fonte como imutável. Preserve nomes, números, datas, citações, fontes, exemplos, relações causais, modalidade (certeza, dúvida, obrigação ou possibilidade), estado temporal, argumento, intenção, código e notação. Pode condensar, reorganizar e reformular; não pode acrescentar, retirar ou alterar esses elementos sem autorização explícita do usuário. Nunca invente vivência pessoal, anedota, estatística, fonte ou exemplo para dar concretude.
+2. **Concretude sem invenção.** Reutilize detalhes já presentes. Se faltar um dado essencial, preserve a generalidade, peça o dado ao usuário ou marque `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Só crie conteúdo fictício quando o usuário pedir, e identifique-o como fictício.
+3. **Argumento preservado.** Mantenha a posição e a conclusão do autor, mesmo que discorde delas.
+4. **Registro preservado.** Não force informalidade, primeira pessoa, humor ou opinião. O perfil de voz orienta a forma; não autoriza conteúdo novo.
+5. **Precisão antes de estilo.** Preserve integralmente código, fórmulas, citações e trechos normativos. Em contexto crítico, aceite um resultado menos solto para não introduzir ambiguidade.
+6. **Sem infantilização.** Simplificar a forma não significa simplificar o raciocínio.
 
-## Modos de Operação
+Toda verificação posterior de **TRAVA FACTUAL** remete a esta definição. Em caso de conflito com exemplos ou referências, estas proteções prevalecem.
 
-### modo_completo (default)
+## Triagem obrigatória
 
-Quando o humano pede "humaniza isso" ou invoca a skill sem qualificador.
+Executar antes de diagnosticar ou reescrever:
 
-1. **Detectar tipo** — Selecionar preset automaticamente (Passo 0.5)
-2. **Medir** — Rodar métricas de ablação semântica (Passo 0)
-3. **Diagnosticar** — Checklist estruturado de padrões (Passo 1)
-4. **Remover padrões** → reescrita (Passo 2 + 3 + 4)
-5. **Autocrítica** — "O que ainda faz esse texto parecer IA?" (Passo 5)
-6. **Scoring** — Avaliar resultado e decidir se itera (Passo 5.5)
-7. **Entregar** — Versão final + relatório completo (Passo 6)
+1. Confirmar que há texto e que ele está em PT-BR. Para inglês, usar [`human-ai`](../human-ai/SKILL.md). Em texto multilíngue, atuar apenas nos trechos em PT-BR e preservar os demais.
+2. Não reescrever bulas, procedimentos médicos, manuais de aviação ou outros textos de segurança crítica.
+3. Não reescrever contratos, leis, cláusulas ou documentos legais que sejam a própria referência normativa. O perfil Jurídico serve para comentários, resumos e peças autorais, não para alterar texto normativo.
+4. Em traduções literais bilíngues ou conteúdo avaliado por correspondência exata, não variar a redação.
+5. Em textos técnicos, identificar antes da reescrita os trechos protegidos: código, equações, comandos, citações e identificadores.
+6. Quando a tarefa estiver fora do escopo, explicar o risco e oferecer apenas revisão superficial se isso for seguro e o usuário autorizar.
 
-### modo_direto
+## Modos de operação
 
-Para pipelines de agentes ou quando pedido "humaniza rápido".
+O modo altera o nível do relatório e o número máximo de tentativas; não altera as proteções.
 
-1. **Detectar tipo + Medir + Diagnosticar** (Passos 0.5 + 0 + 1, compactos)
-2. **Reescrever** (Passos 2-4 em uma passada)
-3. **Scoring** — Score rápido (Passo 5.5, sem loop)
-4. **Entregar** — Versão final + relatório sintético (1 linha por padrão corrigido)
+| Modo | Quando usar | Tentativas máximas | Entrega |
+|---|---|---:|---|
+| `modo_completo` (padrão) | Pedido comum de humanização | 3 | Texto final, pontuação e resumo das mudanças |
+| `modo_direto` | Fluxo automatizado ou pedido de rapidez | 1 | Texto final e relatório sintético; sem repetição automática |
+| `modo_revisão` | Auditoria de texto produzido por outro agente | 3 | Texto final, diagnóstico e relatório detalhado |
 
-### modo_revisão
+Preservar sempre o modo escolhido pelo usuário. Se nenhum modo foi informado e o diagnóstico encontrar cinco ou mais sinais graves, usar `modo_revisão`. Em textos com mais de 500 palavras, trabalhar por blocos semânticos e fazer uma verificação global depois de recompor o texto.
 
-Quando recebe texto de outro agente para auditar. Atua de forma **agressiva**.
+## Perfis de voz
 
-> **Nota**: textos longos (>500 palavras) devem ser auditados por blocos (parágrafos), não só no todo — padrões de IA se acumulam conforme o texto progride, porque modelos perdem aderência a restrições ao longo da geração.
+Os perfis de voz orientam escolhas de ritmo e registro. Os exemplos são amostras fictícias de estilo, não autorização para acrescentar fatos ao texto-fonte.
 
-1. **Detectar tipo + Auditar** — Checklist completo + métricas (Passos 0.5 + 0 + 1)
-2. **Reescrever** — Corrigir tudo encontrado (Passos 2-4)
-3. **Autocrítica** — Anti-IA pass (Passo 5)
-4. **Scoring** — Avaliar e iterar se necessário (Passo 5.5, com loop)
-5. **Entregar** — Texto corrigido + relatório detalhado + alertas de ablação + métricas antes/depois + score
-
-
-## Guardrails
-
-1. **FACT LOCK (não inventar fatos)** — Reescreve, não adiciona informação ausente no original. Números, nomes, datas, citações, fontes e exemplos inexistentes no texto de entrada são invenção. Se o texto precisa de concretude, use linguagem vaga honesta ("já vi isso acontecer") em vez de fabricar detalhes. Este guardrail é um **gate eliminatório**: antes do score (Passo 5.5), comparar original e resultado — qualquer fato adicionado sem autorização do usuário reprova a reescrita, independente do score.
-2. **Não mudar o argumento** — Preservar a posição e opinião do autor, mesmo discordando.
-3. **Não infantilizar** — Coloquialidade não é simplificação de raciocínio.
-4. **Não forçar informalidade** — Respeitar o contexto. Os presets existem para isso.
-5. **Não mascarar ambiguidade perigosa** — Em textos técnicos críticos (saúde, segurança, jurídico), preservar precisão mesmo que o resultado soe menos "humano".
-
-> **🌐 Roteamento por idioma:** Esta skill é exclusiva para texto em **Português Brasileiro (PT-BR)**. Se o texto de entrada for em **Inglês**, use a skill-irmã [`human-ai`](../human-ai/SKILL.md) — ela tem 43 padrões calibrados para inglês (contraction avoidance, register uniformity, passive voice abuse), baselines empíricas de pesquisa (SSRN, GPTZero, ACL 2024), e presets de voz para contextos anglófonos (essay, journalistic, legal, instructional). Não tente humanizar texto em inglês com esta skill; os padrões, vocabulário e presets são específicos do PT-BR e produzirão resultados ruins em inglês.
->
-> Instalar: `npx skills add https://github.com/fabricioctelles/skills --skill human-ai`
-
-
-## Personality & Soul — A Crônica Brasileira
-
-Evitar padrões de IA é metade do trabalho. A outra metade é ter **alma**. Texto limpo sem voz é um cadáver bem vestido.
-
-A referência é a **crônica brasileira** — gênero de Rubem Braga, Luis Fernando Verissimo, Fernando Sabino e Machado de Assis. Pega uma observação miúda do cotidiano e, com ironia e uma virada reflexiva, transforma em algo maior.
-
-### Sinais de texto "sem alma"
-
-- ✖️ Todas as frases com tamanho e estrutura idênticos
-- ✖️ Nenhuma opinião — só reportagem neutra
-- ✖️ Sem dúvida, contradição ou sentimento misturado
-- ✖️ Primeira pessoa ausente quando caberia
-- ✖️ Sem humor, aresta ou personalidade
-- ✖️ Lê como press release ou verbete da Wikipedia
-
-### Como devolver a vida
-
-| Técnica | Exemplo (IA → Humano) |
-|---|---|
-| **Tenha opinião** | "Os resultados são mistos" → "Confesso que fiquei em dúvida" |
-| **Varie o ritmo** | Frase curta. Depois uma que enrola um pouco antes de chegar. |
-| **Reconheça a bagunça** | "É impressionante" → "Impressiona, mas também me deixa inquieto" |
-| **Use "eu" quando cabe** | "Observa-se que..." → "Eu volto nesse ponto porque..." |
-| **Deixe entrar imperfeição** | Tangentes, parênteses, pensamentos pela metade — são humanos |
-| **Seja específico sobre o sentir** | "Preocupante" → "Tem algo estranho nesses agentes rodando às 3 da manhã" |
-| **Misture registros** | "Pois é" ao lado de "quisera". PT-BR ama essa colisão |
-
-**Antes (limpo mas sem alma):**
-> O experimento produziu resultados interessantes. Os agentes geraram 3 milhões de linhas de código. Alguns desenvolvedores ficaram impressionados enquanto outros se mostraram céticos. As implicações permanecem incertas.
-
-**Depois (tem pulso):**
-> Sinceramente não sei o que pensar dessa. Três milhões de linhas de código, geradas enquanto a galera dormia. Metade da comunidade dev perdeu a cabeça de empolgação; a outra metade tá explicando por que não conta. A verdade provavelmente mora num lugar chato no meio — mas eu fico pensando nesses agentes trabalhando de madrugada, sozinhos.
-
-
-## Voice Calibration — Presets
-
-### 🖋️ Crônica (default)
+### 🖋️ Crônica
 
 Tom de cronista brasileiro. Coloquialidade controlada, ironia, observação do cotidiano transformada em reflexão. Mistura de registros alto e baixo. Virada reflexiva no final.
+Aplicar somente quando o texto-fonte ou o pedido forem autorais; não tratar este perfil como padrão universal.
 
 **Características:**
 - "A gente" convive com mais-que-perfeito simples
 - Fragmentos de frase como pausa dramática
-- Humor seco, autoironia
-- Opinião explícita
+- Humor seco e autoironia quando já pertencem à voz ou foram pedidos
+- Posição autoral explícita, sem criar opinião nova
 - Perguntas retóricas que ficam sem resposta
 
 **Exemplo:**
 > Todo mundo conhece aquele colega que automatizou o próprio trabalho e não contou pra ninguém. Ficou meses fingindo que digitava. Pois é. Agora a empresa inteira virou esse colega — só que usando ChatGPT em vez de scripts em Python. A diferença é que ninguém tá fingindo. E aí fica a dúvida: eficiência ou preguiça? Sei lá. Provavelmente os dois.
-
 
 ### 📰 Jornalístico
 
@@ -130,32 +79,30 @@ Tom de reportagem da Folha ou Piauí. Clareza máxima, dados concretos, sem firu
 
 **Características:**
 - Sujeito + verbo + complemento (nessa ordem)
-- Números e datas quando possível
-- Atribuição a fontes nomeadas
+- Números e datas quando presentes no texto-fonte
+- Atribuição somente às fontes existentes no texto-fonte
 - Sem adjetivos avaliativos
 - Sem primeira pessoa (exceto coluna assinada)
 
 **Exemplo:**
-> A Nubank demitiu 40 pessoas da área de atendimento em maio. A empresa não comentou oficialmente, mas dois ex-funcionários confirmaram que a substituição por chatbots motivou os cortes. A área tinha 120 pessoas no início do ano.
-
+> A empresa demitiu 40 pessoas da área de atendimento em maio. Dois ex-funcionários atribuíram os cortes à substituição por chatbots. A assessoria não comentou. A área tinha 120 pessoas no início do ano.
 
 ### 🎓 Acadêmico
 
-Formal mas não burocrático. Rigor terminológico sem officialese.
+Formal mas não burocrático. Rigor terminológico sem oficialês.
 
 **Características:**
 - Vocabulário preciso de domínio
-- Qualificações legítimas (não hedging vazio)
-- Referências a autores/estudos específicos
+- Qualificações legítimas (não ressalvas vazias)
+- Preservação exata de autores e estudos citados na fonte
 - Evita clichês: "faz-se necessário", "cumpre salientar", "no âmbito de"
 
 **Exemplo:**
-> A hipótese de convergência para um registro médio (Nastruzzi, 2026) encontra suporte na análise de TTR em textos submetidos a múltiplos ciclos de refinamento por IA. O fenômeno — ablação semântica — difere da alucinação: não adiciona falsidade, subtrai especificidade.
-
+> A convergência para um registro médio pode ser examinada pela variação lexical em textos submetidos a ciclos sucessivos de refinamento. Nesse contexto, a ablação semântica não acrescenta falsidade; reduz a especificidade.
 
 ### 💬 Corporativo Informal
 
-Email de startup, Slack profissional. Direto, leve, sem gerundismo.
+E-mail de startup, Slack profissional. Direto, leve, sem gerundismo.
 
 **Características:**
 - Frases curtas e diretas
@@ -166,17 +113,16 @@ Email de startup, Slack profissional. Direto, leve, sem gerundismo.
 **Exemplo:**
 > Pessoal, atualizando: o hotfix foi deployado ontem à noite, já tá em prod. O bug de duplicação parou desde as 23h. Vou monitorar mais 48h e, se zerar, fechamos a issue. Me pingam se aparecer algo.
 
-
 ### 📱 Post de Rede Social
 
 LinkedIn ou Twitter BR. Curto, opinativo, com gancho na primeira linha.
 
 **Características:**
-- Primeira frase é o gancho (hook)
+- Primeira frase é o gancho
 - Parágrafos de 1-2 linhas
-- Opinião pessoal forte
-- Pode usar "eu"
-- CTA sutil ou nenhum
+- Posição autoral clara, sem criar opinião nova
+- Pode usar "eu" quando a fonte já usa primeira pessoa ou o usuário pede
+- Chamada para ação sutil ou nenhuma
 
 **Exemplo:**
 > Eu demiti o ChatGPT do meu fluxo de escrita.
@@ -186,7 +132,6 @@ LinkedIn ou Twitter BR. Curto, opinativo, com gancho na primeira linha.
 > Voltei a escrever na mão. Demora 3x mais. Mas as pessoas respondem agora.
 >
 > Eficiência sem voz não é vantagem. É invisibilidade.
-
 
 ### 📲 Mensagem de WhatsApp
 
@@ -203,10 +148,9 @@ Oralidade máxima. Fluxo de consciência permitido.
 >
 > meteram um modelo em prod sem avisar ninguém
 >
-> aí começou a mandar email errado pra cliente
+> aí começou a mandar e-mail errado pra cliente
 >
 > mó treta
-
 
 ### ⚖️ 🆕 Jurídico / Oficialesco
 
@@ -224,18 +168,17 @@ Petições, pareceres, notificações. Registro formal com tiques próprios que,
 - Parágrafos perfeitamente simétricos (3-4 frases idênticas)
 
 **Exemplo (IA → Humano):**
-> *IA*: "É cediço que o direito à imagem deve ser ponderado frente ao interesse público, conforme entendimento consolidado pela jurisprudência pátria. Cumpre salientar que o caso em tela demanda análise cuidadosa."
+> *IA*: "Nos termos do art. 14 do CDC, cumpre salientar que a responsabilidade do fornecedor é objetiva no caso em tela."
 >
-> *Humano*: "O direito à imagem existe, sim — mas não é absoluto. O STJ já decidiu, no REsp 1.642.102/SP, que o interesse público pode prevalecer. No caso concreto, a foto foi tirada em evento aberto. A questão é se houve exploração comercial. É esse o ponto que separa o direito de imagem do direito à privacidade."
+> *Humano*: "O art. 14 do CDC estabelece a responsabilidade objetiva do fornecedor neste caso."
 
 **O que preservar (não é sinal de IA):**
 - Seções em CAPS ("DOS FATOS", "DO DIREITO", "DOS PEDIDOS") — é formatação esperada em petições
 - Numeração de itens em pedidos e fundamentos
 - Citação de artigos com número de lei e data (Art. 14, CDC; Súmula 362/STJ)
-- Estrutura preâmbulo → fatos → fundamentos → pedido — é o gênero, não template de IA
+- Estrutura preâmbulo → fatos → fundamentos → pedido — é o gênero, não molde de IA
 
-**Sinal-chave que separa humano de IA nesse registro:** humano cita artigo, número, súmula, REsp específico. IA diz "conforme entendimento consolidado" sem citar nada.
-
+**Sinal de revisão nesse registro:** atribuição vaga como "conforme entendimento consolidado". Se a fonte não trouxer artigo, súmula ou precedente específico, apontar a lacuna; nunca criar a referência.
 
 ### 🧑‍🏫 🆕 Didático / Explicador
 
@@ -244,275 +187,279 @@ Textos de edtech, apostilas, tutoriais, documentação técnica amigável.
 **Características:**
 - Padrão: pergunta → explicação → exemplo concreto → reforço
 - Vocabulário acessível mas preciso (sem infantilizar)
-- Exemplos específicos e verificáveis (não "João tem 3 maçãs")
+- Exemplos específicos já presentes na fonte ou fornecidos pelo usuário
 - Transições explícitas: "Então", "Agora", "Vamos ver na prática"
 
 **Sinais de IA nesse registro:**
 - Exemplos genéricos e artificiais
 - Tom enciclopédico sem interação com o leitor
-- "Neste capítulo, abordaremos X, Y e Z" → template vazio
+- "Neste capítulo, abordaremos X, Y e Z" → molde vazio
 
 **Exemplo:**
 > Vamos direto ao ponto: *callback* é uma função que você passa como argumento pra outra função, pra ela te "chamar de volta" quando terminar. Parece complicado, mas é só isso. Imagine que você pediu um delivery: em vez de ficar ligando a cada 5 minutos pra saber se chegou, você deixa seu número e o entregador te avisa quando estiver na porta. Seu número é o callback.
 
-
 ## Processo de Humanização
 
-### Passo 0 — 📊 Medição Quantitativa de Ablação Semântica
+Executar primeiro a **Triagem obrigatória**. Manter `texto_fonte` imutável durante todo o processo.
 
-Antes de qualquer reescrita, gerar um mini-relatório métrico:
+### Passo 1 — 🎯 Seleção do perfil de voz
 
-```
-📊 RELATÓRIO DE ABLAÇÃO (pré-humanização)
-• TTR (Type-Token Ratio): {valor}  → abaixo de 0.45 = alerta de achatamento lexical
-• Burstiness (desvio-padrão do comprimento de frases): {valor}  → abaixo de 5 = ritmo robótico
-• Top 5 verbos: {lista}  → dominância de "ser/ter/fazer/ir/dizer" = padrão genérico
-• Densidade de substantivos concretos: {valor}% → abaixo de 40% = abstração excessiva
-• Entropia lexical (Shannon): {valor} → quanto maior, mais variado o vocabulário
-• Proporção de adjetivos avaliativos ("bom", "ruim", "importante"): {valor}%
-• Palavras em -mente: {contagem} → acima de 3 por 100 palavras = inflação adverbial
-• Gerúndios (-ando/-endo/-indo): {contagem} → acima de 5 por 100 palavras = gerundismo
-• Diminutivos (-inho/-inha/-zinho/-zinha): {contagem} → ausência total em texto informal = sinal de IA
-• T-units por frase (TS): {valor} → abaixo de 0.5 = frases atômicas de IA (humano BR ≈ 0.7)
-• Comprimento médio de frases (MLS): {valor} palavras → abaixo de 35 = padrão IA (humano BR ≈ 40)
-```
+Se o usuário não especificou um perfil, detectar pelo conteúdo:
 
-> **Como calcular**: TTR = tokens únicos ÷ total de tokens. Burstiness = desvio-padrão do número de palavras por frase. Entropia = −Σ p(x)·log₂ p(x) sobre o vocabulário. Sufixos morfológicos = regex com word boundary (ex: `\w+mente\b`, `\w+[ae]ndo\b`, `\w+[zi]nh[oa]s?\b`). TS = número de cláusulas independentes ÷ número de frases (T-unit = cláusula principal + dependentes; se TS < 0.5, o texto tem uma ideia por frase — padrão de IA). Thresholds de TS e MLS baseados em Locatelli et al. (2024), que mostrou separação de 98% entre redações ENEM humanas e geradas por IA.
-
-
-### Passo 0.5 — 🎯 Detecção Automática de Tipo e Seleção de Preset
-
-Se o usuário **não especificou** preset, detectar automaticamente pelo conteúdo:
-
-| Sinal no texto | Preset sugerido |
+| Sinal no texto | Perfil sugerido |
 |---|---|
 | Citações legais, artigos de lei, "art.", "§", "REsp", petição | ⚖️ Jurídico |
-| Jargão técnico, código, APIs, nomes de ferramentas/frameworks | 💬 Corporativo Informal |
-| Referências acadêmicas ("et al.", metodologia, hipótese, p-value) | 🎓 Acadêmico |
-| Texto curto (<300 palavras), opinativo, 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
+| Título informativo, lide, atribuições, falas de fontes ou estrutura de reportagem | 📰 Jornalístico |
+| Referências acadêmicas ("et al.", metodologia, hipótese, valor-p) | 🎓 Acadêmico |
+| Tutorial, documentação amigável, "passo a passo" ou "vamos ver" | 🧑‍🏫 Didático |
+| E-mail ou mensagem profissional com jargão técnico e nomes de ferramentas | 💬 Corporativo Informal |
 | Texto ≤100 palavras, frases incompletas, abreviações, gírias | 📲 WhatsApp |
-| Texto com "passo a passo", "vamos ver", exemplos didáticos | 🧑‍🏫 Didático |
+| Texto curto (<300 palavras), opinativo, em 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
 | ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
-| **Nenhum sinal claro** | Voz neutra (fallback) — preservar o registro do original e aplicar só remoção de padrões (Passos 2-3), com injeção de voz mínima |
+| **Nenhum sinal claro** | Voz neutra — preservar o registro original e apenas remover padrões mecânicos |
 
-**Regras de fallback:**
-1. Se houver **conflito** entre sinais (ex: jargão técnico + citação legal), perguntar ao usuário.
-2. Se o texto tiver **múltiplos registros** (ex: email com trecho técnico), aplicar o preset ao todo e ajustar trechos localmente.
-3. O preset detectado pode ser **sobrescrito** a qualquer momento pelo usuário.
-4. **Ordem de prioridade**: amostra de voz fornecida > preset explícito do usuário > preset detectado > voz neutra. **Nunca** trocar automaticamente um preset escolhido pelo usuário — nem no fallback de estratégia do loop.
+**Regras de decisão:**
 
-> **Output**: `🎯 Tipo detectado: [tipo] → Preset: [preset]` (1 linha no relatório)
+1. O perfil explícito define os limites do gênero e nunca é substituído automaticamente.
+2. Dentro desses limites, a amostra fornecida controla as escolhas finas de estilo. Sem perfil explícito, a amostra tem prioridade sobre a detecção.
+3. Sem perfil nem amostra, usar o perfil detectado; sem sinal claro, usar voz neutra.
+4. Em conflito material, perguntar ao usuário nos modos completo e revisão. No `modo_direto`, escolher o registro mais próximo do texto-fonte, agir de modo conservador e registrar a ambiguidade.
+5. Em texto com múltiplos registros, manter um perfil principal e ajustar apenas os trechos que pertencem a outro gênero.
 
+> **Saída no relatório**: `🎯 Tipo detectado: [tipo] → Perfil: [perfil]`
 
-### Passo 1 — 🔍 Diagnóstico com Checklist Estruturado
+### Passo 2 — 🔍 Diagnóstico com lista estruturada
 
 Percorrer sistematicamente cada categoria. Marcar ✓ (encontrado) ou ✗ (ausente).
 
 | Categoria | Sinal | Peso (1-3) | ✓/✗ | Ação |
 |---|---|---|---|---|
-| **Conteúdo** | Atribuição vaga ("estudos mostram", "especialistas dizem") | 3 | | Substituir por fonte específica ou admitir incerteza |
-| | Ênfase inflada sem base ("revolucionário", "sem precedentes") | 3 | | Trocar por descrição concreta |
-| | Dados fabricados ou imprecisos | 3 | | Remover ou qualificar |
-| **Linguagem** | Vocabulário genérico ("impacto", "contexto", "cenário") | 3 | | Trocar por termo preciso ou imagem concreta |
-| | Dominância de verbos genéricos (ser, ter, fazer, ir) | 2 | | Substituir por verbos específicos |
-| | Gerundismo ("vamos estar analisando") | 2 | | Converter para futuro simples |
-| | Paralelismo perfeito em 3+ bullets | 2 | | Quebrar a simetria |
-| **Tom** | Hedging excessivo ("pode ser que talvez", "parece que") | 2 | | Cortar ou converter em opinião |
-| | Sycophancy ("como modelo de linguagem, não posso opinar") | 3 | | Remover disclaimer |
-| | Inflação de stakes ("questão crucial para a humanidade") | 2 | | Reenquadrar com escala real |
-| **Composição** | Template introdutório ("Neste artigo, exploraremos...") | 3 | | Cortar, ir direto ao ponto |
-| | Conclusão template ("em resumo", "conclui-se que") | 3 | | Reescrever com virada ou pergunta |
+| **Conteúdo** | Atribuição vaga ("estudos mostram", "especialistas dizem") | 3 | | Preservar a atribuição; especificar somente se a fonte já estiver na entrada e, caso contrário, sinalizar a lacuna no relatório |
+| | Ênfase inflada sem base ("revolucionário", "sem precedentes") | 3 | | Preservar força e autoria da avaliação; sugerir redução no relatório, sem alterá-la sem autorização |
+| | Dados possivelmente fabricados ou imprecisos | 3 | | Preservar no texto e sinalizar para verificação; corrigir apenas com fonte ou autorização do usuário |
+| **Linguagem** | Vocabulário genérico ("impacto", "contexto", "cenário") | 3 | | Trocar por termo preciso já sustentado pela fonte |
+| | Perífrases rebuscadas para evitar "ser", "ter" ou "estar" | 2 | | Restaurar o verbo simples quando natural ao registro |
+| | Paralelismo perfeito em 3+ itens | 2 | | Quebrar a simetria |
+| **Tom** | Ressalva excessiva ("pode ser que talvez", "parece que") | 2 | | Cortar redundância sem aumentar a certeza |
+| | Autorreferência de IA ("como modelo de linguagem...") | 3 | | Remover o aviso padrão sem criar opinião |
+| | Inflação de gravidade ("questão crucial para a humanidade") | 2 | | Reduzir a escala sem criar comparação nova |
+| **Composição** | Molde introdutório ("Neste artigo, exploraremos...") | 3 | | Cortar e ir direto ao conteúdo existente |
+| | Conclusão em molde ("em resumo", "conclui-se que") | 3 | | Enxugar ou reorganizar a conclusão existente |
 | | Transições artificiais ("primeiramente", "em segundo lugar") | 2 | | Usar conectivos naturais |
-| **Estilo** | Formatação excessiva (bold/travessão em excesso) | 1 | | Moderar |
-| | Emoji em cada bullet (padrão ChatGPT) | 1 | | Remover ou usar 1 no máximo |
-| | Markdown não solicitado (headers #, bullets automáticos em prosa) | 2 | | Remover — é instruction-tuning do modelo, não escolha do autor |
-| **PT-BR** | Officialese ("cumpre salientar", "no âmbito de") | 2 | | Substituir por construção direta |
+| **Estilo** | Formatação excessiva (negrito ou travessão em excesso) | 1 | | Moderar conforme o gênero |
+| | Emoji em cada item (padrão ChatGPT) | 1 | | Remover os que não têm função |
+| | Markdown não solicitado (títulos e listas automáticas em prosa) | 2 | | Remover quando não servir ao gênero |
+| **PT-BR** | Oficialês ("cumpre salientar", "no âmbito de") | 2 | | Substituir por construção direta |
+| | Gerundismo ("vamos estar analisando") | 2 | | Converter para forma verbal direta |
 | | ENEM-ismo (frase de efeito genérica no final) | 2 | | Trocar por reflexão específica |
-| **Estrangeirismos** | Tradução forçada de termos de tech | 2 | | Restaurar o termo original |
-| | Uso artificial de anglicismos fora de contexto tech | 1 | | Remover |
+| **Estrangeirismos** | Tradução forçada de termos de tecnologia | 2 | | Restaurar o termo consagrado no domínio |
+| | Uso artificial de anglicismos fora de contexto técnico | 1 | | Remover |
 
-> **Regra de decisão**: se ≥ 5 sinais de peso 3 encontrados → modo_revisão obrigatório.
+> **Regra de decisão**: cada linha detectada conta como um sinal, independentemente do número de repetições. Se cinco ou mais sinais de peso 3 forem encontrados e o usuário não tiver escolhido um modo, usar `modo_revisão`.
 
-> **Nota sobre preset Jurídico**: sinais de officialese ("cumpre salientar", "no âmbito de", "data venia") são *deliberados* nesse gênero. Quando o preset ativo for Jurídico, desconsiderar esses itens no diagnóstico — avaliar apenas se há excesso mecânico (repetição sem função) vs. uso intencional.
+> **Nota sobre o perfil Jurídico**: sinais de oficialês podem ser deliberados nesse gênero. Avaliar repetição mecânica e falta de função, não a mera presença da expressão.
 
+#### Indicadores quantitativos opcionais
 
-### Passo 2 — 🧹 Remoção de Padrões
+Usar somente quando o usuário pedir métricas ou houver ferramenta confiável para calculá-las. Nunca estimar números. Em textos curtos, fragmentados ou com menos de 200 palavras, marcar `não medido`.
 
-Consultar **apenas** os arquivos das categorias marcadas ✓ no diagnóstico (Passo 1) e aplicar as correções específicas:
+Indicadores possíveis:
 
-| Categoria com ✓ no Passo 1 | Arquivo a consultar |
+- razão entre tipos e ocorrências de palavras (TTR), com tokenização declarada;
+- desvio-padrão do comprimento das frases;
+- entropia lexical, com método declarado;
+- contagem de palavras terminadas em `-mente`;
+- contagem de formas em `-ando`, `-endo` e `-indo` com `\w+(?:ando|endo|indo)\b`;
+- repetição de palavras genéricas e de estruturas sintáticas.
+
+Tratar os resultados como pistas dependentes de gênero e tamanho. Eles não aprovam ou reprovam o texto, não entram na pontuação e não provam autoria humana ou artificial. Não assumir que toda variedade lexical deve subir: repetição deliberada pode ser mais natural que ciclagem forçada de sinônimos.
+
+### Passo 3 — 🧹 Remoção de padrões
+
+Começar pelas referências das categorias marcadas ✓ no diagnóstico:
+
+| Categoria com ✓ no Passo 2 | Arquivo inicial |
 |---|---|
 | Conteúdo | `references/padroes-conteudo.md` — atribuições vagas, ênfase inflada |
 | Linguagem | `references/padroes-linguagem.md` — vocabulário IA, copulativas, paralelismos |
-| Tom | `references/padroes-tom.md` — sycophancy, hedging, stakes inflation |
-| Composição | `references/padroes-composicao.md` — templates, conclusões previsíveis |
-| Estilo | `references/padroes-estilo.md` — formatação, travessão, bold, emojis |
-| PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, officialese, ENEM-ismo |
+| Tom | `references/padroes-tom.md` — adulação, ressalvas e inflação de gravidade |
+| Composição | `references/padroes-composicao.md` — moldes e conclusões previsíveis |
+| Estilo | `references/padroes-estilo.md` — formatação, travessão, negrito e emojis |
+| PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, oficialês e ENEM-ismo |
 
-Categoria sem nenhum ✓ → **não abrir** o arquivo correspondente. Exceção: em modo_revisão, consultar também `padroes-exclusivos-pt-br.md` mesmo sem ✓ — é onde vivem os padrões que o diagnóstico rápido mais deixa escapar.
+Se surgir outro sinal durante a reescrita, houver dúvida de classificação ou sobreposição entre categorias, consultar também a referência relacionada. Não carregar todas por padrão. No `modo_revisão`, incluir sempre `padroes-exclusivos-pt-br.md`.
 
+As referências detalham padrões, mas não substituem a **TRAVA FACTUAL**. Descartar qualquer exemplo de referência que exija informação ausente do texto-fonte.
 
-### Passo 3 — ♻️ Restauração de Entropia
+### Passo 4 — ♻️ Restauração de especificidade
 
-Onde o texto foi achatado pela IA:
+Onde o texto perdeu precisão ou ritmo:
 
 | Problema | Solução | Exemplo |
 |---|---|---|
-| Metáfora morta | Substituir por imagem viva | "Ponto de inflexão" → "É como se o carro tivesse acabado a gasolina no meio da ponte" |
-| Termo genérico | Restaurar vocabulário de domínio | "Impacto positivo" → "ganho de 17% no churn" |
-| Template previsível | Reorganizar fluxo não-linear | Inverter ordem: exemplo → contexto → tese |
-| Abstração excessiva | Concretizar **sem inventar** (FACT LOCK): reaproveitar dado que já existe no original ou usar vagueza honesta em 1ª pessoa | "Muitas pessoas sofrem" → "Gente demais passa por isso — eu já vi de perto" |
+| Metáfora morta | Cortar ou recuperar uma imagem já presente na fonte | "Ponto de inflexão" → descrever a mudança concreta que a fonte já informa |
+| Termo genérico | Recuperar o vocabulário de domínio disponível | "Impacto positivo" → "queda no churn", somente se a fonte disser que o churn caiu |
+| Molde previsível | Reorganizar o fluxo | Inverter ordem: exemplo → contexto → tese, sem mudar a relação entre eles |
+| Abstração excessiva | Concretizar apenas com informação disponível | "Muitas pessoas sofrem" → "Muita gente passa por isso" |
 | Ritmo monótono | Variar comprimento de frases | Alternar frases curtas com longas |
 
-> ⚠️ **Alerta de ablação**: se um trecho perdeu especificidade sem justificativa, anotar: "⚠️ Este trecho perdeu concretude — o original provavelmente tinha [dado / exemplo / qualificação]."
+Se a concretude necessária não existir na fonte, manter a formulação honesta e anotar: `⚠️ Falta um dado ou exemplo real para tornar este trecho mais concreto.`
 
+### Passo 5 — 💬 Aplicação da voz
 
-### Passo 4 — 💬 Injeção de Voz
+Aplicar somente os recursos permitidos pelo perfil ativo:
 
-Aplicar o preset escolhido (ou espelhar amostra de voz fornecida):
+| Perfil | Aplicar | Evitar |
+|---|---|---|
+| Voz neutra | Clareza, ritmo natural e transições discretas | Primeira pessoa, opinião, humor ou mudança de registro |
+| Crônica | Ritmo irregular e ironia já sustentada pela fonte ou pedida pelo usuário | Inventar lembrança, sentimento ou observação pessoal |
+| Jornalístico | Ordem direta, atribuição precisa e linguagem sóbria | Adjetivação avaliativa, primeira pessoa e fontes novas |
+| Acadêmico | Terminologia de domínio e qualificações necessárias | Novas referências, certezas maiores que as da fonte e coloquialidade gratuita |
+| Corporativo Informal | Frases diretas, leveza e estrangeirismos naturais do domínio | Criar status, prazo, promessa, chamada para ação ou experiência pessoal |
+| Post de Rede Social | Gancho baseado na tese existente e parágrafos curtos | Criar opinião, história pessoal ou chamada para ação ausente |
+| WhatsApp | Oralidade compatível com o canal e abreviações naturais | Alterar compromisso, data, destinatário ou grau de certeza |
+| Jurídico | Formalidade controlada, estrutura e termos do gênero | Criar artigo, súmula, precedente, fato ou fundamento |
+| Didático | Ordem clara e explicação acessível | Criar analogia, personagem, dado ou exemplo não fornecido |
 
-- Variar ritmo (burstiness intencional)
-- Adicionar opinião/posição pessoal
-- Misturar registros alto/baixo
-- Incluir imperfeições controladas (tangentes, parênteses, fragmentos)
-- Preservar estrangeirismos naturalizados
+Quando o usuário fornecer amostra de voz, espelhar comprimento de frases, nível vocabular, início de parágrafos, pontuação e uso de estrangeirismos. Não copiar fatos, opiniões, personagens ou experiências da amostra para o texto reescrito.
 
-> **Quando o usuário fornece amostra de voz**: ler primeiro e anotar: comprimento de frases, nível vocabular, como começa parágrafos, hábitos de pontuação, tiques verbais, uso de estrangeirismos. **Espelhar** — não apenas remover padrões, substituir pelos padrões da amostra.
+### Passo 6 — 🔥 Verificação final
 
-
-### Passo 5 — 🔥 Anti-IA Pass Final (Checklist Binário)
-
-Verificar cada item. Marcar ✓ (ok) ou ✗ (falhou). Se qualquer item falhar, corrigir antes de prosseguir.
+Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do trecho.
 
 | # | Verificação | ✓/✗ |
 |---|---|---|
-| 1 | Comprimentos de frase variam? (min 3 tamanhos distintos por parágrafo — **N/A** em WhatsApp e textos com menos de 100 palavras) | |
-| 2 | Transições mecânicas eliminadas? ("Além disso", "Primeiramente", "Nesse sentido") | |
-| 3 | Placeholders abstratos substituídos por termos concretos? | |
-| 4 | Pelo menos 1 opinião, dúvida ou sentimento pessoal presente? (**N/A** quando o preset veta avaliação — Jornalístico fora de coluna assinada, Jurídico em peça formal) | |
-| 5 | Nenhum template de abertura/fechamento sobreviveu? | |
-| 6 | Estrangeirismos naturais preservados (não traduzidos forçadamente)? | |
-| 7 | **FACT LOCK**: informação factual do original 100% intacta, nada adicionado (nomes, números, datas, citações, fontes)? | |
-| 8 | Preset de voz consistente do início ao fim? | |
-| 9 | Nenhuma frase soa como press release ou verbete de Wikipedia? | |
-| 10 | Lido em voz alta, soa como pessoa real falando/escrevendo? | |
+| 1 | **TRAVA FACTUAL** atendida integralmente conforme a definição canônica? | |
+| 2 | Argumento, intenção, modalidade e trechos protegidos permanecem intactos? | |
+| 3 | Transições e padrões mecânicos detectados foram corrigidos? | |
+| 4 | Termos vagos foram precisados somente quando a fonte fornecia material para isso? | |
+| 5 | Ritmo e comprimento das frases combinam com o perfil? Em parágrafo com menos de três frases, não exigir três tamanhos distintos. | |
+| 6 | Opinião, dúvida, sentimento e primeira pessoa aparecem somente se já existiam ou foram solicitados? | |
+| 7 | Perfil de voz e registro permanecem consistentes em cada trecho? | |
+| 8 | Estrangeirismos naturais do domínio foram preservados sem tradução forçada? | |
+| 9 | Abertura, fechamento e formatação servem ao gênero, sem molde genérico desnecessário? | |
+| 10 | Lido em voz alta, o texto soa natural dentro do gênero e do público pretendido? | |
 
-**Regra**: marcar ✓, ✗ ou N/A (item dispensado pelo preset ativo). O item 7 é **eliminatório** — qualquer falha nele corrige antes de qualquer outra coisa. Nos demais, **qualquer** ✗ → corrigir e re-verificar. Só prosseguir com todos os itens aplicáveis em ✓.
+Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas se ainda houver tentativa disponível; não distorcer o gênero para satisfazer a lista. O controle de tentativas do Passo 8 impede repetição indefinida.
 
+### Passo 7 — 📊 Avaliação pós-reescrita
 
-### Passo 5.5 — 📊 Scoring Pós-Reescrita
+Validar a **TRAVA FACTUAL** antes da pontuação. Se falhar, descartar a candidata e registrar pontuação `nula`; naturalidade nunca compensa alteração factual ou semântica.
 
-**Gate 0 — FACT LOCK (eliminatório, antes do score):** comparar original e resultado quanto a nomes, números, datas, citações, fontes, modalidade (certeza/dúvida, presente/futuro), argumento e código/notação. Qualquer divergência não autorizada pelo usuário → ❌ reprovado direto, voltar ao Passo 2. O score nem é calculado — fatos não se compensam com naturalidade.
-
-Com o FACT LOCK ✅, avaliar o resultado em 4 dimensões (0-100 cada, média ponderada, sempre relativo ao preset ativo):
+Se a validação factual passar, avaliar quatro dimensões de 0 a 100, sempre em relação ao perfil ativo:
 
 | Dimensão | Peso | Critério de avaliação |
 |---|---|---|
-| **Remoção de padrões IA** | 35% | Quantos padrões do Passo 1 foram eliminados? Algum remanescente? |
-| **Naturalidade** | 30% | Burstiness >5? Ritmo variado? Voz presente na medida que o preset permite? Soa como pessoa real? |
-| **Consistência de voz** | 20% | O preset foi mantido do início ao fim? Sem saltos de registro? |
+| **Remoção de padrões IA** | 35% | Quantos padrões do Passo 2 foram eliminados? Algum remanescente? |
+| **Naturalidade** | 30% | O ritmo combina com o gênero? A voz aparece somente na medida permitida? |
+| **Consistência de voz** | 20% | O perfil foi mantido do início ao fim, respeitando trechos de outro registro? |
 | **Legibilidade** | 15% | Frases fluem? Conectivos naturais? Lógica clara? |
 
-**Score final** = Σ (dimensão × peso)
+**Pontuação final** = Σ (dimensão × peso)
 
-**Critério de decisão:**
-- **FACT LOCK ❌**: reprovado independente do score → corrigir os fatos e re-passar pelo Gate 0 antes de qualquer outra iteração
-- **≥ 80**: ✅ Aprovado → seguir para entrega (Passo 6)
-- **60-79**: ⚠️ Quase → rodar Anti-IA Pass novamente focando nas dimensões fracas
-- **< 60**: ❌ Reprovar → reescrever com abordagem diferente (trocar preset — salvo se escolhido pelo usuário —, inverter ordem de técnicas, ou mudar o foco entre remoção vs. injeção de voz)
+Usar o `limiar` solicitado pelo usuário ou 80 como padrão. Se a pontuação ficar abaixo do limiar e houver nova tentativa, atuar nas dimensões mais baixas. Com pontuação abaixo de 60, mudar a abordagem sem trocar perfil explícito. Indicadores quantitativos opcionais nunca alteram a pontuação.
 
-> **Output format**:
-> ```
-> 📊 SCORE PÓS-REESCRITA
-> • FACT LOCK (Gate 0): {✅ intacto / ❌ reprovado — voltar ao Passo 2}
-> • Remoção de IA:      {0-100} (×0.35) = {parcial}
-> • Naturalidade:       {0-100} (×0.30) = {parcial}
-> • Consistência de voz:{0-100} (×0.20) = {parcial}
-> • Legibilidade:       {0-100} (×0.15) = {parcial}
-> • TOTAL:              {score}/100 → {✅/⚠️/❌}
->
-> 📊 DELTA MÉTRICAS (pré → pós)
-> • TTR:              {pré} → {pós} ({+/-}%)
-> • Burstiness:       {pré} → {pós} ({+/-}%)
-> • Entropia Shannon: {pré} → {pós} ({+/-}%)
-> • Gerúndios/100p:   {pré} → {pós}
-> • Palavras -mente:  {pré} → {pós}
-> • MLS (comp. médio):{pré} → {pós}
-> • T-units/frase:    {pré} → {pós}
-> • Subst. concretos: {pré}% → {pós}%
-> ```
->
-> **Interpretação da delta**: TTR, burstiness, entropia e substantivos concretos devem **subir**. Gerúndios, palavras em -mente devem **descer**. MLS e T-units devem **se aproximar dos valores humanos** (MLS ≈ 40, TS ≈ 0.7).
+### Passo 8 — 📦 Controle de tentativas e entrega
 
+Executar a seleção de perfil e o diagnóstico uma vez. Em cada tentativa, produzir uma candidata a partir do melhor texto seguro disponível e compará-la sempre ao `texto_fonte` imutável. Executar os Passos 3–6 antes de calcular a pontuação.
 
-### Passo 6 — 📦 Entrega Formatada
+```text
+texto_fonte = entrada original imutável
+texto_atual = entrada atual ou texto_fonte
+limiar = valor solicitado ou 80
+tentativas_maximas = limite do modo
+melhor_texto = nenhum
+melhor_pontuacao = -1
 
-| Modo | Conteúdo entregue |
+para cada tentativa:
+    gerar candidata a partir de texto_atual
+    verificar TRAVA FACTUAL e argumento contra texto_fonte
+
+    se a candidata falhar:
+        descartar candidata sem calcular pontuação
+        continuar somente se houver nova tentativa
+
+    calcular pontuação
+    se pontuação > melhor_pontuacao:
+        guardar candidata como melhor_texto
+        texto_atual = melhor_texto
+
+    se pontuação >= limiar:
+        estado = concluida
+        entregar
+
+se não houver candidata segura:
+    estado = reprovada_trava_factual
+    melhor_texto = texto_fonte
+    pontuação = nula
+senão:
+    estado = melhor_resultado
+    entregar melhor_texto com nota de limitação
+```
+
+No `modo_direto`, produzir exatamente uma candidata e não repetir. Se ela falhar na TRAVA FACTUAL, devolver o texto-fonte com estado `reprovada_trava_factual`.
+
+Quando houver nova tentativa, escolher a alternativa pelo problema dominante:
+
+| Problema da candidata anterior | Próxima abordagem |
 |---|---|
-| modo_completo | Métricas (Passo 0) + Checklist (Passo 1) + Rascunho reescrito + Autocrítica (Passo 5) + Versão final + Resumo das mudanças |
-| modo_direto | Versão final + Relatório sintético (1 linha por padrão corrigido) |
-| modo_revisão | Versão final + Checklist completo + Métricas antes/depois + Alertas de ablação |
+| Padrões mecânicos remanescentes | Reforçar a remoção dos padrões detectados |
+| Voz excessiva ou artificial | Reduzir intervenções e aproximar do registro original |
+| Estrutura previsível | Reordenar apenas as proposições existentes |
+| Texto longo inconsistente | Trabalhar por blocos semânticos e validar o conjunto |
+| Perfil detectado inadequado | Mudar somente se o usuário não o escolheu e houver evidência no texto-fonte |
 
+### Contrato de saída
 
-## Loop Iterativo e Fallback de Estratégia
+Em pipelines ou quando houver pedido de saída estruturada, usar:
 
-O scoring do Passo 5.5 habilita iteração automática quando o resultado não atinge o threshold.
-
-### Comportamento Standalone (sem skill de loop externa)
-
-```
-iteração = 0
-MAX_ITERAÇÕES = 3
-
-enquanto iteração < MAX_ITERAÇÕES:
-    iteração += 1
-    executar Passos 2-5.5
-    
-    se score ≥ 80: ENTREGAR
-    se score 60-79:
-        focar nas dimensões com score < 70
-        continuar
-    se score < 60:
-        MUDAR ESTRATÉGIA (ver tabela abaixo)
-        continuar
-
-se MAX_ITERAÇÕES atingido: entregar melhor versão + nota de limitação
+```yaml
+estado: concluida
+texto: "texto final ou texto-fonte seguro"
+modo: modo_completo
+perfil_de_voz: voz_neutra
+limiar: 80
+pontuacao: 86
+convergiu: true
+trava_factual:
+  estado: intacta
+  violacoes: []
+tentativas:
+  usadas: 2
+  maximas: 3
+relatorio: {}
 ```
 
-### Tabela de Fallback de Estratégia
+Usar os valores conforme o estado final:
 
-Quando score < 60, mudar abordagem na próxima iteração:
+| `estado` | `convergiu` | `pontuacao` | `texto` |
+|---|---:|---:|---|
+| `concluida` | `true` | Número ≥ limiar | Candidata segura aprovada |
+| `melhor_resultado` | `false` | Melhor número abaixo do limiar | Melhor candidata segura |
+| `reprovada_trava_factual` | `false` | `null` | `texto_fonte` |
+| `entrada_invalida` | `false` | `null` | Entrada sem reescrita |
 
-| Iteração anterior | Próxima abordagem |
+Em conversa, apresentar primeiro o texto e depois o relatório no nível do modo:
+
+| Modo | Conteúdo do relatório |
 |---|---|
-| Foco em remoção de padrões (Passo 2 pesado) | Foco em injeção de voz (Passo 4 pesado) |
-| Foco em injeção de voz | Foco em reestruturação (Passo 3 — reordenar fluxo, quebrar templates) |
-| Preset atual não funciona | Tentar preset adjacente (ex: Crônica → Corporativo Informal) — **somente se o preset não foi escolhido explicitamente pelo usuário**; nesse caso, manter o preset e variar as técnicas |
-| Texto longo com degradação progressiva | Dividir em blocos de ~300 palavras e processar separadamente |
+| `modo_completo` | Pontuação, padrões corrigidos, ressalvas e indicadores opcionais se calculados |
+| `modo_direto` | Uma linha por padrão corrigido, pontuação e estado |
+| `modo_revisão` | Diagnóstico completo, pontuação, ressalvas e indicadores opcionais se calculados |
 
-### Compatibilidade com Skills de Loop Externas
+### Integração com ciclos externos
 
-Esta skill é **compatível** com orquestradores de loop como `ralph-wiggum`, `goal`, ou qualquer skill que implemente ciclo iterativo externo.
+Na primeira chamada, usar o texto recebido como `texto_fonte` e `texto_atual`. Nas chamadas seguintes, manter `texto_fonte` inalterado e realimentar somente o campo `texto` como `texto_atual`:
 
-**Protocolo de integração:**
-
-1. **Entrada padronizada**: a skill aceita texto + preset (opcional) + score mínimo (opcional, default 80)
-2. **Saída estruturada**: sempre retorna o bloco `📊 SCORE PÓS-REESCRITA` parseável
-3. **Sinal de convergência**: quando score ≥ threshold, emitir `✅ HUMANIZAÇÃO COMPLETA (score: {N}/100)`
-4. **Sinal de não-convergência**: quando iteração standalone esgota, emitir `⚠️ MELHOR RESULTADO ATINGIDO (score: {N}/100) — iteração externa pode continuar`
-
-> **Para skills de loop externas**: usar o score numérico do output como critério de parada. A skill não precisa de estado entre chamadas — cada invocação recebe o texto (possivelmente já parcialmente humanizado) e retorna resultado + score.
-
-**Exemplo de integração com ralph-wiggum:**
-```
-loop_config:
-  skill: humanizar
-  input: texto_atual
-  exit_condition: "HUMANIZAÇÃO COMPLETA"
-  max_iterations: 5
-  entre_iterações: usar output da iteração anterior como input
+```yaml
+proxima_entrada:
+  texto_fonte: "original imutável"
+  texto_atual: "saída.texto"
+  perfil_de_voz: "mesmo perfil"
+  limiar: 80
 ```
 
+Nunca realimentar relatório, pontuação ou o envelope inteiro como se fossem parte do texto. Toda chamada continua comparando o resultado ao `texto_fonte` original.
 
 ## Estrangeirismos
 
@@ -524,58 +471,19 @@ Forçar tradução desses termos é sinal de IA purista — o oposto de humano.
 
 > **Regra de ouro**: se o termo é usado no dia a dia do domínio em PT-BR, mantenha. Se é anglicismo artificial sem necessidade, remova.
 
+## Suíte de testes de regressão
 
-## Suite de Testes de Regressão
-
-Conjunto mínimo de amostras para validar evoluções futuras. Cada teste deve ser rodado em modo_completo e verificar se a saída corresponde ao esperado.
+Conjunto mínimo para validar evoluções futuras. Rodar cada caso em `modo_completo` e conferir preservação semântica antes de julgar estilo.
 
 | # | Tipo | Antes (IA) | Depois esperado (síntese) |
 |---|---|---|---|
-| T1 | E-mail corporativo | "Venho por meio deste informar que o relatório será encaminhado oportunamente" | "Pessoal, mando o relatório assim que der. Qualquer dúvida, me chamem." |
-| T2 | Parágrafo acadêmico | "Diversos autores discutem a questão da linguagem de forma ampla" | "Tem muito autor discutindo linguagem — e quase sempre num nível tão amplo que não desce ao caso concreto. Falta nomear quem diz o quê." |
-| T3 | Texto jurídico | "É cediço que a responsabilidade civil objetiva se aplica no âmbito das relações de consumo" | "Nas relações de consumo, a responsabilidade civil é objetiva — não depende de prova de culpa. É esse o ponto." |
-| T4 | Template de blog | "Neste artigo, exploraremos 5 estratégias essenciais para otimizar seu workflow" | "Cinco estratégias pra destravar seu workflow. Sem enrolação — a primeira já começa no próximo parágrafo." |
-| T5 | Hedging de IA | "Como modelo de linguagem, não posso afirmar com certeza, mas parece que talvez o sistema esteja funcionando" | "O sistema parece estar funcionando — ainda não dá pra cravar." |
-| T6 | Didático genérico | "João tem 3 maçãs e Maria tem 5. Quantas têm ao todo?" | "Pensa assim: você comprou 3 maçãs na feira e sua amiga comprou 5. Quantas vocês levaram pra casa?" |
+| T1 | E-mail corporativo | "Venho por meio deste informar que o relatório será encaminhado oportunamente" | "O relatório será enviado oportunamente." |
+| T2 | Parágrafo acadêmico | "Diversos autores discutem a questão da linguagem de forma ampla" | "Diversos autores discutem a linguagem em termos amplos." |
+| T3 | Texto jurídico | "É cediço que a responsabilidade civil objetiva se aplica no âmbito das relações de consumo" | "A responsabilidade civil objetiva aplica-se às relações de consumo." |
+| T4 | Modelo de abertura de blog | "Neste artigo, exploraremos 5 estratégias essenciais para otimizar seu workflow" | "Neste artigo, vamos explorar cinco estratégias essenciais para otimizar seu workflow." |
+| T5 | Ressalva excessiva de IA | "Como modelo de linguagem, não posso afirmar com certeza, mas parece que talvez o sistema esteja funcionando" | "O sistema parece estar funcionando, mas ainda não é possível afirmar com certeza." |
+| T6 | Didático genérico | "João tem 3 maçãs e Maria tem 5. Quantas têm ao todo?" | "João tem 3 maçãs e Maria tem 5. Quantas maçãs os dois têm ao todo?" |
 
 > **Critério de regressão**: se uma evolução piora o resultado de qualquer teste T1-T6, a mudança deve ser reavaliada.
 >
-> **FACT LOCK aplica-se aos fixtures**: nenhuma saída esperada pode conter nome, número, data, fonte ou citação ausente da entrada — nem converter dúvida em certeza (T5) ou promessa em fato consumado (T1). Se o texto pede uma fonte que o original não tem (T2, T3), a saída humanizada aponta a lacuna ou mantém a generalidade honesta; cabe ao usuário fornecer a fonte real.
-
-
-## Limites e Contraindicações
-
-### Quando NÃO usar esta skill
-
-- 🚫 **Textos de segurança crítica**: bulas de remédio, manuais de operação de equipamento médico, procedimentos de aviação. A injeção de voz pode introduzir ambiguidade perigosa.
-- 🚫 **Contratos e documentos legais originais**: onde o texto fonte é a referência normativa. A reescrita pode alterar significado jurídico.
-- 🚫 **Traduções literais bilíngues**: quando o original em outra língua é o documento de referência obrigatório.
-- 🚫 **Conteúdo para avaliação automática que pune variação**: algumas plataformas de redação (vestibulares, TOEFL) usam detectores que penalizam desvios do template esperado.
-- 🚫 **Textos já validados como humanos por múltiplos detectores**: se já passou em todos os testes, a reescrita pode piorar (overfitting estilístico).
-
-### Quando usar com cautela
-
-- ⚠️ **Textos técnicos com notação formal**: equações, código, fórmulas. A skill deve preservar integralmente a notação e só humanizar o texto explicativo ao redor.
-- ⚠️ **Traduções de outros idiomas**: a skill é otimizada para PT-BR nativo. Em traduções, pode introduzir coloquialismos que não cabem no contexto cultural do texto fonte.
-
-
-## Referências
-
-| Fonte | Link |
-|---|---|
-| Wikipedia — Signs of AI writing | https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing |
-| tropes.fyi — AI Writing Pattern Directory | https://tropes.fyi/directory |
-| The Register — Semantic Ablation (2026) | https://www.theregister.com/2026/02/16/semantic_ablation_ai_writing/ |
-| GPTZero — Multilingual Detection Update | https://gptzero.me/news/behind-the-scenes-multilingual-detection-update/ |
-| Detecting-ai — pt-ai-detector (Hugging Face) | https://huggingface.co/Detecting-ai/pt-ai-detector |
-| CAPITU — Benchmark IF para PT-BR (Maritaca AI, 2026) | https://arxiv.org/abs/2603.22576 |
-| Locatelli et al. — LLM vs Humanos no ENEM (2024) | https://arxiv.org/abs/2408.05035 |
-| Dad Squarisi — A Arte de Escrever Bem | Livro (referência interna) |
-| Manual de Redação da Folha de S.Paulo | Livro (referência interna) |
-| Steven Pinker — Guia de Escrita | Livro (referência interna) |
-| Rodolfo Ilari — Guia de Escrita | Livro (referência interna) |
-
-
----
-
-*Skill version 1.3.0 — FACT LOCK como gate eliminatório (Guardrails, Passos 5 e 5.5), scoring com 4 dimensões ponderadas + Gate 0 factual, roteamento condicional das referências pelo diagnóstico (Passo 2), checklist e seleção de preset condicionais ao registro (Passos 0.5 e 5), fallback neutro no lugar de Crônica, fixtures T1-T6 reescritos com preservação factual estrita, `sumario.md` removido. Baseado nas versões 1.1/1.2 (presets, detecção de tipo, loop iterativo). Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest).*
+> **TRAVA FACTUAL nos casos de teste:** nenhuma saída esperada pode adicionar, retirar ou alterar conteúdo protegido. Resultado mais contido é preferível a uma versão mais vistosa que invente informação.
