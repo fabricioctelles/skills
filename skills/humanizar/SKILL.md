@@ -9,7 +9,7 @@ description: |
   "revisar tom". Para texto em INGLÊS, use a skill-irmã `human-ai` em vez desta.
 metadata:
   author: https://ft.ia.br
-  version: "1.2"
+  version: "1.3.0"
   date: 2026-06-17
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
@@ -62,7 +62,7 @@ Quando recebe texto de outro agente para auditar. Atua de forma **agressiva**.
 
 ## Guardrails
 
-1. **Não inventar fatos** — Reescreve, não adiciona informação ausente no original. Números, nomes, datas e exemplos inexistentes no texto de entrada são invenção. Se o texto precisa de concretude, use linguagem vaga honesta ("já vi isso acontecer") em vez de fabricar detalhes.
+1. **FACT LOCK (não inventar fatos)** — Reescreve, não adiciona informação ausente no original. Números, nomes, datas, citações, fontes e exemplos inexistentes no texto de entrada são invenção. Se o texto precisa de concretude, use linguagem vaga honesta ("já vi isso acontecer") em vez de fabricar detalhes. Este guardrail é um **gate eliminatório**: antes do score (Passo 5.5), comparar original e resultado — qualquer fato adicionado sem autorização do usuário reprova a reescrita, independente do score.
 2. **Não mudar o argumento** — Preservar a posição e opinião do autor, mesmo discordando.
 3. **Não infantilizar** — Coloquialidade não é simplificação de raciocínio.
 4. **Não forçar informalidade** — Respeitar o contexto. Os presets existem para isso.
@@ -293,12 +293,13 @@ Se o usuário **não especificou** preset, detectar automaticamente pelo conteú
 | Texto ≤100 palavras, frases incompletas, abreviações, gírias | 📲 WhatsApp |
 | Texto com "passo a passo", "vamos ver", exemplos didáticos | 🧑‍🏫 Didático |
 | ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
-| **Nenhum sinal claro** | 🖋️ Crônica (fallback) |
+| **Nenhum sinal claro** | Voz neutra (fallback) — preservar o registro do original e aplicar só remoção de padrões (Passos 2-3), com injeção de voz mínima |
 
 **Regras de fallback:**
 1. Se houver **conflito** entre sinais (ex: jargão técnico + citação legal), perguntar ao usuário.
 2. Se o texto tiver **múltiplos registros** (ex: email com trecho técnico), aplicar o preset ao todo e ajustar trechos localmente.
 3. O preset detectado pode ser **sobrescrito** a qualquer momento pelo usuário.
+4. **Ordem de prioridade**: amostra de voz fornecida > preset explícito do usuário > preset detectado > voz neutra. **Nunca** trocar automaticamente um preset escolhido pelo usuário — nem no fallback de estratégia do loop.
 
 > **Output**: `🎯 Tipo detectado: [tipo] → Preset: [preset]` (1 linha no relatório)
 
@@ -337,15 +338,18 @@ Percorrer sistematicamente cada categoria. Marcar ✓ (encontrado) ou ✗ (ausen
 
 ### Passo 2 — 🧹 Remoção de Padrões
 
-Consultar os arquivos de referência e aplicar correções específicas:
+Consultar **apenas** os arquivos das categorias marcadas ✓ no diagnóstico (Passo 1) e aplicar as correções específicas:
 
-- `references/sumario.md` — índice de navegação da skill (seções e passos)
-- `references/padroes-conteudo.md` — atribuições vagas, ênfase inflada
-- `references/padroes-linguagem.md` — vocabulário IA, copulativas, paralelismos
-- `references/padroes-estilo.md` — formatação, travessão, bold, emojis
-- `references/padroes-tom.md` — sycophancy, hedging, stakes inflation
-- `references/padroes-composicao.md` — templates, conclusões previsíveis
-- `references/padroes-exclusivos-pt-br.md` — gerundismo, officialese, ENEM-ismo
+| Categoria com ✓ no Passo 1 | Arquivo a consultar |
+|---|---|
+| Conteúdo | `references/padroes-conteudo.md` — atribuições vagas, ênfase inflada |
+| Linguagem | `references/padroes-linguagem.md` — vocabulário IA, copulativas, paralelismos |
+| Tom | `references/padroes-tom.md` — sycophancy, hedging, stakes inflation |
+| Composição | `references/padroes-composicao.md` — templates, conclusões previsíveis |
+| Estilo | `references/padroes-estilo.md` — formatação, travessão, bold, emojis |
+| PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, officialese, ENEM-ismo |
+
+Categoria sem nenhum ✓ → **não abrir** o arquivo correspondente. Exceção: em modo_revisão, consultar também `padroes-exclusivos-pt-br.md` mesmo sem ✓ — é onde vivem os padrões que o diagnóstico rápido mais deixa escapar.
 
 
 ### Passo 3 — ♻️ Restauração de Entropia
@@ -357,7 +361,7 @@ Onde o texto foi achatado pela IA:
 | Metáfora morta | Substituir por imagem viva | "Ponto de inflexão" → "É como se o carro tivesse acabado a gasolina no meio da ponte" |
 | Termo genérico | Restaurar vocabulário de domínio | "Impacto positivo" → "ganho de 17% no churn" |
 | Template previsível | Reorganizar fluxo não-linear | Inverter ordem: exemplo → contexto → tese |
-| Abstração excessiva | Inserir dado concreto ou anedota | "Muitas pessoas sofrem" → "Na minha rua, 3 vizinhos já tiveram o mesmo problema" |
+| Abstração excessiva | Concretizar **sem inventar** (FACT LOCK): reaproveitar dado que já existe no original ou usar vagueza honesta em 1ª pessoa | "Muitas pessoas sofrem" → "Gente demais passa por isso — eu já vi de perto" |
 | Ritmo monótono | Variar comprimento de frases | Alternar frases curtas com longas |
 
 > ⚠️ **Alerta de ablação**: se um trecho perdeu especificidade sem justificativa, anotar: "⚠️ Este trecho perdeu concretude — o original provavelmente tinha [dado / exemplo / qualificação]."
@@ -382,47 +386,49 @@ Verificar cada item. Marcar ✓ (ok) ou ✗ (falhou). Se qualquer item falhar, c
 
 | # | Verificação | ✓/✗ |
 |---|---|---|
-| 1 | Comprimentos de frase variam? (min 3 tamanhos distintos por parágrafo) | |
+| 1 | Comprimentos de frase variam? (min 3 tamanhos distintos por parágrafo — **N/A** em WhatsApp e textos com menos de 100 palavras) | |
 | 2 | Transições mecânicas eliminadas? ("Além disso", "Primeiramente", "Nesse sentido") | |
 | 3 | Placeholders abstratos substituídos por termos concretos? | |
-| 4 | Pelo menos 1 opinião, dúvida ou sentimento pessoal presente? | |
+| 4 | Pelo menos 1 opinião, dúvida ou sentimento pessoal presente? (**N/A** quando o preset veta avaliação — Jornalístico fora de coluna assinada, Jurídico em peça formal) | |
 | 5 | Nenhum template de abertura/fechamento sobreviveu? | |
 | 6 | Estrangeirismos naturais preservados (não traduzidos forçadamente)? | |
-| 7 | Informação factual do original 100% intacta? | |
+| 7 | **FACT LOCK**: informação factual do original 100% intacta, nada adicionado (nomes, números, datas, citações, fontes)? | |
 | 8 | Preset de voz consistente do início ao fim? | |
 | 9 | Nenhuma frase soa como press release ou verbete de Wikipedia? | |
 | 10 | Lido em voz alta, soa como pessoa real falando/escrevendo? | |
 
-**Regra**: se ≥ 2 itens falharem → corrigir e re-verificar. Se todos ✓ → prosseguir.
+**Regra**: marcar ✓, ✗ ou N/A (item dispensado pelo preset ativo). O item 7 é **eliminatório** — qualquer falha nele corrige antes de qualquer outra coisa. Nos demais, **qualquer** ✗ → corrigir e re-verificar. Só prosseguir com todos os itens aplicáveis em ✓.
 
 
 ### Passo 5.5 — 📊 Scoring Pós-Reescrita
 
-Avaliar o resultado em 5 dimensões (0-100 cada, média ponderada):
+**Gate 0 — FACT LOCK (eliminatório, antes do score):** comparar original e resultado quanto a nomes, números, datas, citações, fontes, modalidade (certeza/dúvida, presente/futuro), argumento e código/notação. Qualquer divergência não autorizada pelo usuário → ❌ reprovado direto, voltar ao Passo 2. O score nem é calculado — fatos não se compensam com naturalidade.
+
+Com o FACT LOCK ✅, avaliar o resultado em 4 dimensões (0-100 cada, média ponderada, sempre relativo ao preset ativo):
 
 | Dimensão | Peso | Critério de avaliação |
 |---|---|---|
-| **Remoção de padrões IA** | 30% | Quantos padrões do Passo 1 foram eliminados? Algum remanescente? |
-| **Naturalidade** | 25% | Burstiness >5? Ritmo variado? Voz presente? Soa como pessoa real? |
-| **Completude factual** | 20% | Toda informação do original está preservada? Dados, nomes, números intactos? |
-| **Consistência de voz** | 15% | O preset foi mantido do início ao fim? Sem saltos de registro? |
-| **Legibilidade** | 10% | Frases fluem? Conectivos naturais? Lógica clara? |
+| **Remoção de padrões IA** | 35% | Quantos padrões do Passo 1 foram eliminados? Algum remanescente? |
+| **Naturalidade** | 30% | Burstiness >5? Ritmo variado? Voz presente na medida que o preset permite? Soa como pessoa real? |
+| **Consistência de voz** | 20% | O preset foi mantido do início ao fim? Sem saltos de registro? |
+| **Legibilidade** | 15% | Frases fluem? Conectivos naturais? Lógica clara? |
 
 **Score final** = Σ (dimensão × peso)
 
 **Critério de decisão:**
+- **FACT LOCK ❌**: reprovado independente do score → corrigir os fatos e re-passar pelo Gate 0 antes de qualquer outra iteração
 - **≥ 80**: ✅ Aprovado → seguir para entrega (Passo 6)
 - **60-79**: ⚠️ Quase → rodar Anti-IA Pass novamente focando nas dimensões fracas
-- **< 60**: ❌ Reprovar → reescrever com abordagem diferente (trocar preset, inverter ordem de técnicas, ou mudar o foco entre remoção vs. injeção de voz)
+- **< 60**: ❌ Reprovar → reescrever com abordagem diferente (trocar preset — salvo se escolhido pelo usuário —, inverter ordem de técnicas, ou mudar o foco entre remoção vs. injeção de voz)
 
 > **Output format**:
 > ```
 > 📊 SCORE PÓS-REESCRITA
-> • Remoção de IA:      {0-100} (×0.30) = {parcial}
-> • Naturalidade:       {0-100} (×0.25) = {parcial}
-> • Completude factual: {0-100} (×0.20) = {parcial}
-> • Consistência de voz:{0-100} (×0.15) = {parcial}
-> • Legibilidade:       {0-100} (×0.10) = {parcial}
+> • FACT LOCK (Gate 0): {✅ intacto / ❌ reprovado — voltar ao Passo 2}
+> • Remoção de IA:      {0-100} (×0.35) = {parcial}
+> • Naturalidade:       {0-100} (×0.30) = {parcial}
+> • Consistência de voz:{0-100} (×0.20) = {parcial}
+> • Legibilidade:       {0-100} (×0.15) = {parcial}
 > • TOTAL:              {score}/100 → {✅/⚠️/❌}
 >
 > 📊 DELTA MÉTRICAS (pré → pós)
@@ -481,7 +487,7 @@ Quando score < 60, mudar abordagem na próxima iteração:
 |---|---|
 | Foco em remoção de padrões (Passo 2 pesado) | Foco em injeção de voz (Passo 4 pesado) |
 | Foco em injeção de voz | Foco em reestruturação (Passo 3 — reordenar fluxo, quebrar templates) |
-| Preset atual não funciona | Tentar preset adjacente (ex: Crônica → Corporativo Informal) |
+| Preset atual não funciona | Tentar preset adjacente (ex: Crônica → Corporativo Informal) — **somente se o preset não foi escolhido explicitamente pelo usuário**; nesse caso, manter o preset e variar as técnicas |
 | Texto longo com degradação progressiva | Dividir em blocos de ~300 palavras e processar separadamente |
 
 ### Compatibilidade com Skills de Loop Externas
@@ -525,14 +531,16 @@ Conjunto mínimo de amostras para validar evoluções futuras. Cada teste deve s
 
 | # | Tipo | Antes (IA) | Depois esperado (síntese) |
 |---|---|---|---|
-| T1 | E-mail corporativo | "Venho por meio deste informar que o relatório será encaminhado oportunamente" | "Pessoal, o relatório tá pronto — enviei agora no canal. Qualquer dúvida, me chamem." |
-| T2 | Parágrafo acadêmico | "Diversos autores discutem a questão da linguagem de forma ampla" | "Foucault (1977) enquadra a linguagem como dispositivo de poder; já Bakhtin (1981) a vê como arena dialógica. A divergência não é só terminológica." |
-| T3 | Texto jurídico | "É cediço que a responsabilidade civil objetiva se aplica no âmbito das relações de consumo" | "O CDC estabelece responsabilidade objetiva no art. 14. Na prática, o fornecedor só se livra provando culpa exclusiva do consumidor — o que é raro." |
-| T4 | Template de blog | "Neste artigo, exploraremos 5 estratégias essenciais para otimizar seu workflow" | "Vou direto ao ponto: a estratégia que mais economizou meu tempo em 2025 não foi nenhuma ferramenta nova. Foi parar de usar ferramenta nova." |
-| T5 | Hedging de IA | "Como modelo de linguagem, não posso afirmar com certeza, mas parece que talvez o sistema esteja funcionando" | "O sistema tá funcionando. Eu testei agora e o endpoint respondeu em 340ms." |
-| T6 | Didático genérico | "João tem 3 maçãs e Maria tem 5. Quantas têm ao todo?" | "Pensa na última vez que você dividiu conta de restaurante. É essa aritmética que importa — não maçãs hipotéticas." |
+| T1 | E-mail corporativo | "Venho por meio deste informar que o relatório será encaminhado oportunamente" | "Pessoal, mando o relatório assim que der. Qualquer dúvida, me chamem." |
+| T2 | Parágrafo acadêmico | "Diversos autores discutem a questão da linguagem de forma ampla" | "Tem muito autor discutindo linguagem — e quase sempre num nível tão amplo que não desce ao caso concreto. Falta nomear quem diz o quê." |
+| T3 | Texto jurídico | "É cediço que a responsabilidade civil objetiva se aplica no âmbito das relações de consumo" | "Nas relações de consumo, a responsabilidade civil é objetiva — não depende de prova de culpa. É esse o ponto." |
+| T4 | Template de blog | "Neste artigo, exploraremos 5 estratégias essenciais para otimizar seu workflow" | "Cinco estratégias pra destravar seu workflow. Sem enrolação — a primeira já começa no próximo parágrafo." |
+| T5 | Hedging de IA | "Como modelo de linguagem, não posso afirmar com certeza, mas parece que talvez o sistema esteja funcionando" | "O sistema parece estar funcionando — ainda não dá pra cravar." |
+| T6 | Didático genérico | "João tem 3 maçãs e Maria tem 5. Quantas têm ao todo?" | "Pensa assim: você comprou 3 maçãs na feira e sua amiga comprou 5. Quantas vocês levaram pra casa?" |
 
 > **Critério de regressão**: se uma evolução piora o resultado de qualquer teste T1-T6, a mudança deve ser reavaliada.
+>
+> **FACT LOCK aplica-se aos fixtures**: nenhuma saída esperada pode conter nome, número, data, fonte ou citação ausente da entrada — nem converter dúvida em certeza (T5) ou promessa em fato consumado (T1). Se o texto pede uma fonte que o original não tem (T2, T3), a saída humanizada aponta a lacuna ou mantém a generalidade honesta; cabe ao usuário fornecer a fonte real.
 
 
 ## Limites e Contraindicações
@@ -570,4 +578,4 @@ Conjunto mínimo de amostras para validar evoluções futuras. Cada teste deve s
 
 ---
 
-*Skill version 1.2.0 — adicionados: detecção automática de tipo com fallback (Passo 0.5), scoring pós-reescrita com 5 dimensões ponderadas (Passo 5.5), loop iterativo com fallback de estratégia e compatibilidade com skills de loop externas (ralph-wiggum, goal). Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest).*
+*Skill version 1.3.0 — FACT LOCK como gate eliminatório (Guardrails, Passos 5 e 5.5), scoring com 4 dimensões ponderadas + Gate 0 factual, roteamento condicional das referências pelo diagnóstico (Passo 2), checklist e seleção de preset condicionais ao registro (Passos 0.5 e 5), fallback neutro no lugar de Crônica, fixtures T1-T6 reescritos com preservação factual estrita, `sumario.md` removido. Baseado nas versões 1.1/1.2 (presets, detecção de tipo, loop iterativo). Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest).*
