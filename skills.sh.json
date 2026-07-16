@@ -39,6 +39,7 @@
       "description": "Frontend audits, website specs, design system validation, and agent readiness.",
       "skills": [
         "skill-evaluation",
+        "slop-eval",
         "design-md-validator",
         "agent-ready-cloudflare"
       ]

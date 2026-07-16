@@ -284,6 +284,19 @@ Use in sequence: **skill-evaluation** (design review) → **evals** (functional 
 
 ---
 
+### 🧹 Slop Eval — Design Slop Evaluator · `code-quality-and-review`
+Objectively evaluates a UI/web design against [the pols.dev anti-slop design law](https://pols.dev/slop.md): sweeps an ID'd catalog of slop tells across 6 families (color & light, typography, components, layout, motion, execution), checks 6 absolute execution rules, and scores 8 weighted axes — including a 3x-weighted Signature axis with a hard gate, so a "clean but empty" page can't hide behind restraint. Emits a Slop Report with a 0–100 Slop Index and grade A–F. Every finding follows **cite-or-cut**: no concrete evidence (hex value, font name, file:line, screenshot region), no tell.
+
+**How it evaluates:** live URL (browser-automation SOP: dual-viewport full-page captures, interaction pass, zoom crops), static screenshots, code path (grep-led sweep), or Figma export — anything not observable is marked Unverifiable, never guessed. Deterministic scoring via `scripts/score.py`, with a `--fail-below` CI gate for blocking PRs on preview-deploy design quality.
+
+**When to use:** evaluate design slop, generate a slop report, check if a design looks AI-generated or generic, audit a landing page design, de-slop review, compare two designs (before/after).
+
+**Companions:** method inspired by [skill-evaluation](skills/skill-evaluation/SKILL.md); for text (not design), [human-ai](skills/human-ai/SKILL.md) and [humanizar](skills/humanizar/SKILL.md) do the de-slopping.
+
+📄 [View full documentation](skills/slop-eval/SKILL.md)
+
+---
+
 ### 🛡️ Security Specialist · `runbooks`
 Full-stack application security agent — performs SAST (static code analysis), DAST (dynamic testing against running apps), threat modeling, vulnerability triage, remediation, and penetration testing. Combines source code review with live testing against local dev servers or production targets for complete evidence correlation.
 
@@ -398,6 +411,7 @@ npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
+npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 ```
 

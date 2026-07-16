@@ -283,6 +283,19 @@ Use em sequência: **skill-evaluation** (design review) → **evals** (validaç�
 
 ---
 
+### 🧹 Slop Eval — Avaliador de Slop em Design · `code-quality-and-review`
+Avalia objetivamente um design de UI/web contra [a lei anti-slop da pols.dev](https://pols.dev/slop.md): varre um catálogo de tells de slop com IDs em 6 famílias (cor & luz, tipografia, componentes, layout, motion, execução), checa 6 regras absolutas de execução e pontua 8 eixos ponderados — incluindo um eixo de Assinatura com peso 3x e gate rígido, para que uma página "limpa mas vazia" não se esconda atrás da contenção. Emite um Slop Report com Slop Index 0–100 e nota A–F. Todo achado segue **cite-or-cut**: sem evidência concreta (hex, nome de fonte, file:line, região do screenshot), o tell não entra.
+
+**Como avalia:** URL viva (SOP de automação de browser: capturas full-page em dois viewports, passada de interação, crops com zoom), screenshots estáticos, código (varredura guiada por grep) ou export de Figma — o que não for observável é marcado Unverifiable, nunca inferido. Pontuação determinística via `scripts/score.py`, com gate de CI `--fail-below` para bloquear PRs pela qualidade do preview deploy.
+
+**Quando usar:** avaliar slop de design, gerar relatório de slop, checar se um design parece genérico/gerado por IA, auditar landing page, revisão de-slop, comparar dois designs (antes/depois).
+
+**Companheiras:** método inspirado na [skill-evaluation](skills/skill-evaluation/SKILL.md); para texto (não design), quem faz o de-slop é a [human-ai](skills/human-ai/SKILL.md) e a [humanizar](skills/humanizar/SKILL.md).
+
+📄 [Ver documentação completa](skills/slop-eval/SKILL.md)
+
+---
+
 ### 🛡️ Security Specialist · `runbooks`
 Agente completo de segurança de aplicações — executa SAST (análise estática de código), DAST (testes dinâmicos contra apps rodando), threat modeling, triagem de vulnerabilidades, remediação e penetration testing. Combina revisão de código com testes ao vivo contra servidores dev locais ou targets de produção para correlação completa de evidências.
 
@@ -396,6 +409,7 @@ npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
+npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 ```
 

@@ -81,6 +81,11 @@
       "sourceType": "local",
       "computedHash": "new"
     },
+    "slop-eval": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
     "substack-expert": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
