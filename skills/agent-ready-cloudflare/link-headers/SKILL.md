@@ -1,3 +1,8 @@
+---
+name: agent-ready-link-headers
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement Link Response Headers
+---
 # Implement Link Response Headers
 
 Add Link response headers to your homepage for agent discovery per

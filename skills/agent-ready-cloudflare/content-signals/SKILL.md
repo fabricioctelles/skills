@@ -1,3 +1,8 @@
+---
+name: agent-ready-content-signals
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement Content Signals
+---
 # Implement Content Signals
 
 Declare AI content usage preferences in your robots.txt using

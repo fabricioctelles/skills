@@ -1,3 +1,8 @@
+---
+name: agent-ready-mcp-server-card
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement MCP Server Card
+---
 # Implement MCP Server Card
 
 Publish an MCP Server Card for agent discovery per

@@ -1,3 +1,8 @@
+---
+name: agent-ready-sitemap
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement sitemap.xml
+---
 # Implement sitemap.xml
 
 Publish an XML sitemap at your site root per the

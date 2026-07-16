@@ -1,3 +1,8 @@
+---
+name: agent-ready-llms-txt
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement llms.txt
+---
 # Implement llms.txt
 
 Publish an LLM-friendly overview of your site per

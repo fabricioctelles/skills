@@ -1,3 +1,8 @@
+---
+name: agent-ready-ucp
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement Universal Commerce Protocol (UCP)
+---
 # Implement Universal Commerce Protocol (UCP)
 
 Enable content payments via the Universal Commerce Protocol per the

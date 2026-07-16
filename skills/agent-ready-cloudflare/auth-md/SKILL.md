@@ -1,3 +1,8 @@
+---
+name: agent-ready-auth-md
+description: >
+  Sub-skill de agent-ready-cloudflare: Skill: Implement Auth.md Agent Registration Discovery
+---
 # Skill: Implement Auth.md Agent Registration Discovery
 
 ## What This Skill Does

@@ -1,3 +1,8 @@
+---
+name: agent-ready-robots-txt
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement robots.txt
+---
 # Implement robots.txt
 
 Publish a valid robots.txt at your site root per

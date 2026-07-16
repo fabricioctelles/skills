@@ -1,3 +1,8 @@
+---
+name: agent-ready-x402
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement x402 Payment Protocol
+---
 # Implement x402 Payment Protocol
 
 Support agent-native HTTP payments via the

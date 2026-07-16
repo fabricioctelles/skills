@@ -1,3 +1,8 @@
+---
+name: agent-ready-markdown-negotiation
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement Markdown Content Negotiation
+---
 # Implement Markdown Content Negotiation
 
 Support `Accept: text/markdown` content negotiation so agents can request

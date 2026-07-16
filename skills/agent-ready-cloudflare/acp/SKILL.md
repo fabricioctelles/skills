@@ -1,3 +1,8 @@
+---
+name: agent-ready-acp
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement ACP Discovery Document
+---
 # Implement ACP Discovery Document
 
 Publish an ACP discovery document so AI agents can discover your

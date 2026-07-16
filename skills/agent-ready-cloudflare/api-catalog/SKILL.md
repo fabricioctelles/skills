@@ -1,3 +1,8 @@
+---
+name: agent-ready-api-catalog
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement API Catalog
+---
 # Implement API Catalog
 
 Publish an API catalog for automated discovery per

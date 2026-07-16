@@ -1,3 +1,8 @@
+---
+name: agent-ready-oauth-protected-resource
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement OAuth Protected Resource Metadata
+---
 # Implement OAuth Protected Resource Metadata
 
 Publish OAuth Protected Resource Metadata so agents can discover how to

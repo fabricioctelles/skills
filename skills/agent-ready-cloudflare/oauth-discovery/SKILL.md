@@ -1,3 +1,8 @@
+---
+name: agent-ready-oauth-discovery
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement OAuth/OIDC Discovery
+---
 # Implement OAuth/OIDC Discovery
 
 Publish OAuth or OpenID Connect discovery metadata so agents can authenticate

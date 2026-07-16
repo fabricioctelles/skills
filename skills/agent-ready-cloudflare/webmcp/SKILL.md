@@ -1,3 +1,8 @@
+---
+name: agent-ready-webmcp
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement WebMCP
+---
 # Implement WebMCP
 
 Expose site tools to AI agents via the browser using the

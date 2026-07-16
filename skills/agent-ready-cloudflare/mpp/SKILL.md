@@ -1,3 +1,8 @@
+---
+name: agent-ready-mpp
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement MPP Payment Discovery
+---
 # Implement MPP Payment Discovery
 
 Publish an OpenAPI document with MPP payment discovery metadata so AI agents

@@ -1,3 +1,8 @@
+---
+name: agent-ready-a2a-agent-card
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement A2A Agent Card
+---
 # Implement A2A Agent Card
 
 Publish an A2A Agent Card for agent-to-agent discovery per the

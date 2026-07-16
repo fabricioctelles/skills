@@ -1,3 +1,8 @@
+---
+name: agent-ready-ai-rules
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement AI Bot Rules in robots.txt
+---
 # Implement AI Bot Rules in robots.txt
 
 Add explicit `User-agent` entries for AI crawlers in your robots.txt per

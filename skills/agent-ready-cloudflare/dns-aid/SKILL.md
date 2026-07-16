@@ -1,3 +1,8 @@
+---
+name: agent-ready-dns-aid
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement DNS for AI Discovery (DNS-AID)
+---
 # Implement DNS for AI Discovery (DNS-AID)
 
 Publish DNS for AI Discovery (DNS-AID) records so agents can discover your agent endpoints through DNS.

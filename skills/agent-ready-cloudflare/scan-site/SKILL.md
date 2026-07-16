@@ -1,3 +1,8 @@
+---
+name: agent-ready-scan-site
+description: >
+  Sub-skill de agent-ready-cloudflare: Skill: Scan Site for Agent Readiness
+---
 # Skill: Scan Site for Agent Readiness
 
 ## What This Skill Does

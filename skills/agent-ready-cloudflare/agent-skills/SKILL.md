@@ -1,3 +1,8 @@
+---
+name: agent-ready-agent-skills
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement Agent Skills Discovery Index
+---
 # Implement Agent Skills Discovery Index
 
 Publish a skills discovery document per the

@@ -1,3 +1,8 @@
+---
+name: agent-ready-llms-full-txt
+description: >
+  Sub-skill de agent-ready-cloudflare: Implement llms-full.txt
+---
 # Implement llms-full.txt
 
 Publish expanded LLM content per
