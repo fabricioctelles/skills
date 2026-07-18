@@ -128,6 +128,10 @@ components:
 
 Broken references (pointing to undefined tokens) trigger a `broken-ref` error.
 
+Since npm 0.3.0 (PR #103), token groups support nested sub-levels in the
+frontmatter — e.g. `colors.brand.primary` — and references use the full
+dotted path to the leaf token: `{colors.brand.primary}`.
+
 ## File Structure Summary
 
 ```

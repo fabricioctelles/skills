@@ -1,7 +1,12 @@
 # Linting Rules — @google/design.md
 
-The linter runs nine rules against a parsed DESIGN.md. Each rule produces
-findings at a fixed severity level.
+> Generated against npm 0.3.0 + main as of 2026-07-18. Authoritative source at
+> runtime: `npx @google/design.md spec --rules-only`.
+
+The linter runs nine rules against a parsed DESIGN.md in the published npm
+0.3.0 release; a tenth rule (`token-like-ignored`) has merged on main and
+ships in the next release. Each rule produces findings at a fixed severity
+level.
 
 ## Rules Table
 
@@ -16,6 +21,7 @@ findings at a fixed severity level.
 | `missing-typography` | warning | Colors are defined but no typography tokens exist — agents will use default fonts |
 | `section-order` | warning | Sections appear out of the canonical order defined by the spec |
 | `unknown-key` | warning | A top-level YAML key looks like a typo of a known schema key (e.g. `colours:` → `colors:`) |
+| `token-like-ignored` | warning | **Next release (on main since 2026-06-15, not in npm 0.3.0).** Warns when a top-level YAML key looks like a design-token map but is not part of the recognized export schema and will be silently ignored |
 
 ## Section Order (canonical)
 
@@ -55,6 +61,6 @@ import { lint } from '@google/design.md/linter';
 
 const report = lint(markdownString);
 console.log(report.findings);       // Finding[]
-console.log(report.summary);        // { errors, warnings, info }
+console.log(report.summary);        // { errors, warnings, infos }
 console.log(report.designSystem);   // Parsed DesignSystemState
 ```

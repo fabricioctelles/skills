@@ -14,8 +14,8 @@ description: >
   "frontmatter tokens", or any request to verify a DESIGN.md file.
 metadata:
   author: https://ft.ia.br
-  version: "1.0"
-  date: 2026-06-26
+  version: "1.1"
+  date: 2026-07-18
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: product-verification
@@ -57,7 +57,7 @@ used. Never install globally — `npx` resolves from the public npm registry.
 npx @google/design.md lint DESIGN.md
 ```
 
-Output: JSON with `findings[]` and `summary { errors, warnings, info }`.
+Output: JSON with `findings[]` and `summary { errors, warnings, infos }`.
 Exit code 1 if errors found, 0 otherwise.
 
 ### Diff (compare versions)
@@ -67,7 +67,8 @@ npx @google/design.md diff DESIGN.md DESIGN-v2.md
 ```
 
 Output: JSON with token-level changes (added, removed, modified) and regression flag.
-Exit code 1 if regressions detected.
+Exit codes: `0` no regression, `1` regression (errors in "after" > errors in "before"),
+`2` input failure (file not found or unreadable).
 
 ### Export (to other formats)
 
@@ -80,7 +81,14 @@ npx @google/design.md export --format css-tailwind DESIGN.md
 
 # W3C Design Tokens (DTCG)
 npx @google/design.md export --format dtcg DESIGN.md
+
+# CSS custom properties (optional --prefix)
+npx @google/design.md export --format css-vars DESIGN.md
+npx @google/design.md export --format css-vars --prefix ds DESIGN.md
 ```
+
+`css-vars` is available on main, ships in the next release — if the CLI
+rejects the format, npm is still on 0.3.0.
 
 ### Spec (output the format specification)
 
@@ -111,13 +119,23 @@ curl -sL <url> > /tmp/DESIGN.md && npx @google/design.md lint /tmp/DESIGN.md
 cat DESIGN.md | npx @google/design.md lint -
 ```
 
-### 2. Run Lint
+### 2. Discover the Active Rule Set
+
+Before interpreting anything, check which rules the installed CLI actually
+runs — the rule set changes between releases, and the bundled references are
+a fallback, not the authoritative source:
+
+```bash
+npx @google/design.md spec --rules-only --format json
+```
+
+### 3. Run Lint
 
 ```bash
 npx @google/design.md lint --format json DESIGN.md
 ```
 
-### 3. Interpret Findings
+### 4. Interpret Findings
 
 Parse the JSON output and report to the user:
 
@@ -127,14 +145,14 @@ Parse the JSON output and report to the user:
 | `warning` | Best practice violation — file is valid but suboptimal | Should fix |
 | `info` | Informational — suggestions for improvement | Nice to fix |
 
-### 4. Provide Actionable Fixes
+### 5. Provide Actionable Fixes
 
 For each finding, explain:
 1. What the rule checks
 2. Why it matters
 3. How to fix it with a concrete code example
 
-### 5. Re-validate After Fixes
+### 6. Re-validate After Fixes
 
 After applying fixes, re-run lint to confirm the file passes.
 
@@ -187,6 +205,8 @@ npx skills add https://github.com/google-labs-code/stitch-skills --skill design-
 - Never guess at contrast ratios — let the linter compute them
 - Never assume section order is correct — let the linter verify
 - Never skip re-validation after fixes
+- Never assume the rule set from memory or from the bundled references —
+  confirm it at runtime with `spec --rules-only`
 
 ---
 
@@ -197,13 +217,14 @@ User: validate my DESIGN.md
 
 Agent:
 1. Reads the file
-2. Runs: npx @google/design.md lint --format json DESIGN.md
-3. Parses output
-4. Reports:
-   - 0 errors, 2 warnings, 1 info
+2. Runs: npx @google/design.md spec --rules-only --format json
+3. Runs: npx @google/design.md lint --format json DESIGN.md
+4. Parses output
+5. Reports:
+   - summary: { errors: 0, warnings: 2, infos: 1 }
    - WARNING: contrast-ratio — button textColor on backgroundColor is 3.8:1 (needs 4.5:1)
    - WARNING: orphaned-tokens — color "accent-muted" defined but never used
    - INFO: token-summary — 5 colors, 3 typography, 2 rounded, 2 spacing
-5. Suggests fixes with code
-6. Re-runs lint to confirm
+6. Suggests fixes with code
+7. Re-runs lint to confirm
 ```
