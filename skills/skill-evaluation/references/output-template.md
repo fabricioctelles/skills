@@ -1,6 +1,6 @@
 # Output Template
 
-Emit the scorecard exactly in this structure (step 8 of the workflow).
+Emit the scorecard exactly in this structure (step 9 of the workflow).
 
 ```markdown
 # Skill Evaluation — {skill name}
@@ -65,6 +65,38 @@ Emit the scorecard exactly in this structure (step 8 of the workflow).
 | 16 | Memory mechanism | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
 | 17 | Scripts & libraries | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
 | 18 | On-demand hooks | 1x | {n/100 or N/A} | {evidence or reason for N/A} |
+
+## Trigger Eval
+
+{For user-invoked skills, write: "N/A — user-invoked skill, no description to test."}
+
+### Prompts tested
+
+| # | Prompt | Expected | Triggered | Other skills |
+|---|--------|----------|-----------|--------------|
+| 1 | {prompt text} | should-trigger | yes/no | {list or none} |
+| 2 | {prompt text} | should-trigger | yes/no | {list or none} |
+| 3 | {prompt text} | should-trigger | yes/no | {list or none} |
+| 4 | {prompt text} | should-trigger | yes/no | {list or none} |
+| 5 | {prompt text} | should-trigger | yes/no | {list or none} |
+| 6 | {prompt text} | should-not-trigger | yes/no | {list or none} |
+| 7 | {prompt text} | should-not-trigger | yes/no | {list or none} |
+| 8 | {prompt text} | should-not-trigger | yes/no | {list or none} |
+| 9 | {prompt text} | should-not-trigger | yes/no | {list or none} |
+| 10 | {prompt text} | should-not-trigger | yes/no | {list or none} |
+
+### Results
+
+| Metric | Value |
+|--------|-------|
+| Should-trigger hit rate | {X}/5 |
+| Should-not-trigger leak rate | {X}/5 |
+| Other skills observed | {list or none} |
+
+### Observations
+
+{Free-form notes: patterns in what triggered or didn't, description wording
+gaps revealed, sibling skills that competed, etc.}
 
 ## Failure Modes Detected
 

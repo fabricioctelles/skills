@@ -149,9 +149,13 @@ as weight.
    your own judgment, says a criterion doesn't apply. Done when every
    applicable criterion carries a score and a citation, and every N/A a
    reason.
-5. **Diagnose failure modes** — done when every mode in the table below has
+5. **Trigger eval** — empirical test of whether the skill's description
+   actually causes invocation. See the **Trigger Eval** section below for
+   the full mechanic. Skip this step for user-invoked skills
+   (`disable-model-invocation: true`) — they have no description to test.
+6. **Diagnose failure modes** — done when every mode in the table below has
    been checked against the skill and either cited (file:line) or dismissed.
-6. **Assess bonus patterns** — the 4 carried over from v1, plus a fifth:
+7. **Assess bonus patterns** — the 4 carried over from v1, plus a fifth:
 
    | Bonus | Applies when | What to look for |
    |-------|-------------|-----------------|
@@ -162,13 +166,89 @@ as weight.
    | Trace-checkable steering | Skill uses leading words | The leading words are distinctive enough that a user could grep the agent's reasoning traces to confirm the skill actually fired |
 
    Report each as Present / Absent / N/A.
-7. **Compute the weighted score** — run `scripts/score.py` with one
+8. **Compute the weighted score** — run `scripts/score.py` with one
    `criterion:score:weight` triple per criterion (score `NA` to exclude); it
    prints both sums, the overall, and the grade. Don't do this arithmetic by
    hand.
-8. **Write the scorecard** to the output path — read
+9. **Write the scorecard** to the output path — read
    `references/output-template.md` first (it also holds the comparison-mode
    template used when `compare` is set) and emit exactly that structure.
+
+## Trigger Eval
+
+Empirical test of whether the skill's description causes a model to invoke
+it when it should — and ignore it when it shouldn't. This is not a pass/fail
+gate; it produces observational data that feeds the scorecard and informs
+the failure-mode diagnosis.
+
+### When to run
+
+- Model-invoked skills only. User-invoked skills (`disable-model-invocation:
+  true`) have no description to test — skip and mark the section N/A.
+
+### Prompt generation
+
+Generate **10 prompts** from the skill's description, scope, and gotchas:
+
+- **5 should-trigger** — realistic user requests that fall squarely within
+  the skill's stated scope. Vary phrasing: some use the skill's vocabulary,
+  others describe the same need in naive/indirect language.
+- **5 should-not-trigger** — requests that are adjacent but clearly outside
+  scope (e.g., a sibling skill's territory, a task the description
+  explicitly excludes, or a generic request a model handles without any
+  skill).
+
+Each prompt should read like something a real user would type — no
+meta-language about skills, no hints.
+
+### Sub-agent execution
+
+Run each prompt in an independent sub-agent session with the target skill
+available. The sub-agent receives a single additional instruction appended to
+its system context:
+
+```
+At the end of your response, output exactly one line in this format:
+SKILLS_USED: <comma-separated list of skill names you loaded during this task, or "none">
+```
+
+This instruction is generic — it does not name the skill under test or hint
+at what should be triggered. The sub-agent operates normally; it either loads
+the skill or doesn't based on the prompt alone.
+
+### Detection
+
+Parse the `SKILLS_USED:` line from each sub-agent's response. Record per
+prompt:
+
+| Field | Value |
+|-------|-------|
+| Prompt | The test prompt text |
+| Expected | should-trigger / should-not-trigger |
+| Triggered | yes / no (was the target skill name in the list?) |
+| Other skills | Any other skills that fired |
+
+### What to report
+
+Report raw counts — no pass/fail judgment:
+
+- **Should-trigger hit rate** — X/5 triggered
+- **Should-not-trigger leak rate** — X/5 triggered (lower is better)
+- **Other skills observed** — which siblings fired on the same prompts
+
+These numbers feed criterion #1 (invocation design) and #2 (description
+quality) with empirical evidence, and may reveal failure modes like
+over-triggering or description weakness.
+
+### Practical notes
+
+- If the evaluation environment cannot spawn sub-agents (e.g., CI without
+  agent access), skip the trigger eval and note "trigger eval: skipped
+  (no agent access)" in the scorecard.
+- A single trial per prompt is acceptable given the observational (non-gating)
+  nature. Run multiple trials only if results are ambiguous.
+- Keep prompts in the scorecard output so the skill author can reuse them as
+  a regression set.
 
 ## Failure-mode diagnosis
 
@@ -213,6 +293,7 @@ re-checks, nothing new:
 
 - [ ] cite-or-cut held everywhere (step 4)
 - [ ] every N/A justified (step 4)
-- [ ] every failure mode cited or dismissed (step 5)
-- [ ] 5 bonus patterns assessed (step 6)
-- [ ] score computed by `scripts/score.py`, not by hand (step 7)
+- [ ] trigger eval run or skipped with reason (step 5)
+- [ ] every failure mode cited or dismissed (step 6)
+- [ ] 5 bonus patterns assessed (step 7)
+- [ ] score computed by `scripts/score.py`, not by hand (step 8)

@@ -260,25 +260,27 @@ Audits websites for compliance with Brazil's LGPD (Lei 13.709/2018).
 ---
 
 ### 📊 Skill Evaluation · `code-quality-and-review`
-Evaluate any agent skill against 12 best-practice criteria from Anthropic and agentskills.io. Produces a structured markdown scorecard with per-criterion scores (0–100), weighted overall grade (A/B/C/D/F), category classification, bonus patterns assessment, and prioritized improvement actions.
+Evaluate any agent skill against a merged framework — Anthropic's Claude Code best practices plus Matt Pocock's writing-great-skills methodology — across 4 axes (Trigger, Structure, Steering, Pruning). Produces an evidence-cited scorecard (0–100), a weighted overall score, and diagnosed failure modes with prioritized fixes.
+
+**v2.2 — Trigger Eval (empirical):** now includes an empirical trigger-testing step inspired by Philipp Schmid's (Google DeepMind) talk ["Don't Ship Skills Without Evals"](https://www.youtube.com/watch?v=0vphxNt4wyk). Generates 5 should-trigger + 5 should-not-trigger prompts, runs them via independent sub-agents, and measures whether the skill's description actually causes invocation — bridging the gap between static quality analysis and runtime validation.
 
 **When to use:** evaluate a skill, rate skill quality, audit SKILL.md, compare two skills, skill scorecard, review best practices compliance, or check if a skill is production-ready.
 
-**12 scored criteria:** Don't state the obvious · Gotchas · Progressive disclosure · Avoids railroading · Setup flow · Description for trigger · Memory · Scripts · Hooks · Conciseness · Coherent scope · Grounded in expertise
+**18 scored criteria across 4 axes:** Invocation design · Description quality · Steps vs. reference clarity · Branch-aware disclosure · Conciseness · Coherent scope · Leading words · Completion criteria · Gotchas · Grounded in expertise · Avoids railroading · No-ops · Single source of truth · Relevance & sediment + 4 conditional (Setup flow · Memory · Scripts · Hooks)
 
-**4 bonus patterns (measured, not scored):** Validation loops · Output templates · Procedures over declarations · Defaults over menus
+**5 bonus patterns (measured, not scored):** Validation loops · Output templates · Procedures over declarations · Defaults over menus · Trace-checkable steering
 
 **How it differs from [agentskills.io evals](https://agentskills.io/skill-creation/evaluating-skills) and [skill-creator benchmark](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills):**
 
 | | This skill | agentskills.io evals | skill-creator benchmark |
 |---|---|---|---|
-| Evaluates | Skill **structure** quality | Skill **output** quality | Output + regression + obsolescence |
-| Method | Static inspection | Run test cases + grade | A/B blind comparison + multi-agent |
-| When | Is it well-built? | Does it work? | Did it regress? Still needed? |
-| Output | Scorecard + grade A-F | pass_rate, tokens, time | benchmark.json + comparator verdict |
+| Evaluates | Skill **structure** quality + **trigger** empirically | Skill **output** quality | Output + regression + obsolescence |
+| Method | Static inspection + sub-agent trigger eval | Run test cases + grade | A/B blind comparison + multi-agent |
+| When | Is it well-built? Does it trigger correctly? | Does it work? | Did it regress? Still needed? |
+| Output | Scorecard + grade A-F + trigger hit/leak rates | pass_rate, tokens, time | benchmark.json + comparator verdict |
 | Platform | Any agent | Any agent | Claude Code only (plugin) |
 
-Use in sequence: **skill-evaluation** (design review) → **evals** (functional validation) → **benchmark** (ongoing monitoring).
+Use in sequence: **skill-evaluation** (design review + trigger testing) → **evals** (functional validation) → **benchmark** (ongoing monitoring).
 
 📄 [View full documentation](skills/skill-evaluation/SKILL.md)
 
