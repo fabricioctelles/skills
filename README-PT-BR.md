@@ -194,6 +194,13 @@ Reescreve texto em português brasileiro para soar humano, natural e indetectáv
 - Protocolo de loop compatível com skills de orquestração externas (ralph-wiggum, goal)
 - Inspirado na skill [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) de [@smallnest](https://github.com/smallnest)
 
+**Novidades na v1.3 (Jul 2026):**
+- Adicionado perfil de voz **📋 Português Simplificado** — escrita acessível inspirada no PorSimples (NILC/USP) e na Lei 15.263/2025 (Política Nacional de Linguagem Simples)
+- 7 operações de simplificação sintática baseadas na pesquisa do PorSimples (divisão de sentenças, passiva→ativa, reordenação SVO, substituição de marcadores discursivos, remoção de apostos, simplificação lexical, explicitação de sujeitos)
+- Novo arquivo de referência `references/padroes-portugues-simplificado.md` com ~50 substituições lexicais, métricas quantitativas do NILC-Metrix (ASL, TTR, complexidade sintática), 15 regras de escrita em 3 níveis de prioridade, e 4 domínios de aplicação (governo, saúde, tecnologia, educação)
+- Integração com TRAVA FACTUAL: regras explícitas de quando NÃO simplificar (modalidade, causalidade, exceções)
+- Agora são 10 perfis de voz (eram 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado** e Voz Neutra
+
 📄 [Ver documentação completa](skills/humanizar/SKILL.md)
 
 ---

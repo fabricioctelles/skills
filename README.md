@@ -197,6 +197,13 @@ Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by 
 - Loop protocol compatible with external orchestrator skills (ralph-wiggum, goal)
 - Inspired by [humanize-it](https://github.com/smallnest/goal-workflow/blob/master/skills/humanize-it/SKILL.md) by [@smallnest](https://github.com/smallnest)
 
+**New in v1.3 (Jul 2026):**
+- Added **📋 Português Simplificado** voice profile — accessible writing inspired by PorSimples (NILC/USP) and Brazil's Lei 15.263/2025 (National Plain Language Policy)
+- 7 syntactic simplification operations based on PorSimples research (sentence splitting, passive→active, SVO reordering, discourse marker substitution, apposition removal, lexical simplification, subject explicitation)
+- New reference file `references/padroes-portugues-simplificado.md` with ~50 lexical substitutions, quantitative metrics from NILC-Metrix (ASL, TTR, syntactic complexity), 15 writing rules in 3 priority levels, and 4 application domains (government, health, tech, education)
+- Integration with TRAVA FACTUAL: explicit rules for when NOT to simplify (modality, causality, exceptions)
+- Now 10 voice profiles (was 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado**, and Voz Neutra
+
 📄 [View full documentation](skills/humanizar/SKILL.md)
 
 ---

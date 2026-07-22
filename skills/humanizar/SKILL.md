@@ -198,6 +198,48 @@ Textos de edtech, apostilas, tutoriais, documentação técnica amigável.
 **Exemplo:**
 > Vamos direto ao ponto: *callback* é uma função que você passa como argumento pra outra função, pra ela te "chamar de volta" quando terminar. Parece complicado, mas é só isso. Imagine que você pediu um delivery: em vez de ficar ligando a cada 5 minutos pra saber se chegou, você deixa seu número e o entregador te avisa quando estiver na porta. Seu número é o callback.
 
+### 📋 🆕 Português Simplificado
+
+Texto acessível para público amplo. Inspirado nas operações do PorSimples (NILC/USP) e nas técnicas da Lei 15.263/2025 (Política Nacional de Linguagem Simples). Clareza máxima sem infantilizar o raciocínio.
+
+**Quando usar:**
+- Documentação técnica para público não-especialista
+- Comunicação institucional e governamental
+- Manuais de produto, FAQs, onboarding de usuários
+- Textos para públicos com letramento funcional variado
+- Quando o usuário pedir "simplificar", "linguagem simples", "mais claro", "acessível"
+
+**Características:**
+- Frases curtas em ordem direta (SVO) — meta: 13-18 palavras, máximo 25
+- Uma ideia por frase
+- Vocabulário comum; termo técnico explicado na primeira ocorrência
+- Voz ativa (passiva apenas quando o agente for irrelevante ou desconhecido)
+- Listas e estrutura visual para 3+ itens em sequência
+- Conectivos explícitos e simples ("porque", "por isso", "então", "mas")
+- Sem orações intercaladas longas (apostos > 5 palavras viram frase nova)
+- Repetição deliberada para clareza (não forçar sinônimos variados)
+
+**Operações de simplificação (baseadas no PorSimples):**
+1. Dividir períodos compostos em frases independentes
+2. Converter passiva → ativa
+3. Reordenar para SVO quando houver inversão
+4. Substituir marcadores discursivos complexos por simples
+5. Eliminar apostos longos (transformar em frase separada)
+6. Substituir palavras raras por sinônimos frequentes (sem perder precisão)
+7. Explicitar sujeitos ocultos quando houver ambiguidade
+
+**O que NÃO fazer:**
+- Não eliminar raciocínio complexo — simplificar a forma, não o conteúdo
+- Não remover terminologia de domínio — explicar, não substituir
+- Não transformar toda prosa em lista de bullets indiscriminadamente
+- Não adicionar exemplos fictícios para "ajudar" — usar apenas os da fonte
+- Não reduzir modalidade: "pode causar" não vira "causa"
+
+**Exemplo:**
+> *Antes:* "A implementação de políticas públicas que visem à mitigação dos impactos socioeconômicos decorrentes da automação de processos produtivos configura-se como desafio premente para gestores em todas as esferas do poder público."
+>
+> *Depois:* "A automação muda como as pessoas trabalham. Isso traz problemas sociais e econômicos. Os governos precisam criar políticas para reduzir esses problemas. Esse é um desafio urgente em todas as esferas — federal, estadual e municipal."
+
 ## Processo de Humanização
 
 Executar primeiro a **Triagem obrigatória**. Manter `texto_fonte` imutável durante todo o processo.
@@ -216,6 +258,7 @@ Se o usuário não especificou um perfil, detectar pelo conteúdo:
 | Texto ≤100 palavras, frases incompletas, abreviações, gírias | 📲 WhatsApp |
 | Texto curto (<300 palavras), opinativo, em 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
 | ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
+| Texto institucional/governamental, manual de produto, FAQ, pedido de "simplificar" ou "linguagem simples" | 📋 Português Simplificado |
 | **Nenhum sinal claro** | Voz neutra — preservar o registro original e apenas remover padrões mecânicos |
 
 **Regras de decisão:**
@@ -286,6 +329,7 @@ Começar pelas referências das categorias marcadas ✓ no diagnóstico:
 | Composição | `references/padroes-composicao.md` — moldes e conclusões previsíveis |
 | Estilo | `references/padroes-estilo.md` — formatação, travessão, negrito e emojis |
 | PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, oficialês e ENEM-ismo |
+| Português Simplificado (perfil ativo) | `references/padroes-portugues-simplificado.md` — operações, substituições lexicais e métricas |
 
 Se surgir outro sinal durante a reescrita, houver dúvida de classificação ou sobreposição entre categorias, consultar também a referência relacionada. Não carregar todas por padrão. No `modo_revisão`, incluir sempre `padroes-exclusivos-pt-br.md`.
 
@@ -320,6 +364,7 @@ Aplicar somente os recursos permitidos pelo perfil ativo:
 | WhatsApp | Oralidade compatível com o canal e abreviações naturais | Alterar compromisso, data, destinatário ou grau de certeza |
 | Jurídico | Formalidade controlada, estrutura e termos do gênero | Criar artigo, súmula, precedente, fato ou fundamento |
 | Didático | Ordem clara e explicação acessível | Criar analogia, personagem, dado ou exemplo não fornecido |
+| Português Simplificado | SVO, frases ≤25 palavras, vocabulário comum, listas para 3+ itens e termos técnicos explicados | Eliminar conteúdo, reduzir modalidade, inventar exemplo ou remover terminologia de domínio |
 
 Quando o usuário fornecer amostra de voz, espelhar comprimento de frases, nível vocabular, início de parágrafos, pontuação e uso de estrangeirismos. Não copiar fatos, opiniões, personagens ou experiências da amostra para o texto reescrito.
 
