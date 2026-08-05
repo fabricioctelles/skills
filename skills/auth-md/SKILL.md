@@ -1,18 +1,11 @@
 ---
 name: auth-md
 description: >
-  Generate, validate, and explain `auth.md` files — the open protocol that lets AI agents
-  register for services on behalf of users. Use this skill whenever the user wants to make
-  their app agent-ready by publishing an `auth.md`, generate Protected Resource Metadata
-  (RFC 9728), validate an existing `auth.md` against the protocol specification, implement
-  agent registration endpoints, understand how the auth.md protocol works, or configure
-  authentication flows for agents. Trigger on mentions of "auth.md", "agent registration",
-  "agent auth", "make my app agent-ready", "ID-JAG", "identity_assertion flow",
-  "service_auth flow", "protected resource metadata", "claim ceremony", "agentic registration",
-  "CIMD", "Client ID Metadata Document", "oauth-id-jag", "agent revocation",
-  "agent credential", "agent discovery", "token exchange", "interaction_required",
-  "/.well-known/oauth-protected-resource", "/.well-known/oauth-authorization-server",
-  "/agent/identity", "/oauth2/token", or any variation of AI agent authentication/registration in APIs.
+  Generate, validate, and explain `auth.md` files — the open protocol for AI agent registration.
+  Use when making apps agent-ready, generating Protected Resource Metadata (RFC 9728),
+  validating auth.md files, or implementing agent registration endpoints. Triggers on
+  "auth.md", "agent registration", "agent auth", "make my app agent-ready", "ID-JAG",
+  "identity_assertion", "service_auth", "protected resource metadata", "agentic registration".
 metadata:
   author: https://ft.ia.br
   version: "2.0"

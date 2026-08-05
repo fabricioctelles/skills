@@ -1,17 +1,10 @@
 ---
 name: startup-idea
-description: Analyze startups comprehensively with a Paul Graham mindset plus monetization,
-   offer, distribution, and scale discipline inspired by Dan Koe, plus differentiation,
-   narrative, smallest viable audience, and remarkability inspired by Seth Godin. Use this skill
-  whenever the user mentions startup idea, business validation, positioning, MVP, first customers,
-   revenue model, GTM, content, sales, growth engine, pricing, moat, unit economics,
-   product-market fit, "I have an idea", "I want to create a startup", "will my idea work",
-   "how to validate my idea", "how to get my first users", "how to sell", "how to grow",
-   "pressure test", "startup branding", "messaging", "narrative", "brand moat",
-   "how to differentiate", "how to be memorable", "smallest viable market", "minimum viable niche",
-   "tribe", "permission marketing", "my startup", or any variation of evaluation, validation,
-   or planning of a new business, even if the user only asks about part of the problem and does
-  not use the word "startup" explicitly.
+description: >
+  Analyze startups with Paul Graham mindset (pressure, founder-market fit, brutal validation),
+  Dan Koe discipline (monetization, offer, distribution, sales), and Seth Godin principles
+  (differentiation, narrative, smallest viable audience). Triggers on startup idea, business
+  validation, MVP, first customers, revenue model, GTM, product-market fit, "I have an idea".
 metadata:
   author: ft.ia.br
   version: "1.3"

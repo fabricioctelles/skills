@@ -1,7 +1,8 @@
 ---
 name: agent-ready-scan-site
 description: >
-  Sub-skill de agent-ready-cloudflare: Skill: Scan Site for Agent Readiness
+  Sub-skill: Scan any URL for agent readiness. Checks 18 standards across 5 categories,
+  returns readiness level (0-5), status of all checks, and fix instructions.
 ---
 # Skill: Scan Site for Agent Readiness
 

@@ -1,7 +1,8 @@
 ---
 name: agent-ready-dns-aid
 description: >
-  Sub-skill de agent-ready-cloudflare: Implement DNS for AI Discovery (DNS-AID)
+  Sub-skill: Implement DNS-AID records so agents discover endpoints through DNS.
+  Use SVCB/HTTPS records under _agents namespace with alpn and connection parameters.
 ---
 # Implement DNS for AI Discovery (DNS-AID)
 

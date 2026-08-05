@@ -1,7 +1,8 @@
 ---
 name: agent-ready-auth-md
 description: >
-  Sub-skill de agent-ready-cloudflare: Skill: Implement Auth.md Agent Registration Discovery
+  Sub-skill: Implement Auth.md for agent registration discovery. Serve /auth.md with OAuth
+  metadata at /.well-known/oauth-protected-resource and authorization server endpoints.
 ---
 # Skill: Implement Auth.md Agent Registration Discovery
 
