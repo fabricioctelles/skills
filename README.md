@@ -14,7 +14,7 @@
 
 # 🧠 Agent Skills by ft.ia.br
 
-A collection of [Agent Skills](https://agentskills.io) for AI agents (Kiro, Cursor, Windsurf, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
+A collection of [Agent Skills](https://agentskills.io) for AI agents (Kiro, Cursor, Codex, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
 
 Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows. Each skill is a folder with a `SKILL.md` file containing metadata and instructions that agents load on demand via progressive disclosure. Learn more at [agentskills.io](https://agentskills.io/what-are-skills.md).
 
@@ -365,6 +365,23 @@ Comprehensive skill for building, migrating, and maintaining Astro v7 projects. 
 
 ---
 
+### 🔌 Agent Plugin Eval · `product-verification`
+Audits, scores, and compares repositories containing portable Agent Plugins against the official [Agent Plugins specification](https://agent-plugins.org). Produces an evidence-cited 0–100 scorecard with conformance gate (PASS/PARTIAL/FAIL), identifies release blockers, and compares two plugins side by side. Works with any agent client — evaluates portable conformance, not client-specific features.
+
+**When to use:** audit a plugin repo, check plugin.json or mcp.json conformance, validate bundled Agent Skills, assess MCP server configurations, produce a plugin scorecard, identify release blockers, compare two agent plugins.
+
+**Key features:**
+- Static-only audit (never executes plugin code, MCP servers, or scripts)
+- 18-criterion rubric across 4 axes: Portable conformance, Components & integration, Safety & resilience, Product quality
+- Conformance gates: PASS (no cap), PARTIAL (capped at 59), FAIL (capped at 39)
+- Deterministic scoring via `scripts/score.py`
+- Comparison mode for evaluating two plugins side by side
+- Client-agnostic: evaluates against portable spec, not Codex/Claude/Cursor-specific features
+
+📄 [View full documentation](skills/agent-plugin-eval/SKILL.md)
+
+---
+
 ### 💰 Revenue-Centric Design · `runbooks`
 Playbook of 101 evidence-backed principles for designing SaaS and startup products that convert, retain, and monetize — landing pages & CRO, onboarding/activation, churn reduction, pricing psychology, behavioral science, feature discipline, positioning/ICP, go-to-market, and AI-era differentiation. Every principle names its mechanism (decoy effect, Zeigarnik, Schwartz awareness levels…) and links back to its source post. Ships with revenue-math scripts (A/B sample size, churn→LTV, CAC per closed deal), an audit output template, per-project memory (`rcd-log.md`), and license-enforcing guardrail hooks.
 
@@ -422,6 +439,7 @@ npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
+npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -464,6 +482,7 @@ cp -r skills/loop-architect .cursor/skills/
 cp -r skills/humanizar .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
 cp -r skills/astro-sites-manager .cursor/skills/
+cp -r skills/agent-plugin-eval .cursor/skills/
 
 # Example for Claude Code
 cp -r skills/geo-optimization .claude/skills/
@@ -478,6 +497,7 @@ cp -r skills/loop-architect .claude/skills/
 cp -r skills/humanizar .claude/skills/
 cp -r skills/auth-md .claude/skills/
 cp -r skills/astro-sites-manager .claude/skills/
+cp -r skills/agent-plugin-eval .claude/skills/
 
 # Example for Kiro
 cp -r skills/geo-optimization .kiro/skills/
@@ -492,6 +512,7 @@ cp -r skills/loop-architect .kiro/skills/
 cp -r skills/humanizar .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
 cp -r skills/astro-sites-manager .kiro/skills/
+cp -r skills/agent-plugin-eval .kiro/skills/
 ```
 
 The Agent Skills format is universal and works with any compatible agent. See the [official specification](https://agentskills.io/specification.md) for details.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Plugin Eval"
+  short_description: "Audit and compare portable agent plugins against the Agent Plugins specification"
+  default_prompt: "Use $agent-plugin-eval to audit this plugin repository against Agent Plugins 1.0.0 and return an evidence-cited scorecard."

@@ -12,7 +12,7 @@
 
 # 🧠 Agent Skills by ft.ia.br
 
-Colecao de [Agent Skills](https://agentskills.io) para agentes de IA (Kiro, Cursor, Windsurf, Claude Code e outros). Cada skill e um modulo reutilizavel que ensina o agente a executar tarefas complexas com contexto, estrutura e boas praticas.
+Colecao de [Agent Skills](https://agentskills.io) para agentes de IA (Kiro, Cursor, Codex, Claude Code e outros). Cada skill e um modulo reutilizavel que ensina o agente a executar tarefas complexas com contexto, estrutura e boas praticas.
 
 Agent Skills sao um formato aberto e leve para estender as capacidades de agentes de IA com conhecimento especializado e workflows. Cada skill e uma pasta com um arquivo `SKILL.md` contendo metadados e instrucoes que os agentes carregam sob demanda via progressive disclosure. Saiba mais em [agentskills.io](https://agentskills.io/what-are-skills.md).
 
@@ -364,6 +364,23 @@ Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo 
 
 ---
 
+### 🔌 Agent Plugin Eval · `product-verification`
+Audita, pontua e compara repositórios contendo Agent Plugins portáveis contra a [especificação oficial Agent Plugins](https://agent-plugins.org). Produz um scorecard 0–100 com evidências citadas e gate de conformidade (PASS/PARTIAL/FAIL), identifica blockers de release e compara dois plugins lado a lado. Funciona com qualquer cliente de agente — avalia conformidade portável, não features específicas de clientes.
+
+**Quando usar:** auditar repo de plugin, verificar conformidade de plugin.json ou mcp.json, validar Agent Skills incluídos, avaliar configurações de MCP server, produzir scorecard de plugin, identificar blockers de release, comparar dois agent plugins.
+
+**Destaques:**
+- Auditoria puramente estática (nunca executa código do plugin, MCP servers ou scripts)
+- Rubric de 18 critérios em 4 eixos: Conformidade portável, Componentes & integração, Segurança & resiliência, Qualidade de produto
+- Gates de conformidade: PASS (sem cap), PARTIAL (teto 59), FAIL (teto 39)
+- Scoring determinístico via `scripts/score.py`
+- Modo de comparação para avaliar dois plugins lado a lado
+- Agnóstico de cliente: avalia contra spec portável, não features específicas de Codex/Claude/Cursor
+
+📄 [Ver documentação completa](skills/agent-plugin-eval/SKILL.md)
+
+---
+
 ### 💰 Revenue-Centric Design · `runbooks`
 Playbook de 101 princípios baseados em evidência para desenhar produtos SaaS e startups que convertem, retêm e monetizam — landing pages & CRO, onboarding/ativação, redução de churn, psicologia de pricing, ciência comportamental, disciplina de features, posicionamento/ICP, go-to-market e diferenciação na era da IA. Cada princípio nomeia seu mecanismo (efeito decoy, Zeigarnik, níveis de consciência de Schwartz…) e linka de volta ao post original. Inclui scripts de matemática de receita (sample size de A/B, churn→LTV, CAC por deal fechado), template de auditoria, memória por projeto (`rcd-log.md`) e guardrail hooks que fazem enforcement da licença.
 
@@ -420,6 +437,7 @@ npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
+npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -461,6 +479,7 @@ cp -r skills/ralph-loop-kiro-specs .cursor/skills/
 cp -r skills/loop-architect .cursor/skills/
 cp -r skills/humanizar .cursor/skills/
 cp -r skills/auth-md .cursor/skills/
+cp -r skills/agent-plugin-eval .cursor/skills/
 
 # Exemplo para Claude Code
 cp -r skills/geo-optimization .claude/skills/
@@ -474,6 +493,7 @@ cp -r skills/ralph-loop-kiro-specs .claude/skills/
 cp -r skills/loop-architect .claude/skills/
 cp -r skills/humanizar .claude/skills/
 cp -r skills/auth-md .claude/skills/
+cp -r skills/agent-plugin-eval .claude/skills/
 
 # Exemplo para Kiro
 cp -r skills/geo-optimization .kiro/skills/
@@ -487,6 +507,7 @@ cp -r skills/ralph-loop-kiro-specs .kiro/skills/
 cp -r skills/loop-architect .kiro/skills/
 cp -r skills/humanizar .kiro/skills/
 cp -r skills/auth-md .kiro/skills/
+cp -r skills/agent-plugin-eval .kiro/skills/
 ```
 
 O formato Agent Skills e universal e funciona com qualquer agente compativel. Veja a [especificacao oficial](https://agentskills.io/specification.md) para detalhes.
