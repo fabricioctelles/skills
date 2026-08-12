@@ -3,10 +3,11 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "1.1"
-  date: 2026-03-08
+  version: "1.2"
+  date: 2026-08-12
   license: MIT
   category: ci-cd-and-deployment
+  coolify_version: "4.3.0"
 ---
 
 # Coolify Operator
@@ -214,18 +215,18 @@ curl -sS -i \
 ### Applications
 
 ```bash
-# List applications
+# List applications (GET)
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications"
 
-# View application details
+# View application details (GET)
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}"
 
-# Start (deploy) application
-curl -sS \
+# Start (deploy) application (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/start"
 
@@ -233,13 +234,13 @@ curl -sS \
 # ?force=true          - Force rebuild
 # ?instant_deploy=true - Skip queue
 
-# Stop application
-curl -sS \
+# Stop application (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/stop"
 
-# Restart application
-curl -sS \
+# Restart application (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/restart"
 
@@ -281,23 +282,23 @@ curl -sS \
 ### Databases
 
 ```bash
-# List databases
+# List databases (GET)
 curl -sS \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases"
 
-# Start database
-curl -sS \
+# Start database (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/start"
 
-# Stop database
-curl -sS \
+# Stop database (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/stop"
 
-# Restart database
-curl -sS \
+# Restart database (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/databases/{uuid}/restart"
 ```
@@ -305,8 +306,8 @@ curl -sS \
 ### Services
 
 ```bash
-# Restart service
-curl -sS \
+# Restart service (POST required since v4.2.0)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/services/{uuid}/restart"
 
@@ -317,17 +318,59 @@ curl -sS \
 # {"message": "Service restaring request queued."}
 ```
 
+### Storage Backups (v4.3.0+)
+
+```bash
+# List backups for a resource
+curl -sS \
+  -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/backups"
+
+# Trigger on-demand backup (POST)
+curl -sS -X POST \
+  -H "Authorization: Bearer $COOLIFY_KEY" \
+  -H "Content-Type: application/json" \
+  "$COOLIFY/backups/{backup-id}/run"
+
+# Scheduled backups support:
+# - Local storage
+# - S3-compatible storage (AWS S3, MinIO, etc.)
+# - Retention controls
+# - History and management via API
+```
+
 ## Troubleshooting
+
+### Error: 405 Method Not Allowed (v4.2.0+)
+
+**Cause:** State-changing endpoints now require POST method.
+
+**Solution:**
+```bash
+# ❌ WRONG - GET no longer works for state changes
+curl -sS "$COOLIFY/applications/{uuid}/start"
+
+# ✅ CORRECT - Use POST for start/stop/restart/deploy
+curl -sS -X POST "$COOLIFY/applications/{uuid}/start"
+```
+
+**Affected endpoints:**
+- `/applications/{uuid}/start`, `/stop`, `/restart`
+- `/databases/{uuid}/start`, `/stop`, `/restart`
+- `/services/{uuid}/start`, `/stop`, `/restart`
+- Server validation endpoints
+- `/enable`, `/disable` endpoints
 
 ### Error: 403 "You are not allowed to access the API"
 
-**Cause:** Invalid token or no permission for the instance.
+**Cause:** Invalid token, no permission, or **read-only Member role (v4.2.0+)**.
 
 **Solution:**
 1. Ask the user to verify in the instance at <INSTANCE_URL>/settings/advanced whether the API is enabled and the client IP is allowed
-2. Regenerate token at: Dashboard → Keys & Tokens → API Tokens
-3. Update `.env` or CLI context
-4. Verify that the correct instance is being used
+2. **Check user role**: Team Members with "Member" role are now read-only (v4.2.0+). They can view resources but cannot create, update, delete, deploy, start, or stop. Promote to a higher role if write access is needed.
+3. Regenerate token at: Dashboard → Keys & Tokens → API Tokens
+4. Update `.env` or CLI context
+5. Verify that the correct instance is being used
 
 ### Error: 401 "Unauthenticated"
 
@@ -400,8 +443,8 @@ coolify app logs <uuid>
 # Via CLI
 coolify app restart <uuid>
 
-# Via API with forced rebuild
-curl -sS \
+# Via API with forced rebuild (POST required)
+curl -sS -X POST \
   -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/start?force=true"
 ```
@@ -437,6 +480,23 @@ coolify --context=dev server list
 ```
 
 ## Important resources
+
+### Breaking changes summary (v4.2.0 - v4.3.0)
+
+1. **POST required for state changes**: All `/start`, `/stop`, `/restart`, `/enable`, `/disable` endpoints now require POST method. GET returns 405.
+2. **Member role is read-only**: Team members with "Member" role can only view resources, not modify them.
+3. **Compose router names changed**: Services with dots or hyphens now use stable suffixes. Update custom router references.
+4. **No deploy confirmation dialogs**: Deploy/redeploy/force-deploy actions execute immediately in the UI.
+
+### New features (v4.3.0)
+
+- **Scheduled storage backups**: Backup persistent volumes to local or S3 storage with retention controls
+- **DNS autoconfiguration**: Automatic Cloudflare DNS setup from the UI
+- **Per-domain noindex**: Control search engine indexing per domain
+- **Self-hosted GitLab**: Deploy from private repos on self-hosted GitLab
+- **MCP Server enhancements**: Added diagnostics and deployment controls
+- **New one-click services**: Buzz, Celld, InfluxDB, Stalwart, Termix
+- **Traefik 3.7 support**: With security patch tracking
 
 ### API response structure
 
