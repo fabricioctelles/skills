@@ -101,16 +101,32 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 ---
 
 ### 🚀 Coolify Operator · `ci-cd-and-deployment`
-Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Gerencia aplicações, servidores, databases e serviços via API REST e CLI oficial.
+Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Cobertura completa do CLI oficial com 100+ comandos para gerenciar aplicações, servidores, databases, serviços, GitHub Apps e integrações com cloud providers.
 
-**Quando usar:** conectar em instâncias Coolify, fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), troubleshooting de conexão e autenticação.
+**Quando usar:** conectar em instâncias Coolify, criar/fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente e storage, configurar backups de database, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), integrar com GitHub Apps, provisionar servidores na Hetzner/DigitalOcean/Vultr.
 
-**Melhorias na v1.1 (8 Mar 2026):**
-- Description otimizada para clareza e brevidade (350→250 caracteres)
-- License MIT adicionada ao metadata
-- Quality Checklist com 10 pontos de verificação adicionado
-- README.md interno removido para conformidade total com Guia Oficial Anthropic
-- Conformidade 100% com Guia Oficial Anthropic para Agent Skills alcançada
+**Principais funcionalidades:**
+- **Criação de aplicações** (5 métodos): repo público, GitHub App, deploy key, Dockerfile, imagem Docker
+- **Gerenciamento de lifecycle**: start, stop, restart, delete, mover entre ambientes
+- **Variáveis de ambiente**: listar, criar, atualizar, deletar, sync de arquivos .env
+- **Gerenciamento de storage**: volumes persistentes, file mounts, directory mounts
+- **Backups de database**: agendados com retenção S3/local, trigger sob demanda
+- **Módulo de deploy**: deploy por UUID, nome, ou batch de múltiplos recursos
+- **GitHub Apps**: criar integrações, listar repos e branches acessíveis
+- **Services (one-click)**: WordPress, Ghost, n8n, e 50+ mais com sub-recursos
+- **Infraestrutura**: destinations, cloud tokens (Hetzner/DO/Vultr), private keys, tags
+
+**Novidades na v2.0 (15 Ago 2026):**
+- Reescrita completa cobrindo 100% dos comandos do CLI oficial do Coolify
+- Adicionado `app create` (5 variantes: public, github, deploy-key, dockerfile, dockerimage)
+- Adicionado `app storage`, `app deployments`, `app previews`, `app tags`
+- Adicionado `database create/backup/storage/env/tags` com gerenciamento completo de backups
+- Adicionado `service create --list-types`, `service application`, `service database` sub-recursos
+- Adicionado módulo `deploy uuid/name/batch` com `deploy list/get/cancel`
+- Adicionado `github list/get/create/update/delete/repos/branches` para GitHub Apps
+- Adicionado `projects`, `resources`, `tags`, `destinations`, `cloud-token`, `private-key`
+- Adicionada seção de integração LLM/AI Agent com referências ao llms.txt
+- Atualizado para coincidir com a documentação mais recente do CLI
 
 📄 [Ver documentação completa](skills/coolify-operator/SKILL.md)
 
