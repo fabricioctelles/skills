@@ -21,8 +21,8 @@ metadata:
     - name: ft.ia.br (@fabricioctelles)
       role: evolution (audit template, scripts, hooks, project log, gotchas)
       url: https://ft.ia.br
-  version: "1.0.0"
-  date: 2026-07-02
+  version: "1.1.0"
+  date: 2026-08-18
   repository: https://github.com/fabricioctelles/skills
   license: Source-available (see LICENSE)
   category: runbooks
@@ -101,6 +101,7 @@ RCD principles in unknown context.
 
 | When the question is about…                                                   | Open                                                                          |
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **LP audit / diagnostic** — where is the sale breaking before redesign        | [lp-diagnostic-framework](references/lp-diagnostic-framework.md)             |
 | Landing pages, hero/copy, CTAs, social proof, awareness levels, CRO           | [conversion-and-landing-pages](references/conversion-and-landing-pages.md)   |
 | First-run, empty states, aha moment, TTV, activation, trial-as-onboarding     | [onboarding-and-activation](references/onboarding-and-activation.md)         |
 | Cancellation, retention, expectation debt, NRR, jobs-to-be-done, support load | [churn-and-retention](references/churn-and-retention.md)                     |
