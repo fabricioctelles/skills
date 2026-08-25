@@ -87,3 +87,140 @@ made on purpose for this one screen:
   prescribing fixes, point to starting from a concrete reference (Mobbin,
   Godly, Awwwards-tier sites) — it forces the work off the statistical
   center. Language from the reference, never its content (H4).
+
+---
+
+## Adding Soul — injecting personality by axis
+
+The inverse of detecting slop is creating signature. Zero tells + zero
+personality = still slop (the signature gate exists for this). Use this
+section when prescribing fixes: don't just say "remove tell X" — say what
+replaces it.
+
+### Axis 1: Color & Light
+
+| Generic | With soul |
+|---------|-----------|
+| UI kit palette, safe neutrals | One unexpected hero color with a reason (orange in fintech, black in wellness, warm rust in tech) |
+| Blue-purple gradient | A gradient in an unexpected hue family (amber→coral, forest→sage, midnight→slate) or a single-hue luminosity shift |
+| Flat color fill | Color with behavior: grain, noise, subtle radial falloff, directional light |
+| Symmetric glow | Light from a direction — top-left rake, single beam, edge bloom that suggests a source |
+| Generic dark mode | Dark with character: warm charcoal, deep forest, not the default slate-900 |
+
+**Soul test:** "Would I recognize this palette in a lineup of 10 sites?" If
+no, it needs more intention.
+
+### Axis 2: Typography & Copy
+
+| Generic | With soul |
+|---------|-----------|
+| Inter/Space Grotesk | A face with opinion: Gambarino for warmth, Reckless for edge, Migra for tech, Sentient for editorial |
+| Safe pairing (Fraunces+Work Sans) | An invented pairing: display + system-ui, one face at multiple optical sizes, or a monospace doing display work |
+| Clean copy that could fit anywhere | Copy with a voice: short sentences, opinions, humor, the occasional imperfection |
+| Em-dash-heavy AI prose | Human rhythm: fragments where earned, varied sentence length, contractions |
+
+**Soul test:** "If I removed the logo, would the voice still feel like this
+brand?" If no, the type and copy need more character.
+
+### Axis 3: Components & Ornament
+
+| Generic | With soul |
+|---------|-----------|
+| Lucide icons everywhere | Bespoke icons in a house style: one stroke weight, one corner treatment, one grid |
+| Pills and badges as decoration | Functional shapes: a receipt-edge card, a torn-paper testimonial, a custom bracket |
+| Cards from the UI kit | One invented card silhouette used consistently: notched corner, chamfered edge, asymmetric padding |
+| Generic CTAs | A CTA with an authored detail: custom arrow, icon that only this brand uses, specific hover state |
+
+**Soul test:** "Could I swap these components into another site without
+noticing?" If yes, they need more invention.
+
+### Axis 4: Layout & Composition
+
+| Generic | With soul |
+|---------|-----------|
+| Centered hero stack | Asymmetric composition: left-weighted type with a right visual, or a diagonal axis |
+| Three-column features | A rhythm break: one wide callout among smaller cards, an intentional asymmetry |
+| Template section sequence | Sections that respond to content: a quote that goes full-bleed, a feature that breaks the grid |
+| Safe margins | One bold layout decision: hero that bleeds, footer that anchors to the absolute bottom, a section with no padding |
+
+**Soul test:** "Did the layout respond to the content, or did the content
+fill a layout?" If the latter, it needs composition.
+
+### Axis 5: Motion & Interaction
+
+| Generic | With soul |
+|---------|-----------|
+| Fade-in on scroll | Motion that responds to user input: parallax on mouse, tilt on hover, physics-based springs |
+| Hover lift on everything | One authored micro-interaction: a button whose icon slides, a card that breathes |
+| No motion at all | Subtle ambient motion: a slow rotation, a gentle pulse, something that says "this is alive" |
+| Underline-fill hover | A hover state that couldn't be predicted: color inversion, icon swap, a micro-reveal |
+
+**Soul test:** "Does the motion feel like it was designed for this element,
+or applied from a library?" If the latter, it needs authorship.
+
+### Axis 6: Execution & Craft
+
+| Generic | With soul |
+|---------|-----------|
+| Default drop shadow | Tinted shadow that picks up the element's color, cast from a consistent direction |
+| Borders everywhere | Depth from tone: no borders, just value shifts between planes |
+| Good enough alignment | Obsessive alignment: optical centering, baseline grids honored, consistent rhythm |
+| Standard focus states | Focus states that match the brand: a custom ring color, an animated outline |
+
+**Soul test:** "Would a perfectionist notice something wrong?" If yes, the
+craft needs more attention.
+
+### Axis 7: Signature (the whole point)
+
+| Generic | With soul |
+|---------|-----------|
+| Text on a gradient | ONE signature artifact that could only belong here |
+| Stock photo hero | An authored illustration, custom 3D render, or real product screenshot |
+| Template + new colors | A visual system invented for this brief |
+| "Clean and minimal" as excuse | Minimal with intention: every choice defended, nothing by default |
+
+**Soul test:** "If this went viral, would people know which brand it's from
+without seeing the logo?" If no, the signature is missing.
+
+### Axis 8: Cohesion (glue everything together)
+
+| Generic | With soul |
+|---------|-----------|
+| Fine parts that don't belong together | One palette, one type voice, one system of shapes |
+| Reference site copied | Reference used as direction, not stencil — language borrowed, content invented |
+| Sections that feel like different sites | Transitions that hand off: color fades, texture continues, rhythm carries |
+
+**Soul test:** "Does every section feel like it was designed by the same
+person on the same day?" If no, cohesion is missing.
+
+---
+
+## Prescription template
+
+When writing fixes in the report, use this structure:
+
+```markdown
+### 1. {what to fix}
+
+**Evidence:** {tell ID + citation}
+**Impact:** {axis, estimated score delta}
+
+**Remove:** {what the slop version looks like}
+**Replace with:** {specific premium alternative from the pairs or soul guide}
+**Reference:** {optional link to Mobbin/Godly/Awwwards example}
+```
+
+Example:
+```markdown
+### 1. Replace default hero layout with composed asymmetry
+
+**Evidence:** L1 (default hero stack) — hero section uses centered eyebrow →
+headline → subline → buttons stack
+**Impact:** Axis 4 (+15), Axis 7/S1 (+25 if artifact added)
+
+**Remove:** Centered stack with text on gradient fill
+**Replace with:** Left-weighted type column (60%) + right signature artifact
+(40%), with the artifact bleeding past the section edge. Add one custom SVG
+illustration that couldn't exist on another site.
+**Reference:** https://godly.website/website/linear-530
+```

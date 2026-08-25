@@ -313,7 +313,15 @@ Avalia objetivamente um design de UI/web contra [a lei anti-slop da pols.dev](ht
 
 **Como avalia:** URL viva (SOP de automação de browser: capturas full-page em dois viewports, passada de interação, crops com zoom), screenshots estáticos, código (varredura guiada por grep) ou export de Figma — o que não for observável é marcado Unverifiable, nunca inferido. Pontuação determinística via `scripts/score.py`, com gate de CI `--fail-below` para bloquear PRs pela qualidade do preview deploy.
 
-**Quando usar:** avaliar slop de design, gerar relatório de slop, checar se um design parece genérico/gerado por IA, auditar landing page, revisão de-slop, comparar dois designs (antes/depois).
+**Quando usar:** avaliar slop de design, gerar relatório de slop, checar se um design parece genérico/gerado por IA, auditar landing page, revisão de-slop, comparar dois designs (antes/depois), acompanhar evolução do design ao longo do tempo.
+
+**Novidades na v1.1.0 (Ago 2026):**
+- **Section Ledger:** vereditos por seção (CLEAN/SUSPICIOUS/INFLATED/CRITICAL) com bandas de densidade de tells e recomendações de ação
+- **Design Contexts:** avaliação context-aware para landing pages, dashboards SaaS, editorial e e-commerce — ajusta tells prioritários e tolerâncias por tipo de design
+- **Sistema de Exclusões:** tags formalizadas `// BRIEF:`, `// DESIGN DECISION:`, `// CONTEXT:`, `// PREMIUM PAIR:` para documentar tells excluídos com trilha de auditoria
+- **Tracking Mode:** análise de evolução temporal com tells resolvidos/introduzidos, regressões, métricas de velocidade e recomendações para próxima iteração
+- **Guia Adding Soul:** guia orientado a prescrição para injetar personalidade em cada eixo — não só "remova tell X" mas "substitua por alternativa premium Y"
+- **Quality Checklist expandido:** 25+ checks em 6 fases (pre-sweep, during-sweep, exclusão, post-sweep, relatório, self-audit) incluindo testes de portabilidade e defesa
 
 **Companheiras:** método inspirado na [skill-evaluation](skills/skill-evaluation/SKILL.md); para texto (não design), quem faz o de-slop é a [human-ai](skills/human-ai/SKILL.md) e a [humanizar](skills/humanizar/SKILL.md).
 

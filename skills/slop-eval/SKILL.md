@@ -11,8 +11,8 @@ description: >
   fix text (not design), use human-ai or humanizar skills instead.
 metadata:
   author: https://ft.ia.br
-  version: "1.0.0"
-  date: 2026-07-16
+  version: "1.1.0"
+  date: 2026-08-24
   repository: https://github.com/fabricioctelles/skills
   license: Apache-2.0
   category: code-quality-and-review
@@ -25,8 +25,11 @@ cites concrete evidence, every axis gets a 0–100 score, arithmetic runs
 through a script, and the output is a structured report — never a vibe check.
 
 The tell catalog lives in `references/tells.md`; read it before sweeping.
-The positive rubric (signature formula, cohesion checks, slop→premium pairs)
-lives in `references/premium-markers.md`; read it before scoring Axes 7–8.
+The positive rubric (signature formula, cohesion checks, slop→premium pairs,
+and the "Adding Soul" guide) lives in `references/premium-markers.md`; read
+it before scoring Axes 7–8 and when writing fix prescriptions.
+The design context guide lives in `references/contexts.md`; read it to adjust
+priorities and tolerances based on the type of design being evaluated.
 
 ## Source
 
@@ -42,10 +45,52 @@ lives in `references/premium-markers.md`; read it before scoring Axes 7–8.
 |-----------|-------------|---------|
 | `target` | What to evaluate: live URL, screenshot(s), code path, or Figma export | Ask user |
 | `brief` | Brand brief or explicit user directions the design followed | None |
+| `context` | Design type: `landing`, `saas`, `editorial`, `ecommerce`, or `auto` | `auto` |
 | `output` | Path to write the report | `./SLOP-REPORT.md` |
+| `compare` | Path to a previous report for tracking mode (temporal evolution) | None |
 
 Write the report in the language the user is speaking; keep tell IDs and
 names in English so they stay greppable against the catalog.
+
+## Evaluation modes
+
+### Standard mode (default)
+
+Single evaluation of a design. Produces a Slop Report with scores, tells,
+section ledger, and prioritized fixes.
+
+### Comparison mode
+
+Side-by-side evaluation of two different designs (e.g., competitor analysis,
+A/B variants). Add `--compare` pointing to another target or existing report.
+
+### Tracking mode
+
+Evaluate the same design over time to measure improvement. Use when:
+- Running weekly/sprint design reviews
+- Measuring progress after a redesign
+- Validating that fixes actually moved the score
+
+Usage:
+```bash
+# First evaluation — establishes baseline
+slop-eval --target https://site.com --output ./reports/baseline.md
+
+# Later evaluation — tracks evolution
+slop-eval --target https://site.com --output ./reports/week-2.md \
+  --compare ./reports/baseline.md
+```
+
+Tracking mode adds to the report:
+- Score progression table with trends (✅ improved / ⚠️ regressed)
+- Tells resolved (what got fixed)
+- New tells (what got introduced)
+- Regressions (axes/sections that got worse)
+- Section ledger evolution
+- Velocity metrics (tells resolved per week, score improvement rate)
+- Recommendations for next iteration
+
+See `references/output-template.md` for the full tracking output format.
 
 ## Evidence channels
 
@@ -234,7 +279,8 @@ absolute-rule gate):
 - **The brief overrides the law.** If the user or brand explicitly directed
   a choice (a color, a layout, an effect), it is not a tell — the law
   itself says the user's word wins 100%. Ask for the brief when the design
-  clearly follows one; note excluded tells in the report.
+  clearly follows one; note excluded tells in the report with proper
+  justification tags (see Exclusion system below).
 - **Context flips a tell.** Mono on real data is correct; a populated,
   real-feeling product window is a signature, not the fake-window tell; a
   tight micro-grid with texture is premium, a full-page graph paper is
@@ -251,13 +297,149 @@ absolute-rule gate):
   work from the same author to verify; without it, mark Unverifiable
   rather than guessing.
 
+## Exclusion system
+
+Every excluded tell MUST have a justification tag. A tell without a tag
+counts — no exceptions. This creates an audit trail and prevents lazy
+exclusions.
+
+### Justification tags
+
+| Tag | When to use | Example |
+|-----|-------------|---------|
+| `// BRIEF:` | Client/stakeholder explicitly directed this choice | `// BRIEF: client requested blue-purple gradient as brand identity` |
+| `// DESIGN DECISION:` | Documented design decision with concrete reasoning | `// DESIGN DECISION: countdown is real — sale ends 2026-08-01` |
+| `// CONTEXT:` | Design context makes this pattern acceptable | `// CONTEXT: mono typeface is appropriate for code snippets in SaaS docs` |
+| `// PREMIUM PAIR:` | This is the crafted version, not the slop version | `// PREMIUM PAIR: glass effect has proper refraction, edge dispersion, tuned shadows` |
+
+### Valid vs invalid exclusions
+
+**Valid exclusions:**
+```markdown
+| C1 | Blue→purple gradient | `// BRIEF: brand guidelines v2.3 specify #6366f1→#8b5cf6` |
+| K14 | Countdown timer | `// DESIGN DECISION: real sale ends 2026-12-31, verified in CMS` |
+| T4 | Mono as house voice | `// CONTEXT: SaaS product with code-heavy documentation` |
+| K25 | Glass effect | `// PREMIUM PAIR: proper backdrop blur, chromatic dispersion, directional light` |
+```
+
+**Invalid exclusions (tell still counts):**
+```markdown
+| C1 | Blue→purple gradient | "we liked it" | ❌ Not a justification
+| K9 | Default CTA pair | "it's our style" | ❌ Too vague
+| L1 | Default hero stack | "approved by team" | ❌ Who? When? Why?
+| K6 | Kitchen-sink card | "industry standard" | ❌ Slop IS the industry standard
+```
+
+### Exclusion limits
+
+- **>5 exclusions** → Review each one. Mass exclusions suggest the brief
+  wasn't followed or the evaluator is being too lenient.
+- **>10 exclusions** → Something is wrong. Either the brief allows nearly
+  everything (in which case, why evaluate?) or exclusions are being used
+  to inflate the score.
+- **Excluding signature elements** → Almost never valid. If S1–S7 are
+  excluded, the design has no signature by definition.
+
+### Exclusion documentation in report
+
+In the Excluded tells table, format as:
+
+```markdown
+## Excluded tells
+
+| ID | Tell | Exclusion reason |
+|----|------|------------------|
+| C1 | Blue→purple gradient | `// BRIEF: brand guidelines v2.3 specify #6366f1→#8b5cf6` |
+| K14 | Countdown timer | `// DESIGN DECISION: real sale ends 2026-12-31, verified in CMS` |
+
+**Exclusion summary:** 2 tells excluded (1 BRIEF, 1 DESIGN DECISION)
+```
+
+### Challenging exclusions
+
+When reviewing someone else's slop report, check exclusions first:
+
+1. **Is the tag present?** No tag = tell counts.
+2. **Is the tag appropriate?** `// BRIEF:` needs an actual brief reference.
+3. **Is the reasoning concrete?** Vague reasoning = tell counts.
+4. **Is the exclusion count reasonable?** >5 warrants scrutiny.
+
 ## Quality checklist
 
-Final gate before delivering — each item re-checks a workflow step:
+Final gate before delivering. Run through every item — a single failure
+means the report is not ready. This is the self-evaluation rubric; treat
+it as a hard gate, not a suggestion.
 
-- [ ] every recorded tell has ID + severity + citation (step 3)
-- [ ] every unverifiable check is marked, not silently passed (steps 1, 4)
-- [ ] all 6 absolute rules reported (step 4)
-- [ ] all 11 signature/cohesion items scored with justification (step 5)
-- [ ] caps applied when gates triggered; math from `score.py` only (step 6)
-- [ ] report matches the template, fixes ranked by weighted impact (step 7)
+### Pre-sweep checks
+
+- [ ] **Evidence inventory complete** — documented what was captured (code,
+      screenshots, live URL) and what is Unverifiable
+- [ ] **Brief documented** — if provided, summarized in report header; if not
+      provided, noted as "no brief"
+- [ ] **Design context identified** — what type of design is this? (landing
+      page, SaaS dashboard, editorial, e-commerce). Read `references/contexts.md`
+      to adjust priorities and tolerances
+- [ ] **All reference files read** — `tells.md`, `premium-markers.md`, and
+      `contexts.md` loaded before starting the sweep
+
+### During-sweep checks
+
+- [ ] **Cite-or-cut enforced** — every recorded tell has ID + severity +
+      concrete citation (hex value, font name, `file:line`, or screenshot region)
+- [ ] **Premium pair checked** — before recording any tell, verified it's not
+      the crafted premium version of the pattern
+- [ ] **Portability test applied** — for borderline cases, asked: "Could this
+      element be moved to another site without alteration?" If yes → tell.
+      If no (it's specific to this brand) → not a tell
+- [ ] **Defense test applied** — for borderline cases, asked: "Could the
+      designer defend this choice with concrete reasoning if asked?" If no →
+      tell. Slop cannot be defended; deliberate choices can.
+- [ ] **Section attribution** — every tell assigned to a specific section
+      (Hero, Features, Pricing, Footer, etc.) for the Section Ledger
+- [ ] **Severity discipline** — critical reserved for absolute-rule violations
+      only; no severity inflation
+
+### Exclusion checks
+
+- [ ] **Exclusions documented** — every excluded tell has a `// BRIEF:` or
+      `// DESIGN DECISION:` justification
+- [ ] **Exclusions are genuine** — "we liked it" or "it looked good" are NOT
+      valid exclusion reasons. Only explicit brief direction or documented
+      design decisions with concrete reasoning qualify.
+- [ ] **Exclusion count reasonable** — if >5 tells excluded, double-check
+      each one. Mass exclusions suggest the brief wasn't followed, not that
+      the tells don't apply.
+
+### Post-sweep checks
+
+- [ ] **All unverifiable checks marked** — not silently passed or skipped
+- [ ] **All 6 absolute rules reported** — pass/fail/unverifiable with evidence
+- [ ] **All 11 signature/cohesion items scored** — 0/50/100 with one-line
+      justification each
+- [ ] **Section Ledger complete** — every major section has a verdict
+      (CLEAN/SUSPICIOUS/INFLATED/CRITICAL) with tell count and action
+- [ ] **Gates applied correctly**:
+  - [ ] Signature gate: if Axis 7 < 40, overall capped at 59
+  - [ ] Absolute-rule gate: if any crit, overall capped at 69
+  - [ ] Compounding cap: if ≥3 major layout tells, Axis 4 capped at 40
+- [ ] **Math from script only** — all scoring via `score.py`, never hand-computed
+
+### Report checks
+
+- [ ] **Template followed exactly** — structure matches `output-template.md`
+- [ ] **Fixes ranked by weighted impact** — signature issues (3x weight)
+      typically outrank single tells
+- [ ] **Language correct** — report in user's language, tell IDs in English
+
+### Final self-audit
+
+Before delivering, ask yourself:
+
+- [ ] **"What still looks like obvious slop that I didn't flag?"** — if
+      something visually screams slop but isn't in your findings, either
+      find the tell that covers it or note it as a gap in the catalog.
+- [ ] **"Did I over-correct?"** — a sparse report on a clearly-slop design
+      suggests missed tells. A bloated report on a premium design suggests
+      false positives.
+- [ ] **"Would I trust this report if someone else wrote it?"** — read the
+      report as if reviewing a colleague's work. Does every claim hold up?

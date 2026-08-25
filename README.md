@@ -314,7 +314,15 @@ Objectively evaluates a UI/web design against [the pols.dev anti-slop design law
 
 **How it evaluates:** live URL (browser-automation SOP: dual-viewport full-page captures, interaction pass, zoom crops), static screenshots, code path (grep-led sweep), or Figma export — anything not observable is marked Unverifiable, never guessed. Deterministic scoring via `scripts/score.py`, with a `--fail-below` CI gate for blocking PRs on preview-deploy design quality.
 
-**When to use:** evaluate design slop, generate a slop report, check if a design looks AI-generated or generic, audit a landing page design, de-slop review, compare two designs (before/after).
+**When to use:** evaluate design slop, generate a slop report, check if a design looks AI-generated or generic, audit a landing page design, de-slop review, compare two designs (before/after), track design evolution over time.
+
+**New in v1.1.0 (Aug 2026):**
+- **Section Ledger:** per-section verdicts (CLEAN/SUSPICIOUS/INFLATED/CRITICAL) with tell density bands and action recommendations
+- **Design Contexts:** context-aware evaluation for landing pages, SaaS dashboards, editorial, and e-commerce — adjusts priority tells and tolerances per design type
+- **Exclusion System:** formalized `// BRIEF:`, `// DESIGN DECISION:`, `// CONTEXT:`, `// PREMIUM PAIR:` tags for documenting excluded tells with audit trail
+- **Tracking Mode:** temporal evolution analysis with tells resolved/introduced, regressions, velocity metrics, and recommendations for next iteration
+- **Adding Soul Guide:** prescription-oriented guide for injecting personality into each axis — not just "remove tell X" but "replace with premium alternative Y"
+- **Expanded Quality Checklist:** 25+ checks across 6 phases (pre-sweep, during-sweep, exclusion, post-sweep, report, self-audit) including portability and defense tests
 
 **Companions:** method inspired by [skill-evaluation](skills/skill-evaluation/SKILL.md); for text (not design), [human-ai](skills/human-ai/SKILL.md) and [humanizar](skills/humanizar/SKILL.md) do the de-slopping.
 
