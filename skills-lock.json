@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "agent-plugin-eval": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
     "agent-ready-cloudflare": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
@@ -31,15 +36,15 @@
       "sourceType": "local",
       "computedHash": "5b486b3aef36cc5d2fe6d4cf750e6800d164d14e3d6cea713f4a31fa7bcba3cc"
     },
-    "humanizar": {
-      "source": "/home/fabricio/GIT/skills",
-      "sourceType": "local",
-      "computedHash": "de86f22cf09d7be8d779651a9f8343692e52ed6d7663daf530a3fd18bcc70346"
-    },
     "human-ai": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
       "computedHash": "new"
+    },
+    "humanizar": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "de86f22cf09d7be8d779651a9f8343692e52ed6d7663daf530a3fd18bcc70346"
     },
     "loop-architect": {
       "source": "/home/fabricio/GIT/skills",
@@ -56,20 +61,25 @@
       "sourceType": "local",
       "computedHash": "83c04004f196830492ef28d3224bfb297aa44af4c796bf5a22b0e041616df603"
     },
+    "pstack-skill": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
     "ralph-loop-kiro-specs": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
       "computedHash": "d133ed1b25c3aed4a3c9dadd29f6a092b74c10fe80b99b9af2255071b8d7ea9c"
     },
-    "revenue-centric-design": {
-      "source": "/home/fabricio/GIT/skills",
-      "sourceType": "local",
-      "computedHash": "new"
-    },
     "resume-ats-beater": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
       "computedHash": "107b6f3282d7efcb55ff711790ccbf6e86e1aeb10344443d74dc9c834c8af197"
+    },
+    "revenue-centric-design": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
     },
     "security-specialist": {
       "source": "/home/fabricio/GIT/skills",
@@ -82,6 +92,11 @@
       "computedHash": "new"
     },
     "slop-eval": {
+      "source": "/home/fabricio/GIT/skills",
+      "sourceType": "local",
+      "computedHash": "new"
+    },
+    "startup-idea": {
       "source": "/home/fabricio/GIT/skills",
       "sourceType": "local",
       "computedHash": "new"

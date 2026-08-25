@@ -53,12 +53,19 @@
       ]
     },
     {
-      "title": "Career & Professional Positioning",
-      "description": "Resume ATS optimization, LinkedIn profile audit, and automated development workflows.",
+      "title": "Engineering Orchestration",
+      "description": "Rigorous engineering workflows, agent loops, spec automation, and adversarial code review.",
       "skills": [
-        "resume-ats-beater",
+        "pstack-skill",
         "ralph-loop-kiro-specs",
         "loop-architect"
+      ]
+    },
+    {
+      "title": "Career & Professional Positioning",
+      "description": "Resume ATS optimization and LinkedIn profile audit.",
+      "skills": [
+        "resume-ats-beater"
       ]
     },
     {
