@@ -191,6 +191,15 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 
 ---
 
+### 👑 Pstack Skill — Rigorous Engineering Orchestrator · `code-quality-and-review`
+Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) as a single skills.sh-compatible skill — no plugin install, no Cursor required. One orchestrator that reads your task, picks one of 23 playbooks (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to 21 bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, technical-writing, show-me-your-work, tdd), and applies 21 engineering principles. Cursor-specific mechanics (cloud agents, Graphite, vendor model slugs) are translated to platform-agnostic equivalents: plain git/gh, subagents in isolated worktrees, and four model roles (`worker`, `builder`, `judge`, `peer`) bound once via config.
+
+**When to use:** any task that needs rigor — nontrivial code changes, architecture decisions, debugging with repro-first discipline, adversarial reviews, PR babysitting and shipping, long autonomous runs — or "poteto-mode", "work like poteto", "pstack". Works single-model; panels degrade to fresh-context passes without weakening any verification gate.
+
+📄 [View full documentation](skills/pstack-skill/README.md)
+
+---
+
 ### ✍️ Humanizar — AI Text Humanizer for Brazilian Portuguese · `code-quality-and-review`
 Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by AI detection tools. Removes AI slop patterns, restores semantic entropy, and injects voice and personality. Born from the English `humanizer` skill but evolved into something far more complete — with 55+ patterns specific to PT-BR that no other source has cataloged.
 
@@ -462,6 +471,7 @@ npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
+npx skills add https://github.com/fabricioctelles/skills -s pstack-skill
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
 ```
@@ -585,6 +595,12 @@ skills/
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/        # protocol template, validation rules, metadata schema, example, implementation guide
+├── pstack-skill/
+│   ├── README.md          # human-readable guide: install, use cases, model roles
+│   ├── SKILL.md           # the orchestrator (playbook router, principles index, autonomy rules)
+│   ├── playbooks/         # 23 step-by-step workflows copied verbatim onto todolists
+│   ├── references/        # 21 principles, 21 bundled procedures, plan + bot-review triage
+│   └── scripts/           # decision-log helper, worktree audit
 │   ├── SKILL.md
 │   └── references/        # 6 compliance check modules (privacy policy, cookies, data minimization, transfers, rights, scripts)
 ```

@@ -188,6 +188,15 @@ Projeta loops agenticos bem estruturados com coaching de boas práticas e gates 
 
 ---
 
+### 👑 Pstack Skill — Orquestrador de Engenharia Rigorosa · `code-quality-and-review`
+Porte autocontido do [pstack](https://github.com/cursor/plugins/tree/main/pstack) da Lauren Tan (`poteto-mode`) como uma única skill compatível com skills.sh — sem instalar plugin, sem depender do Cursor. Um orquestrador que lê sua tarefa, escolhe um dos 23 playbooks (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), roteia para 21 procedures embutidas (how, why, architect, arena, swarm, interrogate, unslop, technical-writing, show-me-your-work, tdd) e aplica 21 princípios de engenharia. Mecânicas específicas do Cursor (cloud agents, Graphite, slugs de modelo) viraram equivalentes agnósticos: git/gh puro, subagentes em worktrees isolados e quatro papéis de modelo (`worker`, `builder`, `judge`, `peer`) vinculados uma vez via config.
+
+**Quando usar:** qualquer tarefa que exija rigor — mudanças de código não triviais, decisões de arquitetura, debug com disciplina de reprodução primeiro, reviews adversariais, babysitting e shipping de PRs, execuções autônomas longas — ou "poteto-mode", "work like poteto", "pstack". Funciona com um único modelo; painéis degradam para passes independentes em contexto fresco sem enfraquecer nenhum gate de verificação.
+
+📄 [Ver documentação completa](skills/pstack-skill/README.md)
+
+---
+
 ### ✍️ Humanizar — Humanizador de Texto IA para Português Brasileiro · `code-quality-and-review`
 Reescreve texto em português brasileiro para soar humano, natural e indetectável por ferramentas de IA. Remove padrões de AI slop, restaura entropia semântica e injeta voz e personalidade. Nasceu da skill `humanizer` em inglês mas evoluiu para algo muito mais completo — com 55+ padrões específicos do PT-BR que nenhuma outra fonte catalogou.
 
@@ -460,6 +469,7 @@ npx skills add https://github.com/fabricioctelles/skills -s humanizar
 npx skills add https://github.com/fabricioctelles/skills -s auth-md
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
+npx skills add https://github.com/fabricioctelles/skills -s pstack-skill
 npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
 ```
@@ -580,6 +590,12 @@ skills/
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/        # template do protocolo, regras de validação, schema de metadata, exemplo, guia de implementação
+├── pstack-skill/
+│   ├── README.md          # guia legível: instalação, casos de uso, papéis de modelo
+│   ├── SKILL.md           # o orquestrador (router de playbooks, índice de princípios, regras de autonomia)
+│   ├── playbooks/         # 23 workflows passo a passo copiados verbatim para todolists
+│   ├── references/        # 21 princípios, 21 procedures embutidas, plan + triagem de bot-reviews
+│   └── scripts/           # helper de decision log, auditoria de worktrees
 │   ├── SKILL.md
 │   └── references/        # 6 módulos de verificação de conformidade (política de privacidade, cookies, minimização, transferências, direitos, scripts)
 ```
