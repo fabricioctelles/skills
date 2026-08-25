@@ -1,5 +1,6 @@
 .env
-skills/pier-cloud/.env
-skills/coolify-operator/.env
+.env.*
+!.env.example
+skills-lock.json
 .playwright-mcp
 docs/
