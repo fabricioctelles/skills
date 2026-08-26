@@ -29,9 +29,11 @@ Everything referenced here ships inside this skill:
 
 - `playbooks/*.md` — the step-by-step workflows. Copy matched steps verbatim.
 - `references/principles.md` — the full text of the 21 principles indexed below.
-- `references/plan.md`, `references/bugbot-triage.md` — multi-phase planning; bot-review triage.
+- `references/bugbot-triage.md` — bot-review triage.
 - `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `setup-pstack`). Read the file when a step routes to one.
 - `scripts/log.sh` — decision-log helper. `scripts/worktree-audit.sh` — disk reclaim audit.
+- `scripts/check-plan.mjs` — validates the multi-phase plan checklist.
+- `scripts/check-upstream.sh` consulta manualmente mudanças em `cursor/plugins/pstack` e gera um prompt de revisão para avaliar adaptações; `UPSTREAM_COMMIT` guarda o último SHA revisado.
 
 Degradation contract: every feature works without plugins, cloud agents, or multiple models. Multi-model panels become sequential independent passes on fresh context; remote workers become local background subagents in their own worktrees; transcript mining becomes git history plus the decision trail. Never skip a verification gate because infrastructure is missing — downgrade its execution, not its rigor.
 
@@ -160,7 +162,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Autopilot-stack.** Build and verify one linear reviewed stack for the operator to land herself. `playbooks/autopilot-stack.md`.
 - **Session pickup.** Resume or take over prior in-flight work. `playbooks/session-pickup.md`.
 - **Pause safely.** Suspend in-flight work cleanly so it can resume later. The complement to Session pickup. `playbooks/pause-safely.md`.
-- **Multi-phase plan.** Work spanning phases or stacked PRs; steps in `references/plan.md`. `playbooks/multi-phase-plan.md`.
+- **Multi-phase plan.** Work spanning phases or stacked PRs; verified checklist in `playbooks/multi-phase-plan.md`.
 - **Worktree and simulator cleanup.** Reclaim local disk safely, safety-gated. `playbooks/worktree-cleanup.md`.
 - **Opening a PR.** Invoked at the end of every other playbook. `playbooks/opening-a-pr.md`.
 

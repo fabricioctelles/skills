@@ -149,16 +149,44 @@ Twenty-one short rules the orchestrator indexes and cites by name. Full text in 
 ```
 pstack-skill/
 ├── SKILL.md                  ← the orchestrator (agent entry point)
+├── UPSTREAM_COMMIT           ← last reviewed commit from cursor/plugins
 ├── playbooks/                ← 23 workflows, steps copied verbatim onto todolists
 ├── references/
 │   ├── principles.md         ← full text of the 21 principles
-│   ├── plan.md               ← multi-phase planning reference
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
 │   └── skills/               ← 21 bundled procedures (how, arena, unslop...)
 └── scripts/
+    ├── check-upstream.sh     ← manual upstream update check
+    ├── check-plan.mjs        ← multi-phase plan checklist validator
     ├── log.sh                ← decision-log helper (TSV, formula-safe)
     └── worktree-audit.sh     ← disk reclaim audit
 ```
+
+## Manutenção do porte
+
+Execute a verificação manual quando quiser saber se `cursor/plugins` alterou a pasta `pstack/`:
+
+```bash
+./scripts/check-upstream.sh
+```
+
+O comando compara o upstream com o SHA salvo em `UPSTREAM_COMMIT`. Quando há mudanças, ele lista os commits e arquivos pendentes e termina com status `10`. Mudanças fora de `pstack/` não geram alerta.
+
+A presença de um commit pendente não significa que ele deva ser copiado. Gere um prompt contextualizado para uma LLM avaliar a intenção da mudança e decidir entre adotar, adaptar ou rejeitar:
+
+```bash
+./scripts/check-upstream.sh review-prompt
+```
+
+O prompt preserva o contrato da versão portátil e inclui os commits, arquivos pendentes, comandos de evidência e uma tabela de decisão. A LLM pode adaptar os itens aprovados, mas não deve avançar a referência.
+
+Depois de revisar e validar o porte, reconheça o SHA exibido pelo verificador:
+
+```bash
+./scripts/check-upstream.sh accept <commit>
+```
+
+O comando `accept` só aceita o commit mais recente que alterou `pstack/`. Ele não copia nem modifica os arquivos portados; apenas registra que aquela versão foi avaliada.
 
 ## License
 
