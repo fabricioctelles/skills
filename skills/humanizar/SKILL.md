@@ -5,12 +5,15 @@ description: |
   reduzindo padrões típicos de escrita gerada por IA sem alterar fatos, argumento
   ou intenção. Use quando o texto em PT-BR parecer genérico, burocrático ou gerado
   por IA, ou quando o usuário pedir para "humanizar", "dar vida", "tirar cara de
-  IA", "remover AI slop" ou "reescrever com voz". Para textos em inglês, use a
-  skill-irmã `human-ai`.
+  IA", "remover AI slop" ou "reescrever com voz". Use também para ESCREVER DO ZERO
+  em português qualquer texto que uma pessoa vai assinar ou publicar (post, artigo,
+  e-mail, proposta, release, README, bio, descrição de produto): nesse caso a lista
+  de padrões funciona como filtro de saída. Para textos em inglês, use a skill-irmã
+  `human-ai`.
 metadata:
   author: https://ft.ia.br
-  version: "1.3.0"
-  date: 2026-06-17
+  version: "1.4.0"
+  date: 2026-08-29
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
@@ -35,7 +38,7 @@ Toda verificação posterior de **TRAVA FACTUAL** remete a esta definição. Em 
 
 Executar antes de diagnosticar ou reescrever:
 
-1. Confirmar que há texto e que ele está em PT-BR. Para inglês, usar [`human-ai`](../human-ai/SKILL.md). Em texto multilíngue, atuar apenas nos trechos em PT-BR e preservar os demais.
+1. Confirmar que há texto e que ele está em PT-BR. Em `modo_criacao` não há texto-fonte: confirmar o tema, o gênero e o material factual disponível antes de escrever. Para inglês, usar [`human-ai`](../human-ai/SKILL.md). Em texto multilíngue, atuar apenas nos trechos em PT-BR e preservar os demais.
 2. Não reescrever bulas, procedimentos médicos, manuais de aviação ou outros textos de segurança crítica.
 3. Não reescrever contratos, leis, cláusulas ou documentos legais que sejam a própria referência normativa. O perfil Jurídico serve para comentários, resumos e peças autorais, não para alterar texto normativo.
 4. Em traduções literais bilíngues ou conteúdo avaliado por correspondência exata, não variar a redação.
@@ -51,6 +54,9 @@ O modo altera o nível do relatório e o número máximo de tentativas; não alt
 | `modo_completo` (padrão) | Pedido comum de humanização | 3 | Texto final, pontuação e resumo das mudanças |
 | `modo_direto` | Fluxo automatizado ou pedido de rapidez | 1 | Texto final e relatório sintético; sem repetição automática |
 | `modo_revisão` | Auditoria de texto produzido por outro agente | 3 | Texto final, diagnóstico e relatório detalhado |
+| `modo_criacao` | O texto ainda não existe; o usuário pede para escrever | 2 | Somente o texto final |
+
+`modo_criacao` é o único modo sem `texto_fonte`. Ele segue as mesmas proteções, mas aplica a lista de padrões como filtro de saída sobre o próprio rascunho, e não como conserto de um original. Ver [Escrita do zero](#escrita-do-zero-modo_criacao).
 
 Preservar sempre o modo escolhido pelo usuário. Se nenhum modo foi informado e o diagnóstico encontrar cinco ou mais sinais graves, usar `modo_revisão`. Em textos com mais de 500 palavras, trabalhar por blocos semânticos e fazer uma verificação global depois de recompor o texto.
 
@@ -240,9 +246,30 @@ Texto acessível para público amplo. Inspirado nas operações do PorSimples (N
 >
 > *Depois:* "A automação muda como as pessoas trabalham. Isso traz problemas sociais e econômicos. Os governos precisam criar políticas para reduzir esses problemas. Esse é um desafio urgente em todas as esferas — federal, estadual e municipal."
 
+## Escrita do zero (`modo_criacao`)
+
+Quando o texto ainda não existe, a lista de padrões vale como filtro de saída, não como conserto.
+
+1. **Escolher o perfil de voz antes de escrever** (Passo 1). Sem perfil e sem amostra, usar voz neutra.
+2. **Escrever direto**, com o material que o usuário forneceu. Não tentar desviar dos padrões durante a redação: isso trava a frase e produz o texto sem graça que a skill existe para evitar.
+3. **Passar o diagnóstico sobre o próprio rascunho** (Passo 2) antes de entregar. Cinco padrões respondem pela maior parte dos escorregões em texto novo:
+   - travessão de aparte;
+   - "não apenas X, mas também Y";
+   - conectivo abrindo parágrafo ("Além disso", "Dessa forma", "Por fim");
+   - trio forçado;
+   - fecho otimista genérico.
+
+   Varrer esses primeiro; depois percorrer o resto da tabela.
+4. **Aplicar a guarda de falso positivo** (Passo 6) e a **verificação final** (Passo 7).
+5. **Entregar só o texto.** Sem rascunho, sem diagnóstico, sem lista de padrões: o usuário pediu um texto, não um relatório.
+
+**TRAVA FACTUAL em `modo_criacao`.** Não há original a preservar, e por isso a regra pesa mais: escrevendo do zero é fácil tapar buraco com número plausível, data aproximada ou fonte que soa certa. Usar apenas o que o usuário forneceu ou o que foi efetivamente verificado. Faltando um dado para a frase funcionar, escrever a frase mais simples e dizer ao usuário o que falta, ou marcar `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Ficção pedida explicitamente é exceção, porque inventar faz parte do trabalho, e deve ser identificada como ficção.
+
+Não anunciar que passou pela lista. E nunca afirmar ter conferido um texto sem ter conferido: dizer "passei pelos padrões" sem ter passado é pior que o vício que ficou.
+
 ## Processo de Humanização
 
-Executar primeiro a **Triagem obrigatória**. Manter `texto_fonte` imutável durante todo o processo.
+Executar primeiro a **Triagem obrigatória**. Manter `texto_fonte` imutável durante todo o processo. Em `modo_criacao` não há `texto_fonte`: o rascunho da primeira tentativa ocupa o lugar de `texto_atual` e a validação factual segue as regras de [Escrita do zero](#escrita-do-zero-modo_criacao).
 
 ### Passo 1 — 🎯 Seleção do perfil de voz
 
@@ -280,16 +307,22 @@ Percorrer sistematicamente cada categoria. Marcar ✓ (encontrado) ou ✗ (ausen
 | **Conteúdo** | Atribuição vaga ("estudos mostram", "especialistas dizem") | 3 | | Preservar a atribuição; especificar somente se a fonte já estiver na entrada e, caso contrário, sinalizar a lacuna no relatório |
 | | Ênfase inflada sem base ("revolucionário", "sem precedentes") | 3 | | Preservar força e autoria da avaliação; sugerir redução no relatório, sem alterá-la sem autorização |
 | | Dados possivelmente fabricados ou imprecisos | 3 | | Preservar no texto e sinalizar para verificação; corrigir apenas com fonte ou autorização do usuário |
+| | Fonte específica cuja existência não se confirma (autor, ano, DOI, link, número de página) | 3 | | Não corrigir nem trocar a referência; marcar para verificação e retirar a afirmação que dependa só dela |
 | **Linguagem** | Vocabulário genérico ("impacto", "contexto", "cenário") | 3 | | Trocar por termo preciso já sustentado pela fonte |
 | | Perífrases rebuscadas para evitar "ser", "ter" ou "estar" | 2 | | Restaurar o verbo simples quando natural ao registro |
 | | Paralelismo perfeito em 3+ itens | 2 | | Quebrar a simetria |
 | **Tom** | Ressalva excessiva ("pode ser que talvez", "parece que") | 2 | | Cortar redundância sem aumentar a certeza |
 | | Autorreferência de IA ("como modelo de linguagem...") | 3 | | Remover o aviso padrão sem criar opinião |
 | | Inflação de gravidade ("questão crucial para a humanidade") | 2 | | Reduzir a escala sem criar comparação nova |
+| | Máxima de camiseta ("X é a linguagem de Y", "X não é ferramenta, é espelho") | 2 | | Trocar a frase de efeito pela afirmação específica que ela substitui |
 | **Composição** | Molde introdutório ("Neste artigo, exploraremos...") | 3 | | Cortar e ir direto ao conteúdo existente |
 | | Conclusão em molde ("em resumo", "conclui-se que") | 3 | | Enxugar ou reorganizar a conclusão existente |
 | | Transições artificiais ("primeiramente", "em segundo lugar") | 2 | | Usar conectivos naturais |
-| **Estilo** | Formatação excessiva (negrito ou travessão em excesso) | 1 | | Moderar conforme o gênero |
+| | Primeira frase repete o título | 1 | | Cortar a frase repetida e começar pelo conteúdo |
+| | Alternativa falsa levantada e descartada em meia frase | 2 | | Remover a opção descartada e manter apenas a restrição real |
+| | Documentação que descreve a versão anterior em vez do comportamento atual | 2 | | Descrever o estado atual; preservar o histórico apenas em changelog, nota de versão e guia de migração |
+| **Estilo** | Travessão (—) ou meia-risca (–) usados como aparte no meio da frase | 2 | | Substituir por vírgula, ponto, dois-pontos ou parênteses, ou reescrever a frase. Exceções no Passo 6 |
+| | Negrito ou formatação excessiva | 1 | | Moderar conforme o gênero |
 | | Emoji em cada item (padrão ChatGPT) | 1 | | Remover os que não têm função |
 | | Markdown não solicitado (títulos e listas automáticas em prosa) | 2 | | Remover quando não servir ao gênero |
 | **PT-BR** | Oficialês ("cumpre salientar", "no âmbito de") | 2 | | Substituir por construção direta |
@@ -368,7 +401,53 @@ Aplicar somente os recursos permitidos pelo perfil ativo:
 
 Quando o usuário fornecer amostra de voz, espelhar comprimento de frases, nível vocabular, início de parágrafos, pontuação e uso de estrangeirismos. Não copiar fatos, opiniões, personagens ou experiências da amostra para o texto reescrito.
 
-### Passo 6 — 🔥 Verificação final
+### Passo 6 — 🚧 Guarda de falso positivo
+
+Rodar antes da verificação final. Percorrer os sinais marcados ✓ no Passo 2 e desmarcar os que se explicam por esta seção, registrando a decisão no relatório. Nenhum padrão isolado prova origem artificial: o sinal está no acúmulo. Na dúvida, procurar vários padrões no mesmo parágrafo; um travessão sozinho não é nada.
+
+#### O que não marcar
+
+| Não é sinal de IA | Por quê |
+|---|---|
+| Gramática impecável e estilo constante | Muita gente escreve bem ou passou por edição. Texto polido não é texto de máquina |
+| Texto seco ou "sem graça" | Escrita de IA tem marcas específicas. Secura sem essas marcas é só prosa econômica |
+| Palavra formal ou acadêmica isolada | A lista de vocabulário aponta excesso, não proíbe o termo. Não simplificar toda palavra difícil |
+| Registro jurídico, acadêmico ou normativo | Impessoalidade e voz passiva são exigência do gênero. Não converter petição, laudo ou ata em post de blog |
+| Travessão de diálogo em ficção | É norma da língua. O sinal do Passo 2 vale para o travessão de aparte, não para a fala |
+| Travessão presente na amostra do autor | Se a amostra usa, manter na mesma frequência |
+| Conectivo isolado ("no entanto", "portanto") | Só denuncia quando empilhado no início de vários parágrafos seguidos |
+| Aspas curvas sozinhas | Word, Google Docs e a maioria dos editores curvam por padrão. Só contam junto com outras marcas |
+| Vírgula usada corretamente | Vírgula de vocativo ("Oi, João") é norma. Pontuação correta não indica nada |
+| Uma frase curta para dar ênfase | Só marcar fragmento dramático quando vierem vários seguidos |
+| Repetição proposital de abertura | "Cheguei. Vi. Venci." é ritmo. Só mexer quando a repetição não acrescenta nada |
+| "Olha" ou "sinceramente" dentro da frase | Normais na fala e no registro informal. O vício é a abertura teatral solta |
+| Ressalva com função | Manter delimitação de escopo, aviso legal ou de segurança, correção real, objeção com autor nomeado e item de FAQ |
+| Alternativa real | Em documento de arquitetura, tutorial ou argumentação, manter as opções que o leitor consideraria. Cortar só a opção improvável levantada e nunca mais usada |
+| Ausência de citação | Boa parte do texto publicado não cita fonte. Falta de citação não prova nada |
+| Formatação complexa e correta | Editor visual e template produzem saída limpa sem IA nenhuma |
+| Expressão de alerta em segunda mão | Não reescrever expressão que aparece dentro de citação, título, nome próprio ou exemplo em que ela está sendo discutida, não usada |
+| Texto anterior a 30/11/2022 | Lançamento público do ChatGPT. O que é mais antigo quase nunca é de IA |
+
+**Detectores automáticos.** Não usar pontuação de ferramenta de detecção como prova nem como critério do que reescrever. Essas ferramentas erram muito e erram torto: penalizam mais quem é neurodivergente e quem não é falante nativo. Nenhuma reescrita aqui tem como objetivo enganar detector.
+
+#### Marcas humanas para preservar
+
+Estes detalhes costumam carregar a voz de quem escreve. Preservar, salvo quando atrapalharem o sentido — e nunca "consertar" por padronização:
+
+| Marca | Exemplo |
+|---|---|
+| Contração e fala escrita | "pra", "tá", "cê", "né", "tô", "pro". Em registro informal, não expandir para "para", "está", "você" — a forma contraída é escolha do autor. Em texto formal, aí sim a forma plena é a correta |
+| Regionalismo | "uai", "oxe", "tchê", "massa", "mano". Não padronizar para um português neutro de manual |
+| Detalhe específico e estranho | Um endereço real, uma citação torta, "o advogado que trabalhava em cima do meu dentista" |
+| Sentimento misto e tensão sem resolução | "No geral é bom, mas me incomoda, e não sei explicar direito por quê" |
+| Gíria e referência datada | Meme e piada interna presos a um ano e a um grupo |
+| Aparte, parêntese e autocorreção | "(Fico querendo escrever 'quase' aqui, mas foi certeza mesmo.)" |
+| Variação no tamanho das frases | Alternância entre curto e longo. Texto de IA tende a um comprimento médio constante |
+| Escolha consciente em primeira pessoa | O corte ou a palavra que o autor sabe justificar |
+
+**O próprio texto como amostra.** Quando a entrada já traz marca forte de autoria — regionalismo, opinião assumida, primeira pessoa, humor, autocorreção, detalhe concreto que só quem viveu conhece —, ela não é saída de chatbot: é escrita de alguém pedindo revisão. Tratar esse texto como a amostra de estilo do autor. Nesse caso o sinal de travessão e o de abertura teatral deixam de valer como regra; apontar o que for encontrado no relatório e deixar a escolha com o autor.
+
+### Passo 7 — 🔥 Verificação final
 
 Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do trecho.
 
@@ -383,11 +462,13 @@ Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do tre
 | 7 | Perfil de voz e registro permanecem consistentes em cada trecho? | |
 | 8 | Estrangeirismos naturais do domínio foram preservados sem tradução forçada? | |
 | 9 | Abertura, fechamento e formatação servem ao gênero, sem molde genérico desnecessário? | |
-| 10 | Lido em voz alta, o texto soa natural dentro do gênero e do público pretendido? | |
+| 10 | Foi feita varredura por `—`, `–` e ` -- ` usados como aparte, preservando o travessão de diálogo e a frequência da amostra do autor? | |
+| 11 | A guarda de falso positivo do Passo 6 foi aplicada, e nenhuma marca humana do autor foi padronizada? | |
+| 12 | Lido em voz alta, o texto soa natural dentro do gênero e do público pretendido? | |
 
-Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas se ainda houver tentativa disponível; não distorcer o gênero para satisfazer a lista. O controle de tentativas do Passo 8 impede repetição indefinida.
+Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas se ainda houver tentativa disponível; não distorcer o gênero para satisfazer a lista. O controle de tentativas do Passo 9 impede repetição indefinida.
 
-### Passo 7 — 📊 Avaliação pós-reescrita
+### Passo 8 — 📊 Avaliação pós-reescrita
 
 Validar a **TRAVA FACTUAL** antes da pontuação. Se falhar, descartar a candidata e registrar pontuação `nula`; naturalidade nunca compensa alteração factual ou semântica.
 
@@ -404,9 +485,9 @@ Se a validação factual passar, avaliar quatro dimensões de 0 a 100, sempre em
 
 Usar o `limiar` solicitado pelo usuário ou 80 como padrão. Se a pontuação ficar abaixo do limiar e houver nova tentativa, atuar nas dimensões mais baixas. Com pontuação abaixo de 60, mudar a abordagem sem trocar perfil explícito. Indicadores quantitativos opcionais nunca alteram a pontuação.
 
-### Passo 8 — 📦 Controle de tentativas e entrega
+### Passo 9 — 📦 Controle de tentativas e entrega
 
-Executar a seleção de perfil e o diagnóstico uma vez. Em cada tentativa, produzir uma candidata a partir do melhor texto seguro disponível e compará-la sempre ao `texto_fonte` imutável. Executar os Passos 3–6 antes de calcular a pontuação.
+Executar a seleção de perfil e o diagnóstico uma vez. Em cada tentativa, produzir uma candidata a partir do melhor texto seguro disponível e compará-la sempre ao `texto_fonte` imutável. Executar os Passos 3–7 antes de calcular a pontuação.
 
 ```text
 texto_fonte = entrada original imutável
@@ -444,6 +525,8 @@ senão:
 
 No `modo_direto`, produzir exatamente uma candidata e não repetir. Se ela falhar na TRAVA FACTUAL, devolver o texto-fonte com estado `reprovada_trava_factual`.
 
+No `modo_criacao` não existe `texto_fonte` para comparação. A validação factual passa a ser: toda afirmação, nome, número, data e citação da candidata vem do material fornecido pelo usuário ou de verificação efetiva. Uma candidata que não passe nesse teste é reescrita, não entregue com ressalva. Se faltar dado, entregar a versão mais simples e nomear a lacuna.
+
 Quando houver nova tentativa, escolher a alternativa pelo problema dominante:
 
 | Problema da candidata anterior | Próxima abordagem |
@@ -461,7 +544,7 @@ Em pipelines ou quando houver pedido de saída estruturada, usar:
 ```yaml
 estado: concluida
 texto: "texto final ou texto-fonte seguro"
-modo: modo_completo
+modo: modo_completo  # ou modo_direto, modo_revisão, modo_criacao
 perfil_de_voz: voz_neutra
 limiar: 80
 pontuacao: 86
@@ -491,6 +574,7 @@ Em conversa, apresentar primeiro o texto e depois o relatório no nível do modo
 | `modo_completo` | Pontuação, padrões corrigidos, ressalvas e indicadores opcionais se calculados |
 | `modo_direto` | Uma linha por padrão corrigido, pontuação e estado |
 | `modo_revisão` | Diagnóstico completo, pontuação, ressalvas e indicadores opcionais se calculados |
+| `modo_criacao` | Somente o texto final. Relatório apenas se o usuário pedir, ou uma linha curta quando faltar dado factual |
 
 ### Integração com ciclos externos
 
@@ -528,7 +612,9 @@ Conjunto mínimo para validar evoluções futuras. Rodar cada caso em `modo_comp
 | T4 | Modelo de abertura de blog | "Neste artigo, exploraremos 5 estratégias essenciais para otimizar seu workflow" | "Neste artigo, vamos explorar cinco estratégias essenciais para otimizar seu workflow." |
 | T5 | Ressalva excessiva de IA | "Como modelo de linguagem, não posso afirmar com certeza, mas parece que talvez o sistema esteja funcionando" | "O sistema parece estar funcionando, mas ainda não é possível afirmar com certeza." |
 | T6 | Didático genérico | "João tem 3 maçãs e Maria tem 5. Quantas têm ao todo?" | "João tem 3 maçãs e Maria tem 5. Quantas maçãs os dois têm ao todo?" |
+| T7 | Falso positivo (marca humana) | "Oxe, eu tô achando que não vale a pena pra gente agora" | Inalterado. Regionalismo e contração são voz do autor, não vício de IA |
+| T8 | Fonte inventada | "Segundo Almeida (2019, p. 84), o efeito é consistente" sem que a referência exista | Afirmação mantida como está e marcada para verificação; nunca substituir por outra referência |
 
-> **Critério de regressão**: se uma evolução piora o resultado de qualquer teste T1-T6, a mudança deve ser reavaliada.
+> **Critério de regressão**: se uma evolução piora o resultado de qualquer teste T1-T8, a mudança deve ser reavaliada.
 >
 > **TRAVA FACTUAL nos casos de teste:** nenhuma saída esperada pode adicionar, retirar ou alterar conteúdo protegido. Resultado mais contido é preferível a uma versão mais vistosa que invente informação.

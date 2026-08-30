@@ -8,6 +8,8 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 
 ### Travessão (em-dash) excessivo
 
+**Peso 2 no diagnóstico.** É o marcador de estilo com apoio mais direto em fonte publicada, em português e em medição de corpus, e por isso não é tratado como mera "formatação excessiva".
+
 **Problema:** IA usa 15-25 travessões por texto médio. Humano brasileiro usa 2-3, e geralmente prefere vírgula, ponto ou parênteses.
 
 **Antes (IA):**
@@ -27,10 +29,16 @@ Padrões que denunciam texto gerado por IA pela forma visual e estrutural, não 
 - Travessão duplo usado como parênteses em toda ocorrência
 
 **Técnicas avançadas de correção:**
+- **Varredura obrigatória antes de entregar** — procurar `—`, `–` e ` -- ` usados como aparte no meio da frase. Substituir cada ocorrência por vírgula, ponto, dois-pontos ou parênteses, ou reescrever a frase
 - **Limite de 2 travessões por parágrafo** — se passar, converter os extras em vírgulas, pontos ou parênteses
 - Diferenciar uso: travessão para contraste forte, parênteses para comentário lateral, vírgula para aparte leve
 - Ao trocar a pontuação, preservar a relação entre oração principal, ressalva, causa e contraste
 - "Teste do editor" — se um editor humano teria cortado o travessão, cortar
+
+**Exceções (não marcar):**
+- **Travessão de fala em diálogo de ficção.** É norma da língua portuguesa, não vício de IA
+- **Amostra do autor que usa travessão.** Manter na mesma frequência da amostra; a amostra tem prioridade sobre esta regra
+- **Travessão dentro de citação, título ou exemplo em discussão**, onde o sinal está sendo mencionado e não usado
 
 ---
 

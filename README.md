@@ -229,6 +229,29 @@ Rewrites Brazilian Portuguese text to sound human, natural, and undetectable by 
 - Integration with TRAVA FACTUAL: explicit rules for when NOT to simplify (modality, causality, exceptions)
 - Now 10 voice profiles (was 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado**, and Voz Neutra
 
+**New in v1.4 (Aug 2026):**
+- Added **Step 6 — false-positive guard**, which runs before final verification and *unmarks* signals that are not AI at all: flawless grammar, dry prose, legal/academic register, dialogue em-dashes, isolated connectives, curly quotes on their own, correct commas, scoped hedging, real alternatives. Includes an explicit warning against AI-detector scores, which misfire against neurodivergent and non-native writers
+- Added **human marks to preserve** — contractions (`pra`, `tá`, `cê`), regionalisms (`uai`, `oxe`, `tchê`), mixed feelings, parenthetical self-correction, dated slang, sentence-length variation. The skill must not "fix" these by standardization
+- Added **`modo_criacao`** (writing from scratch): the pattern list becomes an output filter rather than a repair pass. Write first, then sweep — starting with the five patterns that account for most slips in new text
+- Five new patterns: fabricated source (a *specific* reference that does not exist — never repair it, flag it), title echo, false alternative rejected, documentation describing the previous version, and t-shirt maxim
+- Em-dash recalibrated from weight 1 to **weight 2**, with a mandatory sweep for `—`, `–` and ` -- ` before delivery, plus explicit exceptions (fiction dialogue, author sample)
+- Regression suite extended to T8 (human-mark preservation and fabricated-source handling)
+
+**Credits and sources for `humanizar`:**
+
+The false-positive guard, the human-marks list, the from-scratch writing mode and five patterns were incorporated from [PedroLLou/humanizador](https://github.com/PedroLLou/humanizador) (MIT), the Brazilian Portuguese version of [blader/humanizer](https://github.com/blader/humanizer) (MIT), which in turn derives from [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), maintained by WikiProject AI Cleanup.
+
+Portuguese-language sources behind those adaptations:
+
+- Marcelo Sabbatini, ["Texto chocho: como identificar a escrita da IA?"](https://iaedpraxis101.substack.com/p/texto-chocho-como-identificar-a-escrita), IAEdPraxis — source for *crucial* and *mergulhar* as PT-BR markers, generic adjectives, the serial comma and the period-inside-quotes convention
+- Marina Semensato, ["Como saber se um texto foi feito por inteligência artificial?"](https://exame.com/tecnologia/examelab/como-saber-se-um-texto-foi-feito-por-inteligencia-artificial/), Exame — connective overuse, conclusions that only restate the text, forced triads and "não é X, é Y"
+- [Inteligência artificial na Wikimedia](https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_na_Wikimedia), Portuguese Wikipedia — em-dash overuse, "além disso" overuse, promotional material, curly quotes and non-existent references
+- Pew Research Center, ["How Much of the Internet Is Written With AI?"](https://www.pewresearch.org/data-labs/2026/08/20/how-much-of-the-internet-is-written-with-ai/) (2026) — measures the growth of em-dashes, serial commas and negative parallelism. **The sample covers English-language pages only**, so it is evidence of the mechanism, not of Portuguese
+
+**Confidence levels.** No single pattern proves artificial origin; the signal is accumulation. These have direct support in published Portuguese sources or in released measurements: AI vocabulary, negative parallelism ("não apenas X, mas Y"), the aparte em-dash, decorative emoji, curly quotes, chatbot leftovers, stacked connectives, English-imported punctuation and fabricated sources. The rest are heuristics, not proof.
+
+The **Português Simplificado** profile derives its operations from the PorSimples project (NILC/USP) and the techniques associated with Brazil's Lei 15.263/2025 (National Plain Language Policy).
+
 📄 [View full documentation](skills/humanizar/SKILL.md)
 
 ---

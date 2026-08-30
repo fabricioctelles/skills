@@ -219,6 +219,95 @@ Padrões estruturais que denunciam texto gerado por IA ao nível da **composiç�
 
 ---
 
+### Eco do Título
+
+**Problema:** IA repete o título logo abaixo dele, em uma frase curta isolada, antes de o conteúdo começar. O parágrafo não acrescenta nada: só reafirma o cabeçalho que o leitor acabou de ler.
+
+**Antes (IA):**
+> ## Desempenho
+>
+> Velocidade importa.
+>
+> Quando a página demora a carregar, o usuário desiste antes da primeira interação.
+
+**Depois (humano):**
+> ## Desempenho
+>
+> Quando a página demora a carregar, o usuário desiste antes da primeira interação.
+
+**Evitar em PT-BR:**
+- Parágrafo de uma linha logo após o título que apenas reformula o título
+- "A segurança é fundamental." sob o título "## Segurança"
+- "Vamos falar sobre X." sob o título "## X"
+
+**Sinais adicionais de detecção:**
+- A frase sobrevive sem perda se for removida
+- Substantivo do título repetido como sujeito da primeira frase
+- Padrão que se repete em todas as seções do documento
+
+**Técnicas avançadas de correção:**
+- Cortar a frase de eco e começar pela informação
+- Se a frase carrega algo além do título, fundi-la com o parágrafo seguinte em vez de deixá-la isolada
+- Não substituir o eco por uma frase de abertura nova: a seção pode começar direto no conteúdo
+
+---
+
+### Alternativa Falsa Rejeitada
+
+**Palavras/expressões gatilho:** uma opção tentadora seria, poderíamos pensar em, uma abordagem óbvia seria, você pode achar que... mas, seria fácil apenas, alguns sugeririam, à primeira vista pode parecer que
+
+**Problema:** O texto levanta uma opção que ninguém consideraria, descarta em meia frase e nunca mais volta ao assunto. Em geral é resto de rascunho: o modelo encena uma deliberação que não aconteceu. Não confundir com comparação legítima de alternativas, que é o conteúdo esperado de documento de arquitetura, tutorial e texto argumentativo.
+
+**Antes (IA):**
+> Os tokens de sessão são rotacionados a cada 24 horas. Uma opção tentadora seria fazer a rotação reiniciando o serviço de autenticação por cron, mas isso derrubaria todas as sessões ativas. A rotação acontece em memória e os clientes renovam sozinhos.
+
+**Depois (humano):**
+> Os tokens de sessão são rotacionados a cada 24 horas, em memória, e os clientes renovam sozinhos.
+
+**Evitar em PT-BR:**
+- "Uma opção tentadora seria X, mas..." seguido de silêncio sobre X
+- "Seria fácil apenas fazer Y, porém..." quando Y nunca esteve em jogo
+- Sequência de rejeições curtas e desconexas no mesmo parágrafo
+
+**Sinais adicionais de detecção:**
+- A alternativa aparece uma única vez, só para ser descartada
+- A rejeição ocupa menos espaço que a opção rejeitada mereceria se fosse real
+- Perguntar de cada frase: que informação nova ela traz? Se a resposta for "registra uma edição antiga", é este padrão
+
+**Técnicas avançadas de correção:**
+- Remover a opção falsa e manter apenas a restrição real que ela escondia
+- Quando várias rejeições se acumulam, reescrever o parágrafo em volta do ponto principal
+- Preservar a alternativa quando o texto nomeia quem a propôs, quando ela é retomada depois, ou quando o gênero exige o levantamento de opções
+
+---
+
+### Documentação da Versão Anterior
+
+**Problema:** Documentação, comentário de código e texto de referência devem descrever o comportamento atual. IA costuma explicar o presente em contraste com um passado que o leitor não conhece, transformando referência em changelog.
+
+**Antes (IA):**
+> Esta função foi criada para substituir a abordagem anterior, que percorria todos os itens da lista e custava O(n²) em coleções grandes.
+
+**Depois (humano):**
+> Esta função usa um hash map para busca em O(1).
+
+**Evitar em PT-BR:**
+- "Diferentemente da versão anterior..."
+- "Substitui o antigo método X, que..."
+- "Antes era necessário Y; agora basta Z" fora de guia de migração
+
+**Sinais adicionais de detecção:**
+- O texto explica o que o sistema **não** faz mais antes de dizer o que ele faz
+- Menção a implementação antiga que não aparece em nenhum outro lugar da documentação
+- Comentário de código que narra a história do arquivo em vez do estado atual
+
+**Técnicas avançadas de correção:**
+- Reescrever a partir do comportamento atual, sem referência ao anterior
+- Preservar o histórico quando o documento **é** sobre mudança: changelog, nota de versão, guia de migração, post-mortem, ADR
+- Não apagar o contraste quando ele explica uma decisão que o leitor precisa entender para não repetir o erro; nesse caso, mover para uma nota separada
+
+---
+
 ## Ablação Semântica — Restauração de Entropia
 
 Conceito do The Register (fev 2026): quando IA "melhora" um texto, ela faz **ablação semântica** — remove informação de alta entropia (os trechos únicos, específicos, surpreendentes) e substitui por sequências genéricas de alta probabilidade. O resultado é um "JPEG de pensamento": parece coerente, mas perdeu a densidade original.

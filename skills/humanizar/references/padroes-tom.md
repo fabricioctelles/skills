@@ -258,3 +258,35 @@ Padrões que denunciam tom artificial, servil ou performático em texto PT-BR. C
 - "Imagine um mundo onde..." / "Imagine se..."
 - "E se eu te dissesse que..." / "Visualize um futuro onde..."
 - "Esse mundo não está tão distante" / "O futuro já chegou"
+
+---
+
+### 14. Máxima de camiseta
+
+**Palavras/expressões gatilho:** "X é a linguagem de Y", "X é a moeda de Y", "X é a arquitetura de Y", "X não é ferramenta, é espelho", "X vira uma armadilha", "no fim das contas, tudo é X"
+
+**Problema:** Uma afirmação comum é convertida em frase de efeito com cara de aforismo. A estrutura promete profundidade e entrega menos informação que a versão direta — o aforismo apaga o sujeito, o contexto e a condição em que a afirmação vale. É o inverso do trabalho de precisão: em vez de nomear o que acontece, produz uma frase estampável.
+
+**Antes (IA):**
+> Simetria é a linguagem da confiança. Eficiência vira armadilha quando o time esquece a camada humana.
+
+**Depois (humano):**
+> Layout simétrico costuma parecer mais previsível para o usuário. Times podem otimizar demais o fluxo e perder de vista como as pessoas usam o produto.
+
+**Evitar em PT-BR:**
+- "Dados são o novo petróleo" e variações de "X é o novo Y"
+- "Cultura come estratégia no café da manhã" reciclado para qualquer par de substantivos
+- "Não é sobre X, é sobre Y" no fecho de parágrafo
+- Substantivo abstrato como sujeito de verbo de ação ("a confiança constrói", "a inovação exige")
+
+**Sinais adicionais de detecção:**
+- A frase funcionaria igual com outros dois substantivos no lugar
+- Não há sujeito concreto, prazo, condição ou exceção
+- Aparece isolada no fim de parágrafo ou de seção, como fecho
+- Retirar a frase não muda o que o texto informa
+
+**Técnicas avançadas de correção:**
+- Perguntar "quem faz o quê, em que condição?" e escrever a resposta no lugar do aforismo
+- Recuperar a modalidade que a máxima apagou: quase sempre a afirmação real é "costuma", "em geral", "quando X", não uma lei
+- Se a máxima é do autor e o perfil de voz é autoral (Crônica, Post de Rede Social), preservá-la: neste registro o aforismo é escolha estilística, não vício. Ver a guarda de falso positivo no SKILL.md
+- Não substituir uma máxima por outra mais sóbria; substituir pela afirmação específica

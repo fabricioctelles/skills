@@ -226,6 +226,29 @@ Reescreve texto em português brasileiro para soar humano, natural e indetectáv
 - Integração com TRAVA FACTUAL: regras explícitas de quando NÃO simplificar (modalidade, causalidade, exceções)
 - Agora são 10 perfis de voz (eram 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado** e Voz Neutra
 
+**Novidades da v1.4 (ago/2026):**
+- Novo **Passo 6 — guarda de falso positivo**, que roda antes da verificação final e *desmarca* sinais que não são IA: gramática impecável, prosa seca, registro jurídico ou acadêmico, travessão de diálogo, conectivo isolado, aspas curvas sozinhas, vírgula correta, ressalva com escopo, alternativa real. Inclui aviso explícito contra pontuação de detector automático, que erra mais contra quem é neurodivergente e quem não é falante nativo
+- Nova lista de **marcas humanas para preservar** — contração (`pra`, `tá`, `cê`), regionalismo (`uai`, `oxe`, `tchê`), sentimento misto, autocorreção entre parênteses, gíria datada, variação no tamanho das frases. A skill não pode "consertar" isso por padronização
+- Novo **`modo_criacao`** (escrita do zero): a lista de padrões vira filtro de saída, não conserto. Escrever direto e só depois varrer, começando pelos cinco padrões que respondem pela maior parte dos escorregões em texto novo
+- Cinco padrões novos: fonte inventada (referência *específica* que não existe — nunca consertar, apenas marcar), eco do título, alternativa falsa rejeitada, documentação da versão anterior e máxima de camiseta
+- Travessão recalibrado de peso 1 para **peso 2**, com varredura obrigatória por `—`, `–` e ` -- ` antes da entrega, e exceções explícitas (diálogo de ficção, amostra do autor)
+- Suíte de regressão ampliada até T8 (preservação de marca humana e tratamento de fonte inventada)
+
+**Créditos e fontes da `humanizar`:**
+
+A guarda de falso positivo, a lista de marcas humanas, o modo de escrita do zero e cinco padrões foram incorporados de [PedroLLou/humanizador](https://github.com/PedroLLou/humanizador) (MIT), versão em português de [blader/humanizer](https://github.com/blader/humanizer) (MIT), que por sua vez parte de [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), do WikiProject AI Cleanup.
+
+Fontes em português por trás dessas adaptações:
+
+- Marcelo Sabbatini, ["Texto chocho: como identificar a escrita da IA?"](https://iaedpraxis101.substack.com/p/texto-chocho-como-identificar-a-escrita), IAEdPraxis — origem de "crucial" e "mergulhar" como marcadores em PT-BR, dos adjetivos genéricos, da vírgula de série e do ponto dentro das aspas
+- Marina Semensato, ["Como saber se um texto foi feito por inteligência artificial?"](https://exame.com/tecnologia/examelab/como-saber-se-um-texto-foi-feito-por-inteligencia-artificial/), Exame — excesso de conectivo, conclusão que repete o texto, trios forçados e "não é X, é Y"
+- [Inteligência artificial na Wikimedia](https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_na_Wikimedia), Wikipédia em português — excesso de travessão, excesso de "além disso", material promocional, aspas curvas e referência inexistente
+- Pew Research Center, ["How Much of the Internet Is Written With AI?"](https://www.pewresearch.org/data-labs/2026/08/20/how-much-of-the-internet-is-written-with-ai/) (2026) — mede o crescimento do travessão, da vírgula de série e do paralelismo negativo. **A amostra é só de páginas em inglês**, então serve como evidência do mecanismo, não do português
+
+**Nível de confiança.** Nenhum padrão isolado prova origem artificial; o sinal está no acúmulo. Têm apoio direto em fonte publicada em português ou em medição divulgada: vocabulário de IA, paralelismo negativo ("não apenas X, mas Y"), travessão de aparte, emoji decorativo, aspas curvas, sobra de chatbot, conectivo empilhado, pontuação importada do inglês e fonte inventada. Os demais valem como heurística, não como prova.
+
+O perfil **Português Simplificado** deriva suas operações do projeto PorSimples (NILC/USP) e das técnicas associadas à Lei 15.263/2025 (Política Nacional de Linguagem Simples).
+
 📄 [Ver documentação completa](skills/humanizar/SKILL.md)
 
 ---

@@ -178,3 +178,36 @@ Padrões onde a IA infla importância, fabrica autoridade ou encerra textos com 
 - Usar previsão, prazo ou plano somente quando esses elementos já estiverem na entrada. Se faltarem, nomear apenas os desafios existentes e apontar a ausência de evidência no relatório
 - Se o original expressar incerteza, preservá-la sem criar cenário, consequência ou plano alternativo
 - "Teste do horóscopo" — se a conclusão poderia aparecer no horóscopo de qualquer signo, ela é genérica demais
+
+---
+
+### 7. Fonte inventada (referência específica que não existe)
+
+**Palavras/expressões gatilho:** referência com autor e ano que não bate, DOI que não resolve, ISBN inválido, link quebrado, número de página inventado, citação atribuída a quem nunca a disse
+
+**Problema:** Distinto do padrão 5. Lá a fonte é vaga ("especialistas dizem"); aqui ela é **específica e falsa**. O modelo produz uma referência com todos os elementos de uma citação real — sobrenome, ano, página, periódico — e nada disso existe. É o sinal que a Wikipédia usa para eliminação rápida de artigo gerado por IA, porque é o único vício da lista que fabrica evidência em vez de apenas inflar linguagem.
+
+**Antes (IA):**
+> Segundo Almeida (2019, p. 84), a adoção de metodologias ágeis reduziu em 37% o tempo de entrega em empresas brasileiras de médio porte. O estudo, publicado na *Revista Brasileira de Gestão de Projetos*, acompanhou 240 organizações ao longo de dois anos.
+
+**Depois (humano):**
+> [⚠️ VERIFICAR FONTE] Segundo Almeida (2019, p. 84), a adoção de metodologias ágeis reduziu em 37% o tempo de entrega em empresas brasileiras de médio porte.
+>
+> Nota ao usuário: a referência Almeida (2019) e o periódico citado não foram confirmados. Se a fonte não existir, retirar também o número de 37%, que depende só dela.
+
+**Evitar em PT-BR:**
+- Reescrever a citação trocando o nome do autor ou o ano por outro que "soe mais certo"
+- "Melhorar" a referência completando periódico, página ou DOI ausentes
+- Converter a citação falsa em atribuição vaga ("segundo pesquisas") para disfarçar o problema
+
+**Sinais adicionais de detecção:**
+- Referência muito completa em texto que não cita fonte em nenhum outro lugar
+- Ano, volume e página com formatação impecável e conteúdo genérico
+- Periódico com nome plausível mas composto de termos genéricos ("Revista Brasileira de Gestão de X")
+- Número preciso (37%, 2,4x, 240 organizações) sustentado por uma única fonte não verificável
+
+**Técnicas avançadas de correção:**
+- **Não consertar.** Marcar para verificação do usuário e manter o texto como está
+- Se a afirmação depende exclusivamente daquela fonte, sinalizar que ela sai junto caso a fonte não se confirme
+- Quando não houver como checar, dizer explicitamente que não houve verificação — nunca apresentar ausência de checagem como checagem
+- Este padrão é exceção à regra geral de preservação silenciosa: sempre registrá-lo no relatório, inclusive em `modo_direto`
