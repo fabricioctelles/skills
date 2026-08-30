@@ -189,7 +189,7 @@ Projeta loops agenticos bem estruturados com coaching de boas práticas e gates 
 ---
 
 ### 🏛️ AIDLC Master — Ciclo de Vida AWS AI-DLC · `code-scaffolding-and-templates`
-Porte autocontido do [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, conjunto de regras v1.0.1) como uma única skill compatível com skills.sh — sem instalação por IDE, sem copiar arquivos de steering para `.kiro/`, `.amazonq/`, `CLAUDE.md` ou `.github/copilot-instructions.md`. Conduz um ciclo adaptativo de três fases (Inception → Construction → Operations) com gates explícitos de aprovação humana entre estágios, trilha de auditoria append-only e todos os artefatos gravados em `aidlc-docs/`. Só rodam os estágios que agregam valor: um bug fix e um greenfield multi-serviço usam a mesma máquina em profundidades diferentes. Projetos brownfield passam primeiro por engenharia reversa para documentos de design. Extensions opcionais (security baseline, property-based testing, resiliency baseline) são oferecidas como opt-in durante a Requirements Analysis e viram restrições bloqueantes quando aceitas — só os prompts leves de opt-in carregam de início. O porte é um **espelho 1:1** das regras upstream com cinco adaptações documentadas, e `scripts/check-upstream.sh` comprova isso (`mirror-diff`) e conduz a sincronização.
+Porte autocontido do [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, conjunto de regras v1.0.1) como uma única skill compatível com skills.sh — sem instalação por IDE, sem copiar arquivos de steering para `.kiro/`, `.amazonq/`, `CLAUDE.md` ou `.github/copilot-instructions.md`. Conduz um ciclo adaptativo de três fases (Inception → Construction → Operations) com gates explícitos de aprovação humana entre estágios, trilha de auditoria append-only e todos os artefatos gravados em `aidlc-docs/`. Só rodam os estágios que agregam valor: um bug fix e um greenfield multi-serviço usam a mesma máquina em profundidades diferentes. Projetos brownfield passam primeiro por engenharia reversa para documentos de design. Extensions opcionais (security baseline, property-based testing, resiliency baseline) são oferecidas como opt-in durante a Requirements Analysis e viram restrições bloqueantes quando aceitas — só os prompts leves de opt-in carregam de início. O porte é um **espelho 1:1** das regras upstream com seis adaptações documentadas, e `scripts/check-upstream.sh` comprova isso (`mirror-diff`) e conduz a sincronização.
 
 **Quando usar:** diga "Using AI-DLC, ..." — ou quando um projeto greenfield ou brownfield deve rodar como ciclo de vida governado (requisitos → user stories → design da aplicação → units of work → design por unidade → código → build e testes) em vez de código ad-hoc. Também pelo vocabulário: "inception phase", "units of work", "aidlc-docs", "engenharia reversa deste codebase para documentos de design". Não serve para uma mudança pontual, review, PR ou debug — isso é `pstack-skill`.
 
@@ -495,6 +495,7 @@ npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-syst
 npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
 npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
+npx skills add https://github.com/fabricioctelles/skills -s aidlc-master
 npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
 npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
@@ -623,7 +624,7 @@ skills/
 │   ├── SKILL.md
 │   └── references/        # template do protocolo, regras de validação, schema de metadata, exemplo, guia de implementação
 ├── aidlc-master/
-│   ├── README.md          # o que é o AI-DLC, mapeamento com o upstream, as 5 adaptações, sync
+│   ├── README.md          # o que é o AI-DLC, mapeamento com o upstream, as 6 adaptações, sync
 │   ├── SKILL.md           # o workflow de três fases (core-workflow upstream quase literal)
 │   ├── UPSTREAM_COMMIT    # referência upstream já revisada
 │   ├── references/        # 31 arquivos de regra upstream (1:1) + working-with-aidlc, referência dos docs, guias de input

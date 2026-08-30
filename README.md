@@ -192,7 +192,7 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 ---
 
 ### 🏛️ AIDLC Master — AWS AI-DLC Lifecycle · `code-scaffolding-and-templates`
-Self-contained port of [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, rule set v1.0.1) as a single skills.sh-compatible skill — no per-IDE installation, no copying steering files into `.kiro/`, `.amazonq/`, `CLAUDE.md`, or `.github/copilot-instructions.md`. Drives an adaptive three-phase lifecycle (Inception → Construction → Operations) with explicit human approval gates between stages, an append-only audit trail, and every artifact written to `aidlc-docs/`. Only the stages that add value run: a bug fix and a multi-service greenfield build share the machinery at different depths. Brownfield projects get reverse-engineered into design docs first. Optional extensions (security baseline, property-based testing, resiliency baseline) are offered as opt-ins during Requirements Analysis and become blocking constraints once accepted — only their lightweight opt-in prompts load up front. The port is a **1:1 mirror** of the upstream rules with five documented adaptations, and `scripts/check-upstream.sh` proves it (`mirror-diff`) and drives the sync.
+Self-contained port of [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, rule set v1.0.1) as a single skills.sh-compatible skill — no per-IDE installation, no copying steering files into `.kiro/`, `.amazonq/`, `CLAUDE.md`, or `.github/copilot-instructions.md`. Drives an adaptive three-phase lifecycle (Inception → Construction → Operations) with explicit human approval gates between stages, an append-only audit trail, and every artifact written to `aidlc-docs/`. Only the stages that add value run: a bug fix and a multi-service greenfield build share the machinery at different depths. Brownfield projects get reverse-engineered into design docs first. Optional extensions (security baseline, property-based testing, resiliency baseline) are offered as opt-ins during Requirements Analysis and become blocking constraints once accepted — only their lightweight opt-in prompts load up front. The port is a **1:1 mirror** of the upstream rules with six documented adaptations, and `scripts/check-upstream.sh` proves it (`mirror-diff`) and drives the sync.
 
 **When to use:** say "Using AI-DLC, ..." — or when a greenfield or brownfield build should run as a governed lifecycle (requirements → user stories → application design → units of work → per-unit design → code → build and test) instead of ad-hoc coding. Also for its vocabulary: "inception phase", "units of work", "aidlc-docs", "reverse engineer this codebase into design docs". Not for a single focused change, a review, a PR, or debugging — that's `pstack-skill`.
 
@@ -496,6 +496,7 @@ npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-syst
 npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
 npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
+npx skills add https://github.com/fabricioctelles/skills -s aidlc-master
 npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
 npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
@@ -628,7 +629,7 @@ skills/
 │   ├── SKILL.md
 │   └── references/        # protocol template, validation rules, metadata schema, example, implementation guide
 ├── aidlc-master/
-│   ├── README.md          # what AI-DLC is, upstream mapping, the 5 adaptations, sync
+│   ├── README.md          # what AI-DLC is, upstream mapping, the 6 adaptations, sync
 │   ├── SKILL.md           # the three-phase workflow (near-literal upstream core-workflow)
 │   ├── UPSTREAM_COMMIT    # reviewed upstream reference
 │   ├── references/        # 31 upstream rule files (1:1) + working-with-aidlc, docs reference, input guides
