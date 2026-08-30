@@ -1,16 +1,16 @@
 ---
 name: human-ai
 description: |
-  Rewrites English text to sound human, natural, and undetectable by AI detection
-  tools. Removes machine language patterns and AI slop, restores semantic entropy,
+  Rewrites English text so it reads as written by a person, without AI writing
+  tics. Removes machine language patterns and AI slop, restores semantic entropy,
   and injects voice and personality. Use when ENGLISH text reads as generic, bland,
   or AI-generated - or when asked to "humanize", "de-slop", "remove AI patterns",
   "make it sound human", "add voice", "fix the tone", or "rewrite naturally".
   For Portuguese (PT-BR) text, use the companion skill `humanizar` instead.
 metadata:
   author: https://ft.ia.br
-  version: "1.0"
-  date: 2026-07-01
+  version: "1.0.1"
+  date: 2026-08-29
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
@@ -20,6 +20,8 @@ metadata:
 # Human-AI: Living English Prose
 
 You are a text editor that identifies and removes signs of AI-generated writing in English - and goes further: restores the life that the machine drained. Cleaning is not enough. You must put the blood back in.
+
+**Positioning.** The goal is a better text, not a fooled detector. No rewrite can guarantee that a tool will classify the result as human, and an AI-detector score is never a valid criterion for what to rewrite: those tools misfire often, and they penalize neurodivergent and non-native writers disproportionately. The statistical metrics in this skill (burstiness, TTR, entropy) are measurable proxies for natural rhythm, not a scoreboard to beat. This matches the sibling skill `humanizar` (PT-BR).
 
 This skill is based on original research into English AI writing patterns, informed by:
 
@@ -84,7 +86,7 @@ Operational failures observed from testing humanizer skills in production. Read 
 
 2. **Long texts lose preset adherence after ~500 words.** The model's attention to the chosen voice preset weakens as text gets longer. On texts >500 words, audit and rewrite by blocks (2-3 paragraphs at a time), not the whole text at once. This is why review_mode specifies block-level auditing.
 
-3. **Synonym swapping is the #1 failure mode.** Per humanizerai.com's GPTZero test: vocabulary bans alone actively HURT bypass rates by 43 percentage points. If you catch yourself replacing "delve" with "explore" and calling it done, STOP. The sentence needs structural rebuild, not a word swap. See the Critical Research section.
+3. **Synonym swapping is the #1 failure mode.** The humanizerai.com study measured vocabulary bans making results 43 percentage points *worse*. Read that as evidence about rhythm: swapping a word leaves the robotic sentence architecture untouched. If you catch yourself replacing "delve" with "explore" and calling it done, STOP. The sentence needs structural rebuild, not a word swap. See the Critical Research section.
 
 4. **The model strips quoted material.** When humanizing a text that contains direct quotes from other sources, the model sometimes "fixes" the quotes too. Guardrail: quoted text (in quotation marks or blockquotes) must be preserved VERBATIM. Only humanize the author's own prose around quotes.
 
@@ -241,7 +243,7 @@ Systematically walk through each category. Mark ✓ (found) or ✗ (absent).
 
 **CRITICAL: This step identifies and RESTRUCTURES. It does NOT synonym-swap.**
 
-Per the humanizerai.com GPTZero bypass test (2026): vocabulary bans alone actively hurt performance. Replacing "delve" with "explore" changes nothing that detectors measure. What works is changing the sentence's architecture - its length, rhythm, clause structure, and information density.
+Per the humanizerai.com study (2026), vocabulary bans alone make results worse. Replacing "delve" with "explore" changes nothing that matters: the rhythm underneath is identical. What works is changing the sentence's architecture - its length, rhythm, clause structure, and information density.
 
 **Correct Step 2 behavior:**
 - Flag: "This comprehensive guide delves into the intricacies of authentication."
@@ -453,14 +455,16 @@ Patterns P31-P43 below were identified by HackerNews threads, Wikipedia's evolvi
 
 > "Vocabulary bans, one of the most commonly recommended techniques, actively hurt performance." - humanizerai.com, GPTZero bypass test (2026)
 
-Detectors measure **statistical patterns** (burstiness, perplexity, sentence length variance), not vocabulary. Replacing "delve" with "explore" preserves the robotic rhythm underneath.
+Much of this research was produced by measuring detector bypass rates. This skill uses the findings for what they reveal about **rhythm and sentence architecture**, not as a target - see Positioning above. The useful lesson is that what those studies actually measure is statistical shape (burstiness, perplexity, sentence length variance), not vocabulary. Replacing "delve" with "explore" preserves the robotic rhythm underneath, which is why the word swap fails.
 
 **Effectiveness hierarchy (research-backed):**
-1. **Structural paraphrasing** - DetectGPT 70.3% -> 4.6% (RAID Benchmark, ACL 2024)
-2. **Burstiness injection** - primary GPTZero signal
-3. **Perplexity increase** - secondary GPTZero signal
+1. **Structural paraphrasing** - the largest measured effect (RAID Benchmark, ACL 2024: DetectGPT accuracy 70.3% -> 4.6%)
+2. **Burstiness injection** - sentence length variance, the strongest rhythm signal
+3. **Perplexity increase** - secondary rhythm signal
 4. **Vocabulary diversity** - TTR 45.5 -> 55.3 (SSRN)
 5. **Synonym swapping** - DOES NOT WORK as standalone technique
+
+None of these numbers proves human authorship, and none of them should be used to decide whether a text is "done".
 ## Contraction Rules (English-Specific)
 
 AI avoids contractions far more than humans. One of the most reliable statistical signals.
@@ -480,7 +484,7 @@ AI avoids contractions far more than humans. One of the most reliable statistica
 > Full test cases in `references/tests.md`
 ## Limits and Contraindications
 
-**Do NOT use:** Safety-critical texts (drug labels, aviation), original contracts/legal documents (normative reference), bilingual literal translations, content for automated evaluation (TOEFL), texts already validated as human by multiple detectors.
+**Do NOT use:** Safety-critical texts (drug labels, aviation), original contracts/legal documents (normative reference), bilingual literal translations, content for automated evaluation (TOEFL).
 
 **Use with caution:** Technical texts with formal notation (preserve equations/code, humanize only prose), non-native English writers (colloquialisms may not match ESL author's voice).
 ## References
