@@ -90,7 +90,9 @@ while IFS= read -r -d '' file; do
   frontmatter=$(sed -n '2,/^---$/p' "$file" | sed '$d')
 
   # E2: Check for non-empty type field
-  type_value=$(echo "$frontmatter" | grep -E "^type:" | sed 's/^type:\s*//' | tr -d '"' | tr -d "'" | xargs)
+  # `|| true` is required: under `set -euo pipefail` a non-matching grep would
+  # abort the whole script instead of letting the emptiness check below report E2.
+  type_value=$(echo "$frontmatter" | grep -E "^type:" | sed 's/^type:\s*//' | tr -d '"' | tr -d "'" | xargs) || true
   if [ -z "$type_value" ]; then
     echo -e "${RED}E2: $relative — missing or empty 'type' field${NC}"
     ERRORS=$((ERRORS + 1))
