@@ -142,7 +142,7 @@ while IFS= read -r -d '' file; do
     WITH_SOURCES=$((WITH_SOURCES + 1))
     # Check that sources entries have resource field
     # This is a simplified check - full YAML parsing would be better
-    sources_block=$(echo "$frontmatter" | sed -n '/^sources:/,/^[a-z]/p' | head -n -1)
+    sources_block=$(echo "$frontmatter" | sed -n '/^sources:/,/^[a-z]/p' | sed '$d')
     if echo "$sources_block" | grep -q "^\s*-" && ! echo "$sources_block" | grep -qE "resource:"; then
       echo -e "${YELLOW}W6: $relative — sources entry may be missing 'resource' field${NC}"
       WARNINGS=$((WARNINGS + 1))
