@@ -191,6 +191,15 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 
 ---
 
+### 🏛️ AIDLC Master — AWS AI-DLC Lifecycle · `code-scaffolding-and-templates`
+Self-contained port of [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, rule set v1.0.1) as a single skills.sh-compatible skill — no per-IDE installation, no copying steering files into `.kiro/`, `.amazonq/`, `CLAUDE.md`, or `.github/copilot-instructions.md`. Drives an adaptive three-phase lifecycle (Inception → Construction → Operations) with explicit human approval gates between stages, an append-only audit trail, and every artifact written to `aidlc-docs/`. Only the stages that add value run: a bug fix and a multi-service greenfield build share the machinery at different depths. Brownfield projects get reverse-engineered into design docs first. Optional extensions (security baseline, property-based testing, resiliency baseline) are offered as opt-ins during Requirements Analysis and become blocking constraints once accepted — only their lightweight opt-in prompts load up front. The port is a **1:1 mirror** of the upstream rules with five documented adaptations, and `scripts/check-upstream.sh` proves it (`mirror-diff`) and drives the sync.
+
+**When to use:** say "Using AI-DLC, ..." — or when a greenfield or brownfield build should run as a governed lifecycle (requirements → user stories → application design → units of work → per-unit design → code → build and test) instead of ad-hoc coding. Also for its vocabulary: "inception phase", "units of work", "aidlc-docs", "reverse engineer this codebase into design docs". Not for a single focused change, a review, a PR, or debugging — that's `pstack-skill`.
+
+📄 [View full documentation](skills/aidlc-master/README.md)
+
+---
+
 ### 👑 Pstack Skill — Rigorous Engineering Orchestrator · `code-quality-and-review`
 Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) as a single skills.sh-compatible skill — no plugin install, no Cursor required. One orchestrator that reads your task, picks one of 23 playbooks (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to 21 bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, technical-writing, show-me-your-work, tdd), and applies 21 engineering principles. Cursor-specific mechanics (cloud agents, Graphite, vendor model slugs) are translated to platform-agnostic equivalents: plain git/gh, subagents in isolated worktrees, and four model roles (`worker`, `builder`, `judge`, `peer`) bound once via config.
 
@@ -618,6 +627,12 @@ skills/
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/        # protocol template, validation rules, metadata schema, example, implementation guide
+├── aidlc-master/
+│   ├── README.md          # what AI-DLC is, upstream mapping, the 5 adaptations, sync
+│   ├── SKILL.md           # the three-phase workflow (near-literal upstream core-workflow)
+│   ├── UPSTREAM_COMMIT    # reviewed upstream reference
+│   ├── references/        # 31 upstream rule files (1:1) + working-with-aidlc, docs reference, input guides
+│   └── scripts/           # upstream sync: check, mirror-diff, review-prompt, accept
 ├── pstack-skill/
 │   ├── README.md          # human-readable guide: install, use cases, model roles
 │   ├── SKILL.md           # the orchestrator (playbook router, principles index, autonomy rules)

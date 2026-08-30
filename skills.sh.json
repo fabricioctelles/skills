@@ -56,6 +56,7 @@
       "title": "Engineering Orchestration",
       "description": "Rigorous engineering workflows, agent loops, spec automation, and adversarial code review.",
       "skills": [
+        "aidlc-master",
         "pstack-skill",
         "ralph-loop-kiro-specs",
         "loop-architect"

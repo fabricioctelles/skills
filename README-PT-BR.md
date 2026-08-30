@@ -188,6 +188,15 @@ Projeta loops agenticos bem estruturados com coaching de boas práticas e gates 
 
 ---
 
+### 🏛️ AIDLC Master — Ciclo de Vida AWS AI-DLC · `code-scaffolding-and-templates`
+Porte autocontido do [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) (AI-Driven Development Life Cycle, conjunto de regras v1.0.1) como uma única skill compatível com skills.sh — sem instalação por IDE, sem copiar arquivos de steering para `.kiro/`, `.amazonq/`, `CLAUDE.md` ou `.github/copilot-instructions.md`. Conduz um ciclo adaptativo de três fases (Inception → Construction → Operations) com gates explícitos de aprovação humana entre estágios, trilha de auditoria append-only e todos os artefatos gravados em `aidlc-docs/`. Só rodam os estágios que agregam valor: um bug fix e um greenfield multi-serviço usam a mesma máquina em profundidades diferentes. Projetos brownfield passam primeiro por engenharia reversa para documentos de design. Extensions opcionais (security baseline, property-based testing, resiliency baseline) são oferecidas como opt-in durante a Requirements Analysis e viram restrições bloqueantes quando aceitas — só os prompts leves de opt-in carregam de início. O porte é um **espelho 1:1** das regras upstream com cinco adaptações documentadas, e `scripts/check-upstream.sh` comprova isso (`mirror-diff`) e conduz a sincronização.
+
+**Quando usar:** diga "Using AI-DLC, ..." — ou quando um projeto greenfield ou brownfield deve rodar como ciclo de vida governado (requisitos → user stories → design da aplicação → units of work → design por unidade → código → build e testes) em vez de código ad-hoc. Também pelo vocabulário: "inception phase", "units of work", "aidlc-docs", "engenharia reversa deste codebase para documentos de design". Não serve para uma mudança pontual, review, PR ou debug — isso é `pstack-skill`.
+
+📄 [Ver documentação completa](skills/aidlc-master/README.md)
+
+---
+
 ### 👑 Pstack Skill — Orquestrador de Engenharia Rigorosa · `code-quality-and-review`
 Porte autocontido do [pstack](https://github.com/cursor/plugins/tree/main/pstack) da Lauren Tan (`poteto-mode`) como uma única skill compatível com skills.sh — sem instalar plugin, sem depender do Cursor. Um orquestrador que lê sua tarefa, escolhe um dos 23 playbooks (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), roteia para 21 procedures embutidas (how, why, architect, arena, swarm, interrogate, unslop, technical-writing, show-me-your-work, tdd) e aplica 21 princípios de engenharia. Mecânicas específicas do Cursor (cloud agents, Graphite, slugs de modelo) viraram equivalentes agnósticos: git/gh puro, subagentes em worktrees isolados e quatro papéis de modelo (`worker`, `builder`, `judge`, `peer`) vinculados uma vez via config.
 
@@ -613,6 +622,12 @@ skills/
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/        # template do protocolo, regras de validação, schema de metadata, exemplo, guia de implementação
+├── aidlc-master/
+│   ├── README.md          # o que é o AI-DLC, mapeamento com o upstream, as 5 adaptações, sync
+│   ├── SKILL.md           # o workflow de três fases (core-workflow upstream quase literal)
+│   ├── UPSTREAM_COMMIT    # referência upstream já revisada
+│   ├── references/        # 31 arquivos de regra upstream (1:1) + working-with-aidlc, referência dos docs, guias de input
+│   └── scripts/           # sync com upstream: check, mirror-diff, review-prompt, accept
 ├── pstack-skill/
 │   ├── README.md          # guia legível: instalação, casos de uso, papéis de modelo
 │   ├── SKILL.md           # o orquestrador (router de playbooks, índice de princípios, regras de autonomia)
