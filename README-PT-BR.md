@@ -235,6 +235,17 @@ Remove sinais de escrita mecânica de textos em português brasileiro e recupera
 - Integração com TRAVA FACTUAL: regras explícitas de quando NÃO simplificar (modalidade, causalidade, exceções)
 - Agora são 10 perfis de voz (eram 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado** e Voz Neutra
 
+**Novidades da v1.5 (set/2026):**
+- 3 novos perfis de **consumo rápido** inspirados no projeto [Attention-Span](https://github.com/alexgreensh/attention-span): **➡️ Direto** (parágrafos curtos, setas, lead-in em negrito), **🔹 Enxuto** (só fatos, checklists, zero floreio) e **📊 Resumo** (compressão máxima para executivos apressados)
+- Novo arquivo `references/padroes-consumo-rapido.md` com formatação, regras de corte, integração com TRAVA FACTUAL e checklist de verificação
+- Atualizado Passo 1 (detecção) com 3 novos sinais automáticos
+- Atualizado Passo 3 (referências) com a nova referência de consumo rápido
+- Atualizado Passo 5 (aplicação da voz) com Aplicar/Evitar para os 3 perfis
+- Atualizado Passo 6 (guarda de falso positivo) com 6 exceções específicas: negrito em lead-in, setas, frases curtas, checklists, listas longas e parágrafos de uma linha
+- Adicionada verificação de brevidade no Passo 7 (5 itens): proposições preservadas, warnings não removidos, escopo não generalizado, modalidade preservada, números exatos
+- **TRAVA FACTUAL reforçada:** brevidade comprime *forma*, não *conteúdo* — nunca omitir warnings, números ou condições de escopo
+- Agora são **13 perfis de voz** (eram 10)
+
 **Novidades da v1.4 (ago/2026):**
 - Novo **Passo 6 — guarda de falso positivo**, que roda antes da verificação final e *desmarca* sinais que não são IA: gramática impecável, prosa seca, registro jurídico ou acadêmico, travessão de diálogo, conectivo isolado, aspas curvas sozinhas, vírgula correta, ressalva com escopo, alternativa real. Inclui aviso explícito contra pontuação de detector automático, que erra mais contra quem é neurodivergente e quem não é falante nativo
 - Nova lista de **marcas humanas para preservar** — contração (`pra`, `tá`, `cê`), regionalismo (`uai`, `oxe`, `tchê`), sentimento misto, autocorreção entre parênteses, gíria datada, variação no tamanho das frases. A skill não pode "consertar" isso por padronização

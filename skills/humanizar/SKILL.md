@@ -246,6 +246,147 @@ Texto acessível para público amplo. Inspirado nas operações do PorSimples (N
 >
 > *Depois:* "A automação muda como as pessoas trabalham. Isso traz problemas sociais e econômicos. Os governos precisam criar políticas para reduzir esses problemas. Esse é um desafio urgente em todas as esferas — federal, estadual e municipal."
 
+### ➡️ 🆕 Direto
+
+Tom assertivo para quem precisa de sinal, não conversa. Cada frase justifica seu lugar ou é cortada. Ideal para respostas a decisões, briefings rápidos e comunicação assíncrona onde o leitor vai escanear antes de ler.
+
+**Quando usar:**
+- Respostas a perguntas objetivas em Slack, e-mail ou documento
+- Briefings de decisão onde o leitor quer a resposta, não a jornada
+- Comunicação técnica para público com atenção fragmentada
+- Quando o usuário pedir "direto ao ponto", "sem enrolação" ou "resumo executivo"
+
+**Características:**
+- Primeira frase é a resposta completa — quem lê só ela entende o essencial
+- Parágrafos de 1-3 frases, uma ideia por bloco
+- Negrito em termos-chave, números e decisões — quem escaneia o bold pega o ponto
+- Sem preâmbulo, sem reafirmar a pergunta, sem resumo no final
+- Tom caloroso mas econômico — amigo perspicaz, não manual frio
+- Zero filler: nada de "Ótima pergunta", "Com certeza", "Na verdade"
+- Avisos e ressalvas em linha própria, nunca enterrados
+
+**TRAVA FACTUAL neste perfil:** brevidade comprime *forma*, não *conteúdo*. Se o original tem 5 proposições, a reescrita tem as mesmas 5 — em menos palavras. Cortar elaboração, **nunca** warning.
+
+**Sinais de IA nesse registro:**
+- Negrito em *toda* palavra-chave (decoração, não hierarquia)
+- Preâmbulo disfarçado: "Para responder isso, precisamos considerar..."
+- Resumo no final repetindo o que já foi dito
+- Ressalvas genéricas em vez de risco concreto
+- Tom seco demais — direto não é grosseiro
+
+**Exemplo (IA → Humano):**
+> *IA*: "Para responder à sua pergunta sobre qual banco de dados utilizar, é importante considerar diversos fatores. PostgreSQL é uma excelente opção para aplicações que necessitam de relacionamentos complexos. Por outro lado, MongoDB pode ser mais adequado para cenários específicos. Em resumo, a escolha depende das suas necessidades."
+>
+> *Humano*: "**Use PostgreSQL.** App social é todo relacionamentos (amigos, follows, likes), e Postgres lida nativamente. Correto para ~90% de apps sociais novos.
+>
+> **MongoDB só se:** você tem dados sem schema que mudam toda semana, ou volume de escrita que justifique o trade-off.
+>
+> **Armadilha comum:** começar com Mongo achando que é mais flexível e depois gastar meses migrando quando precisar de JOIN."
+
+**O que preservar (não é sinal de IA):**
+- Negrito em hierarquia de escaneabilidade (títulos de ponto, números, decisão)
+- Frases muito curtas em série quando cada uma carrega uma ideia distinta
+- Tom direto sem ser rude — economia não é frieza
+- Setas (→) quando indicam fluxo ou consequência, não decoração
+
+### 🔹 🆕 Enxuto
+
+Sinal máximo, zero conforto. Modo heads-down para quem quer fato, não conversa. Usa quando o leitor está no meio de uma tarefa e precisa da resposta sem atrito.
+
+**Quando usar:**
+- Respostas durante coding/debugging (o leitor está em flow)
+- Instruções de terminal, comandos, troubleshooting
+- Confirmações de ação ("faz X" → resposta confirma que fez)
+- Quando o usuário pedir "curto", "só o necessário" ou responder com monossílabos
+
+**Características:**
+- Linha 1 é a resposta completa em uma sentença
+- Sem calor, sem hedge, sem transição
+- Imperativo quando cabe: "Use", "Rode", "Corte"
+- Um ponto pode ser uma linha
+- Números exatos, nunca arredondados
+- Risco ou incerteza em linha própria, direta
+- Quando a tarefa for "faça X", confirmar em uma linha e fazer — sem narrar o que vai fazer
+
+**TRAVA FACTUAL neste perfil:** curto não elimina warning. Se a omissão faz o leitor agir errado, o trecho fica — mesmo que quebre a brevidade.
+
+**Sinais de IA nesse registro:**
+- Explicação não solicitada ("Isso funciona porque...")
+- Qualquer forma de "espero que ajude"
+- Narração da própria ação ("Vou agora verificar o arquivo...")
+- Ressalva genérica sem risco concreto
+- Parágrafo onde caberia uma linha
+
+**Exemplo (IA → Humano):**
+> *IA*: "Para corrigir esse erro, você precisará verificar o arquivo de configuração. O problema parece estar relacionado à variável de ambiente que não foi definida corretamente. Recomendo que você abra o arquivo .env e verifique se a chave DATABASE_URL está presente. Espero que isso ajude a resolver o problema."
+>
+> *Humano*: "Falta `DATABASE_URL` no `.env`. Adicione a linha e reinicie o server."
+
+**O que preservar (não é sinal de IA):**
+- Imperativo seco — é o registro, não grosseria
+- Ausência de "por favor" ou "obrigado" em contexto técnico
+- Resposta de uma linha quando uma linha basta
+- Comando sem explicação quando a explicação não foi pedida
+
+**Cláusula de escape:** se o usuário pedir profundidade ("explica de verdade", "por quê"), brevidade desligada. Dar todo o contexto.
+
+### 📊 🆕 Resumo
+
+Board de status para escanear, não parágrafo para ler. O leitor quer saber o que mudou, o que está travado e o que precisa decidir. Otimiza para legibilidade, não brevidade.
+
+**Quando usar:**
+- Standups, status updates, notas de reunião
+- Relatórios de progresso, sprint reviews
+- Qualquer contexto onde o leitor pergunta "como está X?"
+- Quando o usuário pedir "resumo de status", "update rápido" ou "onde estamos"
+
+**Características:**
+- Abrir com **TL;DR** de uma linha carregando resultado e bloqueio principal
+- Estado como checklist visual:
+  - ✅ feito
+  - 🟡 em andamento
+  - ⬜ não iniciado
+  - ❔ desconhecido
+  - 🔴 bloqueio/risco
+- Um item por linha, negritar o assunto
+- Bloqueio em linha própria com 🔴
+- Opções de ação sob "**Sua vez:**" como lista numerada
+- Linhas curtas, uma ideia cada — sem paredes de texto
+- Terminar com ação clara ou pick-one
+
+**TRAVA FACTUAL neste perfil:** nunca inventar status. Se o estado de um item é desconhecido, marcar ❔ e dizer o que resolveria. Checklist inventada é pior que checklist incompleta.
+
+**Sinais de IA nesse registro:**
+- Status inventado (item que não estava na fonte)
+- TL;DR que não se sustenta sozinho
+- Parágrafo corrido onde cabia checklist
+- Emoji decorativo (🚀💡🎯) sem função de status
+- "Conforme alinhado" ou "dando seguimento" como filler
+
+**Exemplo (IA → Humano):**
+> *IA*: "Com relação ao andamento do projeto de contratação, gostaria de informar que recebemos 20 candidatos até o momento. Destes, 5 foram triados e 2 entrevistas estão agendadas. Ainda não fizemos nenhuma oferta. Vale ressaltar que temos um candidato forte que pode estar considerando outras oportunidades, o que demanda atenção especial da equipe."
+>
+> *Humano*: "**TL;DR:** Pipeline saudável no topo, linha de chegada travada. Candidato forte escorregando.
+>
+> **Funil:**
+> ✅ **Candidatos:** 20 recebidos
+> ✅ **Triagem:** 5 de 20
+> 🟡 **Entrevistas:** 2 agendadas, não realizadas
+> ⬜ **Oferta:** não rascunhada
+>
+> 🔴 **Bloqueio:** Candidato forte com outras propostas — janela de ~5 dias.
+>
+> **Sua vez:**
+> 1. Fast-track o candidato forte (decisão até 4ª)
+> 2. Rodar as 2 entrevistas esta semana
+> 3. Rascunhar oferta agora para não travar depois"
+
+**O que preservar (não é sinal de IA):**
+- Emojis de status (✅🟡⬜❔🔴) — são notação funcional, não decoração
+- Lista com mais de 5 itens quando o status exige
+- Repetição do item em "Sua vez" que já apareceu no status — a redundância é proposital (ver → decidir)
+- Estrutura de board mesmo em texto corrido no canal original
+
 ## Escrita do zero (`modo_criacao`)
 
 Quando o texto ainda não existe, a lista de padrões vale como filtro de saída, não como conserto.
@@ -286,6 +427,9 @@ Se o usuário não especificou um perfil, detectar pelo conteúdo:
 | Texto curto (<300 palavras), opinativo, em 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
 | ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
 | Texto institucional/governamental, manual de produto, FAQ, pedido de "simplificar" ou "linguagem simples" | 📋 Português Simplificado |
+| Resposta a decisão, briefing, "direto ao ponto", estrutura pergunta-resposta com escopo técnico | ➡️ Direto |
+| Contexto de coding/debugging, comandos, troubleshooting, confirmação de ação, respostas curtas | 🔹 Enxuto |
+| Status update, standup, sprint review, "como está X?", "resumo de status", notas de reunião | 📊 Resumo |
 | **Nenhum sinal claro** | Voz neutra — preservar o registro original e apenas remover padrões mecânicos |
 
 **Regras de decisão:**
@@ -363,6 +507,7 @@ Começar pelas referências das categorias marcadas ✓ no diagnóstico:
 | Estilo | `references/padroes-estilo.md` — formatação, travessão, negrito e emojis |
 | PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, oficialês e ENEM-ismo |
 | Português Simplificado (perfil ativo) | `references/padroes-portugues-simplificado.md` — operações, substituições lexicais e métricas |
+| Perfil Direto, Enxuto ou Resumo ativo | `references/padroes-consumo-rapido.md` — formatação, regras de corte, exceções |
 
 Se surgir outro sinal durante a reescrita, houver dúvida de classificação ou sobreposição entre categorias, consultar também a referência relacionada. Não carregar todas por padrão. No `modo_revisão`, incluir sempre `padroes-exclusivos-pt-br.md`.
 
@@ -398,6 +543,9 @@ Aplicar somente os recursos permitidos pelo perfil ativo:
 | Jurídico | Formalidade controlada, estrutura e termos do gênero | Criar artigo, súmula, precedente, fato ou fundamento |
 | Didático | Ordem clara e explicação acessível | Criar analogia, personagem, dado ou exemplo não fornecido |
 | Português Simplificado | SVO, frases ≤25 palavras, vocabulário comum, listas para 3+ itens e termos técnicos explicados | Eliminar conteúdo, reduzir modalidade, inventar exemplo ou remover terminologia de domínio |
+| Direto | Primeira frase como resposta completa, negrito em hierarquia, parágrafos curtos, avisos em linha própria | Preâmbulo, resumo final, filler openers, negrito decorativo, explicar o que não foi perguntado |
+| Enxuto | Linha 1 = resposta, imperativo, números exatos, uma linha quando basta | Narrar ação, explicar sem pedido, ressalva genérica, "espero que ajude", parágrafo onde cabe linha |
+| Resumo | TL;DR, checklist de status (✅🟡⬜🔴), bloqueio em destaque, opções numeradas em "Sua vez" | Inventar status, emoji decorativo, parágrafo corrido, TL;DR que não se sustenta sozinho |
 
 Quando o usuário fornecer amostra de voz, espelhar comprimento de frases, nível vocabular, início de parágrafos, pontuação e uso de estrangeirismos. Não copiar fatos, opiniões, personagens ou experiências da amostra para o texto reescrito.
 
@@ -427,6 +575,12 @@ Rodar antes da verificação final. Percorrer os sinais marcados ✓ no Passo 2 
 | Formatação complexa e correta | Editor visual e template produzem saída limpa sem IA nenhuma |
 | Expressão de alerta em segunda mão | Não reescrever expressão que aparece dentro de citação, título, nome próprio ou exemplo em que ela está sendo discutida, não usada |
 | Texto anterior a 30/11/2022 | Lançamento público do ChatGPT. O que é mais antigo quase nunca é de IA |
+| Negrito em lead-in nos perfis Direto/Enxuto | Funciona como hierarquia de escaneabilidade, não decoração |
+| Seta (→) indicando resultado ou fluxo | Notação específica do gênero — indica relação causal, não decora |
+| Frases de 1-3 palavras no perfil Enxuto | Densidade é a estrutura do perfil, não fragmento dramático |
+| Checklist com ✅🟡⬜❔🔴 no perfil Resumo | Estado funcional, não decoração — cada emoji indica um status |
+| Listas com 5+ itens no perfil Resumo | Síntese é o formato declarado — não é listicle disfarçado |
+| Parágrafos de uma linha no perfil Direto | Uma ideia por bloco é a estrutura do perfil |
 
 **Detectores automáticos.** Não usar pontuação de ferramenta de detecção como prova nem como critério do que reescrever. Essas ferramentas erram muito e erram torto: penalizam mais quem é neurodivergente e quem não é falante nativo. Nenhuma reescrita aqui tem como objetivo enganar detector.
 
@@ -465,6 +619,16 @@ Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do tre
 | 10 | Foi feita varredura por `—`, `–` e ` -- ` usados como aparte, preservando o travessão de diálogo e a frequência da amostra do autor? | |
 | 11 | A guarda de falso positivo do Passo 6 foi aplicada, e nenhuma marca humana do autor foi padronizada? | |
 | 12 | Lido em voz alta, o texto soa natural dentro do gênero e do público pretendido? | |
+
+**Verificação adicional para perfis de brevidade (Direto/Enxuto/Resumo):**
+
+| # | Verificação | ✓/✗ |
+|---|---|---|
+| A | Toda proposição do original permanece, ainda que compactada? | |
+| B | Nenhum aviso/warning foi removido? | |
+| C | Nenhuma condição de escopo foi generalizada? | |
+| D | Modalidade preservada? ("pode" não virou afirmação) | |
+| E | Números e thresholds permanecem exatos? | |
 
 Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas se ainda houver tentativa disponível; não distorcer o gênero para satisfazer a lista. O controle de tentativas do Passo 9 impede repetição indefinida.
 

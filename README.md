@@ -238,6 +238,17 @@ Strips mechanical writing signals from Brazilian Portuguese text and restores rh
 - Integration with TRAVA FACTUAL: explicit rules for when NOT to simplify (modality, causality, exceptions)
 - Now 10 voice profiles (was 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado**, and Voz Neutra
 
+**New in v1.5 (Sep 2026):**
+- 3 new **rapid-consumption profiles** inspired by the [Attention-Span](https://github.com/alexgreensh/attention-span) project: **➡️ Direto** (short paragraphs, arrows, bold lead-ins), **🔹 Enxuto** (facts only, checklists, zero fluff), and **📊 Resumo** (maximum compression for busy executives)
+- New reference file `references/padroes-consumo-rapido.md` with formatting rules, cut rules, TRAVA FACTUAL integration, and verification checklist
+- Updated Step 1 (detection) with 3 new automatic signals
+- Updated Step 3 (references) with the new rapid-consumption reference
+- Updated Step 5 (voice application) with Apply/Avoid for all 3 profiles
+- Updated Step 6 (false-positive guard) with 6 specific exceptions: bold lead-ins, arrows, short sentences, checklists, long lists, and single-line paragraphs
+- Added brevity verification in Step 7 (5 items): propositions preserved, warnings not removed, scope not generalized, modality preserved, exact numbers kept
+- **TRAVA FACTUAL reinforced:** brevity compresses *form*, not *content* — never omit warnings, numbers, or scope conditions
+- Now **13 voice profiles** (was 10)
+
 **New in v1.4 (Aug 2026):**
 - Added **Step 6 — false-positive guard**, which runs before final verification and *unmarks* signals that are not AI at all: flawless grammar, dry prose, legal/academic register, dialogue em-dashes, isolated connectives, curly quotes on their own, correct commas, scoped hedging, real alternatives. Includes an explicit warning against AI-detector scores, which misfire against neurodivergent and non-native writers
 - Added **human marks to preserve** — contractions (`pra`, `tá`, `cê`), regionalisms (`uai`, `oxe`, `tchê`), mixed feelings, parenthetical self-correction, dated slang, sentence-length variation. The skill must not "fix" these by standardization
