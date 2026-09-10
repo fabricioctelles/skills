@@ -236,7 +236,7 @@ Remove sinais de escrita mecânica de textos em português brasileiro e recupera
 - Agora são 10 perfis de voz (eram 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado** e Voz Neutra
 
 **Novidades da v1.5 (set/2026):**
-- 3 novos perfis de **consumo rápido** inspirados no projeto [Attention-Span](https://github.com/alexgreensh/attention-span): **➡️ Direto** (parágrafos curtos, setas, lead-in em negrito), **🔹 Enxuto** (só fatos, checklists, zero floreio) e **📊 Resumo** (compressão máxima para executivos apressados)
+- 3 novos perfis de **consumo rápido** inspirados no projeto [Attention-Span](https://github.com/alexgreensh/attention-span): **➡️ Assertivo** (parágrafos curtos, setas, lead-in em negrito), **🔹 Enxuto** (só fatos, checklists, zero floreio) e **📊 Resumo** (compressão máxima para executivos apressados) — regras comuns adaptadas de [i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT)
 - Novo arquivo `references/padroes-consumo-rapido.md` com formatação, regras de corte, integração com TRAVA FACTUAL e checklist de verificação
 - Atualizado Passo 1 (detecção) com 3 novos sinais automáticos
 - Atualizado Passo 3 (referências) com a nova referência de consumo rápido

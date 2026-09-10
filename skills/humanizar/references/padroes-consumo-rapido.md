@@ -1,6 +1,6 @@
 # Padrões de Consumo Rápido — Perfis de Escaneabilidade
 
-Padrões específicos para os perfis **Direto**, **Enxuto** e **Resumo**. Esses perfis otimizam para **consumo** (absorção rápida pelo leitor), não para **autoria** (texto que alguém vai assinar). A distinção é fundamental: perfis autorais preservam voz e estilo; perfis de consumo priorizam transferência eficiente de informação.
+Padrões específicos para os perfis **Assertivo**, **Enxuto** e **Resumo**. Esses perfis otimizam para **consumo** (absorção rápida pelo leitor), não para **autoria** (texto que alguém vai assinar). A distinção é fundamental: perfis autorais preservam voz e estilo; perfis de consumo priorizam transferência eficiente de informação.
 
 > **TRAVA FACTUAL neste arquivo:** brevidade comprime *forma*, não *conteúdo*. Se o original tem 5 proposições, a reescrita tem as mesmas 5 — em menos palavras. Cortar molduras e transições; preservar toda proposição, relação causal, número, qualificação de escopo e aviso. Quando um trecho protegido conflitar com a brevidade, a brevidade cede.
 
@@ -10,13 +10,13 @@ Padrões específicos para os perfis **Direto**, **Enxuto** e **Resumo**. Esses 
 
 | Perfil | Público | Formato típico | Otimiza para |
 |---|---|---|---|
-| ➡️ **Direto** | Tomador de decisão, leitor com atenção fragmentada | E-mail, Slack, briefing, resposta técnica | Escaneabilidade — quem lê só o bold entende |
+| ➡️ **Assertivo** | Tomador de decisão, leitor com atenção fragmentada | E-mail, Slack, briefing, resposta técnica | Escaneabilidade — quem lê só o bold entende |
 | 🔹 **Enxuto** | Dev em flow, operador em troubleshooting | Terminal, chat técnico, instrução | Densidade máxima — uma linha quando basta |
 | 📋 **Resumo** | Gestor, equipe em standup, stakeholder | Status update, notas de reunião, sprint review | Legibilidade — board de estado, não parágrafo |
 
 **Regra de seleção rápida:**
 - Leitor precisa **agir** → Enxuto
-- Leitor precisa **decidir** → Direto
+- Leitor precisa **decidir** → Assertivo
 - Leitor precisa **acompanhar** → Resumo
 
 ---
@@ -100,6 +100,21 @@ Padrões específicos para os perfis **Direto**, **Enxuto** e **Resumo**. Esses 
 | Transições mecânicas | "Além disso", "Por outro lado", "Nesse sentido" | Padding |
 | Ressalva genérica | "É importante considerar diversos fatores" | Não diz nada |
 | Despedida | "Espero que isso ajude!" | Filler |
+| Dramatização de erro | "Ops", "Infelizmente", "Parece que algo deu errado" | Erro se descreve por causa e correção |
+| Idiomatismo (só 🔹 Enxuto) | "Colocar em pauta", "alinhar expectativas", "dar um norte" | Custa um passo de decodificação |
+
+### O que Reposicionar (não cortar)
+
+Estas regras mudam o lugar da informação, nunca a existência dela. A TRAVA FACTUAL vale integralmente.
+
+| Situação na fonte | O que fazer |
+|---|---|
+| Duas ou mais ações executáveis em prosa corrida | Lista numerada, uma ação por item, sem "e então" duas vezes no mesmo item |
+| Algo em aberto ao final | Última linha nomeia **uma** ação concreta que o leitor faz agora — nunca recapitulação |
+| Nada em aberto ao final | Texto termina na última informação, sem fecho |
+| Segundo assunto no meio do primeiro | Termina o primeiro, depois o segundo em bloco próprio ou pergunta ao final |
+
+**Não confundir com corte.** Recapitulação sai; próxima ação entra. Assunto secundário muda de posição; não desaparece.
 
 ### O que NUNCA Cortar
 
@@ -130,9 +145,9 @@ Mesmo em modo conciso, estes padrões denunciam texto de IA:
 
 | Padrão | Suspenso em | Justificativa |
 |---|---|---|
-| Negrito excessivo | ➡️ Direto, 🔹 Enxuto | Negrito em lead-in é hierarquia, não decoração |
+| Negrito excessivo | ➡️ Assertivo, 🔹 Enxuto | Negrito em lead-in é hierarquia, não decoração |
 | Fragmentos curtos | 🔹 Enxuto | Uma linha é o formato, não fragmento dramático |
-| Decoração Unicode (→) | ➡️ Direto | Seta indica fluxo/consequência, não decora |
+| Decoração Unicode (→) | ➡️ Assertivo | Seta indica fluxo/consequência, não decora |
 | Emoji em cada item | 📋 Resumo | Emojis de estado são notação funcional |
 | Listicle disfarçado | 📋 Resumo | Lista É o formato declarado, não disfarce |
 
@@ -177,19 +192,20 @@ para cada trecho do original:
 | 3 | Nenhuma condição de escopo foi generalizada? | |
 | 4 | Modalidade preservada? ("pode" não virou afirmação) | |
 | 5 | Números e thresholds permanecem exatos? | |
+| 6 | Regras comuns aplicadas: passo a passo numerado, fecho em ação (não recapitulação), assunto secundário fora do meio? | |
 
 ---
 
 ## Exemplos Antes/Depois
 
-### Perfil Direto
+### Perfil Assertivo
 
 **Contexto:** Resposta sobre escolha de banco de dados
 
 **Antes (IA — 87 palavras):**
 > Para responder à sua pergunta sobre qual banco de dados utilizar para seu novo aplicativo social, é importante considerar diversos fatores relevantes. PostgreSQL é uma excelente opção para aplicações que necessitam de relacionamentos complexos entre entidades. Por outro lado, MongoDB pode ser mais adequado para cenários específicos onde a flexibilidade de schema é prioritária. Em resumo, a escolha final depende das suas necessidades específicas e do contexto do projeto.
 
-**Depois (Direto — 52 palavras):**
+**Depois (Assertivo — 52 palavras):**
 > **Use PostgreSQL.** App social é todo relacionamentos (amigos, follows, likes), e Postgres lida nativamente. Correto para ~90% de apps sociais novos.
 >
 > **MongoDB só se:** dados sem schema que mudam toda semana, ou volume de escrita que justifique o trade-off.
@@ -241,7 +257,7 @@ para cada trecho do original:
 | **Negrito** | Evitar excesso | Usar para hierarquia |
 | **Listas** | Quando natural | Quando facilita consumo |
 | **Tom** | Varia por perfil | Consistentemente direto |
-| **Exemplos** | Crônica, Jornalístico, Acadêmico | Direto, Enxuto, Resumo |
+| **Exemplos** | Crônica, Jornalístico, Acadêmico | Assertivo, Enxuto, Resumo |
 | **Pergunta-guia** | "Como o autor diria isso?" | "O que o leitor precisa saber?" |
 
 ---
@@ -260,3 +276,7 @@ Antes de entregar texto em perfil de consumo rápido:
 - [ ] Negrito marca hierarquia ou decora substantivos?
 - [ ] TL;DR se sustenta sozinho? (perfil Resumo)
 - [ ] Status não foi inventado? (perfil Resumo)
+- [ ] Prazo em unidade concreta, sem estimar prazo ausente? (perfil Resumo)
+- [ ] Passo a passo em lista numerada, uma ação por item?
+- [ ] Fecho é ação concreta ou fim seco — nunca recapitulação?
+- [ ] Assunto secundário está fora do meio do primeiro?

@@ -12,8 +12,8 @@ description: |
   `human-ai`.
 metadata:
   author: https://ft.ia.br
-  version: "1.4.0"
-  date: 2026-08-29
+  version: "1.6.0"
+  date: 2026-09-09
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
@@ -246,7 +246,7 @@ Texto acessível para público amplo. Inspirado nas operações do PorSimples (N
 >
 > *Depois:* "A automação muda como as pessoas trabalham. Isso traz problemas sociais e econômicos. Os governos precisam criar políticas para reduzir esses problemas. Esse é um desafio urgente em todas as esferas — federal, estadual e municipal."
 
-### ➡️ 🆕 Direto
+### ➡️ 🆕 Assertivo
 
 Tom assertivo para quem precisa de sinal, não conversa. Cada frase justifica seu lugar ou é cortada. Ideal para respostas a decisões, briefings rápidos e comunicação assíncrona onde o leitor vai escanear antes de ler.
 
@@ -264,6 +264,7 @@ Tom assertivo para quem precisa de sinal, não conversa. Cada frase justifica se
 - Tom caloroso mas econômico — amigo perspicaz, não manual frio
 - Zero filler: nada de "Ótima pergunta", "Com certeza", "Na verdade"
 - Avisos e ressalvas em linha própria, nunca enterrados
+- Instrução vira ação: quando o trecho manda fazer algo, a frase começa pelo verbo e pelo alvo (comando, caminho, arquivo), não pela justificativa
 
 **TRAVA FACTUAL neste perfil:** brevidade comprime *forma*, não *conteúdo*. Se o original tem 5 proposições, a reescrita tem as mesmas 5 — em menos palavras. Cortar elaboração, **nunca** warning.
 
@@ -316,6 +317,8 @@ Sinal máximo, zero conforto. Modo heads-down para quem quer fato, não conversa
 - Narração da própria ação ("Vou agora verificar o arquivo...")
 - Ressalva genérica sem risco concreto
 - Parágrafo onde caberia uma linha
+- Dramatização de erro: "Ops", "Infelizmente", "Parece que algo deu errado". Erro se descreve por causa e correção, nada mais
+- Idiomatismo onde cabe a ação literal ("colocar em pauta", "alinhar expectativas", "dar um norte") — neste perfil custa um passo de decodificação que o leitor não tem
 
 **Exemplo (IA → Humano):**
 > *IA*: "Para corrigir esse erro, você precisará verificar o arquivo de configuração. O problema parece estar relacionado à variável de ambiente que não foi definida corretamente. Recomendo que você abra o arquivo .env e verifique se a chave DATABASE_URL está presente. Espero que isso ajude a resolver o problema."
@@ -327,8 +330,6 @@ Sinal máximo, zero conforto. Modo heads-down para quem quer fato, não conversa
 - Ausência de "por favor" ou "obrigado" em contexto técnico
 - Resposta de uma linha quando uma linha basta
 - Comando sem explicação quando a explicação não foi pedida
-
-**Cláusula de escape:** se o usuário pedir profundidade ("explica de verdade", "por quê"), brevidade desligada. Dar todo o contexto.
 
 ### 📊 🆕 Resumo
 
@@ -353,8 +354,9 @@ Board de status para escanear, não parágrafo para ler. O leitor quer saber o q
 - Opções de ação sob "**Sua vez:**" como lista numerada
 - Linhas curtas, uma ideia cada — sem paredes de texto
 - Terminar com ação clara ou pick-one
+- Prazo em unidade concreta quando a fonte fornece: "3 dias úteis", "até 4ª", "~2 semanas". Nunca converter prazo ausente em estimativa — sem prazo na fonte, o item fica ❔
 
-**TRAVA FACTUAL neste perfil:** nunca inventar status. Se o estado de um item é desconhecido, marcar ❔ e dizer o que resolveria. Checklist inventada é pior que checklist incompleta.
+**TRAVA FACTUAL neste perfil:** nunca inventar status. Se o estado de um item é desconhecido, marcar ❔ e dizer o que resolveria. Checklist inventada é pior que checklist incompleta. Prazo inventado é status inventado: vale a mesma regra.
 
 **Sinais de IA nesse registro:**
 - Status inventado (item que não estava na fonte)
@@ -386,6 +388,27 @@ Board de status para escanear, não parágrafo para ler. O leitor quer saber o q
 - Lista com mais de 5 itens quando o status exige
 - Repetição do item em "Sua vez" que já apareceu no status — a redundância é proposital (ver → decidir)
 - Estrutura de board mesmo em texto corrido no canal original
+
+### 🧭 Regras comuns aos perfis de consumo rápido
+
+Valem para **Assertivo**, **Enxuto** e **Resumo**. Não valem para os perfis autorais.
+
+**Por que estes perfis existem.** Eles servem a um leitor que está no meio de outra coisa. Quatro restrições desse leitor explicam cada regra acima:
+
+1. O que não está na tela foi esquecido. Não escrever "tendo em vista o que foi dito acima".
+2. Entender não é executar. O texto que explica bem e não diz o que fazer falhou.
+3. Começar é o passo caro. A primeira ação precisa ser pequena e óbvia.
+4. Prazo vago não registra. "Em breve" e "algumas semanas" chegam iguais.
+
+Em caso de dúvida sobre uma escolha de forma, decidir pelo que reduz o custo de agir.
+
+**Passo a passo vira lista numerada.** Sequência de duas ou mais ações executáveis: lista numerada, uma ação por item, sem "e então" duas vezes no mesmo item. Prosa corrida com passos embutidos é sinal de IA nestes perfis.
+
+**Fechamento é ação, não recapitulação.** A proibição de resumo final continua. O que ela não proíbe: se o texto-fonte deixa algo em aberto, a última linha nomeia **uma** ação concreta que o leitor faz agora. Recapitular o que já foi dito é ruído; apontar o próximo passo é a entrega. Se a fonte não deixa nada em aberto, o texto termina na última informação.
+
+**Assunto secundário sai do meio.** Segundo tema no texto-fonte não vira parêntese, "vale mencionar" ou digressão no meio do primeiro. Termina o primeiro assunto, depois o segundo em bloco próprio ou pergunta ao final. Nunca descartar o assunto — a TRAVA FACTUAL vale aqui como em qualquer lugar; a regra é de posição, não de corte.
+
+**Cláusula de escape (os três perfis).** Se o usuário pedir profundidade ("explica de verdade", "por quê", "detalha"), a compressão desliga e o contexto vem inteiro. O registro continua: sem preâmbulo, sem fecho cortês, corpo do tamanho que o assunto exigir.
 
 ## Escrita do zero (`modo_criacao`)
 
@@ -427,7 +450,7 @@ Se o usuário não especificou um perfil, detectar pelo conteúdo:
 | Texto curto (<300 palavras), opinativo, em 1ª pessoa, sem estrutura formal | 📱 Post de Rede Social |
 | ≥1500 palavras, narrativo, sem jargão dominante | 🖋️ Crônica |
 | Texto institucional/governamental, manual de produto, FAQ, pedido de "simplificar" ou "linguagem simples" | 📋 Português Simplificado |
-| Resposta a decisão, briefing, "direto ao ponto", estrutura pergunta-resposta com escopo técnico | ➡️ Direto |
+| Resposta a decisão, briefing, "direto ao ponto", estrutura pergunta-resposta com escopo técnico | ➡️ Assertivo |
 | Contexto de coding/debugging, comandos, troubleshooting, confirmação de ação, respostas curtas | 🔹 Enxuto |
 | Status update, standup, sprint review, "como está X?", "resumo de status", notas de reunião | 📊 Resumo |
 | **Nenhum sinal claro** | Voz neutra — preservar o registro original e apenas remover padrões mecânicos |
@@ -507,7 +530,7 @@ Começar pelas referências das categorias marcadas ✓ no diagnóstico:
 | Estilo | `references/padroes-estilo.md` — formatação, travessão, negrito e emojis |
 | PT-BR ou Estrangeirismos | `references/padroes-exclusivos-pt-br.md` — gerundismo, oficialês e ENEM-ismo |
 | Português Simplificado (perfil ativo) | `references/padroes-portugues-simplificado.md` — operações, substituições lexicais e métricas |
-| Perfil Direto, Enxuto ou Resumo ativo | `references/padroes-consumo-rapido.md` — formatação, regras de corte, exceções |
+| Perfil Assertivo, Enxuto ou Resumo ativo | `references/padroes-consumo-rapido.md` — formatação, regras de corte, exceções |
 
 Se surgir outro sinal durante a reescrita, houver dúvida de classificação ou sobreposição entre categorias, consultar também a referência relacionada. Não carregar todas por padrão. No `modo_revisão`, incluir sempre `padroes-exclusivos-pt-br.md`.
 
@@ -543,7 +566,7 @@ Aplicar somente os recursos permitidos pelo perfil ativo:
 | Jurídico | Formalidade controlada, estrutura e termos do gênero | Criar artigo, súmula, precedente, fato ou fundamento |
 | Didático | Ordem clara e explicação acessível | Criar analogia, personagem, dado ou exemplo não fornecido |
 | Português Simplificado | SVO, frases ≤25 palavras, vocabulário comum, listas para 3+ itens e termos técnicos explicados | Eliminar conteúdo, reduzir modalidade, inventar exemplo ou remover terminologia de domínio |
-| Direto | Primeira frase como resposta completa, negrito em hierarquia, parágrafos curtos, avisos em linha própria | Preâmbulo, resumo final, filler openers, negrito decorativo, explicar o que não foi perguntado |
+| Assertivo | Primeira frase como resposta completa, negrito em hierarquia, parágrafos curtos, avisos em linha própria | Preâmbulo, resumo final, filler openers, negrito decorativo, explicar o que não foi perguntado |
 | Enxuto | Linha 1 = resposta, imperativo, números exatos, uma linha quando basta | Narrar ação, explicar sem pedido, ressalva genérica, "espero que ajude", parágrafo onde cabe linha |
 | Resumo | TL;DR, checklist de status (✅🟡⬜🔴), bloqueio em destaque, opções numeradas em "Sua vez" | Inventar status, emoji decorativo, parágrafo corrido, TL;DR que não se sustenta sozinho |
 
@@ -575,12 +598,12 @@ Rodar antes da verificação final. Percorrer os sinais marcados ✓ no Passo 2 
 | Formatação complexa e correta | Editor visual e template produzem saída limpa sem IA nenhuma |
 | Expressão de alerta em segunda mão | Não reescrever expressão que aparece dentro de citação, título, nome próprio ou exemplo em que ela está sendo discutida, não usada |
 | Texto anterior a 30/11/2022 | Lançamento público do ChatGPT. O que é mais antigo quase nunca é de IA |
-| Negrito em lead-in nos perfis Direto/Enxuto | Funciona como hierarquia de escaneabilidade, não decoração |
+| Negrito em lead-in nos perfis Assertivo/Enxuto | Funciona como hierarquia de escaneabilidade, não decoração |
 | Seta (→) indicando resultado ou fluxo | Notação específica do gênero — indica relação causal, não decora |
 | Frases de 1-3 palavras no perfil Enxuto | Densidade é a estrutura do perfil, não fragmento dramático |
 | Checklist com ✅🟡⬜❔🔴 no perfil Resumo | Estado funcional, não decoração — cada emoji indica um status |
 | Listas com 5+ itens no perfil Resumo | Síntese é o formato declarado — não é listicle disfarçado |
-| Parágrafos de uma linha no perfil Direto | Uma ideia por bloco é a estrutura do perfil |
+| Parágrafos de uma linha no perfil Assertivo | Uma ideia por bloco é a estrutura do perfil |
 
 **Detectores automáticos.** Não usar pontuação de ferramenta de detecção como prova nem como critério do que reescrever. Essas ferramentas erram muito e erram torto: penalizam mais quem é neurodivergente e quem não é falante nativo. Nenhuma reescrita aqui tem como objetivo enganar detector.
 
@@ -620,7 +643,7 @@ Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do tre
 | 11 | A guarda de falso positivo do Passo 6 foi aplicada, e nenhuma marca humana do autor foi padronizada? | |
 | 12 | Lido em voz alta, o texto soa natural dentro do gênero e do público pretendido? | |
 
-**Verificação adicional para perfis de brevidade (Direto/Enxuto/Resumo):**
+**Verificação adicional para perfis de brevidade (Assertivo/Enxuto/Resumo):**
 
 | # | Verificação | ✓/✗ |
 |---|---|---|
@@ -629,6 +652,7 @@ Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do tre
 | C | Nenhuma condição de escopo foi generalizada? | |
 | D | Modalidade preservada? ("pode" não virou afirmação) | |
 | E | Números e thresholds permanecem exatos? | |
+| F | Regras comuns aplicadas: passo a passo numerado, fecho em ação (não recapitulação), assunto secundário fora do meio? | |
 
 Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas se ainda houver tentativa disponível; não distorcer o gênero para satisfazer a lista. O controle de tentativas do Passo 9 impede repetição indefinida.
 

@@ -239,7 +239,7 @@ Strips mechanical writing signals from Brazilian Portuguese text and restores rh
 - Now 10 voice profiles (was 9): Crônica, Jornalístico, Acadêmico, Corporativo Informal, Post de Rede Social, WhatsApp, Jurídico, Didático, **Português Simplificado**, and Voz Neutra
 
 **New in v1.5 (Sep 2026):**
-- 3 new **rapid-consumption profiles** inspired by the [Attention-Span](https://github.com/alexgreensh/attention-span) project: **➡️ Direto** (short paragraphs, arrows, bold lead-ins), **🔹 Enxuto** (facts only, checklists, zero fluff), and **📊 Resumo** (maximum compression for busy executives)
+- 3 new **rapid-consumption profiles** inspired by the [Attention-Span](https://github.com/alexgreensh/attention-span) project: **➡️ Assertivo** (short paragraphs, arrows, bold lead-ins), **🔹 Enxuto** (facts only, checklists, zero fluff), and **📊 Resumo** (maximum compression for busy executives) — regras comuns adaptadas de [i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT)
 - New reference file `references/padroes-consumo-rapido.md` with formatting rules, cut rules, TRAVA FACTUAL integration, and verification checklist
 - Updated Step 1 (detection) with 3 new automatic signals
 - Updated Step 3 (references) with the new rapid-consumption reference
