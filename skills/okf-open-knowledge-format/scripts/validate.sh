@@ -142,11 +142,19 @@ while IFS= read -r -d '' file; do
   # v0.2 Provenance check
   if echo "$frontmatter" | grep -qE "^sources:"; then
     WITH_SOURCES=$((WITH_SOURCES + 1))
-    # Check that sources entries have resource field
-    # This is a simplified check - full YAML parsing would be better
-    sources_block=$(echo "$frontmatter" | sed -n '/^sources:/,/^[a-z]/p' | sed '$d')
-    if echo "$sources_block" | grep -q "^\s*-" && ! echo "$sources_block" | grep -qE "resource:"; then
-      echo -e "${YELLOW}W6: $relative — sources entry may be missing 'resource' field${NC}"
+    # Check that each sources entry has a resource field.
+    # The block runs from under `sources:` to the next top-level key, or to the
+    # end of the frontmatter when `sources:` is the last key.
+    sources_block=$(echo "$frontmatter" | awk '
+      /^sources:/ { inblock = 1; next }
+      inblock && /^[^[:space:]]/ { inblock = 0 }
+      inblock')
+    missing=$(echo "$sources_block" | awk '
+      /^[[:space:]]*-[[:space:]]/ { if (started && !has) bad++; started = 1; has = 0 }
+      /^[[:space:]]*(-[[:space:]]*)?resource:/ { if (started) has = 1 }
+      END { if (started && !has) bad++; print bad + 0 }')
+    if [ "$missing" -gt 0 ]; then
+      echo -e "${YELLOW}W6: $relative — $missing sources entry/entries missing 'resource' field${NC}"
       WARNINGS=$((WARNINGS + 1))
     fi
   fi
