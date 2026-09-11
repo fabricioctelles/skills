@@ -5,3 +5,7 @@ skills-lock.json
 .playwright-mcp
 docs/
 .claude/settings.local.json
+
+# Python
+__pycache__/
+*.py[cod]

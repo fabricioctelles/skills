@@ -20,6 +20,15 @@ Agent Skills are a lightweight, open format for extending AI agent capabilities 
 
 ## Available Skills
 
+### 💡 Startup Idea · `data-fetching-and-analysis`
+Analyzes a startup idea through three lenses at once: Paul Graham (pressure test, founder-market fit, brutal validation), Dan Koe (monetization, offer, distribution, sales) and Seth Godin (differentiation, narrative, smallest viable audience). Delivers a pressure test, a monetization path, the minimum viable audience, a remarkability check and an action plan — not a generic canvas.
+
+**When to use:** validate a startup idea, pressure-test a business model, define the MVP, find the first customers, design the revenue model, plan go-to-market, chase product-market fit, or any variation of "I have an idea".
+
+📄 [View full documentation](skills/startup-idea/SKILL.md)
+
+---
+
 ### 🔍 GEO Optimization (Generative Engine Optimization) · `code-quality-and-review`
 Optimizes digital content and marketing strategies for Generative Engines (LLMs, AI agents) to maximize citations in AI responses.
 
@@ -323,6 +332,11 @@ Audits websites for compliance with Brazil's LGPD (Lei 13.709/2018).
 
 ---
 
+### 🔒 LGPD.md
+> **Migrated** → This skill moved to [github.com/lgpd-app/skills](https://github.com/lgpd-app/skills)
+
+Generates and validates `lgpd.md` files — the LGPD compliance declaration standard.
+
 ---
 
 ### 📊 Skill Evaluation · `code-quality-and-review`
@@ -491,23 +505,28 @@ npx skills add https://github.com/fabricioctelles/skills
 Or install a specific skill:
 
 ```bash
+npx skills add https://github.com/fabricioctelles/skills -s startup-idea
+npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 npx skills add https://github.com/fabricioctelles/skills -s geo-optimization
 npx skills add https://github.com/fabricioctelles/skills -s substack-expert
-npx skills add https://github.com/fabricioctelles/skills -s pier-cloud
-npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
-npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
-npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
-npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
-npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
-npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s humanizar
-npx skills add https://github.com/fabricioctelles/skills -s auth-md
+npx skills add https://github.com/fabricioctelles/skills -s human-ai
+npx skills add https://github.com/fabricioctelles/skills -s pier-cloud
+npx skills add https://github.com/fabricioctelles/skills -s coolify-operator
 npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
+npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
+npx skills add https://github.com/fabricioctelles/skills -s design-md-validator
+npx skills add https://github.com/fabricioctelles/skills -s skill-evaluation
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
-npx skills add https://github.com/fabricioctelles/skills -s pstack-skill
-npx skills add https://github.com/fabricioctelles/skills -s revenue-centric-design
 npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
+npx skills add https://github.com/fabricioctelles/skills -s agent-ready-cloudflare
+npx skills add https://github.com/fabricioctelles/skills -s auth-md
+npx skills add https://github.com/fabricioctelles/skills -s pstack-skill
+npx skills add https://github.com/fabricioctelles/skills -s okf-open-knowledge-format
+npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-specs
+npx skills add https://github.com/fabricioctelles/skills -s loop-architect
+npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 ```
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
@@ -589,54 +608,92 @@ The Agent Skills format is universal and works with any compatible agent. See th
 
 ```
 skills/
+├── startup-idea/
+│   ├── SKILL.md
+│   └── evals/    # 3 lenses: Graham, Koe, Godin
+├── revenue-centric-design/
+│   ├── SKILL.md
+│   ├── references/  # 101 principles + audit output template
+│   └── scripts/     # revenue math: A/B sample size, churn to LTV, CAC
 ├── geo-optimization/
 │   ├── SKILL.md
-│   └── references/        # guiding principles and case studies
+│   └── references/  # guiding principles and case studies
 ├── substack-expert/
 │   ├── SKILL.md
-│   └── references/        # formatting best practices, SEO output example
-├── pier-cloud/
-│   ├── SKILL.md
-│   ├── scripts/           # Python scripts for API consumption
-│   └── references/        # API reference, troubleshooting guide
-├── resume-ats-beater/
-│   ├── SKILL.md
-│   └── references/        # diagnostic templates, output structure
-├── coolify-operator/
-│   ├── SKILL.md
-│   └── evals/             # 8 test scenarios
-└── ultimate-design-system-master/
-    ├── SKILL.md
-    └── references/        # briefing questionnaire, 10 specialized prompt files
-├── agent-ready-cloudflare/
-│   ├── README.md          # human-readable documentation with examples
-│   ├── SKILL.md           # main skill (API docs, operational flow, prompt templates)
-│   └── */SKILL.md         # 20 implementation sub-skills (robots-txt, mcp-server-card, etc.)
-├── ralph-loop-kiro-specs/
-│   ├── SKILL.md
-│   ├── scripts/           # bash loop runner script
-│   └── references/        # Ralph agent prompt template
-├── loop-architect/
-│   ├── SKILL.md           # loop design coach (adapted from Looper by ksimback)
-│   ├── scripts/           # compiler and model detection
-│   ├── templates/         # portable Python runner
-│   ├── references/        # rubrics (goal, verification, council, control)
-│   ├── schemas/           # loop.yaml JSON schema
-│   └── examples/          # ai-workflow-mapping example
+│   └── references/  # formatting best practices, SEO output example
 ├── humanizar/
 │   ├── SKILL.md
-│   └── references/        # 55+ AI patterns specific to Brazilian Portuguese (6 files)
+│   └── references/  # 55+ AI patterns specific to Brazilian Portuguese (7 files)
+├── human-ai/
+│   ├── SKILL.md
+│   ├── references/  # 43 EN patterns, empirical baselines
+│   └── scripts/     # measure.py — deterministic metrics
+├── pier-cloud/
+│   ├── SKILL.md
+│   ├── scripts/     # Python scripts for API consumption
+│   └── references/  # API reference, troubleshooting guide
+├── coolify-operator/
+│   ├── SKILL.md
+│   └── evals/    # 8 test scenarios
+├── astro-sites-manager/
+│   ├── SKILL.md
+│   └── references/  # Astro v7 migration, routing, deploy targets
+├── security-specialist/
+│   ├── SKILL.md
+│   ├── steering/    # 12 workflow docs including hunting methodology
+│   ├── scripts/     # 5 tools: Python + Node.js validator
+│   └── references/  # 5 spec docs: finding/report format, severity policy
+├── ultimate-design-system-master/
+│   ├── SKILL.md
+│   └── references/  # briefing questionnaire, 10 specialized prompt files
+├── design-md-validator/
+│   ├── SKILL.md
+│   └── references/  # Google DESIGN.md spec, lint rules, export formats
+├── skill-evaluation/
+│   ├── SKILL.md
+│   ├── references/  # 18 criteria across 4 axes, scorecard template
+│   └── scripts/     # trigger eval runner
+├── slop-eval/
+│   ├── SKILL.md
+│   ├── references/  # 8 axes of the anti-slop law
+│   └── scripts/     # Slop Index calculator
+├── agent-plugin-eval/
+│   ├── SKILL.md
+│   ├── agents/      # default evaluation agent
+│   ├── references/  # spec checklist, 18-criterion rubric, output template
+│   └── scripts/     # score.py + inspect_plugin.py (static audit)
+├── agent-ready-cloudflare/
+│   ├── README.md   # human-readable documentation with examples
+│   ├── SKILL.md    # main skill (API docs, operational flow, prompt templates)
+│   └── */SKILL.md  # 20 implementation sub-skills (robots-txt, mcp-server-card, etc.)
 ├── auth-md/
 │   ├── SKILL.md
-│   └── references/        # protocol template, validation rules, metadata schema, example, implementation guide
+│   └── references/  # protocol template, validation rules, metadata schema, example, implementation guide
 ├── pstack-skill/
-│   ├── README.md          # human-readable guide: install, use cases, model roles
-│   ├── SKILL.md           # the orchestrator (playbook router, principles index, autonomy rules)
-│   ├── playbooks/         # 23 step-by-step workflows copied verbatim onto todolists
-│   ├── references/        # 21 principles, 21 bundled procedures, plan + bot-review triage
-│   └── scripts/           # decision-log helper, worktree audit
+│   ├── README.md        # human-readable guide: install, use cases, model roles
+│   ├── SKILL.md         # the orchestrator (playbook router, principles index, autonomy rules)
+│   ├── UPSTREAM_COMMIT  # reviewed upstream reference
+│   ├── playbooks/       # 23 step-by-step workflows copied verbatim onto todolists
+│   ├── references/      # 21 principles, 21 bundled procedures, plan + bot-review triage
+│   └── scripts/         # decision-log helper, worktree audit
+├── okf-open-knowledge-format/
 │   ├── SKILL.md
-│   └── references/        # 6 compliance check modules (privacy policy, cookies, data minimization, transfers, rights, scripts)
+│   ├── references/  # OKF spec, bundle anatomy, enrichment rules
+│   └── scripts/     # validate.sh — bundle validator
+├── ralph-loop-kiro-specs/
+│   ├── SKILL.md
+│   ├── scripts/     # bash loop runner script
+│   └── references/  # Ralph agent prompt template
+├── loop-architect/
+│   ├── SKILL.md     # loop design coach (adapted from Looper by ksimback)
+│   ├── scripts/     # compiler and model detection
+│   ├── templates/   # portable Python runner
+│   ├── references/  # rubrics (goal, verification, council, control)
+│   ├── schemas/     # loop.yaml JSON schema
+│   └── examples/    # ai-workflow-mapping example
+└── resume-ats-beater/
+    ├── SKILL.md
+    └── references/  # diagnostic templates, output structure
 ```
 
 ## Author
