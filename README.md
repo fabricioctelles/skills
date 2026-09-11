@@ -1,6 +1,7 @@
 🇧🇷 [Versao em Portugues do Brasil](README-PT-BR.md)
 
 [![skills.sh](https://skills.sh/b/fabricioctelles/skills)](https://skills.sh/fabricioctelles/skills)
+[![agentskill.sh](https://img.shields.io/badge/agentskill.sh-%40fabricioctelles-7C3AED)](https://agentskill.sh/@fabricioctelles)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white)
 ![Astro](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=white)
 ![Coolify](https://img.shields.io/badge/Coolify-6B16ED?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQTEwIDEwIDAgMCAwIDIgMTJhMTAgMTAgMCAwIDAgMTAgMTAgMTAgMTAgMCAwIDAgMTAtMTBBMTAgMTAgMCAwIDAgMTIgMnoiLz48L3N2Zz4=&logoColor=white)
@@ -528,6 +529,39 @@ npx skills add https://github.com/fabricioctelles/skills -s ralph-loop-kiro-spec
 npx skills add https://github.com/fabricioctelles/skills -s loop-architect
 npx skills add https://github.com/fabricioctelles/skills -s resume-ats-beater
 ```
+
+### Via [SkillKit](https://github.com/rohitg00/skillkit)
+
+A package manager for skills with cross-agent translation. Runs with zero install:
+
+```bash
+npx skillkit add fabricioctelles/skills
+```
+
+Or install the CLI globally:
+
+```bash
+npm install -g skillkit                    # full
+npm install -g skillkit --omit=optional    # slim, ~75% smaller, no native addons
+
+skillkit install fabricioctelles/skills
+```
+
+Target specific agents (46 supported, including Claude Code, Cursor, Codex, Gemini CLI, Windsurf, Copilot, OpenCode, Kiro):
+
+```bash
+skillkit install fabricioctelles/skills --agent claude-code,cursor
+```
+
+**Cross-agent translation** — rewrites a skill into another agent's format:
+
+```bash
+skillkit translate humanizar --to cursor
+skillkit translate --all --to windsurf,codex
+skillkit translate slop-eval --to copilot --dry-run
+```
+
+`skillkit recommend` suggests skills based on your project's stack, and `skillkit ui` opens an interactive TUI.
 
 ### Via [Agent Skills CLI](https://www.agentskills.in/docs)
 
