@@ -184,4 +184,3 @@ for (const line of report) console.log(line);
 console.log(`${prSections.length} PR sections, ${problems.length} problems`);
 for (const p of problems) console.error(p);
 process.exit(problems.length ? 1 : 0);
-

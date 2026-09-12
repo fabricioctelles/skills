@@ -1,4 +1,4 @@
-# The 21 principles
+# The 23 principles
 
 One section per principle, in the order the orchestrator indexes them. Each entry names when it applies. Cite a principle only when it changed a real decision.
 
@@ -56,6 +56,29 @@ When integrating a change, don't bolt it onto the existing design. Redesign as i
 - Think about the redesign holistically, then deliver it incrementally
 
 This is the method for preserving option value when integrating changes into an existing design.
+
+---
+
+## attack-the-premise
+
+
+# Attack the Premise
+
+When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.
+
+**Why:** Each failure under a shared premise is evidence about the premise.
+
+**Pattern:**
+- **Write the premise down.** The premise is the one sentence that every failed fix assumed.
+- **Take a census before the next fix.** Count the imbalance per actor. The census shows which actors hold the imbalance, not how large it is. Write the census as a rerunnable script per Build the Lever.
+- **Read the skew.** If the same few actors hold most of the imbalance on every run, something assigns them that role. Find what assigns the role. That assignment is the next "why" per Fix Root Causes.
+- **Remove the asymmetry instead of compensating for it**, per the Laziness Protocol. Rotate the role between actors, randomize the assignment, or move the role, so that no actor holds it on every run. A return path, a shared pool, a batched hand-off, or a periodic rebalance leaves the assignment in place and adds work on every run.
+
+**Stop:**
+- Do not start the next fix before the premise is written down and the census exists.
+- If the census is even across actors, the premise is not the cause. Look for the cause elsewhere and keep the census as evidence.
+
+This principle is distinct from Redesign from First Principles, which rebuilds a design around a new requirement. It questions a fact the current design assumes.
 
 ---
 
@@ -417,6 +440,31 @@ Order work as a sequence of small units, each ending in a state you can check, a
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
 The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+
+---
+
+## test-behavior-not-implementation
+
+
+# Test Behavior, Not Implementation
+
+A test calls the code the way its users do and asserts the result they observe against a literal expected value. A test that asserts which calls the code made, or restates a constant the code contains, does neither.
+
+The check: before you keep a test, ask whether it would still pass if every function it imports returned `undefined`. If yes, it observes no behavior and cannot fail for a defect. Rewrite the assertion or delete the test.
+
+**Why:** A test that cannot fail for a defect costs CI time and review attention and catches nothing. A constant pin also fails when someone edits the constant or the prompt it restates, so it prevents that edit.
+
+**Five shapes that still pass when every imported function returns `undefined`:**
+
+- **Weak or no assertion.** No `expect`, or only `toBeDefined`, `toBeTruthy`, `not.toThrow`, `toBeInstanceOf`, `toBeGreaterThan(0)`.
+- **Mock or absence only.** Only `toHaveBeenCalled`, `not.toHaveBeenCalled`, `toBeUndefined`, `toEqual([])`, `toHaveLength(0)`, `not.toBe(wrongValue)`.
+- **Self-referential.** The expected value comes from the code under test: `expect(f(a)).toBe(f(a))`, `expect(parsed.url).toBe(buildUrl(...))`.
+- **Constant pin.** The assertion restates a hand-maintained constant, config default, table row, or prompt string: `expect(LIMITS.maxTools).toBe(8)`, `expect(PROMPT).toContain("You are")`.
+- **Fixture asserts fixture.** The assertion reads data the test built or a value computed in `beforeEach`, and the subject never runs inside the body.
+
+**The fix:** call the subject inside the test body with one concrete input and assert the literal output or the observable effect, `expect(slugify("Hello, World!")).toBe("hello-world")`. For an absence, assert the presence on the other input in the same test. For a constant, test the mechanism that reads it with one input instead of restating the value. For a mock, assert the payload it received or the state after the call, not that it was called. When no such assertion exists, delete the test.
+
+**Keep** a test of a relation across a table's rows (a key present in two tables, a parent that exists), and a compile-time check in a `*.test-d.ts` file.
 
 ---
 

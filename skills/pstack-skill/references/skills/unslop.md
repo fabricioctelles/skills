@@ -66,3 +66,5 @@ Plain speech:
 29. Active voice. Catch "is/are/was/were + past participle" and name the actor. Passive only when the actor is unknown or beside the point.
 30. Cut adverbs or use stronger verbs ("significantly improves" becomes the measured delta).
 31. The plain word ("utilize"→use, "leverage"→use, "facilitate"→help, "numerous"→many).
+32. Mannered prose. Metaphor or flourish where a literal phrase exists: aphorisms ("wire it or delete it"), rhetorical fragments for effect, personified code ("the plan holds it"), figurative verbs ("rides along", "stands on"), stock framing phrases. "A dial worth turning" becomes "a parameter worth varying". Say what you mean. Rule 26 covers the metaphor nouns.
+33. Over-compression. Dropped articles, verbless fragments, symbol-speak, and abbreviations that make the reader decode instead of read. "Parser rejects bad date → exit 2, no write" becomes "The parser rejects a bad date, exits with code 2, and writes nothing." Write whole sentences with their articles and verbs, and spell out arrows and abbreviations.
