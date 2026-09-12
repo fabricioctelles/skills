@@ -161,7 +161,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Autonomous run.** A long task driven to completion without stopping ("run until done"). `playbooks/autonomous-run.md`.
 - **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, fleets of subagents. `playbooks/orchestrate.md`.
 - **Autopilot-full.** A queue of independent PRs run to merged, one owner per PR, root swarm-verifies every merge head. `playbooks/autopilot-full.md`.
-- **Autopilot-stack.** Build and verify one linear reviewed stack for the operator to land herself. `playbooks/autopilot-stack.md`.
+- **Autopilot-stack.** Build and verify one linear reviewed stack for the operator to land. `playbooks/autopilot-stack.md`.
 - **Session pickup.** Resume or take over prior in-flight work. `playbooks/session-pickup.md`.
 - **Pause safely.** Suspend in-flight work cleanly so it can resume later. The complement to Session pickup. `playbooks/pause-safely.md`.
 - **Multi-phase plan.** Work spanning phases or stacked PRs; verified checklist in `playbooks/multi-phase-plan.md`.
