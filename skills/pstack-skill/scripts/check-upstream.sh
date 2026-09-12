@@ -189,7 +189,7 @@ Valide o resultado com:
 
 ```bash
 bash -n "__SKILL_DIR__/scripts/check-upstream.sh"
-python3 /home/fabricio/.codex/skills/.system/skill-creator/scripts/quick_validate.py "__SKILL_DIR__"
+[ -n "${SKILL_VALIDATE:-}" ] && "$SKILL_VALIDATE" "__SKILL_DIR__"
 git -C "__REPOSITORY_ROOT__" diff --check
 ```
 
