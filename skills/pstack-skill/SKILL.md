@@ -6,7 +6,7 @@ description: >
   feature, refactoring, perf, investigation, prototype, babysit, shipping,
   autonomous run, orchestrate, and more), routes to bundled procedures
   (how, why, architect, arena, swarm, interrogate, unslop, technical-writing,
-  show-me-your-work, tdd, and others), and applies 21 engineering principles.
+  show-me-your-work, tdd, and others), and applies 23 engineering principles.
   Self-contained: no plugin install, no sibling skills required, works with
   any agent that reads skills.sh-format SKILL.md files. Use whenever a task
   needs rigor: nontrivial code changes, architecture decisions, debugging,
@@ -28,7 +28,7 @@ This skill is **sticky**. Once invoked it stays on across turns, applying itself
 Everything referenced here ships inside this skill:
 
 - `playbooks/*.md` — the step-by-step workflows. Copy matched steps verbatim.
-- `references/principles.md` — the full text of the 21 principles indexed below.
+- `references/principles.md` — the full text of the 23 principles indexed below.
 - `references/bugbot-triage.md` — bot-review triage.
 - `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `setup-pstack`). Read the file when a step routes to one.
 - `scripts/log.sh` — decision-log helper. `scripts/worktree-audit.sh` — disk reclaim audit.
@@ -70,6 +70,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 - **Laziness protocol** ([link](references/principles.md#laziness-protocol)). Refactoring, sizing a diff, tempted to add abstractions or layers. Bias to deletion and the smallest change that solves the problem.
 - **Foundational thinking** ([link](references/principles.md#foundational-thinking)). Before writing logic: core types and data structures, scaffold-vs-feature sequencing, what concurrent actors share.
 - **Redesign from first principles** ([link](references/principles.md#redesign-from-first-principles)). Integrating a new requirement into an existing design. Redesign as if foundational from day one.
+- **Attack the premise** ([link](references/principles.md#attack-the-premise)). Two or more fixes that share one premise have failed the same gate. Take a census of which actors hold the imbalance before the next fix, then question the premise instead of writing another fix that assumes it.
 - **Subtract before you add** ([link](references/principles.md#subtract-before-you-add)). Sequencing an addition, refactor, or rewrite. Remove dead weight first, then build on the simpler base.
 - **Minimize reader load** ([link](references/principles.md#minimize-reader-load)). Reviewing or shaping hard-to-trace code. Count layers and hidden state; collapse one-caller wrappers; shrink mutable scope.
 - **Outcome-oriented execution** ([link](references/principles.md#outcome-oriented-execution)). Planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; do not preserve throwaway compatibility states.
@@ -91,6 +92,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 - **Prove it works** ([link](references/principles.md#prove-it-works)). After a task, before declaring done. Verify against the real artifact, never a proxy, self-report, or "it compiles".
 - **Fix root causes** ([link](references/principles.md#fix-root-causes)). Debugging. Trace symptoms to root cause, reproduce first, ask why until you reach it.
 - **Sequence work into verifiable units** ([link](references/principles.md#sequence-verifiable-units)). Multi-step work and how commits stack. Small units each ending in a check, verified before the next, ordered so the sequence proves itself.
+- **Test behavior, not implementation** ([link](references/principles.md#test-behavior-not-implementation)). Writing, changing, or keeping a test. Call the code the way its users do and assert the result against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test.
 
 **Delegation**
 
