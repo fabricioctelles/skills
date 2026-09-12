@@ -1,7 +1,7 @@
 # Skill Evaluation — human-ai
 
 > Evaluated: 2026-07-01
-> Source: /home/fabriciotelles/GIT/skills/skills/human-ai
+> Source: skills/human-ai
 > Evaluator: skill-evaluation v1.0.0
 > Framework: [Anthropic Skill Best Practices](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills)
 
