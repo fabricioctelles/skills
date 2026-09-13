@@ -13,11 +13,11 @@
 ![LGPD](https://img.shields.io/badge/LGPD%20%2F%20Privacy-059669?logo=shieldsdotio&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-DC2626?logo=owasp&logoColor=white)
 
-# 🧠 Agent Skills by ft.ia.br
+# 🧠 AI Agent Skills — Open Source Collection for Claude Code, Cursor, Kiro & OpenCode
 
-A collection of [Agent Skills](https://agentskills.io) for AI agents (Kiro, Cursor, Codex, Claude Code, and others). Each skill is a reusable module that teaches the agent to perform complex tasks with context, structure, and best practices.
+26 production-ready skills for AI coding agents. Install with one command, use across Claude Code, Cursor, Kiro, Windsurf, and OpenCode. Each skill teaches the agent to perform complex tasks — from rigorous engineering (pstack) to text humanization, SEO audits, and infrastructure automation.
 
-Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows. Each skill is a folder with a `SKILL.md` file containing metadata and instructions that agents load on demand via progressive disclosure. Learn more at [agentskills.io](https://agentskills.io/what-are-skills.md).
+[Agent Skills](https://agentskills.io) are a lightweight, open format for extending AI agent capabilities. Each skill is a folder with a `SKILL.md` file containing metadata and instructions that agents load on demand. Learn more at [agentskills.io](https://agentskills.io/what-are-skills.md).
 
 ## Available Skills
 
@@ -201,8 +201,8 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 
 ---
 
-### 👑 Pstack Skill — Rigorous Engineering Orchestrator · `code-quality-and-review`
-Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) as a single skills.sh-compatible skill — no plugin install, no Cursor required. One orchestrator that reads your task, picks one of 23 playbooks (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to 21 bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, technical-writing, show-me-your-work, tdd), and applies 21 engineering principles. Cursor-specific mechanics (cloud agents, Graphite, vendor model slugs) are translated to platform-agnostic equivalents: plain git/gh, subagents in isolated worktrees, and four model roles (`worker`, `builder`, `judge`, `peer`) bound once via config.
+### 👑 Pstack Skills — 23 Playbooks for Claude Code, Cursor & OpenCode · `code-quality-and-review`
+Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) — 23 playbooks, 21 procedures, 21 engineering principles. No plugin install, no Cursor required. Runs in Claude Code, Cursor, Kiro, and OpenCode. One orchestrator that reads your task, picks the right playbook (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, tdd), and applies engineering principles with traceable citations.
 
 **When to use:** any task that needs rigor — nontrivial code changes, architecture decisions, debugging with repro-first discipline, adversarial reviews, PR babysitting and shipping, long autonomous runs — or "poteto-mode", "work like poteto", "pstack". Works single-model; panels degrade to fresh-context passes without weakening any verification gate.
 
