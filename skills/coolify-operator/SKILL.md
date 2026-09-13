@@ -958,6 +958,155 @@ curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}"
 
 ---
 
+## Multi-Instance Environments
+
+When operating multiple Coolify instances (e.g., production, staging, development on separate servers), follow these conventions to avoid confusion.
+
+### Environment Variable Naming
+
+Use suffixed variable names to distinguish instances:
+
+```bash
+# .env structure for multi-instance
+COOLIFY_KEY_PROD=3|abc...      # Production instance token
+COOLIFY_PROD=https://cool.prod.example.com/api/v1
+
+COOLIFY_KEY_STAGING=5|def...   # Staging instance token  
+COOLIFY_STAGING=https://cool.staging.example.com/api/v1
+
+COOLIFY_KEY_DEV=2|ghi...       # Dev instance token
+COOLIFY_DEV=https://cool.dev.example.com/api/v1
+```
+
+### CLI Context Setup for Multi-Instance
+
+```bash
+# Add all instances as named contexts
+coolify context add prod https://cool.prod.example.com "$COOLIFY_KEY_PROD"
+coolify context add staging https://cool.staging.example.com "$COOLIFY_KEY_STAGING"
+coolify context add dev https://cool.dev.example.com "$COOLIFY_KEY_DEV"
+
+# Set default (usually prod)
+coolify context set-default prod
+
+# Always verify which context is active before operations
+coolify context list
+```
+
+### Finding Which Instance Hosts an App
+
+When you don't know which instance hosts a specific application:
+
+```bash
+# Search across all contexts
+for ctx in prod staging dev; do
+  echo "=== $ctx ==="
+  coolify --context=$ctx app list --format json 2>/dev/null | \
+    jq -r '.[] | "\(.name) | \(.fqdn // "no-fqdn")"' | \
+    grep -i "your-app-name" || echo "(not found)"
+done
+```
+
+---
+
+## Diagnosing Failed Deployments
+
+### Quick Diagnosis Workflow
+
+```bash
+# 1. List recent deployments for the app
+coolify app deployments list <app-uuid> --format json | jq '.[0:3]'
+
+# 2. Check status of latest deployment
+coolify app deployments list <app-uuid> --format json | jq '.[0] | {status, commit, finished_at}'
+
+# 3. Get deployment logs (latest)
+coolify app deployments logs <app-uuid>
+
+# 4. Get detailed debug logs (shows Docker build output)
+coolify app deployments logs <app-uuid> --debuglogs
+
+# 5. Get logs for specific deployment
+coolify app deployments logs <app-uuid> <deployment-uuid> --debuglogs
+```
+
+### Common Build Failures
+
+#### YAML Frontmatter Parsing Error (Astro/MDX sites)
+
+```
+incomplete explicit mapping pair; a key node is missed
+```
+
+**Cause:** Unquoted colons (`:`) in YAML frontmatter values.
+
+```yaml
+# WRONG - colon breaks YAML parser
+description: Install this tool: it's great
+
+# CORRECT - quote the value
+description: "Install this tool: it's great"
+```
+
+#### npm ci / npm install Failures
+
+```
+npm ERR! Could not resolve dependency
+```
+
+**Cause:** Lock file mismatch or missing dependencies.
+
+```bash
+# Fix locally, then push
+rm -rf node_modules package-lock.json
+npm install
+git add package-lock.json
+git commit -m "fix: regenerate lock file"
+git push
+```
+
+#### Dockerfile Build Failures
+
+```
+ERROR: failed to solve: process "/bin/sh -c npm run build" did not complete successfully
+```
+
+**Cause:** Build command fails inside container. Check the lines above the error for the actual failure (often a code/config issue, not Docker).
+
+#### Health Check Timeout
+
+```
+Healthcheck failed after X attempts
+```
+
+**Cause:** App didn't respond on the configured health check path/port in time.
+
+```bash
+# Check health check config
+coolify app get <uuid> --format json | jq '{health_check_enabled, health_check_path, health_check_port}'
+
+# Common fixes:
+# - Increase start period in Coolify UI
+# - Verify the health check path returns 200
+# - Check if app binds to 0.0.0.0, not 127.0.0.1
+```
+
+### Interpreting Deployment Logs JSON
+
+The `logs` field in deployment JSON contains an array of log entries:
+
+```bash
+# Extract just error messages
+coolify app deployments list <uuid> --format json | \
+  jq -r '.[0].logs' | jq -r '.[] | select(.type == "stderr") | .output'
+
+# Find the actual failure point
+coolify app deployments list <uuid> --format json | \
+  jq -r '.[0].logs' | jq -r '.[] | select(.output | test("error|ERROR|failed|FAILED"; "i")) | .output'
+```
+
+---
+
 ## Troubleshooting
 
 ### Error: 405 Method Not Allowed (v4.2.0+)
