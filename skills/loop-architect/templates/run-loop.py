@@ -11,6 +11,7 @@ import argparse
 import datetime as _dt
 import fnmatch
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -21,6 +22,10 @@ from typing import Any
 
 PASS = "pass"
 REVISE = "revise"
+
+DEFAULT_REDACTIONS = [".env", ".env.*", "secrets/**", "**/*.key"]
+
+SKIP_DIRS = {".git", "__pycache__", "node_modules", ".venv"}
 
 
 class RunnerError(RuntimeError):
@@ -62,15 +67,31 @@ def ensure_argv(value: Any, field: str) -> list[str]:
 
 def relative_to_base(path_text: str, base_dir: Path) -> Path:
     path = Path(path_text)
-    return path if path.is_absolute() else base_dir / path
+    resolved = path if path.is_absolute() else base_dir / path
+    try:
+        resolved.resolve().relative_to(base_dir.resolve())
+    except ValueError:
+        raise RunnerError(
+            f"Path {path_text!r} escapes the loop directory {base_dir}; "
+            "workspace and context paths must stay inside the loop directory"
+        ) from None
+    return resolved
 
 
 def is_redacted(path: Path, base_dir: Path, globs: list[str]) -> bool:
     try:
-        rel = path.relative_to(base_dir).as_posix()
+        rel = path.resolve().relative_to(base_dir.resolve()).as_posix()
     except ValueError:
         rel = path.name
-    return any(fnmatch.fnmatch(rel, pattern) for pattern in globs)
+    # Match each pattern against the relative path and every path suffix so
+    # bare patterns like ".env" also cover nested files like "config/.env".
+    parts = rel.split("/")
+    suffixes = {"/".join(parts[i:]) for i in range(len(parts))}
+    for pattern in globs:
+        normalized = pattern[3:] if pattern.startswith("**/") else pattern
+        if any(fnmatch.fnmatch(candidate, normalized) for candidate in suffixes):
+            return True
+    return False
 
 
 def run_argv(
@@ -86,7 +107,8 @@ def run_argv(
             input=stdin,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True,
+            encoding="utf-8",
+            errors="replace",
             cwd=str(cwd),
             timeout=timeout_sec,
             check=False,
@@ -152,6 +174,11 @@ class Runner:
         self.state_path = self.workspace / self.observability.get("state_file", "state.json")
         self.state = self.load_state()
         self.started = time.monotonic()
+        # Per-run caches for the scrub layer: flagged-file contents are read
+        # once per glob set, surfaced events are logged once per destination.
+        self._flagged_cache: dict[tuple[str, ...], list[tuple[str, str]]] = {}
+        self._unscrubbable_reported: set[str] = set()
+        self._surfaced_events: set[tuple[str, tuple[str, ...]]] = set()
 
     def load_state(self) -> dict[str, Any]:
         if self.state_path.exists():
@@ -225,57 +252,142 @@ class Runner:
         return self.spec["council_by_id"][member_id]
 
     def redactions_for(self, member_id: str) -> list[str]:
-        redactions: list[str] = []
+        # Defaults always apply; configured egress redactions extend them.
+        redactions = list(DEFAULT_REDACTIONS)
         for entry in self.spec.get("privacy", {}).get("egress", []):
             if entry.get("to") == member_id:
-                redactions.extend(entry.get("redact", []))
-        return redactions or [".env", ".env.*", "secrets/**", "**/*.key"]
+                for pattern in entry.get("redact", []):
+                    if pattern not in redactions:
+                        redactions.append(pattern)
+        return redactions
+
+    def all_redaction_globs(self) -> list[str]:
+        globs = list(DEFAULT_REDACTIONS)
+        for entry in self.spec.get("privacy", {}).get("egress", []):
+            for pattern in entry.get("redact", []):
+                if pattern not in globs:
+                    globs.append(pattern)
+        return globs
+
+    def iter_redaction_files(self, globs: list[str]):
+        for root, dirs, files in os.walk(self.base_dir):
+            dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+            for name in files:
+                path = Path(root) / name
+                if is_redacted(path, self.base_dir, globs):
+                    yield path
+
+    def flagged_file_contents(self, globs: list[str]) -> list[tuple[str, str]]:
+        """Read flagged files once per glob set; surface the unreadable ones.
+
+        A flagged file the scrub cannot read (too large, not UTF-8) cannot be
+        detected if its content leaks, so that blind spot is reported instead
+        of silently skipped.
+        """
+        key = tuple(sorted(globs))
+        if key in self._flagged_cache:
+            return self._flagged_cache[key]
+        contents: list[tuple[str, str]] = []
+        for path in self.iter_redaction_files(globs):
+            rel = path.relative_to(self.base_dir).as_posix()
+            reason = ""
+            try:
+                if path.stat().st_size > 1_000_000:
+                    reason = "larger than 1MB"
+                else:
+                    secret_text = path.read_text(encoding="utf-8")
+                    if secret_text.strip():
+                        contents.append((rel, secret_text))
+                    continue
+            except UnicodeDecodeError:
+                reason = "not valid UTF-8"
+            except OSError as exc:
+                reason = f"unreadable ({exc})"
+            if reason and rel not in self._unscrubbable_reported:
+                self._unscrubbable_reported.add(rel)
+                self.append_log("redaction_unscrubbable", source=rel, reason=reason)
+                self.add_state_warning(
+                    f"flagged file {rel} is {reason}; its content cannot be "
+                    "detected by the scrub layer if it leaks into artifacts"
+                )
+        self._flagged_cache[key] = contents
+        return contents
+
+    def scrub_flagged_content(self, text: str, globs: list[str]) -> tuple[str, list[str]]:
+        """Remove content originating from redaction-glob files.
+
+        The flagged files themselves are never read into prompts (path-based
+        non-send in gather_context); this second layer catches their content
+        when it re-surfaces elsewhere - a cmd context source that printed it,
+        or an artifact a model copied it into. Returns the scrubbed text and
+        the relative paths whose content was found. Best effort by design,
+        erring toward over-redaction: reformatted content or lines shorter
+        than 8 characters can survive, and a flagged-file line that
+        legitimately appears elsewhere is masked too.
+        """
+        original = text
+        hits: list[str] = []
+        for rel, secret_text in self.flagged_file_contents(globs):
+            marker = f"[redacted:{rel}]"
+            # Detect against the original text so a secret shared by two
+            # flagged files attributes both, not just the first replaced.
+            lines = [line.strip() for line in secret_text.splitlines() if len(line.strip()) >= 8]
+            if secret_text in original or any(line in original for line in lines):
+                hits.append(rel)
+            text = text.replace(secret_text, marker)
+            for line in lines:
+                text = text.replace(line, marker)
+        return text, hits
+
+    def add_state_warning(self, note: str) -> None:
+        warnings = list(self.state.get("warnings", []) or [])
+        if note not in warnings:
+            warnings.append(note)
+            self.save_state(warnings=warnings)
+
+    def surface_redaction(self, where: str, hits: list[str]) -> None:
+        if not hits:
+            return
+        event_key = (where, tuple(hits))
+        if event_key not in self._surfaced_events:
+            self._surfaced_events.add(event_key)
+            self.append_log("redaction_applied", where=where, sources=hits)
+        self.add_state_warning(
+            f"flagged content from {', '.join(hits)} appeared in {where}; "
+            "scrubbed before use"
+        )
 
     def redact_prompt_for_member(self, member_id: str, prompt: str) -> str:
-        redactions = self.redactions_for(member_id)
-        redacted = prompt
-        for pattern in redactions:
-            paths = list(self.base_dir.glob(pattern))
-            if pattern.endswith("/**"):
-                root = self.base_dir / pattern[:-3]
-                if root.exists():
-                    paths.extend(root.rglob("*"))
-            for path in paths:
-                if not path.is_file():
-                    continue
-                try:
-                    secret_text = path.read_text(encoding="utf-8")
-                except UnicodeDecodeError:
-                    continue
-                if not secret_text.strip() or len(secret_text) > 1_000_000:
-                    continue
-                marker = f"[redacted:{path.relative_to(self.base_dir).as_posix()}]"
-                redacted = redacted.replace(secret_text, marker)
-                for line in secret_text.splitlines():
-                    stripped = line.strip()
-                    if len(stripped) >= 8:
-                        redacted = redacted.replace(stripped, marker)
-        return redacted
+        scrubbed, hits = self.scrub_flagged_content(prompt, self.redactions_for(member_id))
+        self.surface_redaction(f"prompt for {member_id}", hits)
+        return scrubbed
 
     def ensure_consent(self, member_id: str) -> None:
         member = self.member(member_id)
         if member.get("local"):
             return
+        if self.state.get("consent", {}).get(member_id):
+            return
         matching = [
             entry
             for entry in self.spec.get("privacy", {}).get("egress", [])
-            if entry.get("to") == member_id and entry.get("consent") == "required"
+            if entry.get("to") == member_id
         ]
-        if not matching:
-            return
-        if self.state.get("consent", {}).get(member_id):
+        # Consent fails closed: a non-local member always needs consent unless
+        # every egress entry for it explicitly pre-grants with consent: granted.
+        if matching and all(entry.get("consent") == "granted" for entry in matching):
             return
         sends = sorted({item for entry in matching for item in entry.get("sends", [])})
-        redactions = sorted({item for entry in matching for item in entry.get("redact", [])})
+        redactions = self.redactions_for(member_id)
         print()
-        print(f"Looper is about to send {', '.join(sends) or 'context'} to {member_id}.")
+        print(f"Looper is about to send {', '.join(sends) or 'loop artifacts'} to {member_id}.")
         print(f"CLI: {member.get('cli')} / model: {member.get('model', 'default')}")
-        print(f"Redactions: {', '.join(redactions) or '(none)'}")
+        print(f"Redactions: {', '.join(redactions)}")
+        for note in self.state.get("warnings", []) or []:
+            if f"prompt for {member_id}" in note:
+                print(f"Warning: {note}")
+        if not matching:
+            print("No privacy.egress entry covers this member; consent is required by default.")
         answer = input("Type 'yes' to consent to this first send: ").strip().lower()
         if answer != "yes":
             self.save_state(status="blocked", failure=f"consent_refused:{member_id}")
@@ -286,12 +398,18 @@ class Runner:
 
     def gather_context(self) -> str:
         goal = self.spec["goal"]
+        redaction_globs = self.all_redaction_globs()
         chunks: list[str] = []
         for index, source in enumerate(goal.get("context_sources", []), start=1):
             self.enforce_wall_clock()
             if "file" in source:
-                path = relative_to_base(source["file"], self.base_dir)
-                if is_redacted(path, self.base_dir, [".env", ".env.*", "secrets/**", "**/*.key"]):
+                try:
+                    path = relative_to_base(source["file"], self.base_dir)
+                except RunnerError:
+                    chunks.append(f"## Context source {index}: {source['file']}\n[blocked: outside loop directory]\n")
+                    self.append_log("context", source=source["file"], status="blocked_outside_base")
+                    continue
+                if is_redacted(path, self.base_dir, redaction_globs):
                     chunks.append(f"## Context source {index}: {source['file']}\n[redacted]\n")
                     self.append_log("context", source=source["file"], status="redacted")
                 elif path.exists():
@@ -303,10 +421,15 @@ class Runner:
             elif "cmd" in source:
                 argv = ensure_argv(source["cmd"], f"context_sources[{index}].cmd")
                 result = run_argv(argv, cwd=self.base_dir, timeout_sec=int(source.get("timeout_sec", 60)))
-                chunks.append(
-                    f"## Context source {index}: {' '.join(argv)}\n"
-                    f"exit={result.returncode}\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}\n"
+                # Command output can reproduce flagged-file content (cat, git
+                # log, env dumps); scrub it before it enters any prompt.
+                block = (
+                    f"exit={result.returncode}\nstdout:\n{result.stdout}\n"
+                    f"stderr:\n{result.stderr}\n"
                 )
+                block, hits = self.scrub_flagged_content(block, redaction_globs)
+                self.surface_redaction(f"context command output ({' '.join(argv)})", hits)
+                chunks.append(f"## Context source {index}: {' '.join(argv)}\n{block}")
                 self.append_log("context_cmd", argv=argv, returncode=result.returncode)
         context = "\n".join(chunks).strip()
         write_text(self.workspace / "context.md", context or "No context sources configured.")
@@ -400,15 +523,14 @@ class Runner:
         artifact_text: str,
         criteria: list[dict[str, Any]],
     ) -> dict[str, Any]:
-        self.ensure_consent(member_id)
-        output = call_model(
-            self.member(member_id),
-            self.redact_prompt_for_member(
-                member_id,
-                self.judge_prompt(gate_name, artifact_label, artifact_text, criteria),
-            ),
-            self.base_dir,
+        # Scrub (and surface any leak) before asking for consent, so the
+        # consent decision is made with the leak warning already visible.
+        prompt = self.redact_prompt_for_member(
+            member_id,
+            self.judge_prompt(gate_name, artifact_label, artifact_text, criteria),
         )
+        self.ensure_consent(member_id)
+        output = call_model(self.member(member_id), prompt, self.base_dir)
         verdict = parse_judge_output(output)
         verdict["member"] = member_id
         self.append_log("judge_verdict", gate=gate_name, member=member_id, verdict=verdict.get("verdict"))
@@ -426,13 +548,13 @@ class Runner:
             member = self.member(member_id)
             if member.get("role") != "reviewer":
                 continue
-            self.ensure_consent(member_id)
             prompt = (
                 "You are a Looper reviewer. Return concise blocking and non-blocking notes. "
                 "Do not return a verdict.\n\n"
                 f"Gate: {gate_name}\nArtifact: {artifact_label}\n\n{artifact_text}\n"
             )
             prompt = self.redact_prompt_for_member(member_id, prompt)
+            self.ensure_consent(member_id)
             notes.append(f"## {member_id}\n\n{call_model(member, prompt, self.base_dir)}")
             self.append_log("reviewer_notes", gate=gate_name, member=member_id)
         return notes
