@@ -14,8 +14,8 @@ description: >
   "frontmatter tokens", or any request to verify a DESIGN.md file.
 metadata:
   author: https://ft.ia.br
-  version: "1.2"
-  date: 2026-08-05
+  version: "1.3"
+  date: 2026-09-16
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: product-verification
@@ -87,8 +87,9 @@ npx @google/design.md export --format css-vars DESIGN.md
 npx @google/design.md export --format css-vars --prefix ds DESIGN.md
 ```
 
-`css-vars` is available on main, ships in the next release — if the CLI
-rejects the format, npm is still on 0.3.0.
+`css-vars` shipped in npm 0.4.0 (2026-07-27). Pin with
+`npx @google/design.md@0.4.0` only if you must freeze the CLI; default `npx`
+already resolves 0.4.0+.
 
 ### Spec (output the format specification)
 
@@ -184,15 +185,19 @@ npx -p @google/design.md designmd lint DESIGN.md
 
 ## Related Official Skills
 
-| Skill | Source | Purpose |
-|---|---|---|
-| `stitch-design-taste` | google-labs-code/stitch-skills | Generates DESIGN.md for Google Stitch |
-| `design-md` (Stitch plugin) | google-labs-code/stitch-skills | Analyzes Stitch projects → DESIGN.md |
-| `taste-design` (MCP) | mcpservers.org | MCP server for Stitch design extraction |
+Names below match `google-labs-code/stitch-skills` as of 2026-09-16.
+`stitch-design-taste` is gone.
 
-Install the official Stitch skill for generation:
+| Skill | Plugin | Purpose |
+|---|---|---|
+| `generate-design` | stitch-design | New screens, edits, variants in Stitch |
+| `extract-design-md` | stitch-design | DESIGN.md from frontend source |
+| `design-md` | stitch-utilities | DESIGN.md from a Stitch project |
+| `taste-design` | stitch-utilities | Premium / anti-generic DESIGN.md |
+
+Install:
 ```bash
-npx skills add https://github.com/google-labs-code/stitch-skills --skill design-md
+npx skills add google-labs-code/stitch-skills
 ```
 
 ---

@@ -1,12 +1,11 @@
 # Linting Rules — @google/design.md
 
-> Generated against npm 0.3.0 + main as of 2026-07-18. Authoritative source at
-> runtime: `npx @google/design.md spec --rules-only`.
+> Generated against npm 0.4.0 (git `9bf8eae`, 2026-07-27). Authoritative
+> source at runtime: `npx @google/design.md spec --rules-only`.
 
-The linter runs nine rules against a parsed DESIGN.md in the published npm
-0.3.0 release; a tenth rule (`token-like-ignored`) has merged on main and
-ships in the next release. Each rule produces findings at a fixed severity
-level.
+The linter runs eleven rules against a parsed DESIGN.md. `token-like-ignored`
+and `omitted-rules` both ship in 0.4.0. Each rule produces findings at a
+fixed severity level.
 
 ## Rules Table
 
@@ -21,7 +20,24 @@ level.
 | `missing-typography` | warning | Colors are defined but no typography tokens exist — agents will use default fonts |
 | `section-order` | warning | Sections appear out of the canonical order defined by the spec |
 | `unknown-key` | warning | A top-level YAML key looks like a typo of a known schema key (e.g. `colours:` → `colors:`) |
-| `token-like-ignored` | warning | **Next release (on main since 2026-06-15, not in npm 0.3.0).** Warns when a top-level YAML key looks like a design-token map but is not part of the recognized export schema and will be silently ignored |
+| `token-like-ignored` | warning | A top-level YAML key looks like a design-token map but is not part of the recognized export schema and will be silently ignored |
+| `omitted-rules` | info | Validates the optional `omitted` frontmatter list; flags redundant or unknown entries |
+
+## `omitted` frontmatter (0.4.0)
+
+Authors can list skipped categories so expected-missing warnings stay quiet.
+Bare strings or objects with a reason:
+
+```yaml
+omitted:
+  - spacing
+  - rounded
+  - name: elevation
+    reason: not used in this product
+```
+
+Unknown names and entries that are not actually omitted produce `omitted-rules`
+info findings. Do not invent omitted categories to hide real lint errors.
 
 ## Section Order (canonical)
 
@@ -53,6 +69,7 @@ in this order:
 
 - `0` — No errors (warnings/info may be present)
 - `1` — Errors found (file is invalid per spec)
+- `2` — Input failure (file not found or unreadable) — 0.4.0
 
 ## Programmatic API
 
