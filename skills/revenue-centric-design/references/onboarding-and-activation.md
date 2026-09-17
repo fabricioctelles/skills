@@ -2,11 +2,17 @@
 
 > Curated, distilled wisdom from @richardrx ("Richard — Design for startups"), translated from Portuguese. Each entry is a reusable principle linked to its source post.
 
+## Map the whole journey to value — then fix the biggest drop, not the first step
+**Principle.** Founders rush to the top of the funnel when activation falls, but the leak is usually in the middle — the step where effort is already high and the user hasn't seen proof it's worth it. Method: (1) Define what "value" is (the first moment the user gets the promised result — measurable, visible in data). (2) List every step between signup and that value (every screen, click, wait, field — always more than you remember). (3) Measure drop per step; find the steepest fall. (4) Fix the biggest drop first — that's where the money is. (5) Diagnose why: friction (cut), confusion (direct attention), ordering (deliver value before asking effort).
+**Apply when.** Activation is low and you're not sure where the leak is.
+**The move.** Count the steps before first value — each is a chance to quit. High activation lives in the shortest path to first result, not the most complete product before it. Almost every founder has this map in their head and never on paper; the head version always looks shorter.
+**Source.** [@richardrx · 2026-07-08](https://x.com/richardrx/status/2074814716824731651)
+
 ## An onboarding video welcomes — it doesn't teach
 **Principle.** A good onboarding video isn't a manual (nobody reads their car's or iPhone's). It welcomes, builds connection, shows the product at a glance, and points to where value comes fastest.
 **Apply when.** Designing first-run onboarding or a welcome video.
 **The move.** Aim it at cutting TTV, support tickets, and the lost feeling — not at educating. Length follows your ICP's urgency (someone rushing vs. someone happy to build Lego). No actor or fancy set — Richard recorded his in Screen Studio and it beat many big products'.
-**Visual.** A "Your account was created!" welcome modal with an embedded intro-video thumbnail and a single "Next" CTA
+**Visual.** A "Your account was created!" welcome modal with an embedded intro-video thumbnail and a single "Next" CTA — `../assets/2067987722954735812__1.jpg`
 **Voice.** "Your product doesn't need a manual either — have you read your car's?"
 **Source.** [@richardrx · 2026-06-19](https://x.com/richardrx/status/2067987722954735812)
 
@@ -97,7 +103,7 @@
 **Apply when.** You're weighing an 8-field signup form against email + password.
 **The move.** Default to the minimal form and let qualification happen later, inside the product, from real behavior. Deciding where to add versus remove friction is what separates a product that grows from one that spins its wheels — but it's contextual ("it depends").
 **Evidence.** Same product, two founders: 8-field form (name, email, company, role, phone, segment, team size, how-did-you-hear) → 12% signup rate; email + password only → 34%.
-**Visual.** Annotated onboarding step (DevNoodles): an ICP/intent question flagged "Zeigarnik effect" (the step progress dots) and a B2C/B2B card selector flagged "Progress effect" — showing where each bias is engineered into the flow.
+**Visual.** Annotated onboarding step (DevNoodles): an ICP/intent question flagged "Zeigarnik effect" (the step progress dots) and a B2C/B2B card selector flagged "Default effect" (the B2C card is pre-badged "Mais comum") — showing where each bias is engineered into the flow. — `../assets/2042558822825239030__1.jpg`
 **Source.** [@richardrx · 2026-04-10](https://x.com/richardrx/status/2042558822825239030)
 
 ## Celebrate the activation moment, don't just confirm it
@@ -113,7 +119,7 @@
 **Apply when.** Your activation flow is slow and you assume the product itself is the bottleneck.
 **The move.** Three iteration cycles, no product changes: (1) reduce cognitive load by grouping and standardizing what the user must fill in; (2) work with legal/compliance to strip everything required by habit but not by actual necessity; (3) invert the sequence so the user feels value before facing the heaviest step.
 **Evidence.** Major Brazilian payments platform: 24 days → 2.5 days to first sale (89.7% reduction), no product changes, no cutting of mandatory compliance steps.
-**Visual.** Month-by-month TTV table: Jan 24.2d → Feb 19.6d → Mar 16.8d → Apr 9.3d → May 2.5d, alongside accounts created / approved / new sellers per month.
+**Visual.** Month-by-month TTV table: Jan 24.2d → Feb 19.6d → Mar 16.8d → Apr 9.3d → May 2.5d, alongside accounts created / approved / new sellers per month. — `../assets/2037583944283996418__1.jpg`
 **Source.** [@richardrx · 2026-03-27](https://x.com/richardrx/status/2037583944283996418)
 
 ## Give the trial an active goal, not passive access
@@ -128,7 +134,7 @@
 **Apply when.** Your first onboarding step bundles setup, data import, team invites, and project creation — or demands a campaign-sized action.
 **The move.** Two biases fix it: (1) started-progress effect — show what the user has already done before what's left; a loyalty card with the first stamp pre-filled beats a blank 9-stamp card, because the starting point changes perceived distance to the finish; (2) small-steps effect — "Create one story today" has radically lower perceived cost than "post 5×/week," even when the underlying task is identical. Sequence effort so the user hits first value before noticing how much they invested; build momentum.
 **Evidence.** Instagram A/B test made "Create 5 new public reels" the first task — for someone who barely posts weekly, that's paralyzing.
-**Visual.** Bad first-step example: a weekly-progress checklist at "0% completed" whose top item is "Create 5 new public reels (0/5)."
+**Visual.** Bad first-step example: a weekly-progress checklist at "0% completed" whose top item is "Create 5 new public reels (0/5)." — `../assets/2036461688505909250__1.jpg`
 **Voice.** "Asking for more isn't necessarily the problem; asking for all of it at once, with no progress anchor and no commitment ladder, is."
 **Source.** [@richardrx · 2026-03-24](https://x.com/richardrx/status/2036461688505909250)
 

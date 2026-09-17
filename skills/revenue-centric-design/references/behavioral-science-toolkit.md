@@ -15,7 +15,7 @@
 **Apply when.** Any choice the user must make — pricing tier, billing cadence, seat count, notifications, checkout — especially before you spend hours rewriting CTAs.
 **The move.** Exploit status-quo bias plus cognitive-load reduction. Pre-select the mid-tier you want to sell (the default takes 60–80% of choices); default billing to annual to lift contracted MRR without changing price; start the seat selector at your ICP's typical count (anchoring); run a reverse trial where premium is the default and free is the opt-out, so the user must actively give up what they already have. Three rules: defaults must be ethically defensible (checkbox tricks become churn and complaints), smart defaults beat copy, and a default acknowledges the user won't burn energy deciding what's trivial to you.
 **Evidence.** Organ-donor study (Science, 2003): opt-out countries register ~6× more donors than opt-in. Germany (opt-in) ~12% vs Austria (opt-out) ~100% — culture/religion don't explain it; it's a pre-checked box. Richard raised average ticket 60% and saw up to 4× LTV applying this to plan acquisition.
-**Visual.** Bar chart of effective organ-donor consent by country: opt-in nations low (Denmark 4.25%, Germany 12%, UK 17.17%, Netherlands 27.5%) vs opt-out nations ~100% (Austria, France, Hungary, Portugal).
+**Visual.** Bar chart of effective organ-donor consent by country: opt-in nations low (Denmark 4.25%, Germany 12%, UK 17.17%, Netherlands 27.5%) vs opt-out nations ~100% (Austria, France, Hungary, Portugal). — `../assets/2057872036718899256__1.jpg`
 **Voice.** "You can spend the rest of your life optimizing copy, or you can change 5 defaults over the weekend."
 **Source.** [@richardrx · 2026-05-22](https://x.com/richardrx/status/2057872036718899256)
 
@@ -30,7 +30,7 @@
 **Apply when.** Designing trials, retention/renewal flows, and offboarding for any product where users accumulate data, history, or workflows.
 **The move.** Exploit loss aversion and sunk cost. Convert with zero risk — let users import real competitor data in shadow mode so they can test without fear. Retain by designing the product to make users build workflows and accumulate history from day 1, so at renewal they weigh the headache of rebuilding from scratch, not the monthly fee. At offboarding, don't add friction — make cancellation easy but the loss tangible (e.g., "You'll instantly lose 41 active automations and 6 months of data").
 **Evidence.** Sunk cost is what keeps many users on certain LLMs — fear of losing your memory/history, even when it could be exported with a copy/paste.
-**Visual.** Hotel-listing UI using scarcity ("Only 2 rooms left") — illustrative example of a loss-framed cue.
+**Visual.** Hotel-listing UI using scarcity ("Only 2 rooms left") — illustrative example of a loss-framed cue. — `../assets/2028471666297217460__1.jpg`
 **Source.** [@richardrx · 2026-03-02](https://x.com/richardrx/status/2028471666297217460)
 
 ## Use precise numbers, not round ones, to signal truth
@@ -38,7 +38,7 @@
 **Apply when.** Writing any claim, stat, or social-proof number — landing pages, ads, results, testimonials.
 **The move.** Lean on the precise-number effect: say "526 houses," not "over 500." Nothing about the claim changes except the precision, yet trust rises.
 **Evidence.** Schindler & Yalch (2006), 199 participants, fictional deodorant: claims of "47%" or "53%" longer-lasting were judged ~10% more accurate than the rounded "50%" claim — only the precision changed.
-**Visual.** Real billboard: "LAST YEAR WE SOLD 526 HOMES. YOUR COUSIN SOLD 2. LIST RESPONSIBLY." — the precise number doing the persuasion.
+**Visual.** Real billboard: "LAST YEAR WE SOLD 526 HOMES. YOUR COUSIN SOLD 2. LIST RESPONSIBLY." — the precise number doing the persuasion. — `../assets/2024141244717281514__1.jpg`
 **Voice.** "'526 houses' inspires confidence; 'over 500 houses' signals marketing."
 **Source.** [@richardrx · 2026-02-18](https://x.com/richardrx/status/2024141244717281514)
 
@@ -46,7 +46,7 @@
 **Principle.** The brain uses contrast to make fast decisions (Von Restorff effect). When competing options carry identical visual weight, you create mental friction, decision time rises, and conversion falls. Guiding the user isn't manipulation — it's respect for their time.
 **Apply when.** You have 3 plans, two equally-weighted buttons, or any "democratic" interface where everything looks the same (a common founder error, and a default of AI-generated UIs).
 **The move.** Exploit the Von Restorff effect: make the value-generating option visually dominant and de-emphasize the rest (e.g., a ghost-styled "Cancel" beside a bold, colored primary). If you know your ICP's pains and desires, you have a duty to highlight the highest-value solution. Slow decisions accumulate into a "hard-to-use" perception that becomes churn.
-**Visual.** Good/bad confirm dialog: bad = both buttons same green weight; good = a ghost-text "Cancel" beside a solid red "Delete now," so the primary action stands out.
+**Visual.** Good/bad confirm dialog: bad = both buttons same green weight; good = a ghost-text "Cancel" beside a solid red "Delete now," so the primary action stands out. — `../assets/2014317885494059106__1.jpg`
 **Voice.** "If everything grabs attention, NOTHING grabs attention."
 **Source.** [@richardrx · 2026-01-22](https://x.com/richardrx/status/2014317885494059106)
 
@@ -55,6 +55,6 @@
 **Apply when.** Checkout, signup, and subscription screens — anywhere the user must decide or input under doubt.
 **The move.** Strip the interface to the essential decision; when options can't be cut, break the flow into smaller steps (e.g., a 4-step checkout). Remember the failure is invisible: users don't complain or open tickets — they close the tab as "silent churn" and your CAC is wasted. Then dogfood your own onboarding as if you were a stranger.
 **Evidence.** Removing 1 checkout field raised conversion 10%. Richard has seen reworked subscription screens lift LTV 200% just by simplifying the decision.
-**Visual.** Mobile checkout labeled "Analysis paralysis": payment options split into smaller stages — advice to break choices into ~4 steps.
+**Visual.** Mobile checkout labeled "Analysis paralysis": payment options split into smaller stages — advice to break choices into ~4 steps. — `../assets/2013597792447394034__1.jpg`
 **Voice.** "They don't file a support ticket. They just close the tab — and your CAC goes in the trash."
 **Source.** [@richardrx · 2026-01-20](https://x.com/richardrx/status/2013597792447394034)

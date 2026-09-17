@@ -465,9 +465,9 @@ Audits, scores, and compares repositories containing portable Agent Plugins agai
 ---
 
 ### 💰 Revenue-Centric Design · `runbooks`
-Playbook of 101 evidence-backed principles for designing SaaS and startup products that convert, retain, and monetize — landing pages & CRO, onboarding/activation, churn reduction, pricing psychology, behavioral science, feature discipline, positioning/ICP, go-to-market, and AI-era differentiation. Every principle names its mechanism (decoy effect, Zeigarnik, Schwartz awareness levels…) and links back to its source post. Ships with revenue-math scripts (A/B sample size, churn→LTV, CAC per closed deal), an audit output template, per-project memory (`rcd-log.md`), and license-enforcing guardrail hooks.
+Playbook of 134 evidence-backed principles for designing SaaS and startup products that convert, retain, and monetize — landing pages & CRO, checkout/forms, dashboards/data viz, onboarding/activation, churn reduction, pricing psychology, behavioral science, feature discipline, positioning/ICP, go-to-market, and AI-era differentiation. Every principle names its mechanism (decoy effect, Zeigarnik, Schwartz awareness levels…) and links back to its source post. Ships with revenue-math scripts (A/B sample size, churn→LTV, CAC per closed deal), an audit output template, per-project memory (`rcd-log.md`), and license-enforcing guardrail hooks.
 
-**Origin story:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) published these principles as 101 posts in Portuguese on X. [Helio Costa](https://github.com/heliocosta-dev) obtained the author's permission, extracted the posts via the X API, translated them to English, and distilled them into the original skill ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). This repository hosts an evolved derivative of that work.
+**Origin story:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) published these principles as posts in Portuguese on X (134 principles in the current catalog). [Helio Costa](https://github.com/heliocosta-dev) obtained the author's permission, extracted the posts via the X API, translated them to English, and distilled them into the original skill ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). This repository hosts an evolved derivative of that work.
 
 **Evolution measured with [skill-evaluation](skills/skill-evaluation/SKILL.md):** the as-downloaded skill scored **60/100 (B, borderline C)**; one improvement pass later, **73/100 (B)**:
 
@@ -647,7 +647,7 @@ skills/
 │   └── evals/    # 3 lenses: Graham, Koe, Godin
 ├── revenue-centric-design/
 │   ├── SKILL.md
-│   ├── references/  # 101 principles + audit output template
+│   ├── references/  # 134 principles + audit output template
 │   └── scripts/     # revenue math: A/B sample size, churn to LTV, CAC
 ├── geo-optimization/
 │   ├── SKILL.md

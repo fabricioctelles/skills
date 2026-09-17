@@ -36,7 +36,7 @@
 **Principle.** Products rarely die from one dramatic error; they bleed out as micro-disappointments accumulate across the journey until the user quits without quite knowing why. Patch the leaks instead of redesigning from scratch — a fraction of the effort for most of the gain.
 **Apply when.** Conversion or retention is dropping and the team's reflex is a full redesign (the addictive blank-page urge).
 **The move.** Run a heuristic analysis: walk the product area by area from landing to activation, mark each point OK or not-OK, screenshot every failure and grade severity across four levels — from aesthetic (ugly but harmless) up to critical (user stalls, conversion dies). The output is a map of holes; find where it's dripping and seal it.
-**Visual.** Journey graph — cumulative score sliding downward, green dots = wins, small red dots = micro-disappointments stacking up
+**Visual.** Journey graph — cumulative score sliding downward, green dots = wins, small red dots = micro-disappointments stacking up — `../assets/2062621019978760424__1.jpg`
 **Voice.** "Redesign from zero says more about the desire of whoever's drawing than the pain of whoever's using."
 **Source.** [@richardrx · 2026-06-04](https://x.com/richardrx/status/2062621019978760424)
 
@@ -44,7 +44,7 @@
 **Principle.** Designers loop forever ("it's great → could be better → better → repeat"), refactoring UI like code. True refactoring waits for user feedback and changes what fixes a problem; repainting because the old color got boring is vanity that burns a week on pixel-perfect nobody asked for.
 **Apply when.** You feel the itch to redo a screen mid-project; separate "this resolves a known pain" from "this just looks nicer."
 **The move.** Gate the change: does it attack a real, validated pain? Richard's example passed because it tackled an old industry pain — customers not trusting the repair shop's quote. Until usage proves it, "you're just selling the visual."
-**Visual.** RepareCar quote builder — parts pre-loaded with photo, code, and cost; live financial summary (labor + parts = total); client approves by phone
+**Visual.** RepareCar quote builder — parts pre-loaded with photo, code, and cost; live financial summary (labor + parts → total) — `../assets/2062554393447141438__1.jpg`
 **Source.** [@richardrx · 2026-06-04](https://x.com/richardrx/status/2062554393447141438)
 
 ## Mine the tactical layer — it's the most under-explored
@@ -66,7 +66,7 @@
 **Principle.** Aesthetics is subjective, doesn't scale, and won't save a product from high churn. The interface's job is to steer user behavior toward a KPI; aesthetics is sometimes a by-product of that. Hiring design for looks is technical founders' biggest financial mistake.
 **Apply when.** You're scoping design as cosmetics rather than as a growth lever for conversion, retention, and expansion.
 **The move.** Aim design at three outcomes: (1) **Conversion via lower cognitive load** — Hick's Law: each extra on-screen option raises decision time and abandonment; remove friction (Ability in the Fogg model) so the target task is the path of least resistance. (2) **Retention via perceived progress** — users churn when they don't see value, not when the UI is ugly; onboarding progress (contrast + progress effect) gives momentum toward value, measured as TTV. (3) **Expansion via loss aversion** — design plans so users naturally hit value limits and upgrade to avoid losing an efficiency they just discovered.
-**Visual.** Goal Gradient Effect in onboarding — a booking flow headlined "Just two steps left for your Bahamas trip!" with a single primary CTA, showing progress proximity to push completion
+**Visual.** Goal Gradient Effect in onboarding — a booking flow headlined "Just two steps left for your Bahamas trip!" with a single primary CTA, showing progress proximity to push completion — `../assets/2029226965580804593__1.jpg`
 **Source.** [@richardrx · 2026-03-04](https://x.com/richardrx/status/2029226965580804593)
 
 ## Treat the interface as data, not opinion
@@ -80,7 +80,7 @@
 **Apply when.** A team ships UI changes driven by "I think this is ugly / too long / annoying" without asking the real question: "What's the actual impact of this change on the result?"
 **The move.** Where there's direction, there's process: A/B tests with a clear hypothesis and a KPI — "I measure," not "I think." It takes courage to back the doubt and culture to trust the data over ego.
 **Evidence.** A pricing-page experiment generated 68% more AOV (average order value) — "and it wasn't even the coolest experiment we ran."
-**Visual.** Before/After of a pricing block — same product, redesigned tiers, "+68% AOV" badge on the winning variant
+**Visual.** Before/After of a pricing block — same product, redesigned tiers, "+68% AOV" badge on the winning variant — `../assets/2026605258152038780__1.jpg`
 **Source.** [@richardrx · 2026-02-25](https://x.com/richardrx/status/2026605258152038780)
 
 ## Better design wins even when the tech is worse
@@ -94,7 +94,7 @@
 **Principle.** A dashboard is your software's front door, not NASA mission control. Cram it with colorful charts, five-decimal counters, and endless tables and the user takes a cognitive-overload beating, feels dumb, and churns. A good dashboard answers one question — "What do I do now to get more value?" — and that drives LTV.
 **Apply when.** Building or auditing any data-heavy screen (dashboards, reports, analytics views).
 **The move.** Apply the rule set: (1) **Define your "who"** — list users' top 3 pains, your top 3 value deliveries, and combine them. (2) **Noise is a cognitive tax** — every pixel that doesn't communicate (thick borders, heavy shadows, colored fills) competes for attention; less ink = more signal. (3) **Insights > raw data** — bad: "sales Jan–Dec"; good: "Revenue up 15% vs last month, likely cause: Twitter," with an expandable card (and a free 15-day upsell to act on it). (4) **The "so what?" test** (from Scott Belsky's *Making Ideas Happen*) — for each component, if a number is red, is the fix button right beside it? (5) **Round everything** — drop decimals, currency symbols, cents the ICP doesn't need; "R$10,234.56" → "10k"; white space cuts anxiety. (6) **Group by business context**, not chart type — sales in one block, support in another; the eye scans Z-within-F, so use Gestalt proximity/similarity to shorten the scan. (7) **Size + position = hierarchy** — "if everything is important, nothing is"; the user's North Star metric gets the largest font on screen. (8) **Design for humans** — celebrate when a goal is hit, redirect with good humor when something breaks; reinforce positive behavior to build habit and retention.
-**Visual.** "Raw data → Actionable" LEGO value ladder (collection → preparation → visualization → analysis → storytelling, rising from −value to +value). Bad example: an aesthetic-looking dashboard overloaded with color that fails to direct attention. Hierarchy fix: a tiny "13" lost bottom-right (✗) vs a large "13" placed top-left in the F-pattern (✓)
+**Visual.** "Raw data → Actionable" LEGO value ladder (collection → preparation → visualization → analysis → storytelling, rising from −value to +value) — `../assets/2022255404743381289__3.jpg`. Bad example: an aesthetic-looking dashboard crammed with modules and numbers that fails to direct attention — `../assets/2022255404743381289__4.jpg`. Hierarchy fix: a tiny "13" buried at the right edge of the middle row (✗) vs a large "13" placed top-left in the F-pattern (✓) — `../assets/2022255404743381289__5.jpg`
 **Voice.** "Your dashboard is a graveyard of data, and that's going to kill your LTV."
 **Source.** [@richardrx · 2026-02-13](https://x.com/richardrx/status/2022255404743381289)
 

@@ -37,7 +37,7 @@
 **Principle.** AI auto-generates landing pages, but ~90% share the same defects. A generic, inconsistent hero is what loses visitors, not the absence of fancy design.
 **Apply when.** Auditing an AI-generated LP that leans on features and trendy gradients instead of the user's pain.
 **The move.** Fix the three recurring failures: (1) generic, inconsistent aesthetics (every component a different color, purple/green gradients on dark/white); (2) over-indexing on features instead of the value/pain they address; (3) barely showing the actual product. Build the hero to pass the 5-second test — what does this do, why care, what next.
-**Visual.** Supafast's "SaaS Hero Section Formula" — 5 elements with before/after copy: Headline (≤8 words, attack the #1 pain), Subheadline (show the transformation), Primary CTA (specific to outcome), Secondary CTA (low-commitment), Trust Bar (5 logos or one specific number)
+**Visual.** Supafast's "SaaS Hero Section Formula" — 5 elements with before/after copy: Headline (≤8 words, attack the #1 pain), Subheadline (show the transformation), Primary CTA (specific to outcome), Secondary CTA (low-commitment), Trust Bar (5 logos or one specific number) — `../assets/2025246347587162602__q__1.jpg`
 **Source.** [@richardrx · 2026-02-21](https://x.com/richardrx/status/2025246347587162602)
 
 ## Don't let AI-to-Figma-to-code factory technical debt
@@ -52,6 +52,6 @@
 **Apply when.** A "complete SaaS in a weekend" is validated but feels hollow, generic, and clonable by Wednesday.
 **The move.** Fix the four pillars where AI fails: (1) **Generic-product trap** — AI is trained on the internet's average, and average builds nothing extraordinary; escape commoditization by building the only possible tool for an ignored niche (not "CRM for doctors" but "CRM for facial-harmonization clinics" with a `last_toxin_date` field and a 110-day retouch-alert cron). (2) **Value delivery / TTV** — don't ship login → empty dashboard (the 99% default); build an on-ramp to value, an onboarding assistant, not a desert. (3) **Trust / visual confidence** — in a sea of V0/Tailwind templates, aesthetics, personality, and consistency are the last remaining trust proxies; intentional, human-aligned pixels signal authority, build trust, and lower CAC. (4) **Human touch** — cheaper code should buy more time for the memorable details (kind error messages, a 404 that returns the user, business logic that anticipates mistakes, a 200ms confirming micro-interaction) — humans are predictably irrational, full of bias.
 **Evidence.** Johnson & Goldstein (2003), *Science* — a mere "opt-out" default produced +90% organ-donation consent, proving small design choices move behavior.
-**Visual.** The Dunning-Kruger curve — confidence spikes at "Ignorant" (low knowledge), craters at "Cultured," and climbs toward "Expert," with a labeled "confidence gap"
+**Visual.** The Dunning-Kruger curve — confidence spikes at "Ignorant" (low knowledge), craters at "Cultured," and climbs toward "Expert," with a labeled "confidence gap" — `../assets/2013264068518289753__2.jpg`
 **Voice.** "You can own all the cement in the world, but without the blueprint and structural engineering you're just a pile of gray concrete."
 **Source.** [@richardrx · 2026-01-19](https://x.com/richardrx/status/2013264068518289753)

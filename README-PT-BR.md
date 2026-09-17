@@ -463,9 +463,9 @@ Audita, pontua e compara repositórios contendo Agent Plugins portáveis contra 
 ---
 
 ### 💰 Revenue-Centric Design · `runbooks`
-Playbook de 101 princípios baseados em evidência para desenhar produtos SaaS e startups que convertem, retêm e monetizam — landing pages & CRO, onboarding/ativação, redução de churn, psicologia de pricing, ciência comportamental, disciplina de features, posicionamento/ICP, go-to-market e diferenciação na era da IA. Cada princípio nomeia seu mecanismo (efeito decoy, Zeigarnik, níveis de consciência de Schwartz…) e linka de volta ao post original. Inclui scripts de matemática de receita (sample size de A/B, churn→LTV, CAC por deal fechado), template de auditoria, memória por projeto (`rcd-log.md`) e guardrail hooks que fazem enforcement da licença.
+Playbook de 134 princípios baseados em evidência para desenhar produtos SaaS e startups que convertem, retêm e monetizam — landing pages & CRO, onboarding/ativação, redução de churn, psicologia de pricing, ciência comportamental, disciplina de features, posicionamento/ICP, go-to-market e diferenciação na era da IA. Cada princípio nomeia seu mecanismo (efeito decoy, Zeigarnik, níveis de consciência de Schwartz…) e linka de volta ao post original. Inclui scripts de matemática de receita (sample size de A/B, churn→LTV, CAC por deal fechado), template de auditoria, memória por projeto (`rcd-log.md`) e guardrail hooks que fazem enforcement da licença.
 
-**Como nasceu:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) publicou esses princípios em 101 posts em português no X. [Helio Costa](https://github.com/heliocosta-dev) obteve a permissão do autor, extraiu os posts via API do X, traduziu para inglês e destilou tudo na skill original ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). Este repositório hospeda um derivado evoluído desse trabalho.
+**Como nasceu:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) publicou esses princípios em posts (134 princípios no catálogo atual) em português no X. [Helio Costa](https://github.com/heliocosta-dev) obteve a permissão do autor, extraiu os posts via API do X, traduziu para inglês e destilou tudo na skill original ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). Este repositório hospeda um derivado evoluído desse trabalho.
 
 **Evolução medida com a [skill-evaluation](skills/skill-evaluation/SKILL.md):** a skill como baixada marcou **60/100 (B, na divisa com C)**; um passe de melhorias depois, **73/100 (B)**:
 
@@ -642,7 +642,7 @@ skills/
 │   └── evals/    # 3 lentes: Graham, Koe, Godin
 ├── revenue-centric-design/
 │   ├── SKILL.md
-│   ├── references/  # 101 princípios + template de saída da auditoria
+│   ├── references/  # 134 princípios + template de saída da auditoria
 │   └── scripts/     # matemática de receita: amostra de A/B, churn para LTV, CAC
 ├── geo-optimization/
 │   ├── SKILL.md

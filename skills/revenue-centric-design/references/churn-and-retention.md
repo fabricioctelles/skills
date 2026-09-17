@@ -2,6 +2,13 @@
 
 > Curated, distilled wisdom from @richardrx ("Richard — Design for startups"), translated from Portuguese. Each entry is a reusable principle linked to its source post.
 
+## The funnel leaks at three points — diagnose which before fixing
+**Principle.** The three most common SaaS funnel holes for Brazilian founders: (1) cancel in month 1–2 → onboarding missing or LP promised the wrong thing (brought off-ICP users); the first is a product problem (shorten path to value), the second marketing (tighten the promise). (2) Many trials, few paid → paywall at the wrong moment or a broken value ladder. (3) Many visits, few signups → confused ICP and/or generic value proposition — but check the acquisition source first; wrong traffic can't be saved by copy.
+**Apply when.** Triage where the funnel is leaking.
+**The move.** Match symptom to owner: month-1 churn → activation/expectation; trial-no-convert → paywall timing/value ladder; visit-no-signup → ICP/positioning/traffic source. These mix — a clear ICP + good offer first, then an experience aligned to the promise.
+**Evidence.** Kyle Poyar/ChartMogul+ProductLed (Jan): median free-to-paid 8%; trial-without-card good 4–6%, great 10–15%; trial-with-card good 25–35% (US).
+**Source.** [@richardrx · 2026-08-05](https://x.com/richardrx/status/2085056354360729949)
+
 ## Churn and payback are one problem, measured in two places
 **Principle.** Churn and payback look like two problems (often with different owners) but are the same one — both decided in the user's first session, in the gap between entering and feeling the product works.
 **Apply when.** You're fixing churn at the cancel screen and chasing cheaper CAC in the ad manager at the same time.
@@ -54,9 +61,21 @@
 **Principle.** Churn that looks like a product problem is often a language problem: a technical founder writes product and sales copy in jargon, the ICP buys on a leap of faith, never perceives value, accumulates small disappointments, and cancels — looking like a missing feature on the dashboard.
 **Apply when.** Churn is high and you've already revised onboarding and product — revise language and structure next.
 **The move.** Watch two biases: the curse of knowledge (you know too much and forget the other person doesn't) and the easy-speech bias (simple language reads as more trustworthy and raises awareness). Rewrite dense, jargon-heavy copy into plain language even for complex topics.
-**Visual.** Side-by-side: a dense, legalese contract clause (red X) vs. a plain-language rewrite "In this contract you authorize the bank…" (green check), with an "Easy-speech bias" callout.
+**Visual.** Side-by-side: a dense, legalese contract clause (red X) vs. a plain-language rewrite "In this contract you authorize the bank…" (green check), with an "Easy-speech bias" callout. — `../assets/2041829519611371727__1.jpg`
 **Voice.** "On the dashboard it looks like a missing feature; it was a mismatch between your discourse and their understanding."
 **Source.** [@richardrx · 2026-04-08](https://x.com/richardrx/status/2041829519611371727)
+
+## Retention is raising the cost of leaving day after day — iFood's behavioral lock-in
+**Principle.** iFood isn't just a business model — it's Brazil's most sophisticated behavioral lock-in. Each layer (delivery, data, credit, card) raises the psychological and operational cost of leaving: sunk-cost effect plus ecosystem dependency. The restaurant doesn't stay because iFood is good; it stays because leaving got too expensive. Retention isn't a feature — it's the accumulated cost of exit.
+**Apply when.** Designing long-term retention/lock-in at any scale.
+**The move.** Learn from the mechanism, ethically: every layer of value (data history, integrations, financial products, workflow embedding) makes leaving more expensive. The design goal isn't just "satisfy" — it's to increase the cost of leaving over time.
+**Source.** [@richardrx · 2026-03-27](https://x.com/richardrx/status/2037543117612630126)
+
+## Churn math: restructured onboarding can preserve R$4.8k MRR from an existing base
+**Principle.** 6% churn on 900 users at R$300 ARPU is 54 cancellations, or R$16.2k MRR, leaving each month. Restructured onboarding (contextual welcome + empty state + activation checklist) cut cancellations by ~30%: about 16 accounts retained, preserving R$4.8k MRR — a R$57.6k ARR run-rate or R$52.8k over the post's stated 11-month average lifetime. No new traffic, no new feature.
+**Apply when.** Justifying onboarding investment to a numbers-driven founder.
+**The move.** Keep the units explicit: monthly cancellations = base × monthly churn; prevented cancellations = cancellations × relative reduction; recovered MRR = prevented cancellations × ARPU; ARR run-rate = recovered MRR × 12. For cohort value instead, multiply recovered MRR by the stated average lifetime in months. Lower churn also raises valuation because every growth action operates with more margin.
+**Source.** [@richardrx · 2026-03-19](https://x.com/richardrx/status/2034571753263939621)
 
 ## Engineer addiction like a game so CS isn't a churn tax
 **Principle.** Customer Success is the tax you pay for a non-addictive product — if you need an army of CSMs to stop cancellations, the product failed. Your real competitor isn't another startup; it's boredom, and boredom has infinite CAC. The CNPJ buying your SaaS is the same brain that plays Candy Crush; reward neuroscience is identical. Win retention across three game-design phases.
@@ -64,3 +83,9 @@
 **The move.** **Phase 1 — Time-to-value vs. cognitive load:** ditch the setup wizard (asking work before delivering value reads as hostile territory in 10 seconds); use progressive disclosure, let users create and see results before asking for email/card. Mechanism: Zeigarnik effect (incomplete-loop tension) + endowment effect (people value 3x more what they helped build). Empty states must sell the dream — never show "0 data" or blank templates; populate a demo simulating day-30 usage. **Phase 2 — Habit loop / retention as biology:** passive software that only reacts is a failure to build dependency; ship proactive variable rewards. The mesolimbic reward system releases dopamine on anticipation, not the reward itself; predictable rewards (monthly report) build tolerance, variable ones ("we detected a positive anomaly yesterday") keep the loop alive. Convert vanity metrics into loss-aversion triggers: "Your team broke a record and you haven't seen it" + temporal data scarcity ("sync in 24h or lose the weekly benchmark"). **Phase 3 — Defensive moat:** single-player products die when the champion leaves — you built dependence on a person, not the org. Build multiplayer mode + data debt via social switching cost + network effects. Make User A's work block/depend on User B; reports needing multi-stakeholder approval; dashboards aggregating 3 departments. When quitting requires an alignment meeting across Sales, Ops and Finance, you reach negative churn by bureaucratic inertia; accumulated datasets add organizational endowment effect.
 **Voice.** "Stop blaming the customer. Your product is boring. And in the attention game, boring is bankruptcy."
 **Source.** [@richardrx · 2026-01-30](https://x.com/richardrx/status/2017274698699067466)
+
+## The 3 biggest churn reasons — and the fix for each
+**Principle.** Most churn traces to three causes, each with a distinct fix. (1) Bad onboarding → gradual guided immersion to what users value most, a Zeigarnik progress bar (incompleteness nags), and targeted tooltips on unexplored features. (2) Missing perceived value → show user ROI in a simple dashboard (Grammarly shows words helped), promote feature discovery continuously, build community. (3) Hard/confusing interface → fix via a proper product design project.
+**Apply when.** Churn is high and you don't know which of the three it is.
+**The move.** Diagnose first: users who never reach value (activation) vs users who reached it and still left (perceived value) vs users who struggled (interface). Each has a different owner and a different fix — don't treat all churn as one problem.
+**Source.** [@richardrx · 2025-12-17](https://x.com/richardrx/status/2001408166404530231)

@@ -7,7 +7,7 @@
 **Apply when.** Sizing a market, writing a deck, or judging whether a niche is big enough.
 **The move.** TAM = total addressable ceiling; **SAM** = the realistic slice your model reaches (~40% in his example); **SOM** = the 1–5% you truly win in ~36 months — and SOM isn't a guessed %, it comes from real CAC, activation, support capacity and LTV. You can't change your TAM; you change how much of your SAM you convert and retain.
 **Evidence.** RepareCar: ~76k mechanic shops (honest TAM) → SAM ~47k → ~3% ≈ 1,414 shops ≈ R$1.6M ARR; current pace (~10 shops/day) ≈ 7% of SAM in 12 months.
-**Visual.** TAM/SAM/SOM concentric-circle diagram with definitions
+**Visual.** TAM/SAM/SOM concentric-circle diagram with definitions — `../assets/2070140923380420796__1.jpg`
 **Source.** [@richardrx · 2026-06-25](https://x.com/richardrx/status/2070140923380420796)
 
 ## Frame the referral prize as a gift to the friend, not a commission to the referrer
@@ -53,7 +53,7 @@
 **Principle.** Testing ten channels at once means you never know what drove results and you blame the channel when the business stalls. Distribution needs prioritized focus — and a perfect channel still fails if the receiving structure leaks.
 **Apply when.** You're spreading content and traffic across many channels with no clear read on what works.
 **The move.** Use the Bullseye framework (from the book *Traction*): three rings of priority. Inner ring = at most three highest-potential channels with total focus; middle ring = up to six channels you probe with small experiments; outer ring = everything plausible long-term, no active focus now. Choose between channels with an ICE Score (Impact, Confidence, Ease, each 0–10, divide by 3, prioritize). Crucial gap the book skips: scaling distribution onto a broken reception structure (LP, onboarding, first product steps) yields no growth — distribution and retention are simultaneous, not sequential.
-**Visual.** Bullseye as nested circles — What's Possible → What's Probable → What's Working — beside a "Marketing Framework for Startups" triangle (Prioritization, Testing, Quick Iteration).
+**Visual.** Bullseye as nested circles — What's Possible → What's Probable → What's Working — beside a "Marketing Framework for Startups" triangle (Prioritization, Testing, Quick Iteration). — `../assets/2036035304868434115__1.jpg`
 **Source.** [@richardrx · 2026-03-23](https://x.com/richardrx/status/2036035304868434115)
 
 ## Diagnose the bottleneck: no entries is distribution, leaving without paying is design

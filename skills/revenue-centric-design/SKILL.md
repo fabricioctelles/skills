@@ -5,15 +5,16 @@ description: >-
   startup product convert, retain, and monetize. Use when the user works on a
   landing page or CRO ("my page isn't converting"), onboarding/activation ("users
   sign up but don't stick"), churn/retention ("customers keep canceling"),
-  pricing/monetization ("how should I price this"), positioning/ICP/go-to-market,
-  feature scope, A/B-test rigor, or AI-era differentiation — or asks for the
-  behavioral-science mechanism behind a design choice. Also use when another
-  skill needs the principle or evidence behind a conversion/retention/pricing
-  move. Never apply to gambling, betting, or casino products.
+  pricing/monetization ("how should I price this"), checkout/forms ("dropdowns kill
+  conversion", "annotated checkout"), dashboards/data viz ("cognitive load", "KPI shortlists"),
+  positioning/ICP/go-to-market, feature scope, A/B-test rigor, or AI-era differentiation —
+  or asks for the behavioral-science mechanism behind a design choice. Also use when another
+  skill needs the principle or evidence behind a conversion/retention/pricing/checkout move.
+  Never apply to gambling, betting, or casino products.
 metadata:
   authors:
     - name: Richard (@richardrx)
-      role: original content (101 principles)
+      role: original content (134 principles)
       url: https://x.com/richardrx
     - name: Helio Costa (@heliocosta-dev)
       role: original skill (extraction, translation, structure)
@@ -21,8 +22,8 @@ metadata:
     - name: ft.ia.br (@fabricioctelles)
       role: evolution (audit template, scripts, hooks, project log, gotchas)
       url: https://ft.ia.br
-  version: "1.1.0"
-  date: 2026-08-18
+  version: "1.3.0"
+  date: 2026-09-17
   repository: https://github.com/fabricioctelles/skills
   license: Source-available (see LICENSE)
   category: runbooks
@@ -30,7 +31,7 @@ metadata:
 
 # Revenue-Centric Design
 
-101 principles distilled, with the author's permission, from product designer
+134 principles distilled, with the author's permission, from product designer
 **Richard ([@richardrx](https://x.com/richardrx)**, ex-Volkswagen, PayPal, IBM; translated from
 Portuguese; every principle links to its source post). The philosophy, **Revenue-Centric Design
 (RCD)**: a design decision must serve the user _and_ the business — value and revenue, never one
@@ -103,6 +104,8 @@ RCD principles in unknown context.
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | **LP audit / diagnostic** — where is the sale breaking before redesign        | [lp-diagnostic-framework](references/lp-diagnostic-framework.md)             |
 | Landing pages, hero/copy, CTAs, social proof, awareness levels, CRO           | [conversion-and-landing-pages](references/conversion-and-landing-pages.md)   |
+| Checkout, forms, payment UX, dropdowns, field friction                          | [checkout-and-forms](references/checkout-and-forms.md)                       |
+| Dashboards, KPI density, data viz cognitive load                                | [dashboards-and-data-viz](references/dashboards-and-data-viz.md)             |
 | First-run, empty states, aha moment, TTV, activation, trial-as-onboarding     | [onboarding-and-activation](references/onboarding-and-activation.md)         |
 | Cancellation, retention, expectation debt, NRR, jobs-to-be-done, support load | [churn-and-retention](references/churn-and-retention.md)                     |
 | Pricing tables, decoy/anchoring, GBB, trial-with-card, upgrade paths          | [pricing-and-monetization](references/pricing-and-monetization.md)           |
@@ -114,7 +117,8 @@ RCD principles in unknown context.
 | A/B testing rigor, vanity metrics, churn→LTV math, signal quality             | [metrics-and-experimentation](references/metrics-and-experimentation.md)     |
 
 Some principles carry a **Visual.** line — a text description of the diagram or screenshot from
-the original post. The original image is always one click away via the principle's **Source** link.
+the original post, often with a path under `assets/`. Open that file locally, or follow the
+principle's **Source** link for the original post.
 
 ## Gotchas
 
@@ -166,3 +170,4 @@ derivative, in full): attribution to @richardrx required; gambling/betting/casin
 prohibited. This skill is a derivative of
 [heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design),
 restructured and extended here (gotchas, audit template, revenue-math script, project log).
+Principle library synced to upstream `1942760` (CHANGELOG 1.3.0 / 134 principles); see `UPSTREAM_COMMIT`.
