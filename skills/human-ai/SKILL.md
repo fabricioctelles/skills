@@ -451,6 +451,40 @@ Patterns P31-P43 below were identified by HackerNews threads, Wikipedia's evolvi
 - P33-P35 (markup/placeholder leaks) = immediate flag, zero tolerance
 - P38 (reshuffling immunity) = strongest structural tell. Test by mentally rearranging paragraphs - if the text reads identically, it's AI
 - P43 (treadmill effect) = if you can delete a sentence and the paragraph loses zero information, that sentence is treadmilling
+## Evaluation with Jev (Optional)
+
+When the harness has access to [TypeSafe Jev](https://docs.typesafe.ai), the evaluation steps (diagnosis, verification, scoring) can use Jev instead of inline LLM prompts.
+
+**Jev advantages:**
+- Calibrated probabilities (P(70%) = 70% real)
+- Deterministic (same input → same output)
+- ~50-100x cheaper than GPT-4 for evaluation
+- 70-500ms vs 1-5s latency
+
+### Discovery Protocol
+
+The skill follows a priority order to detect Jev availability:
+
+```
+1. MCP Tool `jev_eval` configured in harness → use it
+2. Model `typesafe/jev-latest` via OpenRouter → request it
+3. Auxiliary slot (Hermes/Devin/Codex) with Jev → delegate
+4. Fallback → inline evaluation via current LLM
+```
+
+> **Note:** Jev does diagnosis, verification, and scoring. The LLM still performs the actual rewriting (Steps 2-4).
+
+### Related Files
+
+| File | Description |
+|------|-------------|
+| `scripts/jev_questions.json` | 56 typed questions (Noul + Score) |
+| `references/jev-integration.md` | Full protocol, request/response formats |
+
+> **Full documentation**: See `references/jev-integration.md` for discovery details, harness-specific instructions, and request/response structures.
+
+---
+
 ## Critical Research: Why Vocabulary Bans Alone FAIL
 
 > "Vocabulary bans, one of the most commonly recommended techniques, actively hurt performance." - humanizerai.com, GPTZero bypass test (2026)

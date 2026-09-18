@@ -15,8 +15,12 @@
    - Step 5 - Final anti-AI pass
    - Step 5.5 - Post-rewrite scoring
    - Step 6 - Formatted delivery
-6. [The 29 AI Vocabulary Patterns](#the-29-ai-vocabulary-patterns-english)
-7. [Contraction Rules](#contraction-rules-english-specific)
-8. [Regression Test Suite](#regression-test-suite)
-9. [Limits and Contraindications](#limits-and-contraindications)
-10. [References](#references)
+6. [Evaluation with Jev (Optional)](#evaluation-with-jev-optional)
+   - Discovery protocol (MCP → OpenRouter → auxiliary slots → fallback)
+   - `scripts/jev_questions.json` - 56 typed questions
+   - `references/jev-integration.md` - Full protocol documentation
+7. [The 29 AI Vocabulary Patterns](#the-29-ai-vocabulary-patterns-english)
+8. [Contraction Rules](#contraction-rules-english-specific)
+9. [Regression Test Suite](#regression-test-suite)
+10. [Limits and Contraindications](#limits-and-contraindications)
+11. [References](#references)

@@ -1,0 +1,720 @@
+{
+  "_comment": "Jev questions for English humanization evaluation. Uses Noul primitives (binary) for pattern detection and Score for dimensional assessment.",
+  "version": "1.0.0",
+  "questions": {
+
+    "_section_diagnosis": "### STEP 1: AI PATTERN DIAGNOSIS ###",
+
+    "composition_fractal_summaries": {
+      "type": "noul",
+      "instructions": "Does the text announce what it will say, say it, then summarize what it said? Is there recursive meta-commentary like 'In this section, we will...', 'As we saw previously...', 'As mentioned in the previous section...'?",
+      "labels": {
+        "yes": "Contains fractal summaries / recursive meta-commentary",
+        "no": "Direct flow without excessive meta-commentary"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "composition_dead_metaphor": {
+      "type": "noul",
+      "instructions": "Does the text repeat the same metaphor excessively? Words like 'ecosystem', 'journey', 'landscape', 'tapestry' or 'paradigm' appearing more than twice?",
+      "labels": {
+        "yes": "Metaphor repeated excessively",
+        "no": "Moderate use of metaphors"
+      },
+      "weight": 2,
+      "category": "composition"
+    },
+
+    "composition_many_people_ghost": {
+      "type": "noul",
+      "instructions": "Does the text attribute claims to unnamed masses? Uses 'many experts believe', 'researchers have found', 'companies are increasingly', 'there's a growing consensus' without citing specific sources?",
+      "labels": {
+        "yes": "Ghost attribution to unnamed masses",
+        "no": "Specific sources or honest uncertainty"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "composition_five_paragraph_essay": {
+      "type": "noul",
+      "instructions": "Does the text follow rigid intro-3points-conclusion structure regardless of content? Opening paragraph states thesis, three body paragraphs with mechanical transitions, conclusion restates thesis?",
+      "labels": {
+        "yes": "Five-paragraph essay template structure",
+        "no": "Organic structure emerging from content"
+      },
+      "weight": 2,
+      "category": "composition"
+    },
+
+    "composition_semantic_ablation": {
+      "type": "noul",
+      "instructions": "Has the text lost specificity through polishing? All specific examples replaced with generic ones? Strong opinions softened to 'balanced' perspectives? Numbers rounded or removed? All humor or edge flattened?",
+      "labels": {
+        "yes": "Semantic ablation - specificity lost",
+        "no": "Specificity preserved"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "composition_balanced_bookend": {
+      "type": "noul",
+      "instructions": "Does the text open and close with suspiciously symmetrical statements? Final paragraph echoes the first with slightly different phrasing, creating artificial circular completion?",
+      "labels": {
+        "yes": "Balanced bookend - symmetrical open/close",
+        "no": "Ending advances thought, doesn't echo it"
+      },
+      "weight": 2,
+      "category": "composition"
+    },
+
+    "composition_template_intro": {
+      "type": "noul",
+      "instructions": "Does the text use template introduction? 'In this article, we will explore...', 'This comprehensive guide will cover...', 'In today's fast-paced world...'?",
+      "labels": {
+        "yes": "Template introduction",
+        "no": "Direct opening"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "composition_template_conclusion": {
+      "type": "noul",
+      "instructions": "Does the text use formulaic conclusion markers? 'In summary', 'In conclusion', 'To summarize', 'As we have seen', 'In closing'?",
+      "labels": {
+        "yes": "Template conclusion with explicit marker",
+        "no": "Natural ending or turn"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "composition_reshuffling_immunity": {
+      "type": "noul",
+      "instructions": "Could the paragraphs swap order without breaking the argument? Each paragraph is a standalone block with no logical progression or callback to previous paragraphs?",
+      "labels": {
+        "yes": "Paragraph reshuffling immunity - no logical flow",
+        "no": "Progressive argument building"
+      },
+      "weight": 3,
+      "category": "composition"
+    },
+
+    "tone_sycophantic": {
+      "type": "noul",
+      "instructions": "Does the text use generic praise to the interlocutor? 'Great question!', 'Excellent observation!', 'Absolutely!', 'I hope this helps!', 'Happy to help!'?",
+      "labels": {
+        "yes": "Sycophantic chatbot tone",
+        "no": "Professional direct tone"
+      },
+      "weight": 3,
+      "category": "tone"
+    },
+
+    "tone_knowledge_cutoff": {
+      "type": "noul",
+      "instructions": "Does the text expose machine nature with knowledge limit formulas? 'As of my last update...', 'Based on the information available to me...', 'As of my knowledge cutoff...', 'As a language model...'?",
+      "labels": {
+        "yes": "Knowledge cutoff disclaimer - AI signature",
+        "no": "No machine self-reference"
+      },
+      "weight": 3,
+      "category": "tone"
+    },
+
+    "tone_residual_collaborative": {
+      "type": "noul",
+      "instructions": "Does the text retain traces of assistant-user interaction? 'Here's an example of...', 'I can help you with...', 'I'll show you how...', 'Feel free to ask more!', 'Don't hesitate to reach out!'?",
+      "labels": {
+        "yes": "Residual collaborative communication",
+        "no": "Authored text without assistant traces"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_excessive_hedging": {
+      "type": "noul",
+      "instructions": "Does the text accumulate qualifiers hiding the main proposition? 'it seems', 'perhaps', 'it could be that', 'one might argue', 'it's possible that', 'to some extent'?",
+      "labels": {
+        "yes": "Excessive hedging / qualifier accumulation",
+        "no": "Proportional qualifications"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_stakes_inflation": {
+      "type": "noul",
+      "instructions": "Does the text inflate importance with dramatic expressions? 'crucial for humanity', 'paradigm shift', 'revolutionary', 'will fundamentally transform', 'game-changer', 'the stakes have never been higher'?",
+      "labels": {
+        "yes": "Stakes inflation",
+        "no": "Proportional claims"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_false_empathy": {
+      "type": "noul",
+      "instructions": "Does the text perform emotions it cannot have? 'I understand how frustrating...', 'I can only imagine how difficult...', 'This is truly inspiring...', 'What an incredible journey...'?",
+      "labels": {
+        "yes": "False empathy / emotional performance",
+        "no": "Authentic or absent emotion"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_generic_positive_conclusion": {
+      "type": "noul",
+      "instructions": "Does the text end with empty optimism? 'The future is bright', 'Exciting times ahead', 'The possibilities are endless', 'The potential is limitless', 'We're just getting started'?",
+      "labels": {
+        "yes": "Generic positive conclusion",
+        "no": "Specific or neutral ending"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_filler_phrases": {
+      "type": "noul",
+      "instructions": "Does the text use filler phrases before getting to the point? 'It's important to note that', 'It's worth mentioning that', 'It bears mentioning', 'One should consider that', 'It's crucial to understand that'?",
+      "labels": {
+        "yes": "Filler phrases",
+        "no": "Direct information"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_false_suspense": {
+      "type": "noul",
+      "instructions": "Does the text create false suspense before a mundane point? 'Here's the thing:', 'The catch?', 'The kicker?', 'Here's where it gets interesting:', 'The brutal truth?'?",
+      "labels": {
+        "yes": "False suspense / infomercial hooks",
+        "no": "Direct statements"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_announced_vulnerability": {
+      "type": "noul",
+      "instructions": "Does the text announce vulnerability performatively? 'Being honest here...', 'I'll be vulnerable:', 'I'm not going to lie:', 'I have to admit:', 'Confession:'?",
+      "labels": {
+        "yes": "Announced/performative vulnerability",
+        "no": "Authenticity without announcement"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_simple_truth": {
+      "type": "noul",
+      "instructions": "Does the text declare obviousness without proving? 'The truth is simple:', 'It all comes down to...', 'At the end of the day...', 'The answer is surprisingly straightforward:'?",
+      "labels": {
+        "yes": "'Simple truth' declaration",
+        "no": "Developed argument"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_lets_dive_in": {
+      "type": "noul",
+      "instructions": "Does the text announce explanation condescendingly? 'Let's dive in:', 'Let's break it down:', 'Let's unpack this:', 'Let's explore each aspect:', 'Let me walk you through:'?",
+      "labels": {
+        "yes": "'Let's dive in' announcement",
+        "no": "Direct exposition"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "tone_imagine_world": {
+      "type": "noul",
+      "instructions": "Does the text open with cliché futurist invitation? 'Imagine a world where...', 'Picture this:', 'What if I told you...', 'Visualize a future where...'?",
+      "labels": {
+        "yes": "'Imagine a world where...' opening",
+        "no": "Direct opening"
+      },
+      "weight": 2,
+      "category": "tone"
+    },
+
+    "language_ai_vocabulary": {
+      "type": "noul",
+      "instructions": "Does the text overuse pompous AI vocabulary? 'delve', 'crucial', 'landscape', 'tapestry', 'leverage', 'robust', 'scalable', 'ecosystem', 'journey', 'unlock', 'unveil insights', 'navigate [complexities]'?",
+      "labels": {
+        "yes": "AI vocabulary overuse",
+        "no": "Natural vocabulary"
+      },
+      "weight": 3,
+      "category": "language"
+    },
+
+    "language_tier1_vocabulary": {
+      "type": "noul",
+      "instructions": "Does the text contain Tier 1 (zero tolerance) AI words? 'delve', 'tapestry', 'testament to', 'serves as a reminder', 'the ever-evolving landscape', 'spearhead', 'multifaceted', 'pivotal', 'paramount', 'underscores', 'in the realm of'?",
+      "labels": {
+        "yes": "Contains Tier 1 AI vocabulary - cut on sight",
+        "no": "No Tier 1 vocabulary"
+      },
+      "weight": 3,
+      "category": "language"
+    },
+
+    "language_tier2_clustered": {
+      "type": "noul",
+      "instructions": "Are Tier 2 words clustered in same paragraph? 'crucial', 'vital', 'comprehensive', 'robust', 'leverage', 'foster', 'facilitate', 'embark', 'moreover', 'furthermore', 'additionally', 'overarching', 'intricate', 'nuanced', 'holistic', 'synergy'?",
+      "labels": {
+        "yes": "Tier 2 vocabulary clustered",
+        "no": "Tier 2 words spread appropriately or absent"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "language_copula_avoidance": {
+      "type": "noul",
+      "instructions": "Does the text avoid 'is', 'are', 'has' by substituting with elaborate constructions? 'constitutes', 'represents', 'stands as', 'emerges as', 'positions itself as', 'serves as'?",
+      "labels": {
+        "yes": "Copula avoidance - elaborate substitutes",
+        "no": "Natural use of 'is', 'has', 'are'"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "language_perfect_parallelism": {
+      "type": "noul",
+      "instructions": "Does the text abuse perfect parallelism in every list? Rule of three in every sentence? 'clarity, concision, and coherence', 'plan, execute, and measure' repeatedly?",
+      "labels": {
+        "yes": "Rule of three abuse / perfect parallelism",
+        "no": "Varied groupings"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "language_elegant_variation": {
+      "type": "noul",
+      "instructions": "Does the text cycle through synonyms to avoid repetition when repetition would be clearer? 'the tool' → 'the solution' → 'the platform' → 'the system' for the same referent?",
+      "labels": {
+        "yes": "Elegant variation - forced synonym cycling",
+        "no": "Natural repetition or justified variation"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "language_mechanical_transitions": {
+      "type": "noul",
+      "instructions": "Does every paragraph begin with a mechanical transition word? 'Furthermore', 'Moreover', 'Additionally', 'Subsequently', 'Consequently', 'In addition'?",
+      "labels": {
+        "yes": "Mechanical transitions repeated",
+        "no": "Varied openings"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "language_passive_abuse": {
+      "type": "noul",
+      "instructions": "Does the text overuse passive voice? More than 30% of clauses in passive? 'was implemented', 'has been established', 'is considered', 'was determined'?",
+      "labels": {
+        "yes": "Passive voice abuse (>30%)",
+        "no": "Active voice predominant"
+      },
+      "weight": 2,
+      "category": "language"
+    },
+
+    "content_vague_attribution": {
+      "type": "noul",
+      "instructions": "Does the text attribute claims to generic authorities that don't exist? 'according to experts', 'studies show', 'research indicates', 'the market recognizes', 'industry analysts say'?",
+      "labels": {
+        "yes": "Vague attribution / weasel words",
+        "no": "Specific sources or authorial claims"
+      },
+      "weight": 3,
+      "category": "content"
+    },
+
+    "content_inflated_emphasis": {
+      "type": "noul",
+      "instructions": "Does the text turn mundane facts into revolution? 'represents a milestone', 'is a testament to', 'fundamental/crucial/vital role', 'inflection point', 'redefines the paradigm'?",
+      "labels": {
+        "yes": "Inflated emphasis on significance",
+        "no": "Proportional assessments"
+      },
+      "weight": 3,
+      "category": "content"
+    },
+
+    "content_promotional_language": {
+      "type": "noul",
+      "instructions": "Does the text use product copywriter language? 'innovative solution', 'unique experience', 'robust ecosystem', 'revolutionary', 'disruptive', 'state-of-the-art', 'cutting-edge', 'seamless', 'game-changer'?",
+      "labels": {
+        "yes": "Promotional/advertising language",
+        "no": "Factual description"
+      },
+      "weight": 3,
+      "category": "content"
+    },
+
+    "content_fabricated_precision": {
+      "type": "noul",
+      "instructions": "Does the text contain specific reference with author, year, page or journal that appears fabricated? 'According to Smith (2019, p. 84)...' without verifiable reference?",
+      "labels": {
+        "yes": "Possibly fabricated source - FLAG FOR VERIFICATION",
+        "no": "Sources absent or apparently verifiable"
+      },
+      "weight": 3,
+      "category": "content",
+      "critical": true
+    },
+
+    "content_over_attribution": {
+      "type": "noul",
+      "instructions": "Does the text list media outlets and awards as proof of importance without explaining why it matters? 'Featured in Wired, TechCrunch, and Forbes', 'widely recognized as a leader'?",
+      "labels": {
+        "yes": "Over-attribution to media/awards",
+        "no": "Contextualized mentions"
+      },
+      "weight": 2,
+      "category": "content"
+    },
+
+    "style_em_dash_cascade": {
+      "type": "noul",
+      "instructions": "Does the text use em-dash (—) or en-dash (–) excessively as asides? More than 2 per paragraph or more than 5 in the entire text?",
+      "labels": {
+        "yes": "Em-dash cascade",
+        "no": "Moderate em-dash use"
+      },
+      "weight": 2,
+      "category": "style"
+    },
+
+    "style_erratic_bold": {
+      "type": "noul",
+      "instructions": "Does the text apply bold to random keywords like a product catalog? More than 5 bold spans in running prose with no shared logic?",
+      "labels": {
+        "yes": "Erratic inline bolding",
+        "no": "Functional bold or absent"
+      },
+      "weight": 1,
+      "category": "style"
+    },
+
+    "style_decorative_emoji": {
+      "type": "noul",
+      "instructions": "Does the text use decorative emojis in titles or professional items? '🚀 Launch:', '💡 Note:', '✅ Next steps:', '🎯 Goal:'?",
+      "labels": {
+        "yes": "Decorative emojis in professional context",
+        "no": "No emojis or functional emojis"
+      },
+      "weight": 1,
+      "category": "style"
+    },
+
+    "style_unsolicited_markdown": {
+      "type": "noul",
+      "instructions": "Does the text have unsolicited markdown formatting? Auto-bullets in prose, headers that should be subheads, nested lists where paragraph would work?",
+      "labels": {
+        "yes": "Unsolicited markdown - instruction tuning artifact",
+        "no": "Formatting appropriate to context"
+      },
+      "weight": 2,
+      "category": "style"
+    },
+
+    "style_dramatic_fragments": {
+      "type": "noul",
+      "instructions": "Does the text use 1-3 word sentences as paragraphs for false impact? 'Radical.', 'Literally.', 'Period.', 'Full stop.'?",
+      "labels": {
+        "yes": "Dramatic fragments for false impact",
+        "no": "Complete sentences or functional fragments"
+      },
+      "weight": 2,
+      "category": "style"
+    },
+
+    "style_chatgpt_markup_leak": {
+      "type": "noul",
+      "instructions": "Does the text contain internal citation markup from AI chat sessions? 'citeturn0search0', 'oai_citation', broken footnote references, 'utm_source=chatgpt.com'?",
+      "labels": {
+        "yes": "ChatGPT markup leak - immediate flag",
+        "no": "Clean text"
+      },
+      "weight": 3,
+      "category": "style",
+      "critical": true
+    },
+
+    "style_placeholder_mad_libs": {
+      "type": "noul",
+      "instructions": "Does the text contain unfilled template placeholders? '[Your Name]', '[INSERT SOURCE URL]', '[Company Name]', unfilled brackets?",
+      "labels": {
+        "yes": "Placeholder text / Mad Libs - immediate flag",
+        "no": "No unfilled templates"
+      },
+      "weight": 3,
+      "category": "style",
+      "critical": true
+    },
+
+    "english_zero_contractions": {
+      "type": "noul",
+      "instructions": "In informal or conversational context, does the text avoid ALL contractions? No 'don't', 'won't', 'can't', 'I'm', 'we're', 'it's'? (In formal/legal context this is expected, not a flag)",
+      "labels": {
+        "yes": "Zero contractions in informal context - AI signal",
+        "no": "Natural contraction use or formal context"
+      },
+      "weight": 2,
+      "category": "english_specific"
+    },
+
+    "english_tricolon_abuse": {
+      "type": "noul",
+      "instructions": "Does every list or enumeration follow rule of three exactly? 'clear, concise, and compelling', 'think, create, and iterate' in every paragraph?",
+      "labels": {
+        "yes": "Tricolon abuse - rule of three everywhere",
+        "no": "Varied groupings"
+      },
+      "weight": 2,
+      "category": "english_specific"
+    },
+
+    "english_whether_closer": {
+      "type": "noul",
+      "instructions": "Does the text close paragraphs with 'Whether you prefer X or Y, the answer is...'? Formulaic wrap-up pretending to acknowledge alternatives while saying nothing?",
+      "labels": {
+        "yes": "'Whether' paragraph closers",
+        "no": "Genuine alternatives or direct closing"
+      },
+      "weight": 2,
+      "category": "english_specific"
+    },
+
+    "english_treadmill_effect": {
+      "type": "noul",
+      "instructions": "Does the text restate the same point multiple times with 'In other words', 'Put simply', 'Essentially'? Creating illusion of development without advancing argument?",
+      "labels": {
+        "yes": "Treadmill effect - same point restated",
+        "no": "Progressive argument"
+      },
+      "weight": 2,
+      "category": "english_specific"
+    },
+
+    "english_symbolic_gloss": {
+      "type": "noul",
+      "instructions": "Does the text assign cosmic significance to mundane things? 'represents', 'symbolizes', 'speaks to broader' applied to ordinary events? 'The coffee spill represents the broader challenges...'?",
+      "labels": {
+        "yes": "Symbolic gloss / meaning-telling",
+        "no": "Proportional significance or absent"
+      },
+      "weight": 2,
+      "category": "english_specific"
+    },
+
+    "_section_false_positive": "### FALSE POSITIVE GUARD ###",
+
+    "false_positive_human_markers": {
+      "type": "noul",
+      "instructions": "Does the text contain strong human authorship markers? Regionalism, specific slang, strange specific detail, mixed feelings without resolution, dated reference, tangent or self-correction, profanity?",
+      "labels": {
+        "yes": "Contains human authorship markers",
+        "no": "No distinctive authorship markers"
+      },
+      "weight": 0,
+      "category": "false_positive"
+    },
+
+    "false_positive_formal_genre": {
+      "type": "noul",
+      "instructions": "Does the text belong to a genre that requires formality? Legal brief, academic paper with citations, meeting minutes, regulatory document?",
+      "labels": {
+        "yes": "Formal genre - formality is expected",
+        "no": "Informal or neutral genre"
+      },
+      "weight": 0,
+      "category": "false_positive"
+    },
+
+    "_section_verification": "### FINAL VERIFICATION ###",
+
+    "verification_factual_lock": {
+      "type": "noul",
+      "instructions": "Comparing source_text and rewritten_text: was any fact, number, date, name, quote, causal relationship, or modality altered, added, or removed improperly?",
+      "labels": {
+        "yes": "FACTUAL LOCK VIOLATED - content alteration",
+        "no": "FACTUAL LOCK intact - content preserved"
+      },
+      "weight": 0,
+      "category": "verification",
+      "critical": true
+    },
+
+    "verification_argument_preserved": {
+      "type": "noul",
+      "instructions": "Was the argument, intent, and author's position preserved in the rewrite? Does the conclusion remain the same?",
+      "labels": {
+        "yes": "Argument altered",
+        "no": "Argument preserved"
+      },
+      "weight": 0,
+      "category": "verification",
+      "critical": true
+    },
+
+    "verification_modality_preserved": {
+      "type": "noul",
+      "instructions": "Was modality preserved? 'May cause' didn't become 'causes'? 'Perhaps' didn't become assertion? Uncertainties were maintained?",
+      "labels": {
+        "yes": "Modality altered",
+        "no": "Modality preserved"
+      },
+      "weight": 0,
+      "category": "verification",
+      "critical": true
+    },
+
+    "verification_voice_added": {
+      "type": "noul",
+      "instructions": "Was opinion, doubt, feeling, or first person added when it didn't exist in the original?",
+      "labels": {
+        "yes": "First person/opinion improperly added",
+        "no": "Voice preserved or already present"
+      },
+      "weight": 0,
+      "category": "verification"
+    },
+
+    "_section_evaluation": "### POST-REWRITE EVALUATION ###",
+
+    "score_pattern_removal": {
+      "type": "score",
+      "instructions": "Comparing source_text and rewritten_text: how many AI patterns detected in diagnosis were effectively removed or corrected?",
+      "levels": [
+        "Almost no patterns removed (0-20)",
+        "Few patterns removed, majority remains (21-40)",
+        "Half the patterns removed (41-60)",
+        "Majority of patterns removed, some remnants (61-80)",
+        "Virtually all patterns removed (81-100)"
+      ],
+      "weight": 30,
+      "category": "evaluation"
+    },
+
+    "score_naturalness": {
+      "type": "score",
+      "instructions": "Does the rewritten_text sound natural for the genre and voice profile? Is rhythm varied? Do sentences flow? Read aloud, does it sound like human writing?",
+      "levels": [
+        "Very artificial, clearly machine-generated (0-20)",
+        "Artificial, monotone rhythm, no personality (21-40)",
+        "Acceptable but generic, no distinctive voice (41-60)",
+        "Natural, good rhythm, voice perceptible (61-80)",
+        "Very natural, clear consistent voice, varied rhythm (81-100)"
+      ],
+      "weight": 25,
+      "category": "evaluation"
+    },
+
+    "score_factual_completeness": {
+      "type": "score",
+      "instructions": "Was all original information preserved? Data, names, numbers intact? Nothing added that wasn't in source?",
+      "levels": [
+        "Significant information lost or fabricated (0-20)",
+        "Some information lost or altered (21-40)",
+        "Most information preserved, minor gaps (41-60)",
+        "All significant information preserved (61-80)",
+        "Perfect preservation of all facts and nuance (81-100)"
+      ],
+      "weight": 20,
+      "category": "evaluation"
+    },
+
+    "score_voice_consistency": {
+      "type": "score",
+      "instructions": "Was the voice preset maintained throughout? Are there abrupt register changes? Were sections in different style respected?",
+      "levels": [
+        "Inconsistent register, multiple conflicting voices (0-20)",
+        "Problematic tone and register variations (21-40)",
+        "Mostly consistent, some oscillations (41-60)",
+        "Consistent with small acceptable variations (61-80)",
+        "Perfectly consistent from start to finish (81-100)"
+      ],
+      "weight": 15,
+      "category": "evaluation"
+    },
+
+    "score_readability": {
+      "type": "score",
+      "instructions": "Do sentences flow? Are connectives natural? Is logic clear? Is the text easy to read and understand?",
+      "levels": [
+        "Hard to read, confusing logic, artificial connectives (0-20)",
+        "Readable with effort, some truncated passages (21-40)",
+        "Reasonably readable, adequate flow (41-60)",
+        "Good readability, natural flow (61-80)",
+        "Excellent readability, impeccable flow (81-100)"
+      ],
+      "weight": 10,
+      "category": "evaluation"
+    }
+  },
+
+  "categories": {
+    "composition": {
+      "name": "Composition",
+      "description": "Structural patterns: how text is assembled"
+    },
+    "tone": {
+      "name": "Tone",
+      "description": "Voice and attitude patterns"
+    },
+    "language": {
+      "name": "Language",
+      "description": "Vocabulary and syntax patterns"
+    },
+    "content": {
+      "name": "Content",
+      "description": "Attribution and factual patterns"
+    },
+    "style": {
+      "name": "Style",
+      "description": "Formatting and presentation patterns"
+    },
+    "english_specific": {
+      "name": "English-Specific",
+      "description": "Patterns specific to English writing"
+    },
+    "false_positive": {
+      "name": "False Positive Guard",
+      "description": "Checks to avoid flagging human writing"
+    },
+    "verification": {
+      "name": "Verification",
+      "description": "Final checks for content integrity"
+    },
+    "evaluation": {
+      "name": "Evaluation",
+      "description": "Post-rewrite quality scoring"
+    }
+  },
+
+  "summary": {
+    "total_questions": 56,
+    "noul_questions": 51,
+    "score_questions": 5,
+    "categories_count": 9,
+    "critical_checks": 5
+  }
+}
