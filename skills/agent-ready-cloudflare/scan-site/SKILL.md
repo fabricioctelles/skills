@@ -1,14 +1,14 @@
 ---
 name: agent-ready-scan-site
 description: >
-  Sub-skill: Scan any URL for agent readiness. Checks 18 standards across 5 categories,
+  Sub-skill: Scan any URL for agent readiness. Checks 22 standards across 5 categories,
   returns readiness level (0-5), status of all checks, and fix instructions.
 ---
 # Skill: Scan Site for Agent Readiness
 
 ## What This Skill Does
 
-Scans any website URL and checks whether it implements the standards and protocols that make it accessible to AI agents. Checks 18 standards across 5 categories: discoverability, content accessibility, bot access control, API/auth/MCP discovery, and commerce. Returns a readiness level (0-5), the status of all 18 checks, and fix instructions for any failing checks.
+Scans any website URL and checks whether it implements the standards and protocols that make it accessible to AI agents. Checks 22 standards across 5 categories: discoverability, content accessibility, bot access control, API/auth/MCP discovery, and commerce. Returns a readiness level (0-5), the status of all 22 checks, and fix instructions for any failing checks.
 
 ## When to Use It
 
@@ -70,5 +70,5 @@ Returns a markdown document listing:
 | 1 | Basic Web Presence | 2 of 3: robots.txt, sitemap, Link headers |
 | 2 | Bot-Aware | Level 1 + both: AI bot rules in robots.txt, Content Signals |
 | 3 | Agent-Readable | Level 2 + markdown content negotiation |
-| 4 | Agent-Integrated | Level 3 + 1 of 4: MCP Server Card, agent skills, API catalog, WebMCP |
-| 5 | Agent-Native | Level 4 + 2 of 4: Web Bot Auth, all integrations, commerce (UCP/x402), auth metadata |
+| 4 | Agent-Integrated | Level 3 + 1 of 4: MCP Server Card, A2A Agent Card, agent skills, API catalog |
+| 5 | Agent-Native | Level 4 + 2 of 3: Web Bot Auth, all integrations, auth metadata (OAuth or Auth.md) |

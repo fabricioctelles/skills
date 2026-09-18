@@ -7,12 +7,12 @@ description: >
   Use when the user mentions "agent ready", "isitagentready", "AI agent scan",
   "agent readiness", "agent-ready score", "MCP server card", "agent skills index",
   "markdown for agents", "content signals", "web bot auth", "agent discovery",
-  "RFC 9727", "RFC 8288", "RFC 9728", "SEP-1649", "WebMCP", "x402", "UCP", "ACP",
-  or wants to make a website discoverable and usable by AI agents.
+  "RFC 9727", "RFC 8288", "RFC 9728", "SEP-1649", "WebMCP", "ARD", "ai-catalog",
+  "x402", "UCP", "ACP", or wants to make a website discoverable and usable by AI agents.
 metadata:
   author: Cloudflare / isitagentready.com
-  version: "3.0"
-  date: 2026-06-03
+  version: "3.1"
+  date: 2026-09-18
   source: https://isitagentready.com
   category: product-verification
 ---
@@ -42,7 +42,7 @@ curl -s -X POST 'https://isitagentready.com/api/scan' \
   -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36' \
   -H 'Referer: https://isitagentready.com/' \
   -H 'Origin: https://isitagentready.com' \
-  -d '{"url":"https://DOMAIN/","enabledChecks":["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation","robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog","oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard","a2aAgentCard","agentSkills","webMcp","x402","mpp","ucp","acp","ap2"]}'
+  -d '{"url":"https://DOMAIN/","enabledChecks":["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation","robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog","oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard","a2aAgentCard","agentSkills","webMcp","ard","x402","mpp","ucp","acp","ap2"]}'
 ```
 
 Replace `DOMAIN` with the target domain.
@@ -151,7 +151,7 @@ write it to the requested path.
 | Content Signals | `contentSignals` | robots.txt contains `Content-Signal` directives with ai-train/search/ai-input |
 | Web Bot Auth | `webBotAuth` | `/.well-known/http-message-signatures-directory` exists with valid JWKS (informational — neutral does not affect score) |
 
-### API, Auth, MCP & Skill Discovery (8 checks)
+### API, Auth, MCP & Skill Discovery (9 checks)
 | Check | API Key | Pass criteria |
 |-------|---------|---------------|
 | API Catalog | `apiCatalog` | `/.well-known/api-catalog` returns valid `linkset+json` with API entries |
@@ -162,6 +162,7 @@ write it to the requested path.
 | A2A Agent Card | `a2aAgentCard` | `/.well-known/agent-card.json` with `name`, `version`, and `supportedInterfaces` |
 | Agent Skills Index | `agentSkills` | `/.well-known/agent-skills/index.json` with valid `skills` array (legacy `/.well-known/skills/` also accepted) |
 | WebMCP | `webMcp` | Page exposes MCP tools via `navigator.modelContext.provideContext()` |
+| ARD | `ard` | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
 
 ### Commerce — Optional (5 checks, scored only if e-commerce signals detected)
 | Check | API Key | Pass criteria |
@@ -183,7 +184,7 @@ write it to the requested path.
 | 2 | Bot-Aware | Level 1 + both: AI bot rules AND Content Signals in robots.txt |
 | 3 | Agent-Readable | Level 2 + markdown content negotiation |
 | 4 | Agent-Integrated | Level 3 + 1 of 4: MCP Server Card, A2A Agent Card, Agent Skills, API Catalog |
-| 5 | Agent-Native | Level 4 + 2 of 3: Web Bot Auth, all four integration checks, auth metadata (OAuth discovery or OAuth Protected Resource) |
+| 5 | Agent-Native | Level 4 + 2 of 3: Web Bot Auth, all integrations, auth metadata (OAuth or Auth.md) |
 
 ---
 
@@ -214,7 +215,7 @@ Origin: https://isitagentready.com
     "markdownNegotiation",
     "robotsTxtAiRules", "contentSignals", "webBotAuth",
     "apiCatalog", "oauthDiscovery", "oauthProtectedResource", "authMd",
-    "mcpServerCard", "a2aAgentCard", "agentSkills", "webMcp",
+    "mcpServerCard", "a2aAgentCard", "agentSkills", "webMcp", "ard",
     "x402", "mpp", "ucp", "acp", "ap2"
   ]
 }
@@ -244,9 +245,9 @@ The scanner practices what it preaches. These are its own agent-ready endpoints:
 | `/.well-known/api-catalog` | RFC 9727 linkset with scan API and MCP server entries |
 | `/.well-known/mcp/server-card.json` | MCP Server Card (Streamable HTTP transport) |
 | `/.well-known/mcp.json` | Same MCP Server Card (alternate path) |
-| `/.well-known/agent-skills/index.json` | 23 skills in Agent Skills Discovery v0.2.0 format |
+| `/.well-known/agent-skills/index.json` | 24 skills in Agent Skills Discovery v0.2.0 format |
 | `/llms.txt` | LLM-friendly overview of the scanner |
-| `/llms-full.txt` | Full documentation — canonical reference for all 18 checks, pass criteria, and level system |
+| `/llms-full.txt` | Full documentation — canonical reference for all 22 checks, pass criteria, and level system |
 | `/api/health` | Health check (`{"status":"ok"}`) |
 | `/mcp` | Streamable HTTP MCP server with `scan_site` tool |
 
@@ -348,7 +349,7 @@ HEADERS = {
 CHECKS = ["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation",
           "robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog",
           "oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard",
-          "a2aAgentCard","agentSkills","webMcp","x402","mpp","ucp","acp","ap2"]
+          "a2aAgentCard","agentSkills","webMcp","ard","x402","mpp","ucp","acp","ap2"]
 
 for domain in domains:
     body = json.dumps({"url": f"https://{domain}/", "enabledChecks": CHECKS}).encode()
@@ -389,6 +390,7 @@ for domain in domains:
 - [a2a-agent-card/SKILL.md](a2a-agent-card/SKILL.md) — A2A Agent Card (Google A2A Protocol)
 - [agent-skills/SKILL.md](agent-skills/SKILL.md) — Agent Skills Discovery Index
 - [webmcp/SKILL.md](webmcp/SKILL.md) — WebMCP browser API
+- [ard/SKILL.md](ard/SKILL.md) — ARD / ai-catalog (Agentic Resource Discovery)
 
 ### Commerce (Optional)
 - [x402/SKILL.md](x402/SKILL.md) — x402 HTTP payment protocol
@@ -625,6 +627,22 @@ Docs: https://webmachinelearning.github.io/webmcp/, https://developer.chrome.com
 ```
 
 Sub-skill: [webmcp/SKILL.md](webmcp/SKILL.md)
+
+### `ard`
+
+```
+Goal: Publish an ARD capability manifest at /.well-known/ai-catalog.json
+
+Issue: {issue}
+
+Fix: Serve /.well-known/ai-catalog.json with Content-Type application/json, HTTP 200, and Access-Control-Allow-Origin: *. Include specVersion, a host object (displayName + identifier), and a non-empty entries array. Each entry needs identifier, displayName, type, exactly one of url or data, and 2-5 representativeQueries. Use urn:air:<fqdn>:<namespace>:<name> for entry identifiers.
+
+Skill: https://isitagentready.com/.well-known/agent-skills/ard/SKILL.md
+
+Docs: https://agenticresourcediscovery.org/, https://github.com/Agent-Card/ai-catalog
+```
+
+Sub-skill: [ard/SKILL.md](ard/SKILL.md)
 
 ### `x402`
 

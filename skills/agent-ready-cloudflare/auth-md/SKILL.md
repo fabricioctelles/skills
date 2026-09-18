@@ -22,9 +22,13 @@ Helps a service publish Auth.md support for agent registration. Use this when a 
 
 ## Flow Metadata
 
-- **ID-JAG**: include `identity_types_supported: ["identity_assertion"]`, `identity_assertion.assertion_types_supported` with `urn:ietf:params:oauth:token-type:id-jag`, and credential types. Include `revocation_uri` and the revocation event in `events_supported` when supported.
+- **ID-JAG**: include `identity_types_supported: ["identity_assertion"]`, `identity_assertion.assertion_types_supported` with `urn:ietf:params:oauth:token-type:id-jag`, and credential types. Include `revocation_uri` and the revocation event in `events_supported` when supported; scanners may warn when they are omitted, but they are not required for detection.
 - **Verified email**: include `identity_assertion.assertion_types_supported` with `verified_email`, credential types, and `claim_uri`.
 - **Anonymous**: include `identity_types_supported: ["anonymous"]`, `anonymous.credential_types_supported`, and `claim_uri`.
+
+## Notes
+
+Do not probe `POST /agent/auth` during passive scans. Registration can create accounts, send email, or issue credentials. Public discovery documents are the safe source of truth.
 
 ## Validate
 

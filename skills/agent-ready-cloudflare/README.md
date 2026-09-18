@@ -2,13 +2,13 @@
 
 Scan any website for AI agent readiness and get actionable fix prompts — powered by [isitagentready.com](https://isitagentready.com).
 
-This skill wraps the Cloudflare "Is It Agent Ready?" scanner into a reusable agent skill with full API documentation, 20 implementation sub-skills, and copy-paste prompts for every failing check.
+This skill wraps the Cloudflare "Is It Agent Ready?" scanner into a reusable agent skill with full API documentation, 24 implementation sub-skills, and copy-paste prompts for every failing check.
 
 ---
 
 ## What It Does
 
-Give it a domain. It scans 18 checks across 5 categories and tells you:
+Give it a domain. It scans 22 checks across 5 categories and tells you:
 
 - **What level** your site is at (0–5)
 - **What's passing** and what's failing
@@ -59,7 +59,7 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 
 ---
 
-## The 18 Checks
+## The 22 Checks
 
 ### Discoverability
 
@@ -68,41 +68,45 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 | 1 | **robots.txt** | `/robots.txt` returns 200 with `text/plain` and `User-agent` directives |
 | 2 | **sitemap.xml** | `/sitemap.xml` returns valid XML, or `Sitemap:` directive in robots.txt |
 | 3 | **Link headers** | Homepage `Link` headers include agent-useful relations (`api-catalog`, `service-desc`, etc.) |
+| 4 | **DNS-AID** | SVCB/HTTPS records under `_agents` via DNS-over-HTTPS |
 
 ### Content
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 4 | **Markdown for Agents** | `Accept: text/markdown` → response with `Content-Type: text/markdown` |
+| 5 | **Markdown for Agents** | `Accept: text/markdown` → response with `Content-Type: text/markdown` |
 
 ### Bot Access Control
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 5 | **AI bot rules** | robots.txt has `User-agent` entries for GPTBot, Claude-Web, Google-Extended, etc. |
-| 6 | **Content Signals** | robots.txt has `Content-Signal:` directives (ai-train, search, ai-input) |
-| 7 | **Web Bot Auth** | `/.well-known/http-message-signatures-directory` with valid JWKS *(informational)* |
+| 6 | **AI bot rules** | robots.txt has `User-agent` entries for GPTBot, Claude-Web, Google-Extended, etc. |
+| 7 | **Content Signals** | robots.txt has `Content-Signal:` directives (ai-train, search, ai-input) |
+| 8 | **Web Bot Auth** | `/.well-known/http-message-signatures-directory` with valid JWKS *(informational)* |
 
 ### API, Auth, MCP & Skill Discovery
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 8 | **API Catalog** | `/.well-known/api-catalog` returns `application/linkset+json` (RFC 9727) |
-| 9 | **OAuth/OIDC** | `/.well-known/openid-configuration` or `oauth-authorization-server` with valid metadata |
-| 10 | **OAuth Protected Resource** | `/.well-known/oauth-protected-resource` with `resource` + `authorization_servers` (RFC 9728) |
-| 11 | **MCP Server Card** | `/.well-known/mcp/server-card.json` with `serverInfo`, transport, capabilities (SEP-1649) |
-| 12 | **A2A Agent Card** | `/.well-known/agent-card.json` with name, version, supportedInterfaces |
-| 13 | **Agent Skills Index** | `/.well-known/agent-skills/index.json` with skills array (v0.2.0) |
-| 14 | **WebMCP** | Page calls `navigator.modelContext.provideContext()` with tool definitions |
+| 9 | **API Catalog** | `/.well-known/api-catalog` returns `application/linkset+json` (RFC 9727) |
+| 10 | **OAuth/OIDC** | `/.well-known/openid-configuration` or `oauth-authorization-server` with valid metadata |
+| 11 | **OAuth Protected Resource** | `/.well-known/oauth-protected-resource` with `resource` + `authorization_servers` (RFC 9728) |
+| 12 | **Auth.md** | `/auth.md` with valid H1; optionally PRM + AS metadata |
+| 13 | **MCP Server Card** | `/.well-known/mcp/server-card.json` with `serverInfo`, transport, capabilities (SEP-1649) |
+| 14 | **A2A Agent Card** | `/.well-known/agent-card.json` with name, version, supportedInterfaces |
+| 15 | **Agent Skills Index** | `/.well-known/agent-skills/index.json` with skills array (v0.2.0) |
+| 16 | **WebMCP** | Page calls `navigator.modelContext.provideContext()` with tool definitions |
+| 17 | **ARD** | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
 
 ### Commerce *(optional — scored only for e-commerce sites)*
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 15 | **x402** | API routes return HTTP 402 with x402 payment headers |
-| 16 | **UCP** | `/.well-known/ucp` with protocol_version and services |
-| 17 | **ACP** | `/.well-known/acp.json` with protocol metadata |
-| 18 | **AP2** | A2A Agent Card includes AP2 extension with role |
+| 18 | **x402** | API routes return HTTP 402 with x402 payment headers |
+| 19 | **MPP** | `/openapi.json` with `x-payment-info` on payable operations |
+| 20 | **UCP** | `/.well-known/ucp` with protocol_version and services |
+| 21 | **ACP** | `/.well-known/acp.json` with protocol metadata |
+| 22 | **AP2** | A2A Agent Card includes AP2 extension with role |
 
 ---
 
@@ -114,7 +118,7 @@ Level 1  Basic Web Presence  — 2 of 3: robots.txt, sitemap, link headers
 Level 2  Bot-Aware           — Level 1 + AI bot rules + Content Signals
 Level 3  Agent-Readable      — Level 2 + markdown content negotiation
 Level 4  Agent-Integrated    — Level 3 + 1 of: MCP card, A2A card, agent skills, API catalog
-Level 5  Agent-Native        — Level 4 + 2 of: Web Bot Auth, all integrations, auth metadata
+Level 5  Agent-Native        — Level 4 + 2 of 3: Web Bot Auth, all integrations, auth metadata (OAuth or Auth.md)
 ```
 
 ---
@@ -198,7 +202,7 @@ Skill: <URL to the detailed SKILL.md>
 Docs: <links to RFCs and specs>
 ```
 
-The SKILL.md contains templates for all 20 checks. The `{issue}` placeholder is replaced with the actual message from the API response.
+The SKILL.md contains templates for all 22 checks. The `{issue}` placeholder is replaced with the actual message from the API response.
 
 ---
 
@@ -291,6 +295,7 @@ agent-ready-cloudflare/
 ├── robots-txt/SKILL.md                ← Implement robots.txt (RFC 9309)
 ├── sitemap/SKILL.md                   ← Implement sitemap.xml
 ├── link-headers/SKILL.md              ← Link response headers (RFC 8288)
+├── dns-aid/SKILL.md                   ← DNS-AID SVCB records
 ├── llms-txt/SKILL.md                  ← Publish /llms.txt
 ├── llms-full-txt/SKILL.md             ← Publish /llms-full.txt
 │
@@ -306,18 +311,23 @@ agent-ready-cloudflare/
 ├── api-catalog/SKILL.md               ← API Catalog (RFC 9727)
 ├── oauth-discovery/SKILL.md           ← OAuth/OIDC discovery (RFC 8414)
 ├── oauth-protected-resource/SKILL.md  ← Protected Resource Metadata (RFC 9728)
+├── auth-md/SKILL.md                   ← Auth.md agent registration discovery
 ├── mcp-server-card/SKILL.md           ← MCP Server Card (SEP-1649)
 ├── a2a-agent-card/SKILL.md            ← A2A Agent Card (Google A2A)
 ├── agent-skills/SKILL.md              ← Agent Skills Discovery Index
 ├── webmcp/SKILL.md                    ← WebMCP browser API
+├── ard/SKILL.md                       ← ARD / ai-catalog (Agentic Resource Discovery)
 │
 │   Commerce
 ├── x402/SKILL.md                      ← x402 payment protocol
+├── mpp/SKILL.md                       ← Machine Payment Protocol
 ├── ucp/SKILL.md                       ← Universal Commerce Protocol
 └── acp/SKILL.md                       ← Agent Commerce Protocol
 ```
 
-**21 files** — 1 main skill + 20 implementation sub-skills.
+Note: no local `ap2/` folder (AP2 is covered via parent prompt / A2A card extension). Upstream lists 22 scanner checks.
+
+**26 files** — 1 README + 1 main skill + 24 implementation sub-skills.
 
 ---
 
