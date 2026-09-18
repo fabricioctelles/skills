@@ -364,6 +364,42 @@ When reviewing someone else's slop report, check exclusions first:
 3. **Is the reasoning concrete?** Vague reasoning = tell counts.
 4. **Is the exclusion count reasonable?** >5 warrants scrutiny.
 
+## Evaluation with Jev (Optional)
+
+When the harness has access to [TypeSafe Jev](https://docs.typesafe.ai), the
+subjective scoring steps (Axes 7-8) and Quality Checklist verification can
+use Jev for calibrated assessment.
+
+**Where Jev is used:**
+- **Axis 7 (Signature)** — 7 Score questions (S1-S7) with 0/50/100 rubric
+- **Axis 8 (Cohesion)** — 4 Score questions (H1-H4) with 0/50/100 rubric
+- **Quality Checklist** — 27 Noul questions for binary verification
+
+**Where Jev is NOT used:**
+- **Axes 1-6** — Tell detection is factual (cite-or-cut); `score.py` handles arithmetic
+- **Gates & Caps** — Deterministic rules applied by `score.py`
+
+### Discovery Protocol
+
+```
+1. MCP Tool `jev_eval` configured in harness → use it
+2. Model `typesafe/jev-latest` via OpenRouter → request it
+3. Auxiliary slot (Hermes/Devin/Codex) with Jev → delegate
+4. Fallback → inline scoring via current LLM using premium-markers.md rubric
+```
+
+### Integration Files
+
+| File | Description |
+|------|-------------|
+| `scripts/jev_questions.json` | 38 typed questions (11 Score + 27 Noul) |
+| `references/jev-integration.md` | Full protocol, request/response formats |
+
+> **Full documentation**: See `references/jev-integration.md` for discovery
+> details, harness-specific instructions, and request/response structures.
+
+---
+
 ## Quality checklist
 
 Final gate before delivering. Run through every item — a single failure

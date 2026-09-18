@@ -1,0 +1,512 @@
+{
+  "_comment": "Jev questions for design slop evaluation. Uses Score primitives for Signature (S1-S7) and Cohesion (H1-H4) axes, plus Noul for Quality Checklist verification.",
+  "version": "1.0.0",
+  "questions": {
+
+    "_section_signature": "### AXIS 7: SIGNATURE & UNIQUENESS (Score 0/50/100) ###",
+
+    "signature_s1_artifact": {
+      "type": "score",
+      "instructions": "Evaluate the signature artifact. Is there ONE high-effort focal object (crafted SVG scene, populated product artifact, illustration, render) that could only belong to this brand? Consider: Could this visual be pasted onto another site without modification?",
+      "levels": [
+        "0 — Absent: No custom focal object; hero is text on a fill or stock/prop visual",
+        "50 — Attempted: A custom visual exists but is generic enough to paste onto another site",
+        "100 — Strong: ONE high-effort focal object that could only belong to this brand"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S1"
+    },
+
+    "signature_s2_atmosphere": {
+      "type": "score",
+      "instructions": "Evaluate the atmosphere. Is the background a composed environment (scene, texture, grain, light) carried down the whole scroll? Or is it flat color fills?",
+      "levels": [
+        "0 — Absent: Flat color fill behind everything",
+        "50 — Attempted: Some texture/tone in the hero only (dies at the fold)",
+        "100 — Strong: Background is a composed environment carried down the whole scroll"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S2"
+    },
+
+    "signature_s3_layered_depth": {
+      "type": "score",
+      "instructions": "Evaluate layered depth. Is there foreground copy / midground focal object / background scene, with at least one element overlapping or bleeding across a layer edge?",
+      "levels": [
+        "0 — Absent: One flat plane",
+        "50 — Attempted: Two reads, nothing crossing a boundary",
+        "100 — Strong: Three layers with at least one element overlapping/bleeding across"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S3"
+    },
+
+    "signature_s4_character_face": {
+      "type": "score",
+      "instructions": "Evaluate the display typeface. Is there a licensed/self-hosted display face with real personality, set large, chosen for this brief? Or does identity rest on a neutral grotesque or Google-shelf default?",
+      "levels": [
+        "0 — Absent: Identity rests on neutral grotesque or Google-shelf default (Inter, Space Grotesk, Poppins)",
+        "50 — Attempted: A distinctive face chosen by reputation, not brief (Fraunces, DM Serif)",
+        "100 — Strong: Licensed/self-hosted display face with real personality, chosen for THIS brief"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S4"
+    },
+
+    "signature_s5_bespoke_silhouette": {
+      "type": "score",
+      "instructions": "Evaluate bespoke silhouettes. Is there one unmistakable custom-cut geometry signing the page? A receipt-torn edge, an invented marker, a specific arrow drawn for the system?",
+      "levels": [
+        "0 — Absent: Every shape is a default rectangle/pill",
+        "50 — Attempted: One mild customization (a radius decision, a simple notch)",
+        "100 — Strong: One unmistakable custom-cut geometry signing the page"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S5"
+    },
+
+    "signature_s6_treated_nav": {
+      "type": "score",
+      "instructions": "Evaluate the navigation treatment. Is the nav a decision: floated pill, real presence, brand marks threaded in — does it belong to the system? Or is it a default flush row bolted on top?",
+      "levels": [
+        "0 — Absent: Default flush row of links bolted on top",
+        "50 — Attempted: Centered or contained but generic",
+        "100 — Strong: The nav is a decision: floated pill, real presence, brand marks threaded in"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S6"
+    },
+
+    "signature_s7_real_specificity": {
+      "type": "score",
+      "instructions": "Evaluate real specificity. Are there real recognizable logos honestly claimable, real names/data inside product shots, copy written for this product? Or placeholder logos, fake names, lorem-adjacent copy?",
+      "levels": [
+        "0 — Absent: Placeholder logos, fake names, lorem-adjacent copy",
+        "50 — Attempted: Mixed — some real data among placeholders",
+        "100 — Strong: Real recognizable logos, real names/data, copy written for this product"
+      ],
+      "weight": 1,
+      "category": "signature",
+      "axis": 7,
+      "element_id": "S7"
+    },
+
+    "_section_cohesion": "### AXIS 8: COHESION (Score 0/50/100) ###",
+
+    "cohesion_h1_palette": {
+      "type": "score",
+      "instructions": "Evaluate palette discipline. Is there a monochrome or tightly-related color set where adjacent sections share or hand off tone? Or 'blue AND green AND warm accent', each fine alone, ugly together?",
+      "levels": [
+        "0 — Absent: Multiple unrelated color families fighting (blue AND green AND warm accent)",
+        "50 — Attempted: Palette exists but sections don't hand off tone consistently",
+        "100 — Strong: Monochrome or tightly-related set; adjacent sections share or hand off tone"
+      ],
+      "weight": 1,
+      "category": "cohesion",
+      "axis": 8,
+      "element_id": "H1"
+    },
+
+    "cohesion_h2_type_voice": {
+      "type": "score",
+      "instructions": "Evaluate type voice consistency. Is there a single family across weights/optical sizes, or one display + one quiet neutral? Or two display faces arguing?",
+      "levels": [
+        "0 — Absent: Two or more display faces arguing, no typographic system",
+        "50 — Attempted: Type system exists but inconsistent application",
+        "100 — Strong: Single family across weights/sizes OR one display + one quiet neutral consistently applied"
+      ],
+      "weight": 1,
+      "category": "cohesion",
+      "axis": 8,
+      "element_id": "H2"
+    },
+
+    "cohesion_h3_one_system": {
+      "type": "score",
+      "instructions": "Evaluate component system unity. Do nav, buttons, arrows, radii, borders, backgrounds speak one language? Sharp everywhere, one arrow reused, one gradient threaded through? Or mismatched fine components that read cheap?",
+      "levels": [
+        "0 — Absent: Mismatched components — different radii, arrow styles, border treatments",
+        "50 — Attempted: Some consistency but breaks in places",
+        "100 — Strong: One language — consistent radii, arrows, borders, treatments throughout"
+      ],
+      "weight": 1,
+      "category": "cohesion",
+      "axis": 8,
+      "element_id": "H3"
+    },
+
+    "cohesion_h4_from_brief": {
+      "type": "score",
+      "instructions": "Evaluate if sections were designed from what this product actually is — not known skeletons restacked, not a reference site's content reproduced. Reference = direction, never a stencil.",
+      "levels": [
+        "0 — Absent: Known skeletons restacked and recolored, or reference site reproduced",
+        "50 — Attempted: Some sections respond to content, others are template fills",
+        "100 — Strong: Every section designed from what this product actually is"
+      ],
+      "weight": 1,
+      "category": "cohesion",
+      "axis": 8,
+      "element_id": "H4"
+    },
+
+    "_section_quality_presweep": "### QUALITY CHECKLIST: PRE-SWEEP ###",
+
+    "quality_evidence_inventory": {
+      "type": "noul",
+      "instructions": "Is the evidence inventory complete? Documented what was captured (code, screenshots, live URL) and what is Unverifiable?",
+      "labels": {
+        "yes": "Evidence inventory complete and documented",
+        "no": "Evidence inventory missing or incomplete"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_brief_documented": {
+      "type": "noul",
+      "instructions": "Is the brief documented? If provided, summarized in report header; if not provided, noted as 'no brief'?",
+      "labels": {
+        "yes": "Brief documented or absence noted",
+        "no": "Brief status unclear"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_context_identified": {
+      "type": "noul",
+      "instructions": "Is the design context identified? What type of design is this (landing page, SaaS dashboard, editorial, e-commerce)?",
+      "labels": {
+        "yes": "Design context identified",
+        "no": "Design context not specified"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_references_read": {
+      "type": "noul",
+      "instructions": "Were all reference files read before sweeping? (tells.md, premium-markers.md, contexts.md)",
+      "labels": {
+        "yes": "All reference files read",
+        "no": "Reference files not fully consulted"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "_section_quality_sweep": "### QUALITY CHECKLIST: DURING SWEEP ###",
+
+    "quality_cite_or_cut": {
+      "type": "noul",
+      "instructions": "Is cite-or-cut enforced? Every recorded tell has ID + severity + concrete citation (hex value, font name, file:line, or screenshot region)?",
+      "labels": {
+        "yes": "Every tell has concrete evidence citation",
+        "no": "Some tells lack concrete evidence"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_premium_pair_checked": {
+      "type": "noul",
+      "instructions": "Before recording any tell, was premium pair checked? Verified it's not the crafted premium version of the pattern?",
+      "labels": {
+        "yes": "Premium pairs checked before recording tells",
+        "no": "Premium pairs not consistently checked"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_portability_test": {
+      "type": "noul",
+      "instructions": "For borderline cases, was portability test applied? 'Could this element be moved to another site without alteration?' If yes → tell. If no → not a tell.",
+      "labels": {
+        "yes": "Portability test applied to borderline cases",
+        "no": "Portability test not applied"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_defense_test": {
+      "type": "noul",
+      "instructions": "For borderline cases, was defense test applied? 'Could the designer defend this choice with concrete reasoning?' If no → tell. Slop cannot be defended.",
+      "labels": {
+        "yes": "Defense test applied to borderline cases",
+        "no": "Defense test not applied"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_section_attribution": {
+      "type": "noul",
+      "instructions": "Is every tell assigned to a specific section (Hero, Features, Pricing, Footer, etc.) for the Section Ledger?",
+      "labels": {
+        "yes": "All tells have section attribution",
+        "no": "Some tells missing section attribution"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_severity_discipline": {
+      "type": "noul",
+      "instructions": "Is severity discipline maintained? Critical reserved for absolute-rule violations only; no severity inflation?",
+      "labels": {
+        "yes": "Severity discipline maintained",
+        "no": "Severity inflation detected"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "_section_quality_exclusion": "### QUALITY CHECKLIST: EXCLUSIONS ###",
+
+    "quality_exclusions_documented": {
+      "type": "noul",
+      "instructions": "Is every excluded tell documented with a justification tag (// BRIEF:, // DESIGN DECISION:, // CONTEXT:, // PREMIUM PAIR:)?",
+      "labels": {
+        "yes": "All exclusions have justification tags",
+        "no": "Some exclusions lack justification"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_exclusions_genuine": {
+      "type": "noul",
+      "instructions": "Are exclusions genuine? 'We liked it' or 'it looked good' are NOT valid. Only explicit brief direction or documented design decisions with concrete reasoning qualify.",
+      "labels": {
+        "yes": "Exclusions are genuine with concrete reasoning",
+        "no": "Some exclusions are vague or unjustified"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_exclusions_count": {
+      "type": "noul",
+      "instructions": "Is the exclusion count reasonable? If >5 tells excluded, each should be double-checked. >10 suggests something is wrong.",
+      "labels": {
+        "yes": "Exclusion count reasonable (≤5 or each justified)",
+        "no": "Exclusion count excessive (>5 without scrutiny or >10)"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "_section_quality_postsweep": "### QUALITY CHECKLIST: POST-SWEEP ###",
+
+    "quality_unverifiable_marked": {
+      "type": "noul",
+      "instructions": "Are all unverifiable checks marked? Not silently passed or skipped?",
+      "labels": {
+        "yes": "Unverifiable checks explicitly marked",
+        "no": "Some checks silently skipped"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_absolute_rules_reported": {
+      "type": "noul",
+      "instructions": "Are all 6 absolute rules reported with pass/fail/unverifiable and evidence?",
+      "labels": {
+        "yes": "All 6 absolute rules reported with evidence",
+        "no": "Some absolute rules missing or without evidence"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_signature_cohesion_scored": {
+      "type": "noul",
+      "instructions": "Are all 11 signature/cohesion items (S1-S7, H1-H4) scored 0/50/100 with one-line justification each?",
+      "labels": {
+        "yes": "All 11 items scored with justifications",
+        "no": "Some items missing scores or justifications"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_section_ledger_complete": {
+      "type": "noul",
+      "instructions": "Is the Section Ledger complete? Every major section has a verdict (CLEAN/SUSPICIOUS/INFLATED/CRITICAL) with tell count and action?",
+      "labels": {
+        "yes": "Section Ledger complete with verdicts",
+        "no": "Section Ledger incomplete"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_signature_gate_applied": {
+      "type": "noul",
+      "instructions": "Is the Signature gate applied correctly? If Axis 7 < 40, overall must be capped at 59.",
+      "labels": {
+        "yes": "Signature gate correctly applied (or not triggered)",
+        "no": "Signature gate should apply but wasn't"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_absolute_gate_applied": {
+      "type": "noul",
+      "instructions": "Is the Absolute-rule gate applied correctly? If any critical tell exists, overall must be capped at 69.",
+      "labels": {
+        "yes": "Absolute-rule gate correctly applied (or not triggered)",
+        "no": "Absolute-rule gate should apply but wasn't"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_compounding_cap_applied": {
+      "type": "noul",
+      "instructions": "Is the Compounding cap applied correctly? If ≥3 major layout tells, Axis 4 must be capped at 40.",
+      "labels": {
+        "yes": "Compounding cap correctly applied (or not triggered)",
+        "no": "Compounding cap should apply but wasn't"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_math_from_script": {
+      "type": "noul",
+      "instructions": "Was all scoring done via score.py, never hand-computed?",
+      "labels": {
+        "yes": "All scoring via script",
+        "no": "Some scores hand-computed"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "_section_quality_report": "### QUALITY CHECKLIST: REPORT ###",
+
+    "quality_template_followed": {
+      "type": "noul",
+      "instructions": "Does the report structure match output-template.md exactly?",
+      "labels": {
+        "yes": "Template followed exactly",
+        "no": "Template not followed"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_fixes_ranked": {
+      "type": "noul",
+      "instructions": "Are fixes ranked by weighted impact? Signature issues (3x weight) typically outrank single tells.",
+      "labels": {
+        "yes": "Fixes ranked by weighted impact",
+        "no": "Fixes not properly prioritized"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_language_correct": {
+      "type": "noul",
+      "instructions": "Is the report in user's language with tell IDs kept in English for greppability?",
+      "labels": {
+        "yes": "Language correct (user's language + English IDs)",
+        "no": "Language issues"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "_section_quality_audit": "### QUALITY CHECKLIST: FINAL SELF-AUDIT ###",
+
+    "quality_obvious_slop_flagged": {
+      "type": "noul",
+      "instructions": "Self-audit: 'What still looks like obvious slop that I didn't flag?' — if something visually screams slop but isn't in findings, either find the tell that covers it or note it as a catalog gap.",
+      "labels": {
+        "yes": "No obvious slop missed",
+        "no": "Possible slop missed — needs review"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_over_correction_checked": {
+      "type": "noul",
+      "instructions": "Self-audit: 'Did I over-correct?' — a sparse report on clearly-slop design suggests missed tells. A bloated report on premium design suggests false positives.",
+      "labels": {
+        "yes": "Report density appropriate to design quality",
+        "no": "Report may be over/under-corrected"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    },
+
+    "quality_trust_test": {
+      "type": "noul",
+      "instructions": "Self-audit: 'Would I trust this report if someone else wrote it?' — read the report as if reviewing a colleague's work. Does every claim hold up?",
+      "labels": {
+        "yes": "Report passes trust test",
+        "no": "Report has claims that don't hold up"
+      },
+      "weight": 0,
+      "category": "quality_checklist"
+    }
+  },
+
+  "categories": {
+    "signature": {
+      "name": "Signature & Uniqueness",
+      "description": "Axis 7 — 7-element positive rubric (S1-S7)",
+      "axis": 7,
+      "scoring": "0/50/100 per element, mean for axis",
+      "weight": "3x"
+    },
+    "cohesion": {
+      "name": "Cohesion",
+      "description": "Axis 8 — 4 cohesion checks (H1-H4)",
+      "axis": 8,
+      "scoring": "0/50/100 per check, mean for axis",
+      "weight": "2x"
+    },
+    "quality_checklist": {
+      "name": "Quality Checklist",
+      "description": "27 verification checks for report quality",
+      "scoring": "Binary pass/fail"
+    }
+  },
+
+  "summary": {
+    "total_questions": 38,
+    "score_questions": 11,
+    "noul_questions": 27,
+    "categories_count": 3,
+    "signature_elements": 7,
+    "cohesion_checks": 4,
+    "quality_checks": 27
+  },
+
+  "usage_notes": {
+    "axes_1_6": "Tell-counted axes (1-6) use score.py with tell counts by severity. Jev is NOT used for these — tells are factual (cite-or-cut), not subjective.",
+    "axes_7_8": "Signature and Cohesion axes use Jev Score questions. Each element gets 0/50/100 with calibrated assessment.",
+    "quality_checklist": "Noul questions for binary verification. All should be 'yes' before delivering the report.",
+    "integration": "Jev supplements, does not replace, the existing scoring system. score.py handles tell arithmetic; Jev handles subjective rubric scoring."
+  }
+}
