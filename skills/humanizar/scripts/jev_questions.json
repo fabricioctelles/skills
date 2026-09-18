@@ -1,0 +1,788 @@
+{
+  "_comment": "Perguntas Jev para avaliação de humanização PT-BR. Usa primitivos Noul (binário) para detecção de padrões e Score para avaliação dimensional.",
+  "version": "1.0.0",
+  "questions": {
+    
+    "_section_diagnostico": "### PASSO 2: DIAGNÓSTICO DE PADRÕES IA ###",
+
+    "composicao_resumos_fractais": {
+      "type": "noul",
+      "instructions": "O texto anuncia o que vai dizer, diz, e depois resume o que disse? Há meta-comentário recursivo como 'Nesta seção, veremos...', 'Como vimos anteriormente...', 'Conforme mencionado na seção anterior...'?",
+      "labels": {
+        "yes": "Contém resumos fractais / meta-comentário recursivo",
+        "no": "Fluxo direto sem meta-comentário excessivo"
+      },
+      "weight": 3,
+      "category": "composicao"
+    },
+
+    "composicao_metafora_morta": {
+      "type": "noul",
+      "instructions": "O texto repete a mesma metáfora excessivamente? Palavras como 'ecossistema', 'jornada', 'cenário', 'panorama' ou 'paisagem' aparecem mais de 2 vezes?",
+      "labels": {
+        "yes": "Metáfora repetida excessivamente",
+        "no": "Uso moderado de metáforas"
+      },
+      "weight": 2,
+      "category": "composicao"
+    },
+
+    "composicao_analogias_historicas": {
+      "type": "noul",
+      "instructions": "O texto empilha 3+ analogias históricas em sequência sem desenvolver nenhuma? Ex: 'Assim como a revolução industrial..., como a eletricidade..., como a internet..., como o iPhone...'",
+      "labels": {
+        "yes": "Empilhamento de analogias históricas",
+        "no": "Analogias desenvolvidas ou ausentes"
+      },
+      "weight": 2,
+      "category": "composicao"
+    },
+
+    "composicao_diluicao_ponto": {
+      "type": "noul",
+      "instructions": "O texto tem um único argumento reformulado várias vezes com conectivos diferentes? Usa 'De fato,', 'Nesse sentido,', 'Em outras palavras,', 'Isso significa que...' para repetir a mesma ideia?",
+      "labels": {
+        "yes": "Diluição de ponto único / repetição disfarçada",
+        "no": "Argumentos distintos e progressivos"
+      },
+      "weight": 3,
+      "category": "composicao"
+    },
+
+    "composicao_conclusao_sinalizada": {
+      "type": "noul",
+      "instructions": "O texto usa marcadores explícitos de conclusão como 'Em conclusão,', 'Em suma,', 'Para finalizar,', 'Concluindo,', 'Portanto, podemos afirmar que...', 'Diante do exposto,'?",
+      "labels": {
+        "yes": "Conclusão com marcador explícito",
+        "no": "Fechamento sem anúncio"
+      },
+      "weight": 3,
+      "category": "composicao"
+    },
+
+    "composicao_apesar_desafios": {
+      "type": "noul",
+      "instructions": "O texto reconhece um problema só para descartá-lo imediatamente com otimismo? Usa 'Apesar dos desafios, [coisa positiva]', 'Embora existam preocupações legítimas, as oportunidades superam...'?",
+      "labels": {
+        "yes": "Fórmula acknowledge→dismiss",
+        "no": "Tensão real ou ausente"
+      },
+      "weight": 2,
+      "category": "composicao"
+    },
+
+    "composicao_listicle_disfarçado": {
+      "type": "noul",
+      "instructions": "O texto é uma lista numerada fingindo ser prosa? Cada item começa com 'O primeiro aspecto...', 'O segundo ponto...', 'O terceiro elemento...'?",
+      "labels": {
+        "yes": "Enumeração disfarçada de prosa",
+        "no": "Prosa genuína ou lista declarada"
+      },
+      "weight": 2,
+      "category": "composicao"
+    },
+
+    "composicao_eco_titulo": {
+      "type": "noul",
+      "instructions": "O texto repete o título logo abaixo dele em uma frase curta isolada que não acrescenta nada?",
+      "labels": {
+        "yes": "Eco redundante do título",
+        "no": "Abertura com informação nova"
+      },
+      "weight": 1,
+      "category": "composicao"
+    },
+
+    "composicao_alternativa_falsa": {
+      "type": "noul",
+      "instructions": "O texto levanta uma opção que ninguém consideraria, descarta em meia frase e nunca mais volta ao assunto? Ex: 'Uma opção tentadora seria X, mas...' seguido de silêncio sobre X?",
+      "labels": {
+        "yes": "Alternativa falsa rejeitada",
+        "no": "Alternativas reais ou ausentes"
+      },
+      "weight": 2,
+      "category": "composicao"
+    },
+
+    "tom_servil": {
+      "type": "noul",
+      "instructions": "O texto usa elogios genéricos ao interlocutor como 'Ótima pergunta!', 'Com certeza!', 'Excelente observação!', 'Espero ter ajudado!', 'Fico feliz em ajudar!'?",
+      "labels": {
+        "yes": "Tom servil/bajulador de chatbot",
+        "no": "Tom profissional direto"
+      },
+      "weight": 3,
+      "category": "tom"
+    },
+
+    "tom_aviso_limite": {
+      "type": "noul",
+      "instructions": "O texto expõe natureza de máquina com fórmulas sobre limite de conhecimento? Ex: 'Até onde sei...', 'Com base nas informações disponíveis...', 'Até minha última atualização...', 'Como modelo de linguagem...'?",
+      "labels": {
+        "yes": "Aviso de limite de conhecimento de IA",
+        "no": "Sem autorreferência de máquina"
+      },
+      "weight": 3,
+      "category": "tom"
+    },
+
+    "tom_colaborativo_residual": {
+      "type": "noul",
+      "instructions": "O texto conserva vestígios de interação assistente-usuário? Ex: 'Aqui está um exemplo...', 'Posso te ajudar com...', 'Vou te mostrar como...', 'Fique à vontade para perguntar mais!'?",
+      "labels": {
+        "yes": "Comunicação colaborativa residual",
+        "no": "Texto autoral sem vestígio de assistente"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_cautela_excessiva": {
+      "type": "noul",
+      "instructions": "O texto acumula qualificadores que escondem a proposição principal? Ex: 'Pode-se argumentar que...', 'É possível que...', 'Talvez seja o caso de...', 'Alguns especialistas sugerem...'?",
+      "labels": {
+        "yes": "Cautela excessiva / acúmulo de qualificadores",
+        "no": "Qualificações proporcionais"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_conclusao_generica": {
+      "type": "noul",
+      "instructions": "O texto encerra com otimismo vazio? Ex: 'O futuro é promissor', 'Tempos empolgantes', 'As possibilidades são infinitas', 'O potencial é ilimitado', 'Estamos apenas no começo'?",
+      "labels": {
+        "yes": "Conclusão genérica positiva",
+        "no": "Fechamento específico ou neutro"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_enchimento": {
+      "type": "noul",
+      "instructions": "O texto usa frases de enchimento antes de chegar ao ponto? Ex: 'É importante destacar que', 'Vale ressaltar que', 'Cabe mencionar que', 'Convém observar que', 'É fundamental compreender que'?",
+      "labels": {
+        "yes": "Frases de enchimento",
+        "no": "Informação direta"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_falso_suspense": {
+      "type": "noul",
+      "instructions": "O texto cria falso suspense antes de um ponto banal? Ex: 'Eis a questão:', 'O ponto central é:', 'Mas aqui está o detalhe:', 'A grande sacada é:', 'O plot twist é:'?",
+      "labels": {
+        "yes": "Falso suspense ('Eis a questão')",
+        "no": "Afirmações diretas"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_vulnerabilidade_falsa": {
+      "type": "noul",
+      "instructions": "O texto anuncia vulnerabilidade de forma performática? Ex: 'Sendo honesto aqui...', 'Confesso que...', 'Vou ser vulnerável:', 'Não vou mentir:', 'Admito que...'?",
+      "labels": {
+        "yes": "Vulnerabilidade falsa/performática",
+        "no": "Autenticidade sem anúncio"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_verdade_simples": {
+      "type": "noul",
+      "instructions": "O texto declara obviedade sem provar? Ex: 'A verdade é simples:', 'A realidade é mais simples do que parece', 'No fundo, tudo se resume a...', 'A resposta é surpreendentemente direta:'?",
+      "labels": {
+        "yes": "Declaração de 'verdade simples'",
+        "no": "Argumentação desenvolvida"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_inflacao_grandiosa": {
+      "type": "noul",
+      "instructions": "O texto infla importância com expressões dramáticas? Ex: 'mudança de paradigma', 'revolucionário', 'transformar completamente', 'redefinir fundamentalmente', 'o jogo mudou para sempre'?",
+      "labels": {
+        "yes": "Inflação grandiosa de importância",
+        "no": "Afirmações proporcionais"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_anuncio_explicacao": {
+      "type": "noul",
+      "instructions": "O texto anuncia que vai explicar algo de forma condescendente? Ex: 'Vamos analisar:', 'Vamos destrinchar:', 'Vamos entender passo a passo:', 'Vamos explorar cada aspecto:', 'Vamos mergulhar nesse assunto:'?",
+      "labels": {
+        "yes": "Anúncio de explicação ('Vamos analisar')",
+        "no": "Exposição direta"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_rotulo_inventado": {
+      "type": "noul",
+      "instructions": "O texto inventa termos compostos apresentando-os como conceitos estabelecidos? Ex: 'o paradoxo da [X]', 'a armadilha da [X]', 'o deficit de [X]', 'a falácia do [X]', 'o efeito [X]'?",
+      "labels": {
+        "yes": "Rótulo conceitual inventado",
+        "no": "Termos existentes ou devidamente qualificados"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_imagine_mundo": {
+      "type": "noul",
+      "instructions": "O texto abre com convite futurista clichê? Ex: 'Imagine um mundo onde...', 'Imagine se...', 'Pense num cenário em que...', 'E se eu te dissesse que...', 'Visualize um futuro onde...'?",
+      "labels": {
+        "yes": "Abertura 'Imagine um mundo onde...'",
+        "no": "Abertura direta"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "tom_maxima_camiseta": {
+      "type": "noul",
+      "instructions": "O texto converte afirmação comum em frase de efeito tipo aforismo? Ex: 'X é a linguagem de Y', 'X é a moeda de Y', 'X não é ferramenta, é espelho', 'Cultura come estratégia no café da manhã'?",
+      "labels": {
+        "yes": "Máxima de camiseta / aforismo forçado",
+        "no": "Afirmações específicas"
+      },
+      "weight": 2,
+      "category": "tom"
+    },
+
+    "linguagem_vocabulario_ia": {
+      "type": "noul",
+      "instructions": "O texto abusa de vocabulário pomposo típico de IA? Ex: 'crucial', 'fundamental', 'cenário', 'no âmbito de', 'alavancar', 'robusto', 'escalável', 'ecossistema', 'jornada', 'mergulhar em', 'desbloquear', 'desvendar insights', 'navegar [complexidades]'?",
+      "labels": {
+        "yes": "Vocabulário típico de IA",
+        "no": "Vocabulário natural"
+      },
+      "weight": 3,
+      "category": "linguagem"
+    },
+
+    "linguagem_evitacao_copula": {
+      "type": "noul",
+      "instructions": "O texto evita 'é', 'são', 'tem' substituindo por construções rebuscadas? Ex: 'configura-se como', 'constitui', 'representa', 'figura como', 'posiciona-se como', 'desponta como', 'consolida-se como'?",
+      "labels": {
+        "yes": "Evitação de verbos de ligação simples",
+        "no": "Uso natural de 'é', 'tem', 'está'"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_paralelismo_negativo": {
+      "type": "noul",
+      "instructions": "O texto usa paralelismo negativo formulaico? Ex: 'não é apenas X, mas também Y', 'não se trata apenas de X, trata-se de Y', 'mais do que X, é Y', 'vai muito além de X', 'transcende o simples X'?",
+      "labels": {
+        "yes": "Paralelismo negativo formulaico",
+        "no": "Construções diretas"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_regra_tres": {
+      "type": "noul",
+      "instructions": "O texto abusa de tríades rítmicas em todo parágrafo? Ex: 'clareza, concisão e coerência', 'inovação, tecnologia e transformação', 'planejar, executar e medir' repetidamente?",
+      "labels": {
+        "yes": "Abuso da regra de três",
+        "no": "Variação no número de itens"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_variacao_forcada": {
+      "type": "noul",
+      "instructions": "O texto cicla sinônimos para evitar repetição quando a repetição seria mais clara? Ex: 'a ferramenta' → 'a solução' → 'a plataforma' → 'o sistema' → 'o produto' para o mesmo referente?",
+      "labels": {
+        "yes": "Variação lexical forçada",
+        "no": "Repetição natural ou variação justificada"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_falsas_faixas": {
+      "type": "noul",
+      "instructions": "O texto cria faixas que soam amplas mas não representam escala real? Ex: 'desde inteligência artificial até gestão de pessoas', 'de estagiários a C-levels', 'abrangendo desde X até Y, passando por Z'?",
+      "labels": {
+        "yes": "Falsas faixas (de X a Y)",
+        "no": "Faixas reais ou ausentes"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_anafora_abusiva": {
+      "type": "noul",
+      "instructions": "O texto repete o mesmo início em 3+ frases consecutivas como muleta? Ex: 'Precisamos...', 'É preciso...', 'O futuro...', 'A tecnologia...', 'Esse é o momento de...'?",
+      "labels": {
+        "yes": "Anáfora abusiva / repetição de início",
+        "no": "Variação de aberturas"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_pergunta_autoresposta": {
+      "type": "noul",
+      "instructions": "O texto usa estrutura 'O X? Um Y.' repetidamente? Ex: 'O resultado? Um time coeso.', 'O segredo? Consistência.', 'A resposta? Simplicidade.'?",
+      "labels": {
+        "yes": "Perguntas retóricas auto-respondidas",
+        "no": "Afirmações diretas"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "linguagem_decalque_sintatico": {
+      "type": "noul",
+      "instructions": "O texto usa estruturas do inglês traduzidas literalmente? Ex: 'endereçar um problema' (address), 'no final do dia' (at the end of the day), 'performar', 'correr um experimento' (run), 'levantar uma questão' (raise)?",
+      "labels": {
+        "yes": "Decalques sintáticos do inglês",
+        "no": "Construções nativas do PT-BR"
+      },
+      "weight": 2,
+      "category": "linguagem"
+    },
+
+    "conteudo_enfase_indevida": {
+      "type": "noul",
+      "instructions": "O texto transforma fatos mundanos em revolução? Ex: 'representa um marco', 'é um testemunho de', 'papel fundamental/crucial/vital', 'ponto de inflexão', 'redefine o paradigma'?",
+      "labels": {
+        "yes": "Ênfase indevida em significância",
+        "no": "Avaliações proporcionais"
+      },
+      "weight": 3,
+      "category": "conteudo"
+    },
+
+    "conteudo_notabilidade_forcada": {
+      "type": "noul",
+      "instructions": "O texto lista veículos e prêmios como prova de importância sem explicar por que importa? Ex: 'destaque na Exame, Valor, TechCrunch', 'amplamente reconhecido como referência'?",
+      "labels": {
+        "yes": "Notabilidade/cobertura forçada",
+        "no": "Menções contextualizadas"
+      },
+      "weight": 2,
+      "category": "conteudo"
+    },
+
+    "conteudo_gerundio_analise": {
+      "type": "noul",
+      "instructions": "O texto gruda frases com gerúndio no final como falsa análise? Ex: '...demonstrando seu compromisso com...', '...consolidando sua posição como...', '...contribuindo para o fortalecimento de...'?",
+      "labels": {
+        "yes": "Gerúndio conclusivo / falsa análise",
+        "no": "Análise desenvolvida ou ausente"
+      },
+      "weight": 2,
+      "category": "conteudo"
+    },
+
+    "conteudo_linguagem_promocional": {
+      "type": "noul",
+      "instructions": "O texto usa linguagem de copywriter de produto? Ex: 'solução inovadora', 'experiência única', 'ecossistema robusto', 'revolucionário', 'disruptivo', 'estado da arte', 'de ponta', 'seamless', 'game-changer'?",
+      "labels": {
+        "yes": "Linguagem promocional/propaganda",
+        "no": "Descrição factual"
+      },
+      "weight": 3,
+      "category": "conteudo"
+    },
+
+    "conteudo_atribuicao_vaga": {
+      "type": "noul",
+      "instructions": "O texto atribui afirmações a autoridades genéricas que não existem? Ex: 'segundo especialistas', 'de acordo com analistas do setor', 'estudos apontam que', 'o mercado reconhece', 'pesquisas indicam'?",
+      "labels": {
+        "yes": "Atribuições vagas / weasel words",
+        "no": "Fontes específicas ou afirmações autorais"
+      },
+      "weight": 3,
+      "category": "conteudo"
+    },
+
+    "conteudo_conclusao_formulaica": {
+      "type": "noul",
+      "instructions": "O texto encerra com seção 'Desafios e Perspectivas' genérica? Ex: 'apesar dos desafios, o futuro é promissor', 'a empresa segue bem posicionada para continuar', 'trilhando um caminho de crescimento sustentável'?",
+      "labels": {
+        "yes": "Conclusão formulaica sobre desafios/perspectivas",
+        "no": "Fechamento específico"
+      },
+      "weight": 2,
+      "category": "conteudo"
+    },
+
+    "conteudo_fonte_inventada": {
+      "type": "noul",
+      "instructions": "O texto contém referência específica com autor, ano, página ou periódico que parece inventada? Ex: 'Segundo Almeida (2019, p. 84)...' sem que a referência seja verificável?",
+      "labels": {
+        "yes": "Possível fonte inventada - MARCAR PARA VERIFICAÇÃO",
+        "no": "Fontes ausentes ou aparentemente verificáveis"
+      },
+      "weight": 3,
+      "category": "conteudo"
+    },
+
+    "estilo_travessao_excessivo": {
+      "type": "noul",
+      "instructions": "O texto usa travessão (—) ou meia-risca (–) excessivamente como aparte? Mais de 2 por parágrafo ou mais de 5 no texto inteiro?",
+      "labels": {
+        "yes": "Travessão excessivo",
+        "no": "Uso moderado de travessão"
+      },
+      "weight": 2,
+      "category": "estilo"
+    },
+
+    "estilo_negrito_excessivo": {
+      "type": "noul",
+      "instructions": "O texto aplica negrito em toda palavra-chave como catálogo de produto? Mais de 5 trechos em negrito em texto corrido de prosa?",
+      "labels": {
+        "yes": "Negrito excessivo/decorativo",
+        "no": "Negrito funcional ou ausente"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_title_case": {
+      "type": "noul",
+      "instructions": "Os títulos usam Title Case (capitalizar preposições)? Ex: 'Estratégias De Marketing Digital Para Pequenas Empresas' em vez de 'Estratégias de marketing digital para pequenas empresas'?",
+      "labels": {
+        "yes": "Title Case em títulos (padrão inglês)",
+        "no": "Capitalização PT-BR correta"
+      },
+      "weight": 2,
+      "category": "estilo"
+    },
+
+    "estilo_emoji_decorativo": {
+      "type": "noul",
+      "instructions": "O texto usa emojis decorativos em títulos ou itens profissionais? Ex: '🚀 Lançamento:', '💡 Observação:', '✅ Próximos passos:', '🎯 Meta:'?",
+      "labels": {
+        "yes": "Emojis decorativos em contexto profissional",
+        "no": "Sem emojis ou emojis funcionais"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_aspas_curvas": {
+      "type": "noul",
+      "instructions": "O texto usa aspas curvas tipográficas (" ") em vez de aspas retas em contexto informal ou técnico?",
+      "labels": {
+        "yes": "Aspas curvas (padrão IA)",
+        "no": "Aspas retas ou contexto editorial"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_unicode_decorativo": {
+      "type": "noul",
+      "instructions": "O texto usa caracteres Unicode decorativos que teclado brasileiro não produz? Ex: setas, marcadores especiais, separadores especiais?",
+      "labels": {
+        "yes": "Decoração Unicode artificial",
+        "no": "Caracteres de teclado padrão"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_fragmentos_dramaticos": {
+      "type": "noul",
+      "instructions": "O texto usa frases de 1-3 palavras isoladas como parágrafo para criar falso impacto? Ex: 'Radicalmente.', 'Literalmente.', 'Ponto.'?",
+      "labels": {
+        "yes": "Fragmentos curtos dramáticos",
+        "no": "Frases completas ou fragmentos funcionais"
+      },
+      "weight": 2,
+      "category": "estilo"
+    },
+
+    "estilo_oxford_comma": {
+      "type": "noul",
+      "instructions": "O texto usa vírgula de Oxford (antes do 'e' final em listas)? Ex: 'maçãs, bananas, e laranjas' em vez de 'maçãs, bananas e laranjas'?",
+      "labels": {
+        "yes": "Vírgula de Oxford (padrão inglês)",
+        "no": "Pontuação PT-BR padrão"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_ponto_aspas": {
+      "type": "noul",
+      "instructions": "O texto coloca ponto dentro das aspas quando a citação é parte da frase (convenção americana)? Ex: 'no caminho certo.' em vez de 'no caminho certo'.",
+      "labels": {
+        "yes": "Ponto dentro das aspas (convenção americana)",
+        "no": "Ponto fora das aspas (convenção PT-BR)"
+      },
+      "weight": 1,
+      "category": "estilo"
+    },
+
+    "estilo_ressalva_preambulo": {
+      "type": "noul",
+      "instructions": "O texto usa padrão 'minimiza → infla' repetidamente? Ex: 'Embora pareça simples, na verdade é [superlativo]', 'À primeira vista... mas na verdade constitui...'?",
+      "labels": {
+        "yes": "Ressalva com preâmbulo (minimiza→infla)",
+        "no": "Contraste legítimo ou ausente"
+      },
+      "weight": 2,
+      "category": "estilo"
+    },
+
+    "ptbr_gerundismo": {
+      "type": "noul",
+      "instructions": "O texto usa gerundismo corporativo? Ex: 'vou estar enviando', 'estaremos realizando', 'vai estar recebendo', 'iremos estar providenciando'?",
+      "labels": {
+        "yes": "Gerundismo corporativo",
+        "no": "Verbos no futuro simples"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_conectivo_arcaico": {
+      "type": "noul",
+      "instructions": "O texto usa conectivos arcaicos fora de contexto jurídico? Ex: 'ademais', 'outrossim', 'destarte', 'não obstante', 'doravante', 'nesse diapasão', 'mister se faz'?",
+      "labels": {
+        "yes": "Conectivos arcaicos fora de contexto",
+        "no": "Conectivos modernos ou contexto jurídico"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_abertura_enem": {
+      "type": "noul",
+      "instructions": "O texto abre com estrutura de dissertação de vestibular? Ex: 'Em um mundo cada vez mais...', 'No cenário atual...', 'Na contemporaneidade...', 'É inegável que...', 'No contexto de...'?",
+      "labels": {
+        "yes": "Abertura estilo ENEM",
+        "no": "Abertura direta"
+      },
+      "weight": 3,
+      "category": "ptbr"
+    },
+
+    "ptbr_ressalva_burocratica": {
+      "type": "noul",
+      "instructions": "O texto usa marcadores burocráticos de importância? Ex: 'Vale ressaltar que...', 'É importante destacar que...', 'Cumpre salientar que...', 'Faz-se necessário...'?",
+      "labels": {
+        "yes": "Ressalva burocrática",
+        "no": "Informação direta"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_formalidade_deslocada": {
+      "type": "noul",
+      "instructions": "O texto usa registro de ofício em contexto informal? Ex: 'No que tange a', 'Tendo em vista que', 'O referido', 'Conforme mencionado anteriormente', 'O supracitado'?",
+      "labels": {
+        "yes": "Formalidade deslocada",
+        "no": "Registro adequado ao contexto"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_oficiales": {
+      "type": "noul",
+      "instructions": "O texto usa linguagem de ofício fora de contexto público? Ex: 'Venho por meio deste', 'Solicito a gentileza de', 'Segue em anexo para os devidos fins', 'Para conhecimento e providências'?",
+      "labels": {
+        "yes": "Oficialês brasileiro fora de contexto",
+        "no": "Linguagem direta ou contexto público"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_purismo_linguistico": {
+      "type": "noul",
+      "instructions": "O texto traduz estrangeirismos que brasileiro usa naturalmente? Ex: 'retroalimentação' (feedback), 'implantação' (deploy), 'rotatividade de clientes' (churn), 'corrida' (sprint), 'partes interessadas' (stakeholders)?",
+      "labels": {
+        "yes": "Purismo linguístico artificial",
+        "no": "Estrangeirismos naturais preservados"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "ptbr_transicao_mecanica": {
+      "type": "noul",
+      "instructions": "Todo parágrafo começa com conectivo como muleta? Ex: 'Além disso', 'Nesse sentido', 'Diante disso', 'Em contrapartida', 'Por outro lado', 'No entanto', 'Dessa forma' repetidamente?",
+      "labels": {
+        "yes": "Transições mecânicas repetidas",
+        "no": "Variação de aberturas"
+      },
+      "weight": 2,
+      "category": "ptbr"
+    },
+
+    "_section_falso_positivo": "### PASSO 6: GUARDA DE FALSO POSITIVO ###",
+
+    "falso_positivo_marca_humana": {
+      "type": "noul",
+      "instructions": "O texto contém marcas fortes de autoria humana? Ex: regionalismo (uai, oxe, tchê), contração coloquial (pra, tá, cê), detalhe específico e estranho, sentimento misto sem resolução, gíria datada, aparte ou autocorreção?",
+      "labels": {
+        "yes": "Contém marcas de autoria humana",
+        "no": "Sem marcas distintivas de autoria"
+      },
+      "weight": 0,
+      "category": "falso_positivo"
+    },
+
+    "falso_positivo_genero_formal": {
+      "type": "noul",
+      "instructions": "O texto pertence a gênero que exige formalidade? Ex: petição judicial, parecer jurídico, texto acadêmico com citações, ata de reunião, documento normativo?",
+      "labels": {
+        "yes": "Gênero formal - formalidade é esperada",
+        "no": "Gênero informal ou neutro"
+      },
+      "weight": 0,
+      "category": "falso_positivo"
+    },
+
+    "_section_verificacao": "### PASSO 7: VERIFICAÇÃO FINAL ###",
+
+    "verificacao_trava_factual": {
+      "type": "noul",
+      "instructions": "Comparando texto_fonte e texto_reescrito: algum fato, número, data, nome, citação, relação causal ou modalidade foi alterado, adicionado ou removido indevidamente?",
+      "labels": {
+        "yes": "TRAVA FACTUAL VIOLADA - alteração de conteúdo",
+        "no": "TRAVA FACTUAL intacta - conteúdo preservado"
+      },
+      "weight": 0,
+      "category": "verificacao",
+      "critical": true
+    },
+
+    "verificacao_argumento_preservado": {
+      "type": "noul",
+      "instructions": "O argumento, intenção e posição do autor foram preservados na reescrita? A conclusão permanece a mesma?",
+      "labels": {
+        "yes": "Argumento alterado",
+        "no": "Argumento preservado"
+      },
+      "weight": 0,
+      "category": "verificacao",
+      "critical": true
+    },
+
+    "verificacao_modalidade_preservada": {
+      "type": "noul",
+      "instructions": "A modalidade foi preservada? 'Pode causar' não virou 'causa'? 'Talvez' não virou afirmação? Incertezas foram mantidas?",
+      "labels": {
+        "yes": "Modalidade alterada",
+        "no": "Modalidade preservada"
+      },
+      "weight": 0,
+      "category": "verificacao",
+      "critical": true
+    },
+
+    "verificacao_primeira_pessoa": {
+      "type": "noul",
+      "instructions": "Opinião, dúvida, sentimento ou primeira pessoa foram adicionados quando não existiam no original?",
+      "labels": {
+        "yes": "Primeira pessoa/opinião adicionada indevidamente",
+        "no": "Voz preservada ou já existente"
+      },
+      "weight": 0,
+      "category": "verificacao"
+    },
+
+    "_section_avaliacao": "### PASSO 8: AVALIAÇÃO PÓS-REESCRITA ###",
+
+    "score_remocao_padroes": {
+      "type": "score",
+      "instructions": "Comparando texto_fonte e texto_reescrito: quantos padrões de IA detectados no diagnóstico foram efetivamente removidos ou corrigidos?",
+      "levels": [
+        "Quase nenhum padrão foi removido (0-20)",
+        "Poucos padrões removidos, maioria permanece (21-40)",
+        "Metade dos padrões foi removida (41-60)",
+        "Maioria dos padrões removida, alguns remanescentes (61-80)",
+        "Praticamente todos os padrões foram removidos (81-100)"
+      ],
+      "weight": 35,
+      "category": "avaliacao"
+    },
+
+    "score_naturalidade": {
+      "type": "score",
+      "instructions": "O texto_reescrito soa natural para o gênero e perfil de voz? O ritmo é variado? As frases fluem? Lido em voz alta, parece escrita humana?",
+      "levels": [
+        "Muito artificial, claramente gerado por máquina (0-20)",
+        "Artificial, ritmo monótono, sem personalidade (21-40)",
+        "Aceitável, mas genérico e sem voz distintiva (41-60)",
+        "Natural, bom ritmo, voz perceptível (61-80)",
+        "Muito natural, voz clara e consistente, ritmo variado (81-100)"
+      ],
+      "weight": 30,
+      "category": "avaliacao"
+    },
+
+    "score_consistencia_voz": {
+      "type": "score",
+      "instructions": "O perfil de voz foi mantido do início ao fim? Há mudanças bruscas de registro? Trechos de outro estilo foram respeitados?",
+      "levels": [
+        "Registro inconsistente, múltiplas vozes conflitantes (0-20)",
+        "Variações problemáticas de tom e registro (21-40)",
+        "Maioria consistente, algumas oscilações (41-60)",
+        "Consistente com pequenas variações aceitáveis (61-80)",
+        "Perfeitamente consistente do início ao fim (81-100)"
+      ],
+      "weight": 20,
+      "category": "avaliacao"
+    },
+
+    "score_legibilidade": {
+      "type": "score",
+      "instructions": "As frases fluem? Os conectivos são naturais? A lógica está clara? O texto é fácil de ler e entender?",
+      "levels": [
+        "Difícil de ler, lógica confusa, conectivos artificiais (0-20)",
+        "Legível com esforço, algumas passagens truncadas (21-40)",
+        "Razoavelmente legível, fluxo adequado (41-60)",
+        "Boa legibilidade, fluxo natural (61-80)",
+        "Excelente legibilidade, fluxo impecável (81-100)"
+      ],
+      "weight": 15,
+      "category": "avaliacao"
+    }
+  },
+
+  "metadata": {
+    "total_noul_questions": 52,
+    "total_score_questions": 4,
+    "categories": {
+      "composicao": 9,
+      "tom": 14,
+      "linguagem": 9,
+      "conteudo": 7,
+      "estilo": 10,
+      "ptbr": 8,
+      "falso_positivo": 2,
+      "verificacao": 4,
+      "avaliacao": 4
+    },
+    "weights": {
+      "score_remocao_padroes": "35%",
+      "score_naturalidade": "30%",
+      "score_consistencia_voz": "20%",
+      "score_legibilidade": "15%"
+    }
+  }
+}

@@ -806,3 +806,74 @@ Conjunto mínimo para validar evoluções futuras. Rodar cada caso em `modo_comp
 > **Critério de regressão**: se uma evolução piora o resultado de qualquer teste T1-T8, a mudança deve ser reavaliada.
 >
 > **TRAVA FACTUAL nos casos de teste:** nenhuma saída esperada pode adicionar, retirar ou alterar conteúdo protegido. Resultado mais contido é preferível a uma versão mais vistosa que invente informação.
+
+
+
+## Avaliação com Jev (opcional)
+
+A skill pode usar **TypeSafe Jev** para avaliação calibrada — um modelo que retorna decisões tipadas com probabilidades precisas. Jev é ideal para diagnóstico, verificação e scoring; o LLM continua fazendo a reescrita.
+
+### Protocolo de Descoberta
+
+A skill **não assume** que Jev está disponível. Antes de usar, execute o protocolo de descoberta:
+
+```
+1. Verificar MCP tools disponíveis no harness
+   → Se existir tool "jev_eval" ou similar → usar
+   
+2. Verificar se harness usa OpenRouter
+   → Se sim, solicitar modelo `typesafe/jev-latest`
+   
+3. Verificar slots auxiliares (Hermes, Devin)
+   → Se slot approval/custom configurado com Jev → usar
+   
+4. Fallback → avaliação inline via LLM atual
+```
+
+### Descoberta por Harness
+
+| Harness | Como detectar Jev |
+|---------|-------------------|
+| **Claude Code** | Verificar MCP em `.claude/mcp.json` → tool `jev_eval` |
+| **Cursor** | Verificar se OpenRouter é provider → modelo `typesafe/jev-latest` |
+| **Devin** | Verificar `agents/*.md` → profile com `model: typesafe/jev-latest` |
+| **Hermes** | Verificar `config.yaml` → `auxiliary.approval.model` |
+| **Kiro/Copilot/Cline** | Verificar MCP servers ou lista de modelos disponíveis |
+| **Aider/OpenCode** | Verificar providers configurados |
+
+### Por que usar Jev
+
+| Aspecto | Avaliação LLM | Avaliação Jev |
+|---------|---------------|---------------|
+| Consistência | Varia entre chamadas | Determinístico |
+| Calibração | P(70%) ≠ 70% real | P(70%) = 70% real |
+| Custo | ~$0.01-0.05/avaliação | ~$0.0001-0.0002/avaliação |
+| Latência | 1-5s | 70-500ms |
+| Output | Texto (precisa parsing) | Estruturado nativo |
+
+**Economia: ~50-100x mais barato que GPT-4.**
+
+### Quando preferir avaliação LLM
+
+- Textos muito curtos (<50 palavras)
+- `modo_direto` com pressa
+- Debug/desenvolvimento (mais fácil inspecionar reasoning)
+- Jev não disponível no harness
+
+### Mapeamento de passos para Jev
+
+| Passo | Primitivo Jev | Perguntas |
+|-------|---------------|-----------|
+| **Passo 2** (Diagnóstico) | Noul | 52 perguntas binárias (padrões de IA) |
+| **Passo 6** (Falso positivo) | Noul | 2 perguntas (marca humana, gênero formal) |
+| **Passo 7** (Verificação) | Noul | 4 perguntas (TRAVA FACTUAL, argumento, modalidade) |
+| **Passo 8** (Avaliação) | Score | 4 dimensões ponderadas |
+
+### Arquivos relacionados
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `scripts/jev_questions.json` | 56 perguntas tipadas (Noul + Score) |
+| `references/jev-integration.md` | Protocolo completo, formatos request/response |
+
+> **Documentação completa**: Ver `references/jev-integration.md` para detalhes do protocolo de descoberta, estrutura de requests/responses e instruções por harness.
