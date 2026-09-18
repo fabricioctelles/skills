@@ -8,6 +8,7 @@
 ![Substack](https://img.shields.io/badge/Substack-FF6719?logo=substack&logoColor=white)
 ![SEO](https://img.shields.io/badge/SEO%20%2F%20GEO-4285F4?logo=google&logoColor=white)
 ![AI Agents](https://img.shields.io/badge/AI%20Agents-8B5CF6?logo=openai&logoColor=white)
+![TypeSafe Jev](https://img.shields.io/badge/TypeSafe%20Jev-10B981?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyTDIgN2wzIDEuNVYxN2w3IDQgNy00VjguNUwyMiA3bC0xMC01em0wIDIuMThMOSA2LjVsMyAxLjUgMy0xLjUtMy0yLjMyek01IDE2di01LjVsNiAzdjUuNWwtNi0zem04IDMuMXYtNS41bDYtM3Y1LjVsLTYgM3oiLz48L3N2Zz4=&logoColor=white)
 ![LGPD](https://img.shields.io/badge/LGPD%20%2F%20Privacy-059669?logo=shieldsdotio&logoColor=white)
 ![Security](https://img.shields.io/badge/Security-DC2626?logo=owasp&logoColor=white)
 
