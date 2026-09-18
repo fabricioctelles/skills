@@ -19,6 +19,22 @@
 
 [Agent Skills](https://agentskills.io) are a lightweight, open format for extending AI agent capabilities. Each skill is a folder with a `SKILL.md` file containing metadata and instructions that agents load on demand. Learn more at [agentskills.io](https://agentskills.io/what-are-skills.md).
 
+## 🧠 Skills with TypeSafe Jev Integration
+
+Four skills now support optional integration with [TypeSafe Jev](https://github.com/AugmentHCI/typesafe-jev) — a judgment engine that provides calibrated probability assessments (Score) and categorical classifications (Noul) for subjective evaluation criteria. When Jev is available, these skills use it for nuanced quality judgments; when unavailable, they fall back to heuristic methods.
+
+| Skill | Jev Use Case | Questions |
+|-------|--------------|-----------|
+| [humanizar](#-humanizar--ai-text-humanizer-for-brazilian-portuguese--code-quality-and-review) | Pattern severity, voice match quality, rewrite confidence | 8 Score + 12 Noul |
+| [human-ai](#-human-ai--ai-text-humanizer-for-english--code-quality-and-review) | Pattern severity, voice match quality, rewrite confidence | 8 Score + 12 Noul |
+| [slop-eval](#-slop-eval--design-slop-evaluator--code-quality-and-review) | Tell severity, axis quality, section classification | 8 Score + 16 Noul |
+| [agent-plugin-eval](#-agent-plugin-eval--product-verification) | UX coherence, documentation clarity, schema design, secret detection | 7 Score + 19 Noul |
+
+Each skill includes:
+- `scripts/jev_questions.json` — question definitions with context requirements
+- `references/jev-integration.md` — integration patterns and code examples
+- Discovery protocol in SKILL.md — check `jev_available()` before use
+
 ## Available Skills
 
 ### 💡 Startup Idea · `data-fetching-and-analysis`

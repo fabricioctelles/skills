@@ -17,6 +17,22 @@
 
 [Agent Skills](https://agentskills.io) são um formato aberto e leve para estender capacidades de agentes de IA. Cada skill é uma pasta com um arquivo `SKILL.md` contendo metadados e instruções que os agentes carregam sob demanda. Saiba mais em [agentskills.io](https://agentskills.io/what-are-skills.md).
 
+## 🧠 Skills com Integração TypeSafe Jev
+
+Quatro skills agora suportam integração opcional com [TypeSafe Jev](https://github.com/AugmentHCI/typesafe-jev) — um motor de julgamento que fornece avaliações de probabilidade calibradas (Score) e classificações categóricas (Noul) para critérios de avaliação subjetiva. Quando Jev está disponível, essas skills o usam para julgamentos de qualidade nuançados; quando indisponível, usam métodos heurísticos como fallback.
+
+| Skill | Uso do Jev | Questões |
+|-------|------------|----------|
+| [humanizar](#-humanizar--humanizador-de-texto-ia-para-português-brasileiro--code-quality-and-review) | Severidade de padrões, qualidade de match de voz, confiança de reescrita | 8 Score + 12 Noul |
+| [human-ai](#-human-ai--humanizador-de-texto-ia-para-inglês--code-quality-and-review) | Severidade de padrões, qualidade de match de voz, confiança de reescrita | 8 Score + 12 Noul |
+| [slop-eval](#-slop-eval--avaliador-de-design-slop--code-quality-and-review) | Severidade de tells, qualidade de eixos, classificação de seções | 8 Score + 16 Noul |
+| [agent-plugin-eval](#-agent-plugin-eval--product-verification) | Coerência de UX, clareza de documentação, design de schema, detecção de secrets | 7 Score + 19 Noul |
+
+Cada skill inclui:
+- `scripts/jev_questions.json` — definições de questões com requisitos de contexto
+- `references/jev-integration.md` — padrões de integração e exemplos de código
+- Protocolo de descoberta no SKILL.md — verificar `jev_available()` antes de usar
+
 ## Skills Disponíveis
 
 ### 💡 Startup Idea · `data-fetching-and-analysis`
