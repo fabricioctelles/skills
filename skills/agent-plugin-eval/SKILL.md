@@ -89,6 +89,65 @@ Invoke the calculator with one `criterion:score:weight` triple per criterion:
 python3 scripts/score.py --gate partial 1:90:3 2:80:3 3:NA:2
 ```
 
+## Evaluation with Jev (Optional)
+
+When [TypeSafe Jev](https://github.com/AugmentHCI/typesafe-jev) is available,
+use it for subjective quality criteria. Jev provides calibrated probability
+judgments that augment the deterministic checks.
+
+### When to use Jev
+
+| Evaluation Type | Use Jev? | Method |
+|-----------------|----------|--------|
+| Axes 1-3 conformance | No | Deterministic (`inspect_plugin.py`) |
+| Axis 4 product quality | **Yes** | Score (UX, docs, errors) |
+| Axis 2 quality criteria | **Yes** | Score (schema design, naming) |
+| Gate classification | **Yes** | Noul (pass/fail categories) |
+| Secret detection | **Yes** | Noul (suspected/not_suspected) |
+| Quality checklist | **Yes** | Noul (present/missing) |
+
+### Discovery protocol
+
+```python
+from typesafe import jev_available
+
+if jev_available():
+    from typesafe import Score, Noul
+    # Use Jev for subjective criteria
+else:
+    # Fall back to heuristic scoring
+```
+
+### Questions and integration
+
+Questions are defined in `scripts/jev_questions.json`:
+
+- **7 Score questions**: Axis 4 (UX coherence, documentation clarity, error
+  handling) and Axis 2 (validation, schema design, naming, API elegance)
+- **20 Noul questions**: Gates (G1-G4), secrets (4), quality checklist (7),
+  component validity (4)
+
+Score results (0.0-1.0) are averaged per axis and scaled to the rubric (0-25).
+Noul results provide categorical classifications for gates and checklists.
+
+See `references/jev-integration.md` for full integration patterns and code
+examples.
+
+### Output format
+
+When Jev is used, the scorecard includes a `jev` section:
+
+```json
+{
+  "jev": {
+    "available": true,
+    "quality_scores": { "ux_coherence": 0.72, ... },
+    "gate_classifications": { "G1": {"label": "conformant", "passed": true} },
+    "secret_findings": { "requires_review": false }
+  }
+}
+```
+
 ## Gotchas
 
 - The v1 portable core contains exactly Agent Skills and MCP servers. Hooks,

@@ -1,0 +1,199 @@
+{
+  "version": "1.0",
+  "skill": "agent-plugin-eval",
+  "description": "Jev questions for subjective plugin quality evaluation",
+  "questions": {
+    "score": [
+      {
+        "id": "ux_coherence",
+        "axis": 4,
+        "criterion": 6,
+        "question": "Does the plugin provide a coherent, intuitive experience when tools are used together?",
+        "context_required": ["plugin_manifest", "tool_definitions", "sample_interactions"]
+      },
+      {
+        "id": "documentation_clarity",
+        "axis": 4,
+        "criterion": 8,
+        "question": "Is the documentation clear, complete, and useful for both users and integrators?",
+        "context_required": ["readme", "skill_instructions", "steering_files"]
+      },
+      {
+        "id": "error_handling_quality",
+        "axis": 4,
+        "criterion": 9,
+        "question": "Are errors handled gracefully with clear, actionable messages?",
+        "context_required": ["tool_definitions", "error_examples", "validation_logic"]
+      },
+      {
+        "id": "input_validation_robustness",
+        "axis": 2,
+        "criterion": 15,
+        "question": "Is input validation thorough without being overly restrictive?",
+        "context_required": ["schema_definitions", "validation_rules"]
+      },
+      {
+        "id": "schema_design_quality",
+        "axis": 2,
+        "criterion": 16,
+        "question": "Are the JSON schemas well-designed with appropriate constraints and descriptions?",
+        "context_required": ["tool_schemas", "type_definitions"]
+      },
+      {
+        "id": "naming_consistency",
+        "axis": 2,
+        "criterion": 17,
+        "question": "Are naming conventions consistent and semantically meaningful across tools?",
+        "context_required": ["tool_names", "parameter_names", "resource_names"]
+      },
+      {
+        "id": "api_design_elegance",
+        "axis": 2,
+        "criterion": 18,
+        "question": "Is the API design elegant, avoiding unnecessary complexity?",
+        "context_required": ["tool_definitions", "workflow_patterns"]
+      }
+    ],
+    "noul": [
+      {
+        "id": "gate_manifest_structure",
+        "gate": "G1",
+        "question": "Does the manifest follow valid JSON structure with required fields (name, version)?",
+        "labels": ["conformant", "malformed"],
+        "context_required": ["plugin_manifest_raw"]
+      },
+      {
+        "id": "gate_schema_validity",
+        "gate": "G2",
+        "question": "Are all tool schemas valid JSON Schema with proper type definitions?",
+        "labels": ["valid", "invalid"],
+        "context_required": ["tool_schemas_raw"]
+      },
+      {
+        "id": "gate_skill_coherence",
+        "gate": "G3",
+        "question": "Do bundled skills have coherent instructions that match tool capabilities?",
+        "labels": ["coherent", "incoherent"],
+        "context_required": ["skill_files", "tool_definitions"]
+      },
+      {
+        "id": "gate_transport_config",
+        "gate": "G4",
+        "question": "Is the transport configuration (stdio/http) properly specified and consistent?",
+        "labels": ["valid", "misconfigured"],
+        "context_required": ["transport_config", "server_entry"]
+      },
+      {
+        "id": "secret_env_vars",
+        "category": "secrets",
+        "question": "Do environment variables appear to contain hardcoded secrets rather than references?",
+        "labels": ["suspected", "not_suspected"],
+        "context_required": ["env_definitions", "config_files"]
+      },
+      {
+        "id": "secret_in_code",
+        "category": "secrets",
+        "question": "Does the source code contain patterns suggesting embedded credentials?",
+        "labels": ["suspected", "not_suspected"],
+        "context_required": ["source_files_sample"]
+      },
+      {
+        "id": "secret_in_docs",
+        "category": "secrets",
+        "question": "Do documentation or example files contain what appear to be real credentials?",
+        "labels": ["suspected", "not_suspected"],
+        "context_required": ["readme", "examples"]
+      },
+      {
+        "id": "secret_exposed_endpoint",
+        "category": "secrets",
+        "question": "Are there hardcoded URLs or endpoints that might expose internal systems?",
+        "labels": ["suspected", "not_suspected"],
+        "context_required": ["source_files_sample", "config_files"]
+      },
+      {
+        "id": "checklist_readme_exists",
+        "category": "quality_checklist",
+        "question": "Is there a README with installation and usage instructions?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing"]
+      },
+      {
+        "id": "checklist_license",
+        "category": "quality_checklist",
+        "question": "Is there a LICENSE file with a recognized open source license?",
+        "labels": ["present", "missing_or_unclear"],
+        "context_required": ["file_listing", "license_content"]
+      },
+      {
+        "id": "checklist_changelog",
+        "category": "quality_checklist",
+        "question": "Is there a CHANGELOG or version history?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing"]
+      },
+      {
+        "id": "checklist_tests",
+        "category": "quality_checklist",
+        "question": "Are there automated tests for the plugin functionality?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing", "test_files"]
+      },
+      {
+        "id": "checklist_ci",
+        "category": "quality_checklist",
+        "question": "Is there CI/CD configuration for automated testing?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing", "ci_config"]
+      },
+      {
+        "id": "checklist_examples",
+        "category": "quality_checklist",
+        "question": "Are there usage examples or sample interactions?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing", "examples_dir"]
+      },
+      {
+        "id": "checklist_security_policy",
+        "category": "quality_checklist",
+        "question": "Is there a SECURITY.md or security policy?",
+        "labels": ["present", "missing"],
+        "context_required": ["file_listing"]
+      },
+      {
+        "id": "component_plugin_json",
+        "category": "component_validity",
+        "question": "Is plugin.json present and parseable?",
+        "labels": ["valid", "invalid", "missing"],
+        "context_required": ["plugin_json_raw"]
+      },
+      {
+        "id": "component_mcp_json",
+        "category": "component_validity",
+        "question": "Is mcp.json present and properly structured?",
+        "labels": ["valid", "invalid", "missing"],
+        "context_required": ["mcp_json_raw"]
+      },
+      {
+        "id": "component_skill_md",
+        "category": "component_validity",
+        "question": "Are SKILL.md files present with proper frontmatter?",
+        "labels": ["valid", "invalid", "missing"],
+        "context_required": ["skill_files_raw"]
+      },
+      {
+        "id": "component_steering",
+        "category": "component_validity",
+        "question": "Are steering files properly formatted with valid YAML frontmatter?",
+        "labels": ["valid", "invalid", "not_applicable"],
+        "context_required": ["steering_files_raw"]
+      }
+    ]
+  },
+  "usage": {
+    "score_aggregation": "For Axis 2 and 4 quality scores, average Jev Score responses (0.0-1.0) and scale to rubric (0-25 per axis)",
+    "gate_evaluation": "Gates pass if Jev Noul returns positive label (conformant/valid/coherent)",
+    "secret_detection": "Flag for human review if any secret question returns suspected",
+    "checklist_scoring": "Count present labels, report as X/7 completeness"
+  }
+}
