@@ -9,8 +9,8 @@ description: |
   For Portuguese (PT-BR) text, use the companion skill `humanizar` instead.
 metadata:
   author: https://ft.ia.br
-  version: "1.0.1"
-  date: 2026-08-29
+  version: "1.1.0"
+  date: 2026-09-18
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
@@ -243,7 +243,16 @@ Systematically walk through each category. Mark ✓ (found) or ✗ (absent).
 
 **CRITICAL: This step identifies and RESTRUCTURES. It does NOT synonym-swap.**
 
+> ⚡ **RHYTHM FIRST.** Experimental validation (Matsui 2025, desklib + Binoculars detectors) found that **restructuring sentence rhythm accounts for ~90% of achievable improvement** in humanization. Vary sentence lengths and diversify sentence openings BEFORE touching vocabulary. The order matters.
+
 Per the humanizerai.com study (2026), vocabulary bans alone make results worse. Replacing "delve" with "explore" changes nothing that matters: the rhythm underneath is identical. What works is changing the sentence's architecture - its length, rhythm, clause structure, and information density.
+
+**Step 2 execution order:**
+1. **Rhythm restructuring FIRST** - Vary sentence lengths (mix <15 words with >30 words), diversify openings (prepositional phrases, subordinate clauses, connectives), relocate clause elements
+2. **Then vocabulary/pattern fixes** - Apply the pattern corrections from reference files
+3. **Never bare-delete** - When removing a transition or ornamental word, always restructure the surrounding sentence (see Connective-Preserving Edits in `references/patterns-composition.md`)
+
+> ⚠️ **Critical interaction:** Removing an ornamental adverb (like "markedly") WITHOUT restructuring the sentence was experimentally shown to INCREASE detection scores (+0.72 logit worse). The shorter, more uniform sentence fits AI cadence better. Always restructure when removing adverbs.
 
 **Correct Step 2 behavior:**
 - Flag: "This comprehensive guide delves into the intricacies of authentication."
@@ -292,7 +301,7 @@ Check each item. Mark ✓ (ok) or ✗ (failed). If any item fails, fix before pr
 | # | Check | ✓/✗ |
 |---|---|---|
 | 1 | Sentence lengths vary? (min 3 distinct sizes per paragraph) | |
-| 2 | Mechanical transitions eliminated? ("Furthermore", "Moreover", "Additionally") | |
+| 2 | Mechanical transitions eliminated? ("Furthermore", "Moreover", "Additionally" clusters) | |
 | 3 | Abstract placeholders replaced with concrete terms? | |
 | 4 | At least 1 opinion, doubt, or personal feeling present? | |
 | 5 | No template openings/closings survived? | |
@@ -301,8 +310,13 @@ Check each item. Mark ✓ (ok) or ✗ (failed). If any item fails, fix before pr
 | 8 | Voice preset consistent from start to finish? | |
 | 9 | No sentence reads like a press release or Wikipedia stub? | |
 | 10 | Read aloud, does it sound like a real person writing? | |
+| 11 | **Paragraph cohesion:** Each paragraph's first sentence states its claim? | |
+| 12 | **Sentence chaining:** Each sentence linked to previous by connective OR echoed key word? | |
+| 13 | **No bare deletions:** Logical discourse markers (However, Thus, Although) preserved where needed? | |
 
 **Rule**: if ≥2 items fail -> fix and re-check. If all ✓ -> proceed.
+
+> **Cohesion guidance (checks 11-13):** Choppy, disconnected prose is itself an AI-cleanup tell. After editing, re-read each paragraph top to bottom: (a) first sentence states what the paragraph covers, (b) every subsequent sentence chains to the previous one, (c) contrast/continuity openers survive where the argument needs them. See `references/patterns-composition.md` for Connective-Preserving Edits and Logical Discourse Markers to Preserve.
 ### Step 5.5 - 📊 Post-Rewrite Scoring
 
 Evaluate the result across 5 dimensions (0-100 each, weighted average):
@@ -446,11 +460,13 @@ Patterns P31-P43 below were identified by HackerNews threads, Wikipedia's evolvi
 | P41 | Infomercial Engagement Hooks | "The catch?", "The kicker?", "Here's the thing.", "The brutal truth?" | Cheap rhetorical devices that create false drama. One per essay is fine. Every paragraph is AI slop. |
 | P42 | Erratic Inline Bolding | Random mid-sentence bold spans with no shared logic or category | Bold without editorial purpose - the model is "highlighting" but there's no system. |
 | P43 | The Treadmill Effect | "In other words", "Put simply", "Essentially" looping the same point | AI restates the same idea in different words across multiple sentences, creating the illusion of development without actually advancing the argument. |
+| P44 | Content-Free Evaluation Sentences | "This is a noteworthy finding.", "These results are significant.", "This observation is important." | Standalone sentences that evaluate a finding's importance without adding any information - no data, no mechanism, no comparison, just a verdict. Distinct from P40 (Symbolic Gloss, which assigns cosmic significance) - P44 is empty verdicts. |
 
 **Detection rule for emerging patterns:**
 - P33-P35 (markup/placeholder leaks) = immediate flag, zero tolerance
 - P38 (reshuffling immunity) = strongest structural tell. Test by mentally rearranging paragraphs - if the text reads identically, it's AI
 - P43 (treadmill effect) = if you can delete a sentence and the paragraph loses zero information, that sentence is treadmilling
+- P44 (content-free evaluation) = if a sentence just labels something as "important/significant/noteworthy" without explaining WHY, delete it or replace with the actual reason
 ## Evaluation with Jev (Optional)
 
 When the harness has access to [TypeSafe Jev](https://docs.typesafe.ai), the evaluation steps (diagnosis, verification, scoring) can use Jev instead of inline LLM prompts.
@@ -529,6 +545,8 @@ AI avoids contractions far more than humans. One of the most reliable statistica
 | blader/humanizer (29 patterns) | https://github.com/blader/humanizer | Original skill, 10.6K stars |
 | brandonwise/humanizer (statistical) | https://github.com/brandonwise/humanizer | 560-term vocab filter, burstiness/TTR |
 | Aboudjem/humanizer-skill (43 patterns) | https://github.com/Aboudjem/humanizer-skill | P31-P43 emerging patterns, 5 voices, scoring |
+| matsuikentaro1/humanizer_academic | https://github.com/matsuikentaro1/humanizer_academic | 34 patterns for medical writing, rhythm-first validation |
+| Matsui K (2025) - PubMed AI vocabulary | doi:10.5334/pme.1929 | Quantified AI-influenced vocabulary shifts in medical writing post-ChatGPT |
 | tropes.fyi | https://tropes.fyi/directory | Community AI trope catalog |
 | The Register - Semantic Ablation | https://www.theregister.com/2026/02/16/semantic_ablation_ai_writing/ | Meaning-loss through AI polishing |
 | RAID Benchmark (ACL 2024) | doi:10.18653/v1/2024.findings-acl | Structural paraphrasing: DetectGPT 70.3% -> 4.6% |
@@ -539,4 +557,4 @@ AI avoids contractions far more than humans. One of the most reliable statistica
 
 ---
 
-*v1.0.0 - Based on Portuguese [humanizar](https://github.com/fabricioctelles/skills) by @fabriciotelles. Combines pattern detection (blader), statistical measurement (brandonwise), and emerging patterns (Aboudjem) with voice injection, entropy restoration, and iterative scoring.*
+*v1.1.0 - Based on Portuguese [humanizar](https://github.com/fabricioctelles/skills) by @fabriciotelles. Combines pattern detection (blader), statistical measurement (brandonwise), emerging patterns (Aboudjem), and rhythm-first methodology (Matsui) with voice injection, entropy restoration, and iterative scoring.*

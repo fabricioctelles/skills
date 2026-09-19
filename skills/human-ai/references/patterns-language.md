@@ -118,3 +118,54 @@ Patterns that betray AI-generated text at the level of word choice, grammatical 
 > We implemented the new system. Performance improved. Teams started collaborating more.
 
 **Rule:** If a noun ending in -tion/-ment/-ance has a simpler verb form, use the verb.
+
+
+
+---
+
+### 7. Ornamental -ly Adverb Inflation
+
+**Trigger patterns:** markedly, remarkably, strikingly, dramatically, profoundly, critically, fundamentally, notably (mid-sentence), significantly (without statistical test), increasingly, rapidly (figurative), uniquely, vastly, deeply, exceptionally, substantially (without quantitative backing)
+
+**Problem:** AI decorates sentences with intensifier adverbs that add emphasis but no information. These words gesture at magnitude without actually quantifying anything. Human writing uses -ly adverbs functionally - to convey specific magnitude, frequency, direction, or calibration.
+
+**Before (AI):**
+> Users have reported markedly improved performance and remarkably consistent results. The system is critically important for dramatically reducing latency and fundamentally changing how teams work.
+
+**After (human):**
+> Users reported 40% faster load times. Latency dropped from 200ms to 50ms. Teams actually use the dashboard now - they didn't before.
+
+**Functional adverbs to KEEP (these carry information):**
+- `approximately, slightly, modestly, consistently, almost, only, largely, generally, relatively`
+- `statistically significantly` (when an actual test result is being reported)
+- `substantially` (when it refers to a real, stated effect-size difference)
+
+**Decision rule:** Delete the adverb mentally and ask whether any information was lost. If nothing was lost, it was ornamental - delete it OR replace the emphasis with the concrete number or comparison it was gesturing at. If it conveyed magnitude, frequency, direction, or calibration, it is functional - keep it.
+
+> ⚠️ **CRITICAL: Never remove an adverb without restructuring the sentence.**
+>
+> Experimental validation (Matsui 2025, using desklib + Binoculars detectors) showed that **removing an ornamental adverb WITHOUT restructuring the sentence INCREASES AI-detection scores** (+0.72 logit worse). The shorter, more uniform sentence fits the AI cadence better.
+>
+> **Wrong approach:** "Performance was markedly improved" → "Performance was improved"
+>
+> **Right approach:** "Performance was markedly improved" → "Load times dropped by 40%. The dashboard actually responds now."
+>
+> When you remove an ornamental adverb, ALWAYS restructure: split the sentence, merge with the next sentence, reposition clauses, or add concrete data. Never just delete.
+
+---
+
+### 8. Synonym Cycling (Elegant Variation)
+
+**Trigger patterns:** Using different words for the same entity across sentences: "the platform... the solution... the system... the tool"; "users... customers... clients... patrons"; "the author... the writer... the creator... the wordsmith"
+
+**Problem:** AI has repetition-penalty code that drives it to cycle through synonyms even when referring to the exact same thing. In technical or professional writing, **the same construct should be called by the same name throughout** - this is a feature of good writing, not a defect. Synonym cycling signals AI and confuses readers about whether different entities are being discussed.
+
+**Before (AI):**
+> The platform allows users to create workflows. The solution then executes these automations. Customers have reported that the system saves them hours. Clients particularly appreciate that the tool integrates with existing software.
+
+**After (human):**
+> The platform lets users create workflows and executes them automatically. Users report saving hours per week. They particularly like the integrations.
+
+**Rule:** Pick one term for each concept and use it consistently. "Users" throughout, not "users... customers... clients". "The platform" throughout, not "platform... solution... system... tool".
+
+**Exception:** Pronouns ("it", "they", "this") are natural variation. Florid synonyms ("the visionary creator", "the paradigm-shifting innovation") are not.

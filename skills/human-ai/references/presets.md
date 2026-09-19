@@ -148,3 +148,100 @@ Edtech, documentation, tutorials, friendly technical writing.
 
 **Example:**
 > Let's cut to it: a *callback* is a function you pass as an argument to another function, so it can "call you back" when it's done. Sounds complicated, but that's all it is. Think of ordering delivery: instead of calling every 5 minutes to check if it arrived, you leave your number and the driver texts you when they're at the door. Your number is the callback.
+
+
+
+---
+
+## 🎭 Custom Voice Profile (User-Provided Sample)
+
+When the user provides a writing sample to mirror, analyze it and build an **Author Voice Profile** before rewriting. Don't just remove AI patterns - replace them with the author's actual patterns.
+
+### Voice Profile Template
+
+Fill this out when a voice sample is provided:
+
+```
+📝 AUTHOR VOICE PROFILE
+
+**Sentence-length pattern:**
+- Predominant range: [e.g., 15-25 words / 20-40 words / varies widely]
+- Short sentences (<10 words): [rare / occasional / frequent]
+- Long sentences (>35 words): [rare / occasional / frequent]
+- How long sentences are structured: [semicolons / conjunctions / nested clauses]
+
+**Paragraph structure:**
+- Typical paragraph length: [2-3 sentences / 4-6 sentences / varies]
+- How paragraphs open: [topic sentence / anecdote / question / continuation]
+- How paragraphs close: [conclusion / cliffhanger / transition to next]
+
+**Connective repertoire (author's actual transitions):**
+- Addition: [e.g., "In addition," / "Also," / "We also found that..."]
+- Contrast: [e.g., "However," / "On the other hand," / "But"]
+- Result: [e.g., "Thus," / "So," / "This means that..."]
+- Sequence: [e.g., "First... Second... Third..." / "Then," / "Next,"]
+
+**Voice markers:**
+- Register: [formal / informal / mixed]
+- Person: [first person "I/we" / third person / impersonal]
+- Contractions: [always / sometimes / never]
+- Hedging style: [direct claims / single hedge / academic qualifications]
+- Opinion presence: [explicit opinions / implied / neutral reporting]
+
+**Punctuation habits:**
+- Em dashes: [frequent / occasional / never]
+- Semicolons: [frequent / occasional / never]
+- Parenthetical asides: [frequent / occasional / never]
+- Exclamation marks: [uses them / avoids them]
+
+**Verbal tics (recurring phrases):**
+- [List any phrases the author uses repeatedly]
+- [e.g., "Look," / "The thing is," / "In practice," / "Notably,"]
+
+**What the author does NOT do:**
+- [e.g., never uses bullet points in prose]
+- [e.g., never starts sentences with "It is worth noting"]
+- [e.g., avoids rhetorical questions]
+```
+
+### How to Apply the Profile
+
+1. **During rhythm restructuring (Step 2):** Match sentence lengths to the author's predominant range. If they write mostly 20-40 word sentences with occasional short ones for emphasis, do the same.
+
+2. **During voice injection (Step 4):** Use ONLY connectives from the author's repertoire. If they never say "Furthermore," don't introduce it. If they always say "However," use that.
+
+3. **During final check (Step 5):** Read the output and ask: "Would the author have written this sentence this way?" If not, revise.
+
+### Example: Academic Medical Writer Profile
+
+Based on analysis of published pre-AI work:
+
+```
+📝 AUTHOR VOICE PROFILE (Example: Medical Researcher)
+
+**Sentence-length pattern:**
+- Predominant range: 20-40 words
+- Short sentences: rare (only for emphasis)
+- Long sentences: frequent, structured with semicolons
+
+**Connective repertoire:**
+- "In addition," / "Additionally," (once per paragraph max)
+- "On the other hand," / "However," / "Meanwhile,"
+- "Given that..." / "With this background,"
+- "Thus," / "Taken together,"
+- "While [X], it may [Y]" (concessive-contrastive)
+
+**Voice markers:**
+- Methods: predominantly passive
+- Discussion: mixes passive with "we"
+- Hedging: single-layer ("may be," "suggests that")
+- No em dashes (author never uses them)
+
+**Verbal tics:**
+- "It should be noted that..."
+- "Regarding the..."
+- Numbered enumeration in Limitations ("First,... Second,...")
+- Conclusion always opens with "In conclusion,"
+```
+
+**When mirroring this author:** Replace AI patterns with constructions from this repertoire. Don't introduce staccato drama (multiple very short sentences). Don't add rhetorical questions in Discussion. Don't use em dashes at all.

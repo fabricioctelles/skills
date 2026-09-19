@@ -3,16 +3,19 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "2.0"
-  date: 2026-08-15
+  version: "3.0"
+  date: 2026-09-19
   license: MIT
   category: ci-cd-and-deployment
-  coolify_cli_version: "latest"
+  coolify_cli_version: "1.8.0"
+  upstream_commit: "ff0ea90fc40e2d5f10e993f79759f705e5e6af10"
 ---
 
 # Coolify Operator
 
 Skill for operating Coolify instances through the **official CLI** or **REST API**. Coolify is a self-hosted open-source platform alternative to Heroku/Vercel/Netlify for deploying applications, databases, and services.
+
+**Pinned upstream:** coolify-cli **v1.8.0** (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
 
 ## When to use this skill
 
@@ -20,11 +23,12 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 - Create, list, and manage applications, services, databases, and servers
 - Deploy, restart, or stop resources
 - View logs and deployment status
-- Manage environment variables and storage
+- Manage environment variables, shared envs, and storage
 - Configure backups for databases
 - Operate multiple Coolify instances (contexts)
-- Integrate with GitHub Apps for private repositories
-- Provision servers on cloud providers (Hetzner, DigitalOcean, Vultr)
+- Integrate with GitHub / GitLab Apps for private repositories
+- Configure notifications and instance email (SMTP/Resend)
+- Manage cloud-init scripts and provision servers (Hetzner, DigitalOcean, Vultr)
 
 ## CLI Installation
 
@@ -35,9 +39,14 @@ curl -fsSL https://raw.githubusercontent.com/coollabsio/coolify-cli/main/scripts
 # Homebrew (macOS/Linux)
 brew install coollabsio/coolify-cli/coolify-cli
 
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/coollabsio/coolify-cli/main/scripts/install.ps1 | iex
+
 # Go install
 go install github.com/coollabsio/coolify-cli/coolify@latest
 ```
+
+Pin a version on Windows with `$env:COOLIFY_VERSION='v1.8.0'` before `irm ... | iex`. User-local install: `$env:COOLIFY_USER_INSTALL=1`.
 
 ## Fundamental Concepts
 
@@ -64,15 +73,17 @@ COOLIFY=$(sed -n 's/^COOLIFY=//p' .env)
 
 ### Global Flags
 
-All commands support these flags:
+All commands support these flags (match coolify-cli v1.8.0):
 
 ```bash
---context <name>     # Use specific context instead of default
---token <token>      # Override authentication token
---format <format>    # Output: table (default), json, pretty
--s, --show-sensitive # Show sensitive information (tokens, IPs)
---debug              # Enable debug mode
+--context <name>              # Use specific context instead of default
+--token <token>               # Override authentication token
+--format table|json|pretty    # Output format (default: table)
+-s, --show-sensitive          # Reveal sensitive fields (tokens, IPs, emails)
+--debug                       # Enable debug mode
 ```
+
+Config file holds plaintext tokens — never commit `~/.config/coolify/config.json` (Windows: `%APPDATA%\coolify\config.json`).
 
 ---
 
@@ -96,9 +107,12 @@ coolify completion bash   # or: zsh, fish, powershell
 
 ### Context Management
 
+Tokens, IPs, and emails are **hidden by default** in `coolify context list` / `get`. Pass `-s` / `--show-sensitive` to reveal them (same global flag). The config file still stores plaintext tokens — do not commit it.
+
 ```bash
-# List all configured contexts
+# List all configured contexts (redacted by default)
 coolify context list
+coolify context list --show-sensitive
 
 # Add new context
 coolify context add <context_name> <url> <token>
@@ -135,23 +149,39 @@ coolify context version
 
 ### Projects
 
+Primary form is singular `coolify project` (alias `projects` still works).
+
 ```bash
 # List all projects
-coolify projects list
+coolify project list
 
-# Get project environments
-coolify projects get <uuid>
+# Get project details / environments
+coolify project get <uuid>
+coolify project environments list <project_uuid>
 
 # Create new project
-coolify projects create --name "My Project" --description "Description"
+coolify project create --name "My Project" --description "Description"
 ```
 
 ### Resources
 
 ```bash
 # List all resources (apps, databases, services)
-coolify resources list
+coolify resource list
 ```
+
+### Command aliases (v1.8)
+
+Prefer primary forms from `llms.txt`. These aliases still work:
+
+- `coolify app` | `apps` | `application` | `applications`
+- `coolify service` | `services` | `svc`
+- `coolify database` | `databases` | `db` | `dbs`
+- `coolify project` | `projects`
+- `coolify resource` | `resources`
+- `coolify server` | `servers`
+- `coolify teams` | `team`
+- `coolify github` | `gh` (and GitLab: `gitlab` | `gl` | `gitlab-app`)
 
 ---
 
@@ -350,8 +380,9 @@ coolify app env delete <uuid> <env_uuid>
 coolify app env delete <uuid> <env_uuid> --force
 
 # Sync from .env file (updates existing, creates new, keeps others)
-coolify app env sync <uuid> -f .env
-coolify app env sync <uuid> -f .env.production --build-time --runtime --preview --is-literal
+coolify app env sync <uuid> --file .env
+coolify app env sync <uuid> --file .env.production --build-time --runtime --preview --is-literal
+# short form also valid: -f .env
 ```
 
 ### Application Storage
@@ -497,7 +528,7 @@ coolify database env get <uuid> <env_uuid_or_key>
 coolify database env create <uuid> --key DB_DEBUG --value true
 coolify database env update <uuid> <env_uuid_or_key> --value new-value
 coolify database env delete <uuid> <env_uuid> --force
-coolify database env sync <uuid> -f .env
+coolify database env sync <uuid> --file .env
 ```
 
 ### Database Storage
@@ -511,6 +542,8 @@ coolify database storage delete <uuid> <storage-uuid>
 ```
 
 ### Database Backups
+
+> **Retention storage units:** `--retention-max-storage-locally` / `--retention-max-storage-s3` are **float64 GB** (e.g. `1` or `10`). Do **not** pass suffixes like `1GB` / `10GB`.
 
 ```bash
 # List backup configurations
@@ -526,10 +559,10 @@ coolify database backup create <uuid> \
   --dump-all \
   --retention-amount-locally 10 \
   --retention-days-locally 7 \
-  --retention-max-storage-locally "1GB" \
+  --retention-max-storage-locally 1 \
   --retention-amount-s3 30 \
   --retention-days-s3 30 \
-  --retention-max-storage-s3 "10GB" \
+  --retention-max-storage-s3 10 \
   --timeout 3600 \
   --disable-local-backup
 
@@ -655,7 +688,7 @@ coolify service env get <uuid> <env_uuid_or_key>
 coolify service env create <uuid> --key KEY --value value --build-time --runtime
 coolify service env update <uuid> <env_uuid_or_key> --value new-value
 coolify service env delete <uuid> <env_uuid> --force
-coolify service env sync <uuid> -f .env --build-time --runtime
+coolify service env sync <uuid> --file .env --build-time --runtime
 ```
 
 ### Service Storage
@@ -761,7 +794,10 @@ coolify server destinations create <server-uuid>
 coolify server hetzner
 coolify server digitalocean
 coolify server vultr
+
+# Optional: pass --cloud-init '<yaml>' on create (see Cloud-init Scripts)
 ```
+
 
 ---
 
@@ -802,6 +838,128 @@ coolify github repos <app-uuid>
 
 # List branches for a repository
 coolify github branches <app-uuid> owner/repo
+```
+
+---
+
+## GitLab Apps
+
+GitLab App integration (aliases: `gl`, `gitlab-app`, `gitlab-apps`).
+
+```bash
+# List / get
+coolify gitlab list
+coolify gitlab get <app_id_or_uuid>
+
+# Create
+coolify gitlab create \
+  --name "My GitLab App" \
+  --html-url "https://gitlab.com" \
+  --client-id "<oauth-app-id>" \
+  --client-secret "<oauth-secret>" \
+  --redirect-uri "https://<coolify-host>/webhooks/source/gitlab/events/app" \
+  --api-url "https://gitlab.com/api/v4" \
+  --custom-user git \
+  --custom-port 22 \
+  --group-name "my-group" \
+  --webhook-token "<optional-secret>"
+
+# Update / delete (must not be used by any applications)
+coolify gitlab update <app_id_or_uuid> --name "Renamed"
+coolify gitlab delete <app_id_or_uuid>
+coolify gitlab delete <app_id_or_uuid> -f
+```
+
+---
+
+## Notifications
+
+Channels: `email`, `discord`, `slack`, `telegram`, `pushover`, `webhook`. Configure via get/update + `--json`.
+
+```bash
+coolify notification get webhook
+coolify notification update webhook --json '{"webhook_enabled":true}'
+
+coolify notification get discord
+coolify notification update slack --json '{"slack_enabled":true}'
+```
+
+---
+
+## Shared Environment Variables
+
+Shared envs at **environment**, **project**, **server**, or **team** scope (`shared-envs` / `sharedenv` aliases).
+
+```bash
+# Environment scope
+coolify shared-env environment list <project_uuid> <environment>
+coolify shared-env environment create <project_uuid> production \
+  --key SHARED_API_URL --value "https://api.example.com"
+coolify shared-env environment update <project_uuid> production <id> --value "https://api.new.example.com"
+coolify shared-env environment delete <project_uuid> production <id>
+
+# Project scope
+coolify shared-env project list <project_uuid>
+coolify shared-env project create <project_uuid> --key PROJECT_FLAG --value "1"
+coolify shared-env project update <project_uuid> <id> --value "0"
+coolify shared-env project delete <project_uuid> <id>
+
+# Server scope
+coolify shared-env server list <server_uuid>
+coolify shared-env server create <server_uuid> --key NODE_ROLE --value "worker"
+coolify shared-env server update <server_uuid> <id> --value "api"
+coolify shared-env server delete <server_uuid> <id>
+
+# Team scope
+coolify shared-env team list
+coolify shared-env team create --key ORG_NAME --value "acme"
+coolify shared-env team update <id> --value "acme-corp"
+coolify shared-env team delete <id>
+```
+
+Optional flags on create/update: `--comment`, `--literal`, `--multiline`, `--shown-once`.
+
+---
+
+## Cloud-init Scripts
+
+CRUD for reusable cloud-init scripts. Server create on Hetzner / DigitalOcean / Vultr accepts `--cloud-init` (inline YAML).
+
+```bash
+coolify cloud-init list
+coolify cloud-init get <uuid>
+
+coolify cloud-init create --name bootstrap --script-file ./cloud-init.yaml
+# or: --script "#!/bin/bash\necho hi"
+
+coolify cloud-init update <uuid> --name bootstrap-v2 --script-file ./cloud-init-v2.yaml
+coolify cloud-init delete <uuid>
+
+# Attach when provisioning (example)
+coolify server hetzner create \
+  --cloud-token <cloud-token-uuid> \
+  --location <location> \
+  --server-type <type> \
+  --image <id> \
+  --cloud-init "$(cat ./cloud-init.yaml)"
+```
+
+Aliases: `cloudinit`, `cloud-init-script`.
+
+---
+
+## Settings (email)
+
+Instance-wide SMTP / Resend settings. **Requires** a root-team admin/owner token with `write:sensitive`.
+
+```bash
+coolify settings email get
+
+# Update fields via JSON
+coolify settings email update --json '{"smtp_ehlo_domain":"coolify.example.com"}'
+
+# Reset EHLO domain to system default
+coolify settings email update --json '{"smtp_ehlo_domain":null}'
 ```
 
 ---
@@ -1200,7 +1358,7 @@ coolify context add dev https://dev.coolify.io "$DEV_TOKEN"
 # Use different contexts
 coolify --context=prod app list
 coolify --context=staging deploy name api
-coolify --context=dev resources list
+coolify --context=dev resource list
 ```
 
 ### Batch Deploy
@@ -1237,7 +1395,7 @@ coolify database backup create <db-uuid> \
 
 ```bash
 # Sync .env file (updates existing, creates new, keeps others)
-coolify app env sync <uuid> -f .env.production --build-time --runtime
+coolify app env sync <uuid> --file .env.production --build-time --runtime
 
 # Restart to apply
 coolify app restart <uuid>
@@ -1247,15 +1405,17 @@ coolify app restart <uuid>
 
 ## LLM / AI Agent Integration
 
-For AI agents using Coolify CLI:
-- Quick instructions: https://raw.githubusercontent.com/coollabsio/coolify-cli/main/llms.txt
-- Full command catalog: https://raw.githubusercontent.com/coollabsio/coolify-cli/main/llms-full.txt
+For AI agents using Coolify CLI (prefer the **v1.8.0** pin this skill targets):
+- Quick instructions (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.8.0/llms.txt
+- Full command catalog (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.8.0/llms-full.txt
+- Latest on main: https://raw.githubusercontent.com/coollabsio/coolify-cli/main/llms.txt and `llms-full.txt`
 
 ---
 
 ## References
 
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
+- **CLI v1.8.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.8.0 (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`)
 - **Official Docs**: https://coolify.io/docs
 - **API Reference**: https://coolify.io/docs/api-reference
 - **Coolify Core**: https://github.com/coollabsio/coolify

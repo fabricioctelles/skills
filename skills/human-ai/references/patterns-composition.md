@@ -128,3 +128,86 @@ Describe the problem in detail -> show three failed solutions -> reveal what wor
 > Ends with an open question: "So who's liable when the AI is right and the doctor disagrees?"
 
 **Rule:** Endings should advance the thought, not echo it. If your conclusion says the same thing as your introduction, one of them is redundant.
+
+
+
+---
+
+### 7. Connective-Preserving Edits (Never Bare-Delete)
+
+**Problem:** When aggressive AI-pattern removal strips transitions and connectives, it produces choppy, disconnected prose (asyndeton). This is itself a tell of automated cleanup - and a common failure mode of humanizer passes. The logical relations between sentences still exist; removing the markers just makes them implicit and harder to follow.
+
+**Before (the AI text):**
+> Additionally, the platform improved load times significantly. Furthermore, users reported higher satisfaction. Moreover, retention metrics increased by 15%.
+
+**Wrong fix (bare deletion - creates choppy asyndeton):**
+> The platform improved load times. Users reported higher satisfaction. Retention metrics increased by 15%.
+
+**Right fix (connective preserved or restructured):**
+> The platform improved load times, and users noticed - satisfaction scores went up. Retention followed: 15% improvement over the previous quarter.
+
+**The rule: Edit, don't excise.** Whenever you remove a sentence-initial transition or a clause that carried the link to the previous sentence, restore the link by one of:
+
+1. **Substitute a natural connective:** "In addition," → "We also found that..." / "Meanwhile," / "On top of that,"
+2. **Echo a key noun from the previous sentence** (old-to-new flow): "...was associated with better outcomes. Better outcomes, in turn, correlated with..."
+3. **Restructure into one sentence:** Merge the two sentences with an explicit conjunction or semicolon
+
+**Division of labor:** The "Logical Discourse Markers to Preserve" section below lists markers you should NOT remove. This section governs what to do when an edit WOULD otherwise leave a gap - replace or restructure, never just cut.
+
+---
+
+### 8. Logical Discourse Markers to Preserve
+
+**Problem:** Some humanizer approaches treat ALL transitions as AI tells and strip them indiscriminately. This is wrong. Certain discourse markers are hallmarks of good human writing - they make the logical structure explicit. Removing them damages the text.
+
+**Preserve these (do NOT flag as AI patterns):**
+
+| Category | Markers | Function |
+|----------|---------|----------|
+| **Contrast** | However, In contrast, Conversely, On the other hand, Nevertheless, Nonetheless, Although, Whereas, Yet | Signal that the next sentence contradicts or qualifies the previous |
+| **Result/Consequence** | Thus, Hence, Therefore, Consequently, Accordingly, As a result | Signal that the next sentence follows logically from the previous |
+| **Concession** | Although, Albeit, Even though, Granted, While (concessive) | Acknowledge a point before presenting counter-argument |
+| **Reason/Grounds** | Because, Since, As, Given that | Explain why the previous claim holds |
+| **Addition** | In addition, Also, We also found that | Add supporting evidence (but NOT mechanical "Furthermore/Moreover/Additionally" clusters) |
+| **Sequence** | First, Second, Then, Next, Finally | Mark progression through steps or arguments |
+
+**Distinguishing rule:** Ask whether the phrase *inflates meaning* (DELETE) or *makes logic explicit* (KEEP).
+
+| DELETE (inflates) | KEEP (logical) |
+|-------------------|----------------|
+| "underscores the pivotal importance of..." | "Based on these results, we examined..." |
+| "this highlights the crucial role that..." | "However, this effect disappeared when..." |
+| "represents a significant advancement in..." | "Thus, the initial hypothesis was not supported." |
+
+**The "sweet spot":** Well-written human text chains discourse markers densely and naturally while using ZERO inflated AI vocabulary. Aim for that profile: trim the slop vocabulary, but preserve the logical connectives that make arguments easy to follow.
+
+**Vary connectives by logical relation - but only to avoid near repetition.** When rewriting, first identify what relation the sentence actually needs (result? contrast? addition?), then choose a marker that fits. If you just used "However," don't use it again in the next paragraph - pick "In contrast," or "On the other hand," instead. But never sprinkle uncommon connectives (albeit, thereby, whereby) just to "sound human" - that's decoration, not logic.
+
+---
+
+### 9. Paragraph Cohesion Check
+
+**Problem:** Sentence-level edits accumulate into paragraph-level damage. Topic sentences get blunted, the chain from one sentence to the next breaks, and the contrast/continuity markers that tie paragraphs together disappear. Well-written human text is tightly chained; edited AI slop is disconnected.
+
+**What well-written human text does:**
+
+1. **Within a paragraph:** Each sentence picks up a key word from the previous one (old-to-new flow)
+   > "...the exposure was associated with a higher score. The score used here consists of five components. To measure these components, we..."
+   
+   The repeated key term ("score") chains the sentences so the reader never gets dropped.
+
+2. **Between paragraphs:** The opening sentence names what the paragraph covers and, where logic requires it, carries an explicit marker:
+   - "However, this pattern did not hold for all groups."
+   - "In addition to the main effect, we observed..."
+   - "Taken together, the results suggest..."
+
+**Cohesion checklist (apply after editing each paragraph):**
+
+| # | Check | ✓/✗ |
+|---|-------|-----|
+| 1 | Does the first sentence state what the paragraph claims or covers? | |
+| 2 | From sentence 2 onward, is each sentence linked to the previous by either a connective OR an echoed key word? | |
+| 3 | If a link was broken by an edit, has it been restored (per Connective-Preserving Edits above)? | |
+| 4 | Across paragraphs: are contrast/continuity openers (However, In contrast, Taken together) present where the argument needs them? | |
+
+**If any check fails:** Add a connective, echo a key noun, or restructure. Choppy, disconnected prose is NOT acceptable humanized output.
