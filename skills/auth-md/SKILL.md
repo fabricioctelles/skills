@@ -8,11 +8,12 @@ description: >
   "identity_assertion", "service_auth", "protected resource metadata", "agentic registration".
 metadata:
   author: https://ft.ia.br
-  version: "2.0"
-  date: 2026-06-27
+  version: "2.1"
+  date: 2026-09-20
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: library-and-api-reference
+  upstream_commit: "b53c9edfbfeea679b617727ebca9ba436bade794"
 ---
 
 # auth-md
@@ -240,7 +241,7 @@ Also rate-limit `/oauth2/token` polling — enforce `interval` from the claim bl
 - **claim_token handling** — returned exactly once in the registration response. Agent holds in memory only for ceremony duration. Do not persist past Step 4.
 - **Token hashing** — `claim_token` is a bearer secret. Store only SHA-256 hash server-side.
 - **Consent UX** — surface `resource_name` and `resource_logo_uri` from PRM to the user before asserting identity. This is the user's only consent gate.
-- **Two revocation layers** — credential layer (agent-callable, `/oauth2/revoke`, kills one access_token) vs registration layer (provider-driven SETs at `events_endpoint`, kills identity_assertion + all derived tokens).
+- **Two revocation layers** — credential layer (agent-callable, `/oauth2/revoke`, kills one access_token) vs registration layer (provider-driven SETs at `events_endpoint`, tears down the whole delegation: identity_assertion + derived tokens + registration + claim handle — not tokens alone; see sample #21).
 - **Replay protection** — cache `jti` values with TTL of at least `exp - iat` + clock skew (typically 6 min).
 - **CIMD resolution** — if `client_id` is a URL, fetch as Client ID Metadata Document and verify `jwks_uri`.
 - **Bulk revocation** — provide operator-facing mechanism to revoke all outstanding identity_assertions for a tenant.

@@ -264,7 +264,7 @@ token=<access_token>&token_type_hint=access_token
 
 ### Registration Layer — Events Endpoint (RFC 8935)
 
-Provider-driven. Receives Security Event Tokens.
+Provider-driven. Receives Security Event Tokens. This is the user's kill switch — treat it as a full delegation teardown, not a token flush.
 
 ```
 POST /agent/event/notify
@@ -277,9 +277,12 @@ Processing:
 1. Verify SET signature against issuer's JWKS
 2. Enforce `jti` uniqueness
 3. Match `events` key to supported schemas
-4. For `https://schemas.workos.com/events/agent/auth/identity/assertion/revoked`:
+4. For `https://schemas.workos.com/events/agent/auth/identity/assertion/revoked` (or equivalent identity-assertion revoked event):
    - Invalidate all identity_assertions for `(iss, sub, aud)`
    - Invalidate all derived access_tokens
+   - **Also tear down the whole delegation** (WorkOS auth.md sample #21 / `b53c9ed`): mark matching registrations revoked, drop the claim handle, and delete the delegation record. Leaving registration / claim_token / identity_assertion intact lets a de-authorized agent re-mint via claim or jwt-bearer grant.
+   - Registration status must surface as expired/revoked when `revoked_at` is set (check before `claimed_at`) so both claim and jwt-bearer grants reject re-mint attempts
+   - On genuine re-authorization (fresh non-replayable ID-JAG), clear `revoked_at` so the binding can revive; step-up / email confirmation paths must clear it too or the user stays stuck
 5. Return 200 on success, 400 on verification failure
 
 ### Bulk Revocation

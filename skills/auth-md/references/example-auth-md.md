@@ -373,6 +373,7 @@ Full API docs: https://docs.acmenotes.com/
 | `invalid_claim_token` | `/agent/identity/claim` | Restart at Step 3 |
 | `claimed_or_in_flight` | `/agent/identity/claim` | Already claimed |
 | `claim_expired` | `/agent/identity/claim` | Restart at Step 3 |
+| `invalid_client` | `/oauth2/token` | client_id not recognized |
 | `invalid_grant` | `/oauth2/token` | Assertion expired/revoked. Restart at Step 3 |
 | `unsupported_grant_type` | `/oauth2/token` | Use one of the two supported grants |
 | `authorization_pending` | `/oauth2/token` (claim) | User hasn't finished. Honor `interval` |
@@ -385,7 +386,7 @@ Full API docs: https://docs.acmenotes.com/
 Two independent layers:
 
 - **Credential layer (RFC 7009):** POST `token=<access_token>&token_type_hint=access_token` to `https://auth.acmenotes.com/oauth2/revoke`. Kills one access_token. Identity assertion intact — re-run Step 5.
-- **Registration layer (RFC 8935):** Provider POSTs a Security Event Token to `events_endpoint`. Invalidates identity_assertion and all derived access_tokens. Agent discovers via `invalid_grant` at `/oauth2/token` — restart at Step 3.
+- **Registration layer (RFC 8935):** Provider POSTs a Security Event Token to `events_endpoint`. Tear down the whole delegation (identity_assertion, derived access_tokens, registration, claim handle) — not tokens alone. Agent discovers via `invalid_grant` at `/oauth2/token` — restart at Step 3.
 
 On 401 for a previously-working access_token: try Step 5 once. If `/oauth2/token` succeeds, credential-layer revocation. If `invalid_grant`, registration-layer — restart at Step 3.
 ```
