@@ -121,6 +121,22 @@ class PierCloudClient:
         endpoint = f"/lighthouse/tenancies/{self.tenancy_id}/workspaces/{workspace_id}"
         return self.make_request('GET', endpoint)
     
+
+    def list_workspace_groups(self, page=1, page_size=10, context_id=None, search=None):
+        """List workspace groups (official path: workspaces-groups)."""
+        endpoint = f"/lighthouse/tenancies/{self.tenancy_id}/workspaces-groups"
+        params = {"page": page, "page_size": min(page_size, 100)}
+        if context_id:
+            params["context_id"] = context_id
+        if search:
+            params["search"] = search
+        return self.make_request('GET', endpoint, params=params)
+
+    def get_workspace_group(self, group_id):
+        """Get a workspace group by id."""
+        endpoint = f"/lighthouse/tenancies/{self.tenancy_id}/workspaces-groups/{group_id}"
+        return self.make_request('GET', endpoint)
+
     def get_all_workspaces(self):
         """Obter todos os workspaces com paginacao automatica"""
         all_workspaces = []
@@ -145,9 +161,11 @@ class PierCloudClient:
 def main():
     parser = argparse.ArgumentParser(description="Cliente CLI para API Pier Cloud")
     parser.add_argument("--action", required=True, 
-                       choices=["list-contexts", "list-workspaces", "get-workspace", "get-all-workspaces"],
+                       choices=["list-contexts", "list-workspaces", "get-workspace", "get-all-workspaces", "list-workspace-groups", "get-workspace-group"],
                        help="Acao a executar")
     parser.add_argument("--workspace-id", type=int, help="ID do workspace (para get-workspace)")
+    parser.add_argument("--group-id", help="ID do workspace group (uuid)")
+    parser.add_argument("--context-id", help="Filtrar groups por context_id")
     parser.add_argument("--page", type=int, default=1, help="Numero da pagina")
     parser.add_argument("--page-size", type=int, default=10, help="Itens por pagina")
     parser.add_argument("--output", help="Arquivo de saida JSON")
@@ -182,6 +200,38 @@ def main():
             print(f"ID: {ws['id']}")
             print(f"Visualizacoes: {len(ws.get('views', []))}")
         
+
+        elif args.action == "list-workspace-groups":
+            result = client.list_workspace_groups(page=args.page, page_size=args.page_size, context_id=getattr(args, "context_id", None))
+            data = result.get("data")
+            groups = data if isinstance(data, list) else (data or {}).get("groups") or (data or {}).get("workspace_groups") or []
+            meta = result.get("meta") or {}
+            print(f"\nGroups: {len(groups)} de {meta.get('total', '?')}")
+            for g in groups:
+                wss = g.get("workspaces") or []
+                print(f"  - [{g.get('id')}] {g.get('name')} ({len(wss)} workspaces)")
+            if args.output:
+                import json
+                with open(args.output, "w", encoding="utf-8") as f:
+                    json.dump(result, f, indent=2, ensure_ascii=False)
+                print(f"OK Salvo em {args.output}")
+
+        elif args.action == "get-workspace-group":
+            if not args.group_id:
+                print("X Erro: --group-id e obrigatorio")
+                exit(1)
+            result = client.get_workspace_group(args.group_id)
+            g = result.get("data") or result
+            print(f"\nGroup: {g.get('name')}")
+            print(f"ID: {g.get('id')}")
+            print(f"Context: {g.get('context_id')}")
+            print(f"Workspaces: {len(g.get('workspaces') or [])}")
+            if args.output:
+                import json
+                with open(args.output, "w", encoding="utf-8") as f:
+                    json.dump(result, f, indent=2, ensure_ascii=False)
+                print(f"OK Salvo em {args.output}")
+
         elif args.action == "get-all-workspaces":
             workspaces = client.get_all_workspaces()
             print(f"\nTotal: {len(workspaces)} workspaces")

@@ -28,7 +28,7 @@ def authenticate():
 
 def get_workspace_group(token, group_id):
     """Obter detalhes de um grupo de workspace especifico"""
-    url = f"{API_BASE}/lighthouse/tenancies/{TENANCY_ID}/workspace-groups/{group_id}"
+    url = f"{API_BASE}/lighthouse/tenancies/{TENANCY_ID}/workspaces-groups/{group_id}"
     headers = {"Authorization": f"Bearer {token}"}
     
     response = requests.get(url, headers=headers, timeout=30)

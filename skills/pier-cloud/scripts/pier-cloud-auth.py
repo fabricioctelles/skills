@@ -33,7 +33,7 @@ def authenticate():
             expires_in = data['data']['expires_in']
             
             print(f"\n✓ Token obtained successfully!")
-            print(f"Token: {token[:50]}...")
+            print(f"Token: ***{token[-4:]} (redacted)")
             print(f"Expires in: {expires_in} seconds ({expires_in//60} minutes)")
             print(f"Type: {data['data']['token_type']}")
             

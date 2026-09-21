@@ -26,11 +26,15 @@ def authenticate():
     else:
         raise Exception(f"Erro na autenticacao: {response.text}")
 
-def list_workspace_groups(token, page=1, page_size=10):
-    """Listar grupos de workspaces"""
-    url = f"{API_BASE}/lighthouse/tenancies/{TENANCY_ID}/workspace-groups"
+def list_workspace_groups(token, page=1, page_size=10, context_id=None, search=None):
+    """Listar grupos de workspaces (path oficial: workspaces-groups)."""
+    url = f"{API_BASE}/lighthouse/tenancies/{TENANCY_ID}/workspaces-groups"
     headers = {"Authorization": f"Bearer {token}"}
-    params = {"page": page, "page_size": page_size}
+    params = {"page": page, "page_size": min(page_size, 100)}
+    if context_id:
+        params["context_id"] = context_id
+    if search:
+        params["search"] = search
     
     response = requests.get(url, headers=headers, params=params, timeout=30)
     
@@ -72,7 +76,9 @@ def list_workspace_groups(token, page=1, page_size=10):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Listar grupos de workspaces da API Pier Cloud")
     parser.add_argument("--page", type=int, default=1, help="Numero da pagina (padrao: 1)")
-    parser.add_argument("--page-size", "--page_size", dest="page_size", type=int, default=10, help="Itens por pagina (padrao: 10)")
+    parser.add_argument("--page-size", "--page_size", dest="page_size", type=int, default=10, help="Itens por pagina (padrao: 10, max: 100)")
+    parser.add_argument("--context-id", "--context_id", dest="context_id", help="Filtrar por context_id (uuid)")
+    parser.add_argument("--search", help="Filtro de busca por nome")
     
     args = parser.parse_args()
     
@@ -92,7 +98,7 @@ if __name__ == "__main__":
         token = authenticate()
         print("OK Autenticado")
         
-        groups, meta = list_workspace_groups(token, page=args.page, page_size=args.page_size)
+        groups, meta = list_workspace_groups(token, page=args.page, page_size=args.page_size, context_id=args.context_id, search=args.search)
         
         print(f"\nOK Exibidos {len(groups)} grupos de {meta['total']} total")
         

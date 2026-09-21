@@ -116,6 +116,16 @@ python scripts/pier-cloud-get-view-data.py --view-id 193195 \
   --start-date 2026-01-01 --end-date 2026-01-31 --output dados.json
 ```
 
+
+### 8b. pier-cloud-list-workspace-groups.py / pier-cloud-get-workspace-group.py
+Lista e detalha grupos de workspaces.
+
+```bash
+python scripts/pier-cloud-list-workspace-groups.py --page 1 --page-size 20
+python scripts/pier-cloud-list-workspace-groups.py --context-id <uuid>
+python scripts/pier-cloud-get-workspace-group.py --group-id <uuid>
+```
+
 ### 9. pier_cloud_client.py
 Cliente robusto com CLI e biblioteca reutilizavel.
 
@@ -132,14 +142,14 @@ python scripts/pier_cloud_client.py --action get-workspace --workspace-id 16969
 
 # Obter todos
 python scripts/pier_cloud_client.py --action get-all-workspaces --output results.json
+
+# Grupos de workspaces
+python scripts/pier_cloud_client.py --action list-workspace-groups
+python scripts/pier_cloud_client.py --action get-workspace-group --group-id <uuid>
 ```
 
-### 10. appscript-pier-cloud.gs
-Codigo Google Apps Script para integrar com Google Sheets.
 
-Veja instrucoes no proprio arquivo.
-
-## Endpoints da API (Atualizado Fev 2026)
+## Endpoints da API (Atualizado Set 2026)
 
 | Metodo | Endpoint | Descricao |
 |--------|----------|-----------|
@@ -147,9 +157,13 @@ Veja instrucoes no proprio arquivo.
 | GET | `/lighthouse/tenancies/{tenancy_id}/contexts` | Listar contextos |
 | GET | `/lighthouse/tenancies/{tenancy_id}/workspaces` | Listar workspaces |
 | GET | `/lighthouse/tenancies/{tenancy_id}/workspaces/{id}` | Obter workspace |
+| GET | `/lighthouse/tenancies/{tenancy_id}/workspaces-groups` | Listar grupos de workspaces |
+| GET | `/lighthouse/tenancies/{tenancy_id}/workspaces-groups/{id}` | Obter grupo |
 | GET | `/lighthouse/tenancies/{tenancy_id}/workspaces/{workspace_id}/views` | Listar views |
 | GET | `/lighthouse/tenancies/{tenancy_id}/views/{id}` | Obter view |
 | GET | `/lighthouse/tenancies/{tenancy_id}/views/{id}/data` | Obter dados da view |
+
+> Path oficial dos grupos: `workspaces-groups` (com *s* em workspaces). `workspace-groups` retorna 404.
 
 ## Troubleshooting
 

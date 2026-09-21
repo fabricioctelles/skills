@@ -67,6 +67,12 @@
 2. Confirm endpoint URL is correct
 3. Validate tenancy_id
 
+### Workspace groups return 404
+
+Official path is `/lighthouse/tenancies/{tenancy_id}/workspaces-groups` (plural *workspaces*).  
+`/workspace-groups` (singular) is wrong and returns 404.
+
+
 ### Expired Token
 
 **Problem**: JWT token expired after ~1 hour
