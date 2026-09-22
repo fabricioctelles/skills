@@ -52,11 +52,11 @@ cp -r skills/pstack-skill .claude/skills/    # or .cursor/skills/, .kiro/skills/
 
 Two steps, like upstream:
 
-**1. Configure models (optional, once).** Ask your agent:
+**1. Configure models and reasoning budget (optional, once).** Ask your agent:
 
-> Use pstack-skill's setup procedure to configure model roles.
+> Use pstack-skill's setup procedure to configure model roles and pick a reasoning budget.
 
-It detects what you can actually run, proposes bindings for the four roles, asks before writing `.agents/pstack-models.md`, and validates every slug against what is runnable. Skip it and everything falls back to your single best model, gracefully.
+It detects what you can actually run, asks for a budget (`unlimited` / `large` / `medium` / `small`), remaps effort tokens when your bindings carry them, proposes bindings for the four roles, asks before writing `.agents/pstack-models.md`, and validates every slug against what is runnable. Skip it and everything falls back to your single best model, gracefully.
 
 **2. Start tasks that need rigor with the skill invoked.**
 
@@ -119,18 +119,21 @@ Delegations never name vendors. Four role slugs, each with a capability contract
 | Role | Contract | Typical work |
 |---|---|---|
 | `worker` | fast, cheap instruction-following | mechanical edits, explorers, swarm workers |
-| `builder` | strongest instruction-follower, long context | specified implementation |
+| `builder` | strongest instruction-follower, long context | specified implementation (feature, refactoring, bug fix, perf, hillclimb) |
 | `judge` | deepest reasoning, calibrated prose | synthesis, reviews, cross-judging |
 | `peer` | strong reasoner from a **different family** than judge | panel diversity, second opinions |
 
-Bindings live in `.agents/pstack-models.md` (project) or `~/.agents/pstack-models.md` (user):
+Bindings live in `.agents/pstack-models.md` (project) or `~/.agents/pstack-models.md` (user). Setup may also write a `# budget:` line. Example:
 
 ```
+# budget: unlimited (max)
 worker:  grok-4-fast
 builder: codex:gpt-5.6-high      # prefix = alternative CLI/harness
 judge:   claude:opus-5-thinking
 peer:    gemini:3.1-pro          # family must differ from judge
 ```
+
+Cursor-only note: upstream currently defaults five code-delegate roles to `grok-4.6-fast-xhigh`. This skill keeps those playbooks on the portable `builder` role — optionally bind `builder` to that Cursor slug if you want the same default inside Cursor; do not require it elsewhere.
 
 One model available? All four collapse to it and panels become sequential independent passes on fresh context. Gates are downgraded in execution, never skipped.
 

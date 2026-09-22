@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.0"
-  date: 2026-08-24
+  version: "1.1"
+  date: 2026-09-22
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 
@@ -117,7 +117,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 
 Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps; brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer.
 
-Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation), `judge` (reasoning, prose, synthesis, lead review), `peer` (second opinion from a different family than judge). Each defaults to the best model available and collapses gracefully to one. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask.
+Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation — feature, refactoring, bug fix, perf, hillclimb), `judge` (reasoning, prose, synthesis, lead review), `peer` (second opinion from a different family than judge). Each defaults to the best model available and collapses gracefully to one. Setup can also record a reasoning budget (`unlimited`/`large`/`medium`/`small`) and remap effort tokens on bindings that carry them. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask.
 
 You own every subagent's work. Review the diff and write your own summary; never pass through what it said. Interrupt-chained resumes silently drop directives, so fire a fresh subagent with consolidated scope rather than trusting a "done" summary. A second opinion is the same prompt against a different model or a fresh context; agreement is high-signal.
 
