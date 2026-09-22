@@ -4,7 +4,7 @@
     {
       "id": 1,
       "name": "configurar-contexto-inicial",
-      "prompt": "I need to set up my Coolify connection. I have the token '3|AbCdEf123456' and the URL is 'http://192.168.1.106:8000'. How do I connect using the CLI? I want it to be the default context named 'producao'.",
+      "prompt": "I need to set up my Coolify connection. I have the token '3|AbCdEf123456' and the URL is 'http://192.168.1.100:8000'. How do I connect using the CLI? I want it to be the default context named 'production'.",
       "expected_output": "CLI commands to add Coolify context, including safe token reading (avoiding issues with pipe |), adding context with URL without /api/v1, verifying connection and testing",
       "files": []
     },
@@ -55,6 +55,34 @@
       "name": "listar-databases-e-restart",
       "prompt": "My postgres on Coolify is having issues. I need to list all databases and then restart the one that has 'postgres-main' in the name.",
       "expected_output": "Commands to list databases via CLI or API, find the correct UUID and execute restart of the specific database",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "breaking-change-host-path",
+      "prompt": "I'm trying to create a persistent volume for my app with: coolify app storage create app-123 --type persistent --mount-path /data --host-path /opt/mydata but I'm getting an error. What's wrong?",
+      "expected_output": "Explanation that host_path was removed in v4.3.22, API now rejects it. Solution: use named volumes only with --name flag instead of --host-path",
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "sentinel-mandatory",
+      "prompt": "I'm trying to disable Sentinel on my Coolify server but the option is grayed out in the UI. Is this a bug?",
+      "expected_output": "Explanation that since v4.3.19, Sentinel is mandatory on regular servers. The enable/disable setting became read-only. Sentinel was upgraded to v1.0.1 and has increased responsibilities for upcoming features.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "name": "per-domain-port-override",
+      "prompt": "I have an app with multiple domains: app.example.com should route to port 3000, and api.example.com should route to port 8080. How do I configure this in Coolify?",
+      "expected_output": "Explanation of per-domain internal port overrides (v4.3.15+), API PATCH request with domains array containing port_override field, works with Traefik and Caddy",
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "backup-retention-numeric",
+      "prompt": "I'm configuring database backups with: coolify database backup create db-123 --retention-max-storage-locally 10GB but getting an error about invalid value. What's wrong?",
+      "expected_output": "Explanation that CLI v1.8.0 changed retention storage flags to accept numeric GB values only (e.g., 10, not 10GB). Remove the suffix and use just the number.",
       "files": []
     }
   ]

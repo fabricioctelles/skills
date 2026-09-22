@@ -3,11 +3,12 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "3.0"
-  date: 2026-09-19
+  version: "3.1"
+  date: 2026-09-22
   license: MIT
   category: ci-cd-and-deployment
   coolify_cli_version: "1.8.0"
+  coolify_version: "4.3.23"
   upstream_commit: "ff0ea90fc40e2d5f10e993f79759f705e5e6af10"
 ---
 
@@ -16,6 +17,15 @@ metadata:
 Skill for operating Coolify instances through the **official CLI** or **REST API**. Coolify is a self-hosted open-source platform alternative to Heroku/Vercel/Netlify for deploying applications, databases, and services.
 
 **Pinned upstream:** coolify-cli **v1.8.0** (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
+
+**Coolify version tested:** v4.3.23 (September 2026)
+
+### CLI v1.8.0 Highlights
+
+- **New:** Commands for instance-wide SMTP/Resend settings (`coolify settings email get/update`)
+- **Security:** API tokens redacted by default in `context list` output (use `--show-sensitive` to reveal)
+- **Fix:** `is_buildtime` field now correctly sent on app env create/update
+- **Breaking:** `--retention-max-storage-locally` and `--retention-max-storage-s3` accept **numeric GB** (e.g., `1`, `10.5`), not unit-suffixed strings
 
 ## When to use this skill
 
@@ -29,6 +39,36 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 - Integrate with GitHub / GitLab Apps for private repositories
 - Configure notifications and instance email (SMTP/Resend)
 - Manage cloud-init scripts and provision servers (Hetzner, DigitalOcean, Vultr)
+
+---
+
+## Recent Breaking Changes (v4.3.x)
+
+### v4.3.22 — Host Path Removal
+**Removed:** `host_path` configuration for persistent volumes. API requests including `host_path` are now rejected.
+
+```bash
+# WRONG (no longer works)
+coolify app storage create <uuid> \
+  --type persistent \
+  --mount-path /data \
+  --host-path /opt/data  # ❌ Rejected
+
+# CORRECT (use named volumes only)
+coolify app storage create <uuid> \
+  --type persistent \
+  --mount-path /data \
+  --name my-volume
+```
+
+### v4.3.21 — Restart Limits Now Opt-In
+Restart limits are now **opt-in** for applications, preview deployments, and service applications. Existing resources with the previous default limit of 10 restarts were reset to unlimited.
+
+### v4.3.19 — Sentinel Mandatory
+**Sentinel is now mandatory** on regular servers. Existing servers were enabled automatically, and the enable/disable setting became read-only. This is required for upcoming features — Sentinel will have increased responsibilities.
+
+- Sentinel upgraded: 0.0.22 → 1.0.1
+- Hourly version checks restored for enabled servers
 
 ## CLI Installation
 
@@ -107,12 +147,12 @@ coolify completion bash   # or: zsh, fish, powershell
 
 ### Context Management
 
-Tokens, IPs, and emails are **hidden by default** in `coolify context list` / `get`. Pass `-s` / `--show-sensitive` to reveal them (same global flag). The config file still stores plaintext tokens — do not commit it.
+Tokens, IPs, and emails are **hidden by default** in `coolify context list` / `get` (v1.8.0+). Pass `-s` / `--show-sensitive` to reveal them. The config file still stores plaintext tokens — do not commit it.
 
 ```bash
-# List all configured contexts (redacted by default)
+# List all configured contexts (redacted by default — v1.8.0+ security fix)
 coolify context list
-coolify context list --show-sensitive
+coolify context list --show-sensitive  # reveal tokens
 
 # Add new context
 coolify context add <context_name> <url> <token>
@@ -298,6 +338,27 @@ coolify app update <uuid> \
   --health-check-path "/health"
 ```
 
+### Per-Domain Internal Port Overrides (v4.3.15+)
+
+Applications, Docker Compose services, and preview deployments now support internal port overrides per domain. Public URLs remain portless while internal routing uses the specified port.
+
+```bash
+# Via API: PATCH /api/v1/applications/{uuid}
+# Use domains array with port_override field
+curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domains": [
+      {"fqdn": "app.example.com", "port_override": 3000},
+      {"fqdn": "api.example.com", "port_override": 8080}
+    ]
+  }' \
+  "$COOLIFY/applications/{uuid}"
+
+# Note: The UI shows effective ports and warns about unrecognized ports
+# Works with both Traefik and Caddy proxies
+```
+
 ### Lifecycle Management
 
 ```bash
@@ -327,8 +388,9 @@ coolify app logs <uuid>
 # Follow logs (like tail -f)
 coolify app logs <uuid> -f
 
-# Limit lines
+# Limit lines (or use 'all' / -1 for unlimited — v4.3.20+)
 coolify app logs <uuid> -n 50
+coolify app logs <uuid> -n all
 
 # Show timestamps
 coolify app logs <uuid> --show-timestamps
@@ -391,12 +453,11 @@ coolify app env sync <uuid> --file .env.production --build-time --runtime --prev
 # List storages
 coolify app storage list <uuid>
 
-# Create persistent volume
+# Create persistent volume (named volume only — host_path removed in v4.3.22)
 coolify app storage create <uuid> \
   --type persistent \
   --mount-path /data \
-  --name my-volume \
-  --host-path /opt/data
+  --name my-volume
 
 # Create file mount
 coolify app storage create <uuid> \
@@ -449,6 +510,12 @@ coolify app deployments logs <uuid> --debuglogs
 # Delete preview deployment
 coolify app previews delete <app_uuid> <pr_id>
 coolify app previews delete <app_uuid> <pr_id> --force
+
+# Get runtime logs for preview deployment (v4.3.23+)
+# API: GET /api/v1/applications/{uuid}/previews/{pr_id}/logs
+# Params: lines (int or "all"), timestamps (bool)
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/applications/{uuid}/previews/{pr_id}/logs?lines=100&timestamps=true"
 ```
 
 ---
@@ -544,6 +611,10 @@ coolify database storage delete <uuid> <storage-uuid>
 ### Database Backups
 
 > **Retention storage units:** `--retention-max-storage-locally` / `--retention-max-storage-s3` are **float64 GB** (e.g. `1` or `10`). Do **not** pass suffixes like `1GB` / `10GB`.
+>
+> **v4.3.18+**: S3-only volume archives stream directly to S3 (no temporary local disk required).
+>
+> **v4.3.18+**: Configurable alerts when scheduled backups miss X days (see `--alert-after-missing-days`).
 
 ```bash
 # List backup configurations
@@ -869,6 +940,24 @@ coolify gitlab update <app_id_or_uuid> --name "Renamed"
 coolify gitlab delete <app_id_or_uuid>
 coolify gitlab delete <app_id_or_uuid> -f
 ```
+
+### Creating an Application from a GitLab App
+
+Confirmed in Coolify `4.3.23`. The API creates the OAuth **source**. The **application** linked to that source is created via UI under "Git Repository (with GitLab App)".
+
+`POST /api/v1/gitlab-apps` only stores the source (`name`, `html_url`, credentials). There is no `POST /api/v1/applications/private-gitlab-app` — this route returns 404. The only application create endpoints are:
+
+- `POST /api/v1/applications/public`
+- `POST /api/v1/applications/private-github-app` (`github_app_uuid`)
+- `POST /api/v1/applications/private-deploy-key` (`private_key_uuid`)
+- `POST /api/v1/applications/dockerfile`
+- `POST /api/v1/applications/dockerimage`
+
+After the UI creates the application, `source_type` becomes `App\Models\GitlabApp` and `source_id` is the numeric ID of the source. From there, the API can edit normally: `PATCH /api/v1/applications/{uuid}`, envs, and storages.
+
+While `build_pack` is `dockercompose`, `domains` is rejected with "The domains field cannot be used for dockercompose applications". Change the pack first (`build_pack: dockerfile`, `dockerfile_location`, `ports_exposes`), then send `domains`. Define `ports_exposes` before the first deploy that generates `custom_labels`; changing the port afterward won't regenerate Traefik labels.
+
+Coolify does not create the webhook on the GitLab project. Push-triggered deploys require a project hook at `POST /webhooks/source/gitlab/events` with the source's webhook token. The UI suggests the Git App manages this, but there's no call to `POST /api/v4/projects/:id/hooks` in the code (issue `coollabsio/coolify#11602`).
 
 ---
 
@@ -1298,6 +1387,40 @@ Authorization: Bearer YOUR_TOKEN
 coolify context verify
 ```
 
+### Error: 400 on Persistent Storage with host_path (v4.3.22+)
+
+`host_path` was removed from persistent volumes. API rejects requests including it.
+
+```bash
+# WRONG (v4.3.22+)
+--host-path /opt/data  # ❌ Rejected
+
+# CORRECT: use named volumes only
+--name my-volume
+```
+
+### Error: Invalid Environment Variable Name (v4.3.15+)
+
+Build-time env var names are now validated before builds start. Invalid names are rejected with specific error messages.
+
+```bash
+# WRONG
+MY-VAR=value      # Hyphens not allowed
+2NDVAR=value      # Cannot start with number
+
+# CORRECT
+MY_VAR=value
+SECOND_VAR=value
+```
+
+### Restart Limit Reached — Container Invisible (fixed v4.3.15)
+
+Fixed: Stopped containers are now visible after reaching restart limit. Actions available: Retry deployment, Remove container.
+
+### GitLab App Does Not Create Application via API
+
+`POST /applications/private-gitlab-app` returns 404 in Coolify 4.3.x. Create the application via UI with the GitLab App, then edit via `PATCH /applications/{uuid}`. With `build_pack=dockercompose`, use `docker_compose_domains`, not `domains`. See the "GitLab Apps" section for details.
+
 ### Error: 404 on context verify
 
 ```bash
@@ -1317,6 +1440,14 @@ source .env
 # CORRECT
 COOLIFY_KEY=$(sed -n 's/^COOLIFY_KEY=//p' .env)
 ```
+
+### DNS Resolution Failures (v4.3.22+ fallback)
+
+If configured DNS resolvers return no address records, Coolify now falls back to the system DNS resolver automatically.
+
+### HTTP 400 with Large Cookie Headers (fixed v4.3.18)
+
+nginx request header buffers were increased. If you're on an older version, large Cookie headers may return HTTP 400 before reaching Coolify.
 
 ---
 
@@ -1415,7 +1546,26 @@ For AI agents using Coolify CLI (prefer the **v1.8.0** pin this skill targets):
 ## References
 
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
+- **CLI Releases**: https://github.com/coollabsio/coolify-cli/releases
 - **CLI v1.8.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.8.0 (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`)
+- **Coolify Releases**: https://github.com/coollabsio/coolify/releases
 - **Official Docs**: https://coolify.io/docs
 - **API Reference**: https://coolify.io/docs/api-reference
 - **Coolify Core**: https://github.com/coollabsio/coolify
+
+---
+
+## Changelog
+
+### v3.1 (2026-09-22)
+- Updated for Coolify v4.3.23
+- Documented breaking changes: `host_path` removal (v4.3.22), Sentinel mandatory (v4.3.19), restart limits opt-in (v4.3.21)
+- Added per-domain internal port overrides (v4.3.15+)
+- Added preview deployment runtime logs endpoint (v4.3.23)
+- Added `lines=all` parameter for log APIs (v4.3.20)
+- Updated backup docs: S3 streaming, missing backup alerts (v4.3.18)
+- Added new troubleshooting entries: host_path rejection, env var validation, DNS fallback
+- CLI v1.8.0 highlights: token redaction, SMTP/Resend settings, retention storage numeric values
+
+### v3.0 (2026-09-19)
+- Initial v3 release with CLI v1.8.0 pin
