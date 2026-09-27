@@ -77,6 +77,13 @@
       ]
     },
     {
+      "title": "Video & Motion",
+      "description": "Motion-graphics video ads rendered frame-accurably to MP4.",
+      "skills": [
+        "motion-ad"
+      ]
+    },
+    {
       "title": "Agent Protocols & Knowledge",
       "description": "Authentication, identity, and knowledge formats for AI agents.",
       "skills": [

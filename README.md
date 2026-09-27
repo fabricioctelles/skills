@@ -507,6 +507,24 @@ After the compared run, the skill also gained the audit template, the project lo
 
 ---
 
+### 🎬 Motion Ad · `code-scaffolding-and-templates`
+Produces a short motion-graphics video ad — a 15s Facebook/Instagram/TikTok spot — as a rendered MP4. Researches the destination landing page so every on-screen claim matches it, pulls real product imagery off the live site, animates one paused GSAP timeline in a single HTML page, and renders it frame-accurately through Playwright and ffmpeg. Ships a finished 15s 4:5 ad as a template (hook + phone → before/after scan reveal → 3D wall of outputs → showcase carousel + proof → CTA end card) whose entire brand and product content lives in one `CONFIG` object.
+
+**When to use:** make a video ad, promo video or animated ad, produce Meta/TikTok/Reels creative in video form, cut a 9:16 or 1:1 version of a spot, or re-render an earlier ad with a different hook, hero or CTA.
+
+**Key features:**
+- **Frame-accurate, not screen-recorded** — `render.cjs` seeks the paused timeline per frame, so re-renders are deterministic
+- **Claims verified against the destination page** — prices, counts and "free" claims have to exist on the landing page
+- **Real assets only** — scrapes the product's own imagery; nothing invented, and `proof: null` drops the social-proof row when there's no real number
+- **Rewriting beats, not building from zero** — `references/template-map.md` maps every `CONFIG` field, DOM id and geometry constant, with recipes for cutting a beat, adding one, and re-laying out to 9:16, 1:1 or 2×
+- **Review loop built in** — contact-sheet tooling tiles assets and render stills into one JPG so a whole pass is checked in a single read
+
+**⚠️ License:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — **not** Apache 2.0. Created by [danny.md](https://www.danny.md/skills/motion-ad): free to use and remix, **not to sell**. This copy adds repo-standard metadata, portable skill-path resolution, a preflight check and `references/template-map.md`.
+
+📄 [View full documentation](skills/motion-ad/SKILL.md)
+
+---
+
 > **Skills revised in March 2026** following the Anthropic standard for Agent Skills structure and quality.
 > Source: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
@@ -742,6 +760,11 @@ skills/
 │   ├── references/  # rubrics (goal, verification, council, control)
 │   ├── schemas/     # loop.yaml JSON schema
 │   └── examples/    # ai-workflow-mapping example
+├── motion-ad/
+│   ├── SKILL.md
+│   ├── assets/      # template.html — finished 15s 4:5 ad, one CONFIG object
+│   ├── references/  # template anatomy: render contract, CONFIG, geometry, recipes
+│   └── scripts/     # render.cjs (GSAP→MP4), fetch-images.cjs, contact-sheet.py
 └── resume-ats-beater/
     ├── SKILL.md
     └── references/  # diagnostic templates, output structure

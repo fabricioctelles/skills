@@ -1,0 +1,446 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Motion Ad</title>
+<!-- Swap the family here and in --font below to match the brand. display=block keeps renders from catching the fallback font. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=block" rel="stylesheet">
+<style>
+:root{
+  --font:'Inter';
+  --primary:#1B1F3B; --accent:#2F7DF6; --page:#FAFAF7; --ink2:#3F4260; --line:#E6E4DD;
+  --accent-deep:color-mix(in srgb, var(--accent) 82%, #000);
+  --accent-soft:color-mix(in srgb, var(--accent) 45%, #fff);
+  --accent-tint:color-mix(in srgb, var(--accent) 14%, transparent);
+  --primary-raised:color-mix(in srgb, var(--primary) 80%, var(--accent));
+  --primary-deep:color-mix(in srgb, var(--primary) 70%, #000);
+  --warm:color-mix(in srgb, var(--page) 92%, var(--primary) 8%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1350px;overflow:hidden;background:var(--page)}
+body{font-family:var(--font),system-ui,sans-serif;color:var(--primary);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--page)}
+.abs{position:absolute}
+img{display:block}
+
+#bgGlow{inset:0;background:
+  radial-gradient(900px 700px at 50% 62%, var(--warm) 0%, transparent 70%),
+  radial-gradient(500px 400px at 85% 10%, var(--accent-tint), transparent 70%)}
+#dots{inset:-40px;background-image:radial-gradient(color-mix(in srgb, var(--primary) 8%, transparent) 1.2px, transparent 1.3px);background-size:36px 36px}
+
+#brand{top:58px;left:0;width:1080px;display:flex;justify-content:center;z-index:40}
+#brand img{height:40px;width:auto}
+.wordmark{font-weight:800;font-size:34px;letter-spacing:-.03em}
+
+.hl{top:128px;left:60px;width:960px;text-align:center;font-weight:800;font-size:82px;line-height:1.06;letter-spacing:-.035em;z-index:40}
+.hl .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .08em;margin:0 -.03em}
+.hl .wi{display:inline-block;will-change:transform}
+.hl em{font-style:normal;color:var(--accent-deep)}
+.sub{left:0;width:1080px;display:flex;justify-content:center;z-index:40}
+.chip{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 26px;border-radius:999px;font-weight:700;font-size:24px;letter-spacing:-.01em}
+.chip.tint{background:var(--accent-tint);color:var(--accent-deep)}
+.chip.white{background:#fff;color:var(--primary);box-shadow:0 1px 0 var(--line),0 12px 30px -12px rgba(0,0,0,.2);border:1px solid var(--line)}
+
+/* phone */
+#phone{left:280px;top:392px;width:520px;height:1100px;border-radius:64px;background:var(--primary-deep);padding:16px;z-index:10;
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.45),0 0 0 2px color-mix(in srgb, var(--primary) 70%, #fff) inset}
+#screen{position:relative;width:100%;height:100%;border-radius:50px;overflow:hidden;background:#fff}
+#screenImg{position:absolute;left:0;top:0;width:100%;height:auto}
+#notch{position:absolute;left:50%;top:14px;width:130px;height:34px;margin-left:-65px;border-radius:20px;background:var(--primary-deep);z-index:4}
+.ring{width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:14px;border:6px solid var(--accent);z-index:12}
+.dot{width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:rgba(255,255,255,.55);z-index:13;border:3px solid #fff}
+
+/* hero card */
+#hero{z-index:20;overflow:hidden;border-radius:10px;background:#ddd;box-shadow:0 70px 120px -50px rgba(0,0,0,.5)}
+#hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#heroAfter{object-position:50% 0%}
+#beam{left:-10%;width:120%;height:4px;background:var(--accent-soft);box-shadow:0 0 18px 6px color-mix(in srgb, var(--accent) 85%, transparent),0 0 60px 18px color-mix(in srgb, var(--accent) 45%, transparent);z-index:5}
+#beamTrail{left:0;width:100%;height:220px;background:linear-gradient(to top, color-mix(in srgb, var(--accent) 35%, transparent), transparent);z-index:4;mix-blend-mode:screen}
+#scanGrid{inset:0;z-index:3;background-image:linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:40px 40px}
+.tag{z-index:6;left:26px;top:26px;height:48px;padding:0 20px;border-radius:999px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;backdrop-filter:blur(6px)}
+#tagBefore{background:color-mix(in srgb, var(--primary-deep) 62%, transparent);color:#fff}
+#tagAfter{background:rgba(255,255,255,.92);color:var(--primary)}
+#tagAfter i{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.pill{z-index:30;height:62px;padding:0 24px 0 16px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 20px 40px -18px rgba(0,0,0,.3);display:flex;align-items:center;gap:12px;font-weight:700;font-size:23px;white-space:nowrap}
+.pill .ck{width:34px;height:34px;border-radius:50%;background:var(--accent-tint);color:var(--accent-deep);display:flex;align-items:center;justify-content:center}
+
+/* wall */
+#wallWrap{inset:0;perspective:1600px;z-index:5}
+#wall{left:50%;top:50%;width:1604px;margin-left:-802px;height:2000px;margin-top:-1000px;display:grid;grid-template-columns:repeat(7,210px);gap:22px;transform-style:preserve-3d;align-content:center}
+#wall .t{width:210px;height:262px;border-radius:16px;overflow:hidden;background:var(--warm);box-shadow:0 24px 40px -24px rgba(0,0,0,.4)}
+#wall .t img{width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+#topFade{left:0;top:0;width:1080px;height:560px;z-index:35;background:linear-gradient(to bottom,var(--page) 0%,var(--page) 52%,transparent 100%)}
+#botFade{left:0;bottom:0;width:1080px;height:260px;z-index:35;background:linear-gradient(to top,color-mix(in srgb, var(--page) 90%, transparent),transparent)}
+#spark{display:inline-block;font-size:26px}
+
+/* carousel */
+#car{left:0;top:372px;width:1080px;height:708px;z-index:20}
+#track{left:0;top:0;height:708px}
+.sc{top:0;width:570px;height:708px;border-radius:30px;overflow:hidden;background:var(--warm);box-shadow:0 50px 90px -40px rgba(0,0,0,.5)}
+.sc > img{width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+.sc .bef{position:absolute;left:24px;bottom:24px;width:176px;height:208px;border-radius:20px;overflow:hidden;border:5px solid #fff;box-shadow:0 20px 40px -12px rgba(0,0,0,.5);transform:rotate(-4deg)}
+.sc .bef img{width:100%;height:100%;object-fit:cover}
+.sc .bef span{position:absolute;left:0;bottom:0;width:100%;padding:18px 0 8px;text-align:center;font-weight:700;font-size:18px;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.7),transparent)}
+.sc .aft{position:absolute;right:24px;top:24px;height:46px;padding:0 20px;border-radius:999px;background:rgba(255,255,255,.94);display:flex;align-items:center;font-weight:700;font-size:20px;color:var(--primary)}
+#showChip{top:1108px;z-index:40}
+#proof{top:1196px;z-index:40}
+.stars{display:flex;gap:4px}
+.stars i{width:30px;height:30px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.stars svg{width:20px;height:20px}
+#proof .txt{font-weight:700;font-size:23px;color:var(--ink2);margin-left:14px}
+#proof .txt b{color:var(--primary)}
+
+/* end card */
+#wipe{left:540px;top:1350px;width:3400px;height:3400px;margin-left:-1700px;margin-top:-1700px;border-radius:50%;background:var(--primary);z-index:60}
+#end{inset:0;z-index:61;color:#fff}
+#endGlow{inset:0;background:radial-gradient(700px 520px at 50% 45%, var(--primary-raised), transparent 70%)}
+.orb{width:150px;height:188px;border-radius:18px;overflow:hidden;opacity:0;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+.orb img{width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+#endLogo{left:0;top:330px;width:1080px;display:flex;justify-content:center}
+#endLogo img{height:52px;width:auto}
+#endLogo .wordmark{font-size:46px;color:#fff}
+#endHl{top:440px;color:#fff;font-size:92px}
+#endHl em{color:var(--accent-soft)}
+#endChip{top:710px}
+#endChip .chip{background:color-mix(in srgb, var(--accent) 22%, transparent);color:var(--accent-soft);height:62px;font-size:25px}
+#endBtn{top:840px;left:0;width:1080px;display:flex;justify-content:center}
+#btn{height:110px;padding:0 54px;border-radius:22px;background:#fff;color:var(--primary);display:flex;align-items:center;gap:18px;font-weight:800;font-size:38px;letter-spacing:-.02em;box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}
+#btnArrow{display:inline-block}
+#tap{width:120px;height:120px;border-radius:50%;border:4px solid rgba(255,255,255,.9);z-index:70;left:0;top:0}
+#endFoot{top:1010px;left:0;width:1080px;text-align:center;font-weight:600;font-size:24px;color:rgba(255,255,255,.78)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bgGlow" class="abs"></div>
+  <div id="dots" class="abs"></div>
+  <div id="brand" class="abs"></div>
+
+  <!-- Beat A: hook + phone -->
+  <div id="hl1" class="abs hl"></div>
+  <div id="phone" class="abs"><div id="screen"><div id="notch"></div><img id="screenImg"></div></div>
+  <div id="ring" class="abs ring"></div>
+  <div id="dot" class="abs dot"></div>
+
+  <!-- Beat B: before -> after scan -->
+  <div id="hl2" class="abs hl"></div>
+  <div id="hero" class="abs">
+    <img id="heroBefore">
+    <img id="heroAfter">
+    <div id="scanGrid" class="abs"></div>
+    <div id="beamTrail" class="abs"></div>
+    <div id="beam" class="abs"></div>
+    <div id="tagBefore" class="abs tag"></div>
+    <div id="tagAfter" class="abs tag"><i></i><span></span></div>
+  </div>
+  <div id="pills"></div>
+
+  <!-- Beat C: 3D wall -->
+  <div id="wallWrap" class="abs"><div id="wall" class="abs"></div></div>
+  <div id="topFade" class="abs"></div>
+  <div id="botFade" class="abs"></div>
+  <div id="hl3" class="abs hl"></div>
+  <div id="sub3" class="abs sub" style="top:246px"><div class="chip tint"><span id="spark">✦</span><span></span></div></div>
+
+  <!-- Beat D: showcase carousel + proof -->
+  <div id="hl4" class="abs hl"></div>
+  <div id="car" class="abs"><div id="track" class="abs"></div></div>
+  <div id="showChip" class="abs sub"><div class="chip white"><span style="color:var(--accent-deep)">●</span><span></span></div></div>
+  <div id="proof" class="abs sub"><div style="display:flex;align-items:center"><div class="stars" id="stars"></div><div class="txt"></div></div></div>
+
+  <!-- Beat E: end card -->
+  <div id="wipe" class="abs"></div>
+  <div id="end" class="abs">
+    <div id="endGlow" class="abs"></div>
+    <div id="orbs"></div>
+    <div id="endLogo" class="abs"></div>
+    <div id="endHl" class="abs hl"></div>
+    <div id="endChip" class="abs sub"><div class="chip"></div></div>
+    <div id="endBtn" class="abs"><div id="btn"><span></span> <span id="btnArrow">→</span></div></div>
+    <div id="endFoot" class="abs"></div>
+    <div id="tap" class="abs"></div>
+  </div>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// =====================================================================
+// CONFIG: everything brand- and product-specific lives here.
+// Headlines: `*word*` marks an accent word, `\n` forces a line break.
+// Any image left null (or failing to load) renders as a labelled placeholder,
+// so the template previews and renders before real assets exist.
+// =====================================================================
+const CONFIG = {
+  brand: 'Acme',
+  logo: null,               // 'a/logo.svg' — shown on the light background
+  logoOnDark: null,         // 'a/logo-white.svg' — end card; falls back to logo inverted to white
+  colors: { primary: '#1B1F3B', accent: '#2F7DF6', page: '#FAFAF7', ink2: '#3F4260', line: '#E6E4DD' },
+
+  // Beat A (0–2.2s): hook headline, phone scrolls a screen capture, tap on the input
+  hook: 'Start with *one photo.*',
+  screen: null,             // tall phone-width screenshot (e.g. 488×1600) that scrolls
+  screenScroll: -420,       // px the screen image scrolls up
+  tap: { x: 540, y: 820 },  // stage point the finger taps; the hero card grows from here
+
+  // Beat B (2.2–5.4s): the transformation
+  reveal: 'Get the *result.*',
+  before: null, beforeLabel: 'Before',
+  after: null, afterLabel: 'After',
+  benefits: ['Benefit one', 'Benefit two', 'Benefit three'],
+
+  // Beat C (5.5–8.7s): wall of outputs
+  scale: 'At *any scale.*',
+  scaleChip: 'Supporting line for the wall',
+  gallery: [],              // 6–20 output images; placeholders fill the gaps
+
+  // Beat D (8.7–11.8s): showcase carousel + social proof
+  proofHl: 'Real *results.*',
+  showcase: [               // exactly 3 cards; `inset` is an optional small "before" image
+    { img: null, inset: null, insetLabel: 'Before', tag: 'After' },
+    { img: null, inset: null, insetLabel: 'Before', tag: 'After' },
+    { img: null, inset: null, insetLabel: 'Before', tag: 'After' }
+  ],
+  showChip: 'Real customers, real results',
+  proof: { stars: true, text: '**4.8** · 1,000 reviews' },   // null hides the row
+
+  // Beat E (11.8–15s): end card
+  cta: {
+    headline: 'Try it\n*today.*',
+    chip: '✓&nbsp; No credit card needed',
+    button: 'Get started',
+    foot: 'yourdomain.com'
+  }
+}
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s)
+const $$ = s => [...document.querySelectorAll(s)]
+const words = s => {
+  let inAccent = false
+  return s.split('\n').map(line => line.split(' ').filter(Boolean).map(w => {
+    const opens = w.startsWith('*'), closes = w.endsWith('*') && w.length > 1
+    const text = w.replace(/^\*|\*$/g, '')
+    const accent = inAccent || opens
+    inAccent = accent && !closes
+    return `<span class="w"><span class="wi">${accent ? `<em>${text}</em>` : text}</span></span>`
+  }).join(' ')).join('<br>')
+}
+const bold = s => s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+
+const ph = (label, i = 0, w = 400, h = 500) => {
+  const hue = (i * 47) % 360
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${hue},45%,82%)"/><stop offset="1" stop-color="hsl(${(hue + 40) % 360},40%,66%)"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="${Math.round(w / 12)}" fill="rgba(0,0,0,.45)">${label}</text></svg>`
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg)
+}
+const setImg = (el, src, label, i, w, h) => {
+  el.onerror = () => { el.onerror = null; el.src = ph(label, i, w, h) }
+  el.src = src || ph(label, i, w, h)
+}
+const imgTag = (src, label, i, w, h) => `<img data-src="${src || ''}" data-label="${label}" data-i="${i}" data-w="${w}" data-h="${h}">`
+const hydrate = root => root.querySelectorAll('img[data-label]').forEach(el =>
+  setImg(el, el.dataset.src, el.dataset.label, +el.dataset.i, +el.dataset.w, +el.dataset.h))
+const brandMark = (src, dark) => src
+  ? `<img src="${src}"${dark && !CONFIG.logoOnDark ? ' style="filter:brightness(0) invert(1)"' : ''}>`
+  : `<span class="wordmark">${CONFIG.brand}</span>`
+
+// ---------- build DOM ----------
+const root = document.documentElement.style
+Object.entries(CONFIG.colors).forEach(([k, v]) => root.setProperty(`--${k}`, v))
+
+$('#brand').innerHTML = brandMark(CONFIG.logo)
+$('#endLogo').innerHTML = brandMark(CONFIG.logoOnDark || CONFIG.logo, true)
+$('#hl1').innerHTML = words(CONFIG.hook)
+$('#hl2').innerHTML = words(CONFIG.reveal)
+$('#hl3').innerHTML = words(CONFIG.scale)
+$('#hl4').innerHTML = words(CONFIG.proofHl)
+$('#endHl').innerHTML = words(CONFIG.cta.headline)
+$('#sub3 .chip span:last-child').textContent = CONFIG.scaleChip
+$('#showChip .chip span:last-child').textContent = CONFIG.showChip
+$('#endChip .chip').innerHTML = CONFIG.cta.chip
+$('#btn span').textContent = CONFIG.cta.button
+$('#endFoot').textContent = CONFIG.cta.foot
+$('#tagBefore').textContent = CONFIG.beforeLabel
+$('#tagAfter span').textContent = CONFIG.afterLabel
+
+setImg($('#screenImg'), CONFIG.screen, 'App screen', 1, 488, 1600)
+setImg($('#heroBefore'), CONFIG.before, CONFIG.beforeLabel, 2, 600, 744)
+setImg($('#heroAfter'), CONFIG.after, CONFIG.afterLabel, 5, 600, 744)
+
+const PILL_POS = [{ left: 70, top: 560 }, { left: 690, top: 780 }, { left: 110, top: 1010 }]
+$('#pills').innerHTML = CONFIG.benefits.slice(0, 3).map((b, i) => `<div id="p${i}" class="abs pill"><span class="ck">✓</span>${b}</div>`).join('')
+
+const gallery = [...Array(Math.max(CONFIG.gallery.length, 12)).keys()].map(i => CONFIG.gallery[i] || null)
+const WALL_CENTER = 24 // center of the 7×7 grid holds the hero "after"
+$('#wall').innerHTML = [...Array(49).keys()].map(i => {
+  if (i === WALL_CENTER) return `<div class="t">${imgTag(CONFIG.after, CONFIG.afterLabel, 5, 210, 262)}</div>`
+  const n = (i * 3 + Math.floor(i / 7) * 5) % gallery.length
+  return `<div class="t">${imgTag(gallery[n], `Output ${n + 1}`, n, 210, 262)}</div>`
+}).join('')
+
+$('#track').innerHTML = CONFIG.showcase.slice(0, 3).map((c, i) => `<div class="abs sc" id="sc${i}">${imgTag(c.img, `Showcase ${i + 1}`, i + 8, 570, 708)}` +
+  (c.inset ? `<div class="bef">${imgTag(c.inset, c.insetLabel, i + 3, 176, 208)}<span>${c.insetLabel}</span></div>` : '') +
+  (c.tag ? `<div class="aft">${c.tag}</div>` : '') + '</div>').join('')
+
+if (CONFIG.proof) {
+  const star = '<svg viewBox="0 0 24 24"><path fill="#fff" d="M12 2.5l2.9 6.5 7.1.7-5.4 4.7 1.6 7L12 17.8 5.8 21.4l1.6-7L2 9.7l7.1-.7z"/></svg>'
+  $('#stars').innerHTML = CONFIG.proof.stars ? Array(5).fill(`<i>${star}</i>`).join('') : ''
+  $('#proof .txt').innerHTML = bold(CONFIG.proof.text)
+} else $('#proof').remove()
+
+const orbData = [
+  { x: 70, y: 100, r: -10 }, { x: 860, y: 80, r: 8 }, { x: 50, y: 1130, r: 9 },
+  { x: 870, y: 1120, r: -7 }, { x: -60, y: 760, r: 5 }, { x: 990, y: 740, r: -5 }
+]
+$('#orbs').innerHTML = orbData.map((o, i) => {
+  const n = (i * 5 + 1) % gallery.length
+  return `<div class="abs orb" id="orb${i}" style="left:${o.x}px;top:${o.y}px">${imgTag(gallery[n], `Output ${n + 1}`, n, 150, 188)}</div>`
+}).join('')
+
+hydrate(document)
+
+// ---------- geometry ----------
+const TAP = CONFIG.tap
+const HERO = { x: 240, y: 392, w: 600, h: 744 }
+
+// ---------- timeline ----------
+gsap.defaults({ ease: 'power3.out' })
+const tl = gsap.timeline({ paused: true })
+const has = sel => document.querySelector(sel) !== null
+const wordsIn = (sel, at, stagger = 0.06, dur = 0.7) =>
+  tl.fromTo(`${sel} .wi`, { yPercent: 115, rotate: 6 }, { yPercent: 0, rotate: 0, duration: dur, ease: 'expo.out', stagger }, at)
+const wordsOut = (sel, at) =>
+  tl.to(`${sel} .wi`, { yPercent: -115, rotate: -4, duration: 0.45, ease: 'power3.in', stagger: 0.035 }, at)
+
+// initial states
+gsap.set(['#hl2 .wi', '#hl3 .wi', '#hl4 .wi', '#endHl .wi'], { yPercent: 115 })
+gsap.set('#hero', { left: TAP.x - 85, top: TAP.y - 85, width: 170, height: 170, autoAlpha: 0 })
+gsap.set('#heroAfter', { clipPath: 'inset(0% 0% 100% 0%)' })
+gsap.set(['#beam', '#beamTrail', '#scanGrid', '#tagBefore', '#tagAfter'], { autoAlpha: 0 })
+gsap.set('#beam', { top: 0 }); gsap.set('#beamTrail', { top: -220 })
+gsap.set('#ring', { left: TAP.x, top: TAP.y, autoAlpha: 0, scale: 1.25 })
+gsap.set('#dot', { left: TAP.x, top: TAP.y, autoAlpha: 0, scale: 0.4 })
+$$('.pill').forEach((el, i) => gsap.set(el, PILL_POS[i]))
+gsap.set('.pill', { autoAlpha: 0, scale: 0.6 })
+gsap.set('#wall', { rotateX: 22, rotateZ: -9, y: 60 })
+gsap.set('#wall .t', { autoAlpha: 0, z: -900, scale: 0.4 })
+gsap.set(['#topFade', '#botFade', '#sub3', '#car', '#showChip', '#proof'].filter(has), { autoAlpha: 0 })
+gsap.set('#wipe', { scale: 0 })
+gsap.set('#end', { autoAlpha: 0 })
+
+const SC_W = 570, SC_GAP = 44
+$$('.sc').forEach((el, i) => gsap.set(el, { left: 255 + i * (SC_W + SC_GAP) }))
+const carTo = i => -i * (SC_W + SC_GAP)
+
+// ===== Beat A: hook + phone (0 - 2.2s) =====
+tl.fromTo('#brand', { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0)
+tl.fromTo('#dots', { y: 0 }, { y: -140, duration: 15, ease: 'none' }, 0)
+wordsIn('#hl1', 0.05)
+tl.fromTo('#phone', { y: 900, rotate: 6 }, { y: 0, rotate: 0, duration: 0.95, ease: 'expo.out' }, 0)
+tl.fromTo('#screenImg', { y: 0 }, { y: CONFIG.screenScroll, duration: 1.1, ease: 'expo.inOut' }, 0.25)
+tl.fromTo('#dot', { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.14, ease: 'back.out(3)' }, 1.5)
+tl.to('#dot', { autoAlpha: 0, scale: 1.8, duration: 0.3 }, 1.64)
+tl.to('#ring', { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2.2)' }, 1.56)
+tl.to('#screen', { filter: 'brightness(.6)', duration: 0.3, ease: 'power1.out' }, 1.8)
+
+// ===== Beat B: before -> after (2.2 - 5.4s) =====
+tl.set('#hero', { autoAlpha: 1 }, 2.18)
+tl.to('#ring', { autoAlpha: 0, duration: 0.15 }, 2.18)
+tl.to('#hero', { left: HERO.x, top: HERO.y, width: HERO.w, height: HERO.h, borderRadius: 34, duration: 0.9, ease: 'expo.inOut' }, 2.2)
+tl.fromTo('#hero', { scale: 1 }, { scale: 1.03, duration: 0.14, yoyo: true, repeat: 1, ease: 'power2.out' }, 3.1)
+tl.to('#phone', { y: 1150, rotate: -4, duration: 0.85, ease: 'power3.in' }, 2.15)
+wordsOut('#hl1', 2.15)
+wordsIn('#hl2', 2.55)
+tl.fromTo('#tagBefore', { autoAlpha: 0, y: -10 }, { autoAlpha: 1, y: 0, duration: 0.35 }, 2.95)
+
+tl.set(['#beam', '#beamTrail'], { autoAlpha: 1 }, 3.4)
+tl.fromTo('#scanGrid', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 3.35)
+tl.to('#beam', { top: HERO.h, duration: 1.0, ease: 'power2.inOut' }, 3.4)
+tl.to('#beamTrail', { top: HERO.h - 220, duration: 1.0, ease: 'power2.inOut' }, 3.4)
+tl.to('#heroAfter', { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.0, ease: 'power2.inOut' }, 3.4)
+tl.to('#scanGrid', { autoAlpha: 0, duration: 0.3 }, 4.3)
+tl.to(['#beam', '#beamTrail'], { autoAlpha: 0, duration: 0.2 }, 4.42)
+tl.fromTo('#heroAfter', { scale: 1.08 }, { scale: 1, duration: 1.5, ease: 'power2.out' }, 3.4)
+tl.to('#tagBefore', { autoAlpha: 0, y: -10, duration: 0.25 }, 3.6)
+tl.fromTo('#tagAfter', { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, 4.35)
+tl.fromTo('#hero', { scale: 1 }, { scale: 1.035, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }, 4.4)
+if (has('.pill')) {
+  tl.to('.pill', { autoAlpha: 1, scale: 1, duration: 0.55, ease: 'back.out(2.2)', stagger: 0.1 }, 4.45)
+  $$('.pill').forEach((el, i) => tl.to(el, { y: [-14, 12, -10][i], duration: 1.2, ease: 'sine.inOut' }, 4.8))
+}
+
+// ===== Beat C: the wall (5.5 - 8.7s) =====
+if (has('.pill')) tl.to('.pill', { autoAlpha: 0, scale: 0.7, duration: 0.3, ease: 'power2.in', stagger: 0.05 }, 5.45)
+tl.to('#tagAfter', { autoAlpha: 0, duration: 0.2 }, 5.5)
+tl.to('#hero', { left: 540 - 105, top: 675 + 60 - 131, width: 210, height: 262, borderRadius: 16, rotate: -9, duration: 0.8, ease: 'expo.inOut' }, 5.55)
+tl.to('#hero', { autoAlpha: 0, duration: 0.2 }, 6.3)
+tl.to('#wall .t', { autoAlpha: 1, z: 0, scale: 1, duration: 1.0, ease: 'expo.out', stagger: { grid: [7, 7], from: 'center', amount: 0.75 } }, 5.95)
+tl.to('#wall', { y: -220, x: 90, rotateZ: -6, duration: 3.2, ease: 'sine.inOut' }, 5.95)
+tl.to(['#topFade', '#botFade'], { autoAlpha: 1, duration: 0.5 }, 5.6)
+wordsOut('#hl2', 5.5)
+wordsIn('#hl3', 5.95)
+tl.fromTo('#sub3', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'back.out(1.8)' }, 6.45)
+tl.fromTo('#spark', { rotate: -180, scale: 0 }, { rotate: 0, scale: 1, duration: 0.8, ease: 'back.out(2.5)' }, 6.55)
+
+// ===== Beat D: showcase carousel (8.6 - 11.8s) =====
+tl.to('#wall', { scale: 1.9, autoAlpha: 0, duration: 0.7, ease: 'power3.in' }, 8.55)
+tl.to(['#topFade', '#botFade'], { autoAlpha: 0, duration: 0.4 }, 9.0)
+wordsOut('#hl3', 8.5)
+tl.to('#sub3', { autoAlpha: 0, y: -20, duration: 0.3, ease: 'power2.in' }, 8.5)
+wordsIn('#hl4', 8.95)
+tl.set('#car', { autoAlpha: 1 }, 8.9)
+tl.set('.sc', { transformPerspective: 1400 }, 8.9)
+tl.fromTo('#track', { x: 900 }, { x: carTo(0), duration: 0.9, ease: 'expo.out' }, 8.9)
+tl.fromTo('.sc', { rotateY: -18, scale: 0.9 }, { rotateY: 0, scale: 1, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, 8.9)
+if (has('#sc0 .bef')) tl.fromTo('#sc0 .bef', { scale: 0.6, rotate: -14 }, { scale: 1, rotate: -4, duration: 0.6, ease: 'back.out(2)' }, 9.35)
+tl.fromTo('#sc1, #sc2', { opacity: 1 }, { opacity: 0.4, duration: 0.5 }, 9.3)
+tl.fromTo('#showChip', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'back.out(2)' }, 9.2)
+if (has('#proof')) {
+  tl.fromTo('#proof', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 9.4)
+  if (has('#stars i')) tl.fromTo('#stars i', { scale: 0, rotate: -40 }, { scale: 1, rotate: 0, duration: 0.45, ease: 'back.out(3)', stagger: 0.07 }, 9.45)
+  tl.fromTo('#proof .txt', { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.5 }, 9.7)
+}
+
+const slide = (i, at) => {
+  tl.to('#track', { x: carTo(i), duration: 0.7, ease: 'expo.inOut' }, at)
+  tl.to(`#sc${i}`, { opacity: 1, duration: 0.5 }, at + 0.1)
+  tl.to(`#sc${i - 1}`, { opacity: 0.4, duration: 0.5 }, at + 0.1)
+  tl.fromTo(`#sc${i}`, { scale: 0.92 }, { scale: 1, duration: 0.7, ease: 'expo.inOut' }, at)
+  tl.to(`#sc${i - 1}`, { scale: 0.92, duration: 0.7, ease: 'expo.inOut' }, at)
+  if (has(`#sc${i} .bef`)) tl.fromTo(`#sc${i} .bef`, { scale: 0.6, rotate: -14 }, { scale: 1, rotate: -4, duration: 0.6, ease: 'back.out(2)' }, at + 0.35)
+}
+slide(1, 10.05)
+slide(2, 10.95)
+
+// ===== Beat E: end card (11.8 - 15s) =====
+tl.to('#wipe', { scale: 1, duration: 0.9, ease: 'expo.inOut' }, 11.75)
+tl.to(['#car', '#showChip', '#proof', '#brand'].filter(has), { y: -80, duration: 0.8, ease: 'power3.in' }, 11.7)
+tl.set('#end', { autoAlpha: 1 }, 12.3)
+tl.fromTo('#endGlow', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8 }, 12.3)
+tl.fromTo('#endLogo > *', { autoAlpha: 0, scale: 0.7, y: 20 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.8)' }, 12.35)
+wordsIn('#endHl', 12.5, 0.07, 0.8)
+tl.fromTo('#endChip .chip', { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' }, 12.95)
+tl.fromTo('#btn', { autoAlpha: 0, y: 40, scale: 0.9 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.7)' }, 13.1)
+tl.fromTo('#endFoot', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, 13.35)
+orbData.forEach((o, i) => {
+  tl.fromTo(`#orb${i}`, { autoAlpha: 0, scale: 0.5, rotate: 0 }, { autoAlpha: 0.9, scale: 1, rotate: o.r, duration: 0.9, ease: 'expo.out' }, 12.45 + i * 0.07)
+  tl.to(`#orb${i}`, { y: i % 2 ? -26 : 26, duration: 2.4, ease: 'sine.inOut' }, 13.1)
+})
+tl.fromTo('#tap', { left: 640, top: 870, autoAlpha: 0, scale: 1.4 }, { autoAlpha: 1, scale: 0.8, duration: 0.3, ease: 'power2.out' }, 13.85)
+tl.to('#btn', { scale: 0.95, duration: 0.12, ease: 'power2.in' }, 14.05)
+tl.to('#btn', { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.45)' }, 14.17)
+tl.to('#tap', { scale: 1.8, autoAlpha: 0, duration: 0.5 }, 14.12)
+tl.fromTo('#btnArrow', { x: 0 }, { x: 10, duration: 0.3, yoyo: true, repeat: 1, ease: 'power2.inOut' }, 14.3)
+tl.to({}, { duration: 0.01 }, 15)
+
+// Render contract used by scripts/render.cjs — keep these three and the ?render guard.
+window.seek = t => { tl.seek(t, false); return true }
+window.DURATION = 15
+window.ready = Promise.all([document.fonts.ready, ...$$('img').map(i => i.decode().catch(() => {}))])
+if (!/render/.test(location.search)) { tl.play(); tl.eventCallback('onComplete', () => setTimeout(() => tl.restart(), 800)) }
+</script>
+</body>
+</html>

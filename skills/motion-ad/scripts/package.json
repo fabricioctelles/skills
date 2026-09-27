@@ -1,0 +1,10 @@
+{
+  "name": "motion-ad",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Frame-accurate GSAP-to-MP4 renderer and asset helpers for the motion-ad skill (uses installed Chrome via playwright-core).",
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "playwright-core": "^1.49.0"
+  }
+}

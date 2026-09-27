@@ -505,6 +505,24 @@ Depois da comparação, a skill ainda ganhou o template de auditoria, o log por 
 
 ---
 
+### 🎬 Motion Ad · `code-scaffolding-and-templates`
+Produz um anúncio em motion graphics — um spot de 15s para Facebook/Instagram/TikTok — como MP4 renderizado. Pesquisa a landing page de destino para que toda afirmação na tela corresponda a ela, extrai imagens reais do produto do site no ar, anima uma única timeline GSAP pausada em uma página HTML e renderiza frame a frame com Playwright + ffmpeg. Traz um anúncio 4:5 de 15s já pronto como template (hook + celular → revelação antes/depois com feixe de scan → parede 3D de outputs → carrossel de showcases + prova social → end card com CTA), em que todo o conteúdo de marca e produto vive em um único objeto `CONFIG`.
+
+**Quando usar:** criar um vídeo-anúncio, promo video ou ad animado, produzir criativo em vídeo para Meta/TikTok/Reels, gerar a versão 9:16 ou 1:1 de um spot, ou re-renderizar um anúncio anterior com outro hook, hero ou CTA.
+
+**Destaques:**
+- **Precisão de frame, não gravação de tela** — o `render.cjs` busca a timeline pausada a cada frame, então re-renders são determinísticos
+- **Afirmações verificadas contra a landing page** — preços, contagens e "grátis" precisam existir na página de destino
+- **Somente assets reais** — extrai a própria imagery do produto; nada inventado, e `proof: null` remove a linha de prova social quando não há número real
+- **Reescreve beats, não constrói do zero** — `references/template-map.md` mapeia cada campo do `CONFIG`, id do DOM e constante de geometria, com recipes para cortar beat, adicionar beat e re-layout para 9:16, 1:1 ou 2×
+- **Loop de review embutido** — o contact sheet junta assets e stills em um único JPG, então uma passada inteira é conferida em uma leitura só
+
+**⚠️ Licença:** [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — **não** é Apache 2.0. Criada por [danny.md](https://www.danny.md/skills/motion-ad): livre para usar e remixar, **não para vender**. Esta cópia adiciona metadata padrão do repo, resolução portátil do caminho da skill, preflight e `references/template-map.md`.
+
+📄 [Ver documentação completa](skills/motion-ad/SKILL.md)
+
+---
+
 > **Skills revisadas em março de 2026** seguindo o padrão Anthropic para estrutura e qualidade de Agent Skills.
 > Fonte: [Improving Skill Creator: Test, Measure and Refine Agent Skills](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills)
 
