@@ -26,7 +26,7 @@ sem MCP ou avaliador externo.
 
 ```bash
 codex plugin marketplace add fabricioctelles/skills --ref main
-codex plugin add deslop-writing@ft.ia.br
+codex plugin add deslop-writing@skilldev-pro
 ```
 
 Abra uma nova sessão após instalar e peça ao Deslop Writing para revisar seu texto.

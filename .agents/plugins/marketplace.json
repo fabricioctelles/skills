@@ -1,7 +1,7 @@
 {
-  "name": "ft.ia.br",
+  "name": "skilldev-pro",
   "interface": {
-    "displayName": "ft.ia.br Skills"
+    "displayName": "skilldev.pro Skills"
   },
   "plugins": [
     {

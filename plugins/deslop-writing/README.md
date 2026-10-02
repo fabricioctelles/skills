@@ -33,12 +33,12 @@ workflow, not an authorship detector or a guarantee of passing one.
 
 ```bash
 codex plugin marketplace add fabricioctelles/skills --ref main
-codex plugin add deslop-writing@ft.ia.br
+codex plugin add deslop-writing@skilldev-pro
 ```
 
 Git access follows the repository's access permissions. Installation availability
 depends on the client's plugin support. In ChatGPT desktop Work/Codex, browse
-the ft.ia.br Skills marketplace in the Plugins Directory and install Deslop
+the skilldev.pro Skills marketplace in the Plugins Directory and install Deslop
 Writing. Start a new chat/session after installation.
 
 License: [Apache-2.0](LICENSE). See [NOTICE](NOTICE) for provenance.

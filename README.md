@@ -28,7 +28,7 @@ for ChatGPT and Codex, with no MCP server or external evaluator.
 
 ```bash
 codex plugin marketplace add fabricioctelles/skills --ref main
-codex plugin add deslop-writing@ft.ia.br
+codex plugin add deslop-writing@skilldev-pro
 ```
 
 Start a new session after installation, then ask Deslop Writing to edit your draft.
