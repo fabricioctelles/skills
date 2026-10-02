@@ -41,4 +41,13 @@ depends on the client's plugin support. In ChatGPT desktop Work/Codex, browse
 the skilldev.pro Skills marketplace in the Plugins Directory and install Deslop
 Writing. Start a new chat/session after installation.
 
+## Privacy, terms, and contact
+
+Deslop Writing has no publisher-operated backend or telemetry. Your AI application
+and model provider handle processing under their own policies and settings.
+
+- [Privacy Policy](https://skilldev.pro/en/privacy/)
+- [Terms of Use](https://skilldev.pro/en/terms/)
+- Privacy and support: [contato@skilldev.pro](mailto:contato@skilldev.pro)
+
 License: [Apache-2.0](LICENSE). See [NOTICE](NOTICE) for provenance.

@@ -1,10 +1,11 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "deslop-writing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Remove AI writing patterns, preserve meaning, and refine your voice in English and Brazilian Portuguese.",
   "author": {
     "name": "Fabricio Telles",
+    "email": "contato@skilldev.pro",
     "url": "https://ft.ia.br"
   },
   "homepage": "https://github.com/fabricioctelles/skills/tree/main/plugins/deslop-writing",
@@ -15,10 +16,13 @@
     "com.openai": {
       "interface": {
         "displayName": "Deslop Writing",
-        "shortDescription": "Natural writing. Your meaning and voice intact.",
-        "longDescription": "Edit English and Brazilian Portuguese text to remove repetitive phrasing, inflated language, and mechanical structure. Preserve facts, quotations, uncertainty, and the author's intent. Includes human-ai for English and humanizar for Brazilian Portuguese. Runs with the current model without external services or account setup.",
+        "shortDescription": "Natural editing, your voice",
+        "longDescription": "A writing and editing assistant for people working on emails, articles, posts, and other prose in English and Brazilian Portuguese. Revise drafts to remove repetitive phrasing, inflated language, and mechanical structure while preserving facts, quotations, uncertainty, and the author's intent. Includes human-ai for English editing and humanizar for Brazilian Portuguese writing and editing. Works with the current model without external services or account setup. It does not determine authorship or guarantee AI detector results.",
         "developerName": "Fabricio Telles",
         "category": "Productivity",
+        "websiteURL": "https://skilldev.pro/en/",
+        "privacyPolicyURL": "https://skilldev.pro/en/privacy/",
+        "termsOfServiceURL": "https://skilldev.pro/en/terms/",
         "capabilities": ["Edit English prose", "Edit Brazilian Portuguese prose"],
         "defaultPrompt": [
           "Edit this email to sound natural while preserving every fact and commitment.",
