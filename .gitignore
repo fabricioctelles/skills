@@ -9,3 +9,12 @@ docs/
 # Python
 __pycache__/
 *.py[cod]
+
+# Plugin release archives
+/dist/
+plugins/INSTALL-deslop-writing-PT-BR.md
+
+# Local plugin maintenance and validation
+/plugins/REVIEW-deslop-writing.md
+/scripts/check-deslop-writing.py
+plugins/REVIEW-deslop-writing.md

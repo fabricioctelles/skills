@@ -18,6 +18,19 @@
 
 [Agent Skills](https://agentskills.io) são um formato aberto e leve para estender capacidades de agentes de IA. Cada skill é uma pasta com um arquivo `SKILL.md` contendo metadados e instruções que os agentes carregam sob demanda. Saiba mais em [agentskills.io](https://agentskills.io/what-are-skills.md).
 
+## Plugin OpenAI: Deslop Writing
+
+O [Deslop Writing](plugins/deslop-writing/README.md) reúne as skills `human-ai`
+(inglês) e `humanizar` (PT-BR) em um plugin portátil para ChatGPT e Codex,
+sem MCP ou avaliador externo.
+
+```bash
+codex plugin marketplace add fabricioctelles/skills --ref main
+codex plugin add deslop-writing@ft.ia.br
+```
+
+Abra uma nova sessão após instalar e peça ao Deslop Writing para revisar seu texto.
+
 ## 🧠 Skills com Integração TypeSafe Jev
 
 Quatro skills agora suportam integração opcional com [TypeSafe Jev](https://github.com/AugmentHCI/typesafe-jev) — um motor de julgamento que fornece avaliações de probabilidade calibradas (Score) e classificações categóricas (Noul) para critérios de avaliação subjetiva. Quando Jev está disponível, essas skills o usam para julgamentos de qualidade nuançados; quando indisponível, usam métodos heurísticos como fallback.

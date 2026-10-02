@@ -1,0 +1,20 @@
+Deslop Writing
+Packaged by Fabricio Telles / ft.ia.br.
+
+The package icon is the unmodified skilldev.pro.svg brand asset from
+skilldev.pro/public, supplied by the publisher.
+
+The human-ai and humanizar editorial workflows and pattern catalogs are adapted
+from the corresponding skills in https://github.com/fabricioctelles/skills.
+The package entrypoints were adapted for self-contained operation without Jev,
+MCP, detector verdicts, or external execution dependencies.
+
+The original skills acknowledge these editorial sources:
+- https://github.com/blader/humanizer
+- https://github.com/brandonwise/humanizer
+- https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing
+- https://tropes.fyi/directory
+
+Existing source acknowledgments in the bundled references are retained.
+References and examples are editorial guidance, not independently verified
+research claims or material to insert as facts into user drafts.

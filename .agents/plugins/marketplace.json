@@ -1,0 +1,20 @@
+{
+  "name": "ft.ia.br",
+  "interface": {
+    "displayName": "ft.ia.br Skills"
+  },
+  "plugins": [
+    {
+      "name": "deslop-writing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/deslop-writing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

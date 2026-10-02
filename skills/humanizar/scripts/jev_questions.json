@@ -480,7 +480,7 @@
 
     "estilo_aspas_curvas": {
       "type": "noul",
-      "instructions": "O texto usa aspas curvas tipográficas (" ") em vez de aspas retas em contexto informal ou técnico?",
+      "instructions": "O texto usa aspas curvas tipográficas (\" \") em vez de aspas retas em contexto informal ou técnico?",
       "labels": {
         "yes": "Aspas curvas (padrão IA)",
         "no": "Aspas retas ou contexto editorial"
