@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "deslop-writing",
-  "version": "0.1.1",
-  "description": "Remove AI writing patterns, preserve meaning, and refine your voice in English and Brazilian Portuguese.",
+  "version": "0.1.2",
+  "description": "Rewrite and edit emails, articles, posts, and replies in English and Brazilian Portuguese to boost productivity and make everyday writing clearer and more natural.",
   "author": {
     "name": "Fabricio Telles",
     "email": "contato@skilldev.pro",
@@ -16,18 +16,18 @@
     "com.openai": {
       "interface": {
         "displayName": "Deslop Writing",
-        "shortDescription": "Natural editing, your voice",
-        "longDescription": "A writing and editing assistant for people working on emails, articles, posts, and other prose in English and Brazilian Portuguese. Revise drafts to remove repetitive phrasing, inflated language, and mechanical structure while preserving facts, quotations, uncertainty, and the author's intent. Includes human-ai for English editing and humanizar for Brazilian Portuguese writing and editing. Works with the current model without external services or account setup. It does not determine authorship or guarantee AI detector results.",
+        "shortDescription": "Edit text to sound natural",
+        "longDescription": "Deslop Writing is a writing assistant designed to boost productivity when editing emails, articles, social posts, and support replies in English and Brazilian Portuguese.\n\nPaste a draft and ask for a clearer, more natural version. Shorten wordy sentences, reduce repetitive phrasing, and adjust the tone while keeping your meaning, facts, and voice. Use it to polish a work email, revise an article, or make a reply easier to read. It works with both your own writing and AI-generated drafts.\n\nDesigned for writers, editors, and professionals who need to improve everyday written communication. Works in your current AI conversation with no additional account or external service required by the plugin. Review the edited text before publishing. It does not verify facts, determine authorship, or guarantee AI detector results.",
         "developerName": "Fabricio Telles",
         "category": "Productivity",
         "websiteURL": "https://skilldev.pro/en/",
         "privacyPolicyURL": "https://skilldev.pro/en/privacy/",
         "termsOfServiceURL": "https://skilldev.pro/en/terms/",
-        "capabilities": ["Edit English prose", "Edit Brazilian Portuguese prose"],
+        "capabilities": ["Rewrite emails and replies", "Edit articles and social posts", "Adjust tone and reduce repetition", "Edit English and Brazilian Portuguese"],
         "defaultPrompt": [
           "Edit this email to sound natural while preserving every fact and commitment.",
-          "Remove repetitive AI phrasing from this draft and keep my voice.",
-          "Revise this Brazilian Portuguese text without changing its meaning."
+          "Rewrite this post to be clearer and less repetitive while keeping my voice.",
+          "Edit this Brazilian Portuguese article to sound natural without changing its meaning."
         ],
         "brandColor": "#002454",
         "composerIcon": "./assets/icon.svg",

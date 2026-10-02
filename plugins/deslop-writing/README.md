@@ -1,6 +1,16 @@
 # Deslop Writing
 
-Remove AI writing patterns. Keep your meaning and voice.
+Edit text to sound natural.
+
+Rewrite and edit emails, articles, social posts, and support replies in English
+and Brazilian Portuguese to boost productivity in everyday writing. Paste a
+draft and ask for a clearer version: shorten
+wordy sentences, reduce repetition, and adjust the tone while keeping your
+meaning, facts, and voice. Works with your own writing and AI-generated drafts.
+
+Designed for writers, editors, and professionals improving everyday written
+communication. Review the edited text before publishing; this workflow does not
+verify facts.
 
 Deslop Writing bundles two editorial workflows for ChatGPT and Codex:
 
