@@ -458,10 +458,18 @@ class Runner:
             )
         raise RunnerError(f"Unknown host phase: {phase}")
 
+    def call_host(self, prompt: str) -> str:
+        # The host is a send like any other: flagged content is scrubbed for
+        # every recipient, host included. Files a loop genuinely needs must
+        # not match redaction globs.
+        scrubbed, hits = self.scrub_flagged_content(prompt, self.all_redaction_globs())
+        self.surface_redaction("prompt for host", hits)
+        return call_model(self.spec["host"], scrubbed, self.base_dir)
+
     def run_host(self, phase: str, target: Path, artifact: str = "", review: str = "") -> None:
         self.enforce_wall_clock()
         self.append_log("host_start", phase=phase, target=target.name)
-        output = call_model(self.spec["host"], self.host_prompt(phase, artifact, review), self.base_dir)
+        output = self.call_host(self.host_prompt(phase, artifact, review))
         write_text(target, output)
         self.append_log("host_done", phase=phase, target=target.name)
 
@@ -651,11 +659,7 @@ class Runner:
                 self.append_log("stop", reason=f"{gate_name}_max_revisions_reached")
                 return False
 
-            revised = call_model(
-                self.spec["host"],
-                self.host_prompt("revise", artifact_text, review_text),
-                self.base_dir,
-            )
+            revised = self.call_host(self.host_prompt("revise", artifact_text, review_text))
             write_text(artifact_path, revised)
             revision += 1
             self.save_state(status=f"{gate_name}_revision_{revision}", last_review=str(review_path))

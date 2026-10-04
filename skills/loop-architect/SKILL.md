@@ -11,8 +11,8 @@ description: >
   LOOP.md, and run-loop.py.
 metadata:
   author: https://ft.ia.br
-  version: "1.0"
-  date: 2026-06-25
+  version: "1.1"
+  date: 2026-10-04
   repository: https://github.com/fabricioctelles/skills
   license: MIT
   original_project: https://github.com/ksimback/looper
