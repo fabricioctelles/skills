@@ -49,7 +49,7 @@ Cada skill inclui:
 
 ## Skills Disponíveis
 
-### 💡 Startup Idea · `data-fetching-and-analysis`
+### 💡 Startup Idea [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-startup-idea/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-startup-idea) · `data-fetching-and-analysis`
 Analisa uma ideia de startup por três lentes ao mesmo tempo: Paul Graham (pressure test, founder-market fit, validação brutal), Dan Koe (monetização, oferta, distribuição, vendas) e Seth Godin (diferenciação, narrativa, menor audiência viável). Entrega pressure test, caminho de monetização, audiência mínima viável, teste de remarkability e plano de ação — não um canvas genérico.
 
 **Quando usar:** validar uma ideia de startup, testar um modelo de negócio, definir o MVP, encontrar os primeiros clientes, desenhar o modelo de receita, planejar go-to-market, buscar product-market fit, ou qualquer variação de "tenho uma ideia".
@@ -58,7 +58,7 @@ Analisa uma ideia de startup por três lentes ao mesmo tempo: Paul Graham (press
 
 ---
 
-### 🔍 GEO Optimization (Generative Engine Optimization) · `code-quality-and-review`
+### 🔍 GEO Optimization (Generative Engine Optimization) [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-geo-optimization/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-geo-optimization) · `code-quality-and-review`
 Otimiza conteúdo digital e estratégias de marketing para Generative Engines (LLMs, AI agents) visando maximizar citações em respostas de IA.
 
 **Quando usar:** melhorar visibilidade em respostas de IA (ChatGPT, Perplexity, Google AI Overview), medir citation rate, alinhar terminologia para LLMs, auditar páginas para IA, criar roundups e FAQs otimizadas.
@@ -74,7 +74,7 @@ Otimiza conteúdo digital e estratégias de marketing para Generative Engines (L
 
 ---
 
-### 📰 Substack Expert · `library-and-api-reference`
+### 📰 Substack Expert [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-substack-expert/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-substack-expert) · `library-and-api-reference`
 Especialista na plataforma Substack. Orienta formatação de posts, otimização SEO (títulos, slugs, meta descriptions), estratégias nativas de engajamento (Notes, Chat) e conversão para assinaturas pagas.
 
 **Quando usar:** formatar e otimizar posts no Substack, melhorar SEO de newsletters (títulos, slugs, meta descriptions), crescer audiência com Notes e recomendações, converter leitores gratuitos em assinantes pagos, personalizar homepage e emails de boas-vindas.
@@ -91,7 +91,7 @@ Especialista na plataforma Substack. Orienta formatação de posts, otimização
 
 ---
 
-### ☁️ Pier Cloud API · `library-and-api-reference`
+### ☁️ Pier Cloud API [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-pier-cloud/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-pier-cloud) · `library-and-api-reference`
 Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, gerenciamento de contextos, workspaces e visualizações de dados.
 
 **Quando usar:** autenticar na Pier Cloud, listar contextos disponíveis (AWS, etc), gerenciar workspaces, acessar visualizações de análise de custos, executar scripts de FinOps.
@@ -108,7 +108,7 @@ Guia completo para consumir a API Pier Cloud (Lighthouse) com autenticação, ge
 
 ---
 
-### 🎨 Ultimate Design System Master · `code-scaffolding-and-templates`
+### 🎨 Ultimate Design System Master [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-ultimate-design-system-master/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-ultimate-design-system-master) · `code-scaffolding-and-templates`
 Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 10 prompts especializados com role-play. Cobre Design Systems, Brand Identity, UI/UX Patterns, Marketing Assets, Figma Specs, Design Critique, Trend Analysis, Accessibility Audit, Design-to-Code e Apresentações Executivas.
 
 **Quando usar:** criar design system, construir identidade de marca, gerar padrões UI/UX, produzir assets de marketing, escrever specs para Figma, obter crítica de design, analisar tendências de design, rodar auditoria de acessibilidade, traduzir design para código, criar decks de apresentação.
@@ -140,7 +140,7 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 
 ---
 
-### 🚀 Coolify Operator · `ci-cd-and-deployment`
+### 🚀 Coolify Operator[^coolify-grade] · `ci-cd-and-deployment`
 Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Cobertura completa do CLI oficial com 100+ comandos para gerenciar aplicações, servidores, databases, serviços, GitHub Apps e integrações com cloud providers.
 
 **Quando usar:** conectar em instâncias Coolify, criar/fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente e storage, configurar backups de database, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), integrar com GitHub Apps, provisionar servidores na Hetzner/DigitalOcean/Vultr.
@@ -170,9 +170,11 @@ Operador mestre do Coolify — plataforma self-hosted open-source de deployment 
 
 📄 [Ver documentação completa](skills/coolify-operator/SKILL.md)
 
+[^coolify-grade]: O Skills Directory atribuiu **F (0/100)** após a análise automatizada sinalizar execução de instaladores remotos (`curl | bash`, `irm | iex`), referências a chaves privadas, exemplos de chamadas à API com token Bearer, comandos destrutivos e instalação de pacotes. Esses padrões não comprovam intenção maliciosa: os exemplos de API enviam credenciais ao host Coolify configurado, mas o scanner não consegue verificar esse destino. A execução de scripts remotos e os comandos destrutivos ainda oferecem riscos reais; revise-os antes de usar. Consulte a [análise](https://www.skillsdirectory.com/skills/fabricioctelles-coolify-operator) e a [metodologia de análise](https://www.skillsdirectory.com/security/methodology).
+
 ---
 
-### 📄 Resume ATS Beater + LinkedIn Optimizer · `code-scaffolding-and-templates`
+### 📄 Resume ATS Beater + LinkedIn Optimizer [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-resume-ats-beater/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-resume-ats-beater) · `code-scaffolding-and-templates`
 Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para posicionamento profissional. Cobre otimização de CV para plataformas ATS brasileiras (Gupy, Vagas.com, PandaPé, Sólides) e auditoria LinkedIn com score heurístico, análise de SSI, fix prompts e mega-prompts de reescrita por LLM. Funciona para qualquer profissão especializada — não é exclusivo para devs.
 
 **Quando usar:** otimizar currículo para ATS, auditar perfil LinkedIn (headline, about, experiências, SSI), adaptar CV para cargo/indústria alvo, gerar fix prompts por problema encontrado, alinhar CV e LinkedIn em modo unificado, fortalecer bullets com resultados mensuráveis. Integra com skill `humanizar` para seções narrativas.
@@ -192,7 +194,7 @@ Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para pos
 
 ---
 
-### 🤖 Agent Ready — Cloudflare Scanner · `product-verification`
+### 🤖 Agent Ready — Cloudflare Scanner [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-agent-ready-cloudflare/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-agent-ready-cloudflare) · `product-verification`
 Audita qualquer website para prontidão de agentes de IA usando o scanner [isitagentready.com](https://isitagentready.com) da Cloudflare. Verifica 18 checks em 5 categorias (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), atribui um nível (0–5) e gera prompts de correção copy-paste para cada check que falha. Inclui 20 sub-skills de implementação cobrindo robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP e mais.
 
 **Quando usar:** escanear site para prontidão de agentes, verificar score agent-ready, corrigir checks que falham, implementar MCP Server Card, adicionar Content Signals, publicar Agent Skills index, configurar Markdown for Agents, escanear múltiplos domínios em batch, melhorar descoberta por agentes de IA.
@@ -201,7 +203,7 @@ Audita qualquer website para prontidão de agentes de IA usando o scanner [isita
 
 ---
 
-### ✅ DESIGN.md Validator · `product-verification`
+### ✅ DESIGN.md Validator [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-design-md-validator/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-design-md-validator) · `product-verification`
 Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://github.com/google-labs-code/design.md) usando o CLI `@google/design.md`. Funciona com arquivos locais e URLs remotas. Sempre usa `npx` para rodar a versão mais recente — nunca desatualizado.
 
 **Quando usar:** validar DESIGN.md contra a spec, checar contraste WCAG, encontrar referências de tokens quebradas, comparar duas versões de design system, exportar tokens para Tailwind v3/v4 ou W3C DTCG, auditar schema do frontmatter.
@@ -210,7 +212,7 @@ Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://g
 
 ---
 
-### 🔁 Ralph Loop for Kiro Specs · `code-scaffolding-and-templates`
+### 🔁 Ralph Loop for Kiro Specs [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-ralph-loop-kiro-specs/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-ralph-loop-kiro-specs) · `code-scaffolding-and-templates`
 Runner iterativo automatizado para desenvolvimento baseado em specs no [Kiro](https://kiro.dev). Encapsula o `kiro-cli` em um loop bash auto-corretivo que pega tasks de uma Kiro spec, implementa uma por vez, verifica contra critérios de saída e acumula correções e padrões de codebase entre iterações. Baseado em [ralph-loop-kiro-specs](https://github.com/mreferre/ralph-loop-kiro-specs) por [mreferre](https://github.com/mreferre).
 
 **Quando usar:** automatizar implementação de tasks de Kiro specs, rodar kiro-cli em loop, levar uma spec até a conclusão através de iterações repetidas do agente, configurar ou fazer troubleshooting do workflow Ralph Loop, entender progress tracking, correções, padrões de codebase e o dashboard de resumo.
@@ -219,7 +221,7 @@ Runner iterativo automatizado para desenvolvimento baseado em specs no [Kiro](ht
 
 ---
 
-### 🏗️ Loop Architect — Coach de Design de Agent Loops · `code-scaffolding-and-templates`
+### 🏗️ Loop Architect — Coach de Design de Agent Loops [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-loop-architect/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-loop-architect) · `code-scaffolding-and-templates`
 Projeta loops agenticos bem estruturados com coaching de boas práticas e gates de revisão cross-model antes de executá-los. Entrevista você, critica seu design contra rubrics internas, configura reviewers/judges, e emite artefatos portáveis (`loop.yaml`, `RUN_IN_SESSION.md`, `run-loop.py`). Integra nativamente com `/goal` e subagent review loops do Kiro CLI. Baseado em [Looper](https://github.com/ksimback/looper) por [Kevin Simback](https://github.com/ksimback).
 
 **Quando usar:** projetar um agent loop, configurar um loop de self-review ou LLM-as-judge, construir um council multi-modelo, criar workflows iterativos com review gates, ou scaffoldar um processo orientado a `/goal` com verificação tipada e guardas de terminação.
@@ -228,7 +230,7 @@ Projeta loops agenticos bem estruturados com coaching de boas práticas e gates 
 
 ---
 
-### 👑 Pstack Skills — 23 Playbooks para Claude Code, Cursor e OpenCode · `code-quality-and-review`
+### 👑 Pstack Skills — 23 Playbooks para Claude Code, Cursor e OpenCode [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-pstack-skill/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-pstack-skill) · `code-quality-and-review`
 Porte autocontido do [pstack](https://github.com/cursor/plugins/tree/main/pstack) da Lauren Tan (`poteto-mode`) — 23 playbooks, 21 procedures, 21 princípios de engenharia. Sem instalar plugin, sem depender do Cursor. Roda no Claude Code, Cursor, Kiro e OpenCode. Um orquestrador que lê sua tarefa, escolhe o playbook certo (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), roteia para procedures embutidas (how, why, architect, arena, swarm, interrogate, unslop, tdd) e aplica princípios de engenharia com citações rastreáveis.
 
 **Quando usar:** qualquer tarefa que exija rigor — mudanças de código não triviais, decisões de arquitetura, debug com disciplina de reprodução primeiro, reviews adversariais, babysitting e shipping de PRs, execuções autônomas longas — ou "poteto-mode", "work like poteto", "pstack". Funciona com um único modelo; painéis degradam para passes independentes em contexto fresco sem enfraquecer nenhum gate de verificação.
@@ -237,7 +239,7 @@ Porte autocontido do [pstack](https://github.com/cursor/plugins/tree/main/pstack
 
 ---
 
-### ✍️ Humanizar — Humanizador de Texto IA para Português Brasileiro · `code-quality-and-review`
+### ✍️ Humanizar — Humanizador de Texto IA para Português Brasileiro [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-humanizar-skills/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-humanizar-skills) · `code-quality-and-review`
 Remove sinais de escrita mecânica de textos em português brasileiro e recupera ritmo, precisão e voz. Remove padrões de AI slop, restaura entropia semântica e injeta voz e personalidade. O objetivo é melhorar o texto, não enganar detector: nenhuma reescrita garante que uma ferramenta classificará o resultado como humano, e a skill trata pontuação de detector automático como critério inválido. Nasceu da skill `humanizer` em inglês mas evoluiu para algo muito mais completo — com 55+ padrões específicos do PT-BR que nenhuma outra fonte catalogou.
 
 **Como nasceu:** Parti da skill [humanizer](https://github.com/blader/humanizer) em inglês por [@blader](https://github.com/blader) (baseada no artigo da Wikipedia "Signs of AI writing"), pesquisei o que torna texto de IA detectável especificamente em português brasileiro, descobri que existia *zero* material consolidado sobre padrões de IA em PT-BR, cataloguei 55+ padrões do zero (incluindo 10 exclusivos do português brasileiro como gerundismo, officialese e hedging estilo ENEM), incorporei o diretório [tropes.fyi](https://tropes.fyi) e o conceito de [ablação semântica](https://www.theregister.com/2026/02/16/semantic_ablation_ai_writing/) (The Register, 2026), e construí uma skill que não apenas remove padrões ruins — restaura a entropia que a IA arrancou.
@@ -304,7 +306,7 @@ O perfil **Português Simplificado** deriva suas operações do projeto PorSimpl
 
 ---
 
-### 🌐 Human-AI — Humanizador de Texto IA para Inglês · `code-quality-and-review`
+### 🌐 Human-AI — Humanizador de Texto IA para Inglês [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-human-ai-skills/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-human-ai-skills) · `code-quality-and-review`
 Remove sinais de escrita mecânica de textos em inglês e recupera ritmo, precisão e voz. Combina detecção de padrões (43 padrões em 3 tiers), medição estatística de ritmo (burstiness, TTR, entropia) e injeção de voz em uma skill iterativa. Construída com base no RAID Benchmark (ACL 2024) e NeurIPS 2023. Mesmo posicionamento da `humanizar`: as métricas são proxies mensuráveis de ritmo natural, não um placar a ser vencido, e pontuação de detector nunca decide o que reescrever.
 
 **Como nasceu:** Skill-irmã da `humanizar` (PT-BR), mas 100% trabalho original para inglês. Sintetiza o melhor de três skills open-source: [blader/humanizer](https://github.com/blader/humanizer) (10.6K stars, 29 padrões), [brandonwise/humanizer](https://github.com/brandonwise/humanizer) (filtro de 560 termos, sinais estatísticos), e [Aboudjem/humanizer-skill](https://github.com/Aboudjem/humanizer-skill) (43 padrões, P31-P43 descobertas de 2026). Vai além de todas adicionando: baselines empíricas calibradas por pesquisa, scoring iterativo com fallback de estratégia, 7 presets de voz, `scripts/measure.py` para métricas determinísticas, e o insight crítico de que trocar sinônimos não muda nada enquanto reestruturação estrutural muda — o estudo RAID mediu isso como queda de acurácia de detectores de 70.3% para 4.6%, o que é evidência sobre ritmo e arquitetura de frase, não uma meta em si.
@@ -325,7 +327,7 @@ Remove sinais de escrita mecânica de textos em inglês e recupera ritmo, precis
 
 ---
 
-### 🔐 auth.md — Protocolo de Autenticação para Agentes · `library-and-api-reference`
+### 🔐 auth.md — Protocolo de Autenticação para Agentes [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-auth-md-skills/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-auth-md-skills) · `library-and-api-reference`
 Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo aberto que permite agentes de IA registrarem-se em serviços em nome de usuários sem formulários de signup. Suporta o fluxo Agent Verified (assertions de identidade ID-JAG via providers confiáveis como OpenAI, Anthropic, Cursor) e o fluxo User Claimed (registro baseado em OTP com entrypoints anonymous start ou email required). Estende o RFC 9728 (Protected Resource Metadata) com suporte a CIMD.
 
 **Quando usar:** tornar sua app agent-ready publicando um `auth.md`, gerar Protected Resource Metadata e Authorization Server metadata com bloco `agent_auth`, validar um `auth.md` existente contra a spec do protocolo, implementar endpoints de registro de agentes (`/agent/auth`, `/agent/auth/claim`, `/agent/auth/revoke`), entender como o protocolo auth.md funciona, configurar verificação de ID-JAG e trust lists, configurar cerimônias de claim OTP.
@@ -334,7 +336,7 @@ Gera, valida e explica arquivos [auth.md](https://auth-md.com) — o protocolo a
 
 ---
 
-### 📦 OKF — Open Knowledge Format · `library-and-api-reference`
+### 📦 OKF — Open Knowledge Format [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-okf-open-knowledge-format/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-okf-open-knowledge-format) · `library-and-api-reference`
 Cria, valida e enriquece bundles no [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) — spec aberta (v0.1, anunciada 12 Jun 2026 por Sam McVeety & Amir Hormati, Google Cloud) que formaliza o pattern "LLM Wiki" num formato portável e interoperável para conhecimento organizacional. Arquivos Markdown com YAML frontmatter, consumíveis por qualquer agente IA sem SDK. Inclui script bash de validação, guias de conversão (Notion, Obsidian, CSV) e integração com Google Cloud Knowledge Catalog via kcmd CLI/MCP.
 
 **Quando usar:** criar bundles OKF, validar conformidade, enriquecer conceitos com schema/citations/cross-links, converter conhecimento existente (exports Notion, vaults Obsidian, planilhas) para OKF, estruturar base de conhecimento para agentes IA, gerar index.md e log.md, enviar bundles para o Knowledge Catalog via kcmd.
@@ -368,7 +370,7 @@ Gera e valida arquivos `lgpd.md` — o padrão de declaração de conformidade c
 
 ---
 
-### 📊 Skill Evaluation · `code-quality-and-review`
+### 📊 Skill Evaluation [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-skill-evaluation/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-skill-evaluation) · `code-quality-and-review`
 Avalia qualquer skill de agente contra um framework combinado — best practices do Claude Code (Anthropic) + metodologia writing-great-skills do Matt Pocock — em 4 eixos (Trigger, Structure, Steering, Pruning). Produz um scorecard com evidências citadas (0–100), nota geral ponderada e modos de falha diagnosticados com correções priorizadas.
 
 **v2.2 — Trigger Eval (empírico):** agora inclui um step de teste empírico de triggering inspirado na palestra de Philipp Schmid (Google DeepMind) ["Don't Ship Skills Without Evals"](https://www.youtube.com/watch?v=0vphxNt4wyk). Gera 5 prompts que deveriam triggerar + 5 que não deveriam, executa via sub-agentes independentes, e mede se a description da skill realmente causa invocação — conectando análise estática de qualidade com validação em runtime.
@@ -395,7 +397,7 @@ Use em sequência: **skill-evaluation** (design review + teste de trigger) → *
 
 ---
 
-### 🧹 Slop Eval — Avaliador de Slop em Design · `code-quality-and-review`
+### 🧹 Slop Eval — Avaliador de Slop em Design [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-slop-eval/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-slop-eval) · `code-quality-and-review`
 Avalia objetivamente um design de UI/web contra [a lei anti-slop da pols.dev](https://pols.dev/slop.md): varre um catálogo de tells de slop com IDs em 6 famílias (cor & luz, tipografia, componentes, layout, motion, execução), checa 6 regras absolutas de execução e pontua 8 eixos ponderados — incluindo um eixo de Assinatura com peso 3x e gate rígido, para que uma página "limpa mas vazia" não se esconda atrás da contenção. Emite um Slop Report com Slop Index 0–100 e nota A–F. Todo achado segue **cite-or-cut**: sem evidência concreta (hex, nome de fonte, file:line, região do screenshot), o tell não entra.
 
 **Como avalia:** URL viva (SOP de automação de browser: capturas full-page em dois viewports, passada de interação, crops com zoom), screenshots estáticos, código (varredura guiada por grep) ou export de Figma — o que não for observável é marcado Unverifiable, nunca inferido. Pontuação determinística via `scripts/score.py`, com gate de CI `--fail-below` para bloquear PRs pela qualidade do preview deploy.
@@ -416,7 +418,7 @@ Avalia objetivamente um design de UI/web contra [a lei anti-slop da pols.dev](ht
 
 ---
 
-### 🛡️ Security Specialist · `runbooks`
+### 🛡️ Security Specialist [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-security-specialist/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-security-specialist) · `runbooks`
 Agente completo de segurança de aplicações — executa SAST (análise estática de código), DAST (testes dinâmicos contra apps rodando), threat modeling, triagem de vulnerabilidades, remediação e penetration testing. Combina revisão de código com testes ao vivo contra servidores dev locais ou targets de produção para correlação completa de evidências.
 
 **Quando usar:** escanear repositório por segurança, revisar PR por vulnerabilidades, construir threat model, triar findings, corrigir bug de segurança, fazer pentest em app web, validar fix de segurança, exportar findings para GitHub/Jira/Linear, gerar relatório de segurança.
@@ -460,7 +462,7 @@ security-specialist/
 
 ---
 
-### 🚀 Astro Sites Manager · `ci-cd-and-deployment`
+### 🚀 Astro Sites Manager [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-astro-sites-manager/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-astro-sites-manager) · `ci-cd-and-deployment`
 Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo completo: boas práticas, migração v6→v7 com plano estruturado, validação de breaking/deprecated patterns, dev server com AI (background mode, JSON logging), advanced routing com src/fetch.ts, route caching, Sätteri Markdown, compilador Rust, Starlight docs, Pagefind search, SEO, testes e deploy em 8+ plataformas incluindo Coolify.
 
 **Quando usar:** construir sites Astro, atualizar para v7, deploy no Coolify/Vercel/Netlify/Cloudflare, validar breaking changes, configurar Starlight docs, configurar Pagefind search, usar background dev server como agente IA, configurar route caching.
@@ -475,7 +477,7 @@ Skill completa para construir, migrar e manter projetos Astro v7. Cobre o ciclo 
 
 ---
 
-### 🔌 Agent Plugin Eval · `product-verification`
+### 🔌 Agent Plugin Eval [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-agent-plugin-eval/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-agent-plugin-eval) · `product-verification`
 Audita, pontua e compara repositórios contendo Agent Plugins portáveis contra a [especificação oficial Agent Plugins](https://agent-plugins.org). Produz um scorecard 0–100 com evidências citadas e gate de conformidade (PASS/PARTIAL/FAIL), identifica blockers de release e compara dois plugins lado a lado. Funciona com qualquer cliente de agente — avalia conformidade portável, não features específicas de clientes.
 
 **Quando usar:** auditar repo de plugin, verificar conformidade de plugin.json ou mcp.json, validar Agent Skills incluídos, avaliar configurações de MCP server, produzir scorecard de plugin, identificar blockers de release, comparar dois agent plugins.
@@ -492,7 +494,7 @@ Audita, pontua e compara repositórios contendo Agent Plugins portáveis contra 
 
 ---
 
-### 💰 Revenue-Centric Design · `runbooks`
+### 💰 Revenue-Centric Design [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-revenue-centric-design/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-revenue-centric-design) · `runbooks`
 Playbook de 134 princípios baseados em evidência para desenhar produtos SaaS e startups que convertem, retêm e monetizam — landing pages & CRO, onboarding/ativação, redução de churn, psicologia de pricing, ciência comportamental, disciplina de features, posicionamento/ICP, go-to-market e diferenciação na era da IA. Cada princípio nomeia seu mecanismo (efeito decoy, Zeigarnik, níveis de consciência de Schwartz…) e linka de volta ao post original. Inclui scripts de matemática de receita (sample size de A/B, churn→LTV, CAC por deal fechado), template de auditoria, memória por projeto (`rcd-log.md`) e guardrail hooks que fazem enforcement da licença.
 
 **Como nasceu:** Richard ([@richardrx](https://x.com/richardrx), "Design for startups" — ex-Volkswagen, PayPal, IBM) publicou esses princípios em posts (134 princípios no catálogo atual) em português no X. [Helio Costa](https://github.com/heliocosta-dev) obteve a permissão do autor, extraiu os posts via API do X, traduziu para inglês e destilou tudo na skill original ([heliocosta-dev/revenue-centric-design](https://github.com/heliocosta-dev/revenue-centric-design)). Este repositório hospeda um derivado evoluído desse trabalho.
@@ -518,7 +520,7 @@ Depois da comparação, a skill ainda ganhou o template de auditoria, o log por 
 
 ---
 
-### 🎬 Motion Ad · `code-scaffolding-and-templates`
+### 🎬 Motion Ad [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-motion-ad/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-motion-ad) · `code-scaffolding-and-templates`
 Produz um anúncio em motion graphics — um spot de 15s para Facebook/Instagram/TikTok — como MP4 renderizado. Pesquisa a landing page de destino para que toda afirmação na tela corresponda a ela, extrai imagens reais do produto do site no ar, anima uma única timeline GSAP pausada em uma página HTML e renderiza frame a frame com Playwright + ffmpeg. Traz um anúncio 4:5 de 15s já pronto como template (hook + celular → revelação antes/depois com feixe de scan → parede 3D de outputs → carrossel de showcases + prova social → end card com CTA), em que todo o conteúdo de marca e produto vive em um único objeto `CONFIG`.
 
 **Quando usar:** criar um vídeo-anúncio, promo video ou ad animado, produzir criativo em vídeo para Meta/TikTok/Reels, gerar a versão 9:16 ou 1:1 de um spot, ou re-renderizar um anúncio anterior com outro hook, hero ou CTA.

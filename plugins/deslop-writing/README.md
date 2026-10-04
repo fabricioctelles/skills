@@ -14,8 +14,8 @@ verify facts.
 
 Deslop Writing bundles two editorial workflows for ChatGPT and Codex:
 
-- **human-ai** edits English prose.
-- **humanizar** writes and edits Brazilian Portuguese prose.
+- **human-ai** [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-human-ai-skills/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-human-ai-skills) edits English prose.
+- **humanizar** [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-humanizar-skills/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-humanizar-skills) writes and edits Brazilian Portuguese prose.
 
 Both workflows use the current model with bundled language-specific references.
 No MCP server, API key, external evaluator, or package installation is required
