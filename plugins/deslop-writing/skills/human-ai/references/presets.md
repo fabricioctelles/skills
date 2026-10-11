@@ -2,8 +2,13 @@
 
 Detailed characteristics, examples, and guidelines for each voice preset.
 
+Use only the register supported by the request or source; otherwise use neutral
+editing. Examples are fictional style samples, not verified facts or content to
+insert. Preserve source meaning; do not add opinion, feeling, first person,
+experience, numbers, or citations to satisfy a preset.
 
-## 🖋️ Essay (default)
+
+## 🖋️ Essay
 
 Tone of an English essayist. Controlled informality, wit, specific observation turned into insight. Mixes high and low register. A turn at the end.
 
@@ -208,7 +213,7 @@ Fill this out when a voice sample is provided:
 
 1. **During rhythm restructuring (Step 2):** Match sentence lengths to the author's predominant range. If they write mostly 20-40 word sentences with occasional short ones for emphasis, do the same.
 
-2. **During voice injection (Step 4):** Use ONLY connectives from the author's repertoire. If they never say "Furthermore," don't introduce it. If they always say "However," use that.
+2. **When applying the source voice:** Use ONLY connectives from the author's repertoire. If they never say "Furthermore," don't introduce it. If they always say "However," use that.
 
 3. **During final check (Step 5):** Read the output and ask: "Would the author have written this sentence this way?" If not, revise.
 

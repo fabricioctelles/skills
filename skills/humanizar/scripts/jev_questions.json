@@ -660,7 +660,7 @@
 
     "verificacao_trava_factual": {
       "type": "noul",
-      "instructions": "Comparando texto_fonte e texto_reescrito: algum fato, número, data, nome, citação, relação causal ou modalidade foi alterado, adicionado ou removido indevidamente?",
+      "instructions": "Comparando as fontes imutáveis e adições aprovadas com a candidata nos dois sentidos: alguma proposição, responsável, número, data, citação, causa, prazo, estado temporal, condição, exceção, aviso, benefício, desculpa, compromisso ou grau de certeza foi acrescentado, omitido ou alterado indevidamente? Toda afirmação da candidata precisa ter respaldo. Em criação, usar o material factual aprovado como fonte.",
       "labels": {
         "yes": "TRAVA FACTUAL VIOLADA - alteração de conteúdo",
         "no": "TRAVA FACTUAL intacta - conteúdo preservado"
@@ -672,7 +672,7 @@
 
     "verificacao_argumento_preservado": {
       "type": "noul",
-      "instructions": "O argumento, intenção e posição do autor foram preservados na reescrita? A conclusão permanece a mesma?",
+      "instructions": "O argumento, intenção, posição ou conclusão do autor foram alterados na reescrita? Responder sim quando houver alteração e não quando preservados.",
       "labels": {
         "yes": "Argumento alterado",
         "no": "Argumento preservado"
@@ -684,7 +684,7 @@
 
     "verificacao_modalidade_preservada": {
       "type": "noul",
-      "instructions": "A modalidade foi preservada? 'Pode causar' não virou 'causa'? 'Talvez' não virou afirmação? Incertezas foram mantidas?",
+      "instructions": "A modalidade foi alterada? Possibilidade virou promessa, proposta virou compromisso ou incerteza virou afirmação? Responder sim quando alterada e não quando preservada.",
       "labels": {
         "yes": "Modalidade alterada",
         "no": "Modalidade preservada"
@@ -702,7 +702,8 @@
         "no": "Voz preservada ou já existente"
       },
       "weight": 0,
-      "category": "verificacao"
+      "category": "verificacao",
+      "critical": true
     },
 
     "_section_avaliacao": "### PASSO 8: AVALIAÇÃO PÓS-REESCRITA ###",

@@ -1,26 +1,16 @@
-# Summary - Skill Human-AI v1.0.0
+# Human-AI navigation
 
-1. [Operating Modes](#operating-modes)
-2. [Guardrails](#guardrails)
-3. [Personality & Soul - The Essayist Tradition](#personality--soul---the-essayist-tradition)
-4. [Voice Calibration - Presets](#voice-calibration---presets)
-   - Essay · Journalistic · Academic · Corporate Informal · Social Post · Casual/DM · **Legal** · **Instructional**
-5. [Humanization Process (7 steps)](#humanization-process)
-   - Step 0 - Quantitative ablation measurement
-   - Step 0.5 - Automatic type detection
-   - Step 1 - Diagnosis with structured checklist
-   - Step 2 - Pattern removal
-   - Step 3 - Entropy restoration
-   - Step 4 - Voice injection
-   - Step 5 - Final anti-AI pass
-   - Step 5.5 - Post-rewrite scoring
-   - Step 6 - Formatted delivery
-6. [Evaluation with Jev (Optional)](#evaluation-with-jev-optional)
-   - Discovery protocol (MCP → OpenRouter → auxiliary slots → fallback)
-   - `scripts/jev_questions.json` - 56 typed questions
-   - `references/jev-integration.md` - Full protocol documentation
-7. [The 29 AI Vocabulary Patterns](#the-29-ai-vocabulary-patterns-english)
-8. [Contraction Rules](#contraction-rules-english-specific)
-9. [Regression Test Suite](#regression-test-suite)
-10. [Limits and Contraindications](#limits-and-contraindications)
-11. [References](#references)
+Read [SKILL.md](../SKILL.md) for the current semantic lock, modes, inventory,
+notes/interview workflows, delivery, and optional scoring. Its protections
+precede all examples and suggestions in these references.
+
+- [Presets](presets.md): voice guidance, only when needed.
+- [Content](patterns-content.md), [language](patterns-language.md),
+  [tone](patterns-tone.md), [composition](patterns-composition.md),
+  [style](patterns-style.md), [English patterns](patterns-english-specific.md):
+  consult the catalogs relevant to the draft.
+- [Evaluation cases](tests.md): examples of preserved meaning.
+- [Jev integration](jev-integration.md): only for an explicitly requested,
+  already available evaluator.
+- [Measurement helper](../scripts/measure.py): optional computed descriptive
+  metrics; no authorship classification or target ranges.

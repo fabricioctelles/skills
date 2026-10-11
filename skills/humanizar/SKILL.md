@@ -9,11 +9,12 @@ description: |
   em português qualquer texto que uma pessoa vai assinar ou publicar (post, artigo,
   e-mail, proposta, release, README, bio, descrição de produto): nesse caso a lista
   de padrões funciona como filtro de saída. Para textos em inglês, use a skill-irmã
-  `human-ai`.
+  `human-ai`. Também trabalha a partir de notas e transcrições do autor e faz
+  perguntas pontuais quando faltam dados essenciais.
 metadata:
   author: https://ft.ia.br
-  version: "1.6.0"
-  date: 2026-09-09
+  version: "1.7.0"
+  date: 2026-10-10
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: code-quality-and-review
@@ -25,8 +26,8 @@ Atue como editor. Remova sinais de escrita mecânica e recupere ritmo, precisão
 
 ## Proteções obrigatórias
 
-1. **TRAVA FACTUAL — definição canônica.** Trate o texto-fonte como imutável. Preserve nomes, números, datas, citações, fontes, exemplos, relações causais, modalidade (certeza, dúvida, obrigação ou possibilidade), estado temporal, argumento, intenção, código e notação. Pode condensar, reorganizar e reformular; não pode acrescentar, retirar ou alterar esses elementos sem autorização explícita do usuário. Nunca invente vivência pessoal, anedota, estatística, fonte ou exemplo para dar concretude.
-2. **Concretude sem invenção.** Reutilize detalhes já presentes. Se faltar um dado essencial, preserve a generalidade, peça o dado ao usuário ou marque `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Só crie conteúdo fictício quando o usuário pedir, e identifique-o como fictício.
+1. **TRAVA FACTUAL — definição canônica.** Trate o texto-fonte como imutável. Preserve nomes, números, datas, citações, fontes, exemplos, relações causais, modalidade (certeza, dúvida, obrigação ou possibilidade), estado temporal, responsáveis, compromissos, prazos, condições, exceções, avisos, argumento, intenção, código e notação. Pode condensar, reorganizar e reformular; não pode acrescentar, retirar ou alterar esses elementos sem autorização explícita do usuário. Nunca invente vivência pessoal, anedota, estatística, fonte, exemplo, benefício, promessa ou pedido de desculpas para dar concretude ou calor ao texto.
+2. **Concretude sem invenção.** Reutilize detalhes já presentes. Manter lacunas fora do texto publicável; usar marcador apenas em rascunho de trabalho solicitado. Se faltar um dado essencial, preserve a generalidade, peça o dado ao usuário ou, em rascunho de trabalho, marque `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Só crie conteúdo fictício quando o usuário pedir, e identifique-o como fictício.
 3. **Argumento preservado.** Mantenha a posição e a conclusão do autor, mesmo que discorde delas.
 4. **Registro preservado.** Não force informalidade, primeira pessoa, humor ou opinião. O perfil de voz orienta a forma; não autoriza conteúdo novo.
 5. **Precisão antes de estilo.** Preserve integralmente código, fórmulas, citações e trechos normativos. Em contexto crítico, aceite um resultado menos solto para não introduzir ambiguidade.
@@ -38,7 +39,7 @@ Toda verificação posterior de **TRAVA FACTUAL** remete a esta definição. Em 
 
 Executar antes de diagnosticar ou reescrever:
 
-1. Confirmar que há texto e que ele está em PT-BR. Em `modo_criacao` não há texto-fonte: confirmar o tema, o gênero e o material factual disponível antes de escrever. Para inglês, usar [`human-ai`](../human-ai/SKILL.md). Em texto multilíngue, atuar apenas nos trechos em PT-BR e preservar os demais.
+1. Confirmar que há material em PT-BR: texto, notas ou transcrição. Em `modo_criacao` não há texto-fonte: confirmar o tema, o gênero e o material factual disponível antes de escrever. Para inglês, usar [`human-ai`](../human-ai/SKILL.md). Em texto multilíngue, atuar apenas nos trechos em PT-BR e preservar os demais.
 2. Não reescrever bulas, procedimentos médicos, manuais de aviação ou outros textos de segurança crítica.
 3. Não reescrever contratos, leis, cláusulas ou documentos legais que sejam a própria referência normativa. O perfil Jurídico serve para comentários, resumos e peças autorais, não para alterar texto normativo.
 4. Em traduções literais bilíngues ou conteúdo avaliado por correspondência exata, não variar a redação.
@@ -51,7 +52,7 @@ O modo altera o nível do relatório e o número máximo de tentativas; não alt
 
 | Modo | Quando usar | Tentativas máximas | Entrega |
 |---|---|---:|---|
-| `modo_completo` (padrão) | Pedido comum de humanização | 3 | Texto final, pontuação e resumo das mudanças |
+| `modo_completo` (padrão) | Pedido comum de humanização | 3 | Texto final e resumo das mudanças; pontuação somente se solicitada |
 | `modo_direto` | Fluxo automatizado ou pedido de rapidez | 1 | Texto final e relatório sintético; sem repetição automática |
 | `modo_revisão` | Auditoria de texto produzido por outro agente | 3 | Texto final, diagnóstico e relatório detalhado |
 | `modo_criacao` | O texto ainda não existe; o usuário pede para escrever | 2 | Somente o texto final |
@@ -59,6 +60,24 @@ O modo altera o nível do relatório e o número máximo de tentativas; não alt
 `modo_criacao` é o único modo sem `texto_fonte`. Ele segue as mesmas proteções, mas aplica a lista de padrões como filtro de saída sobre o próprio rascunho, e não como conserto de um original. Ver [Escrita do zero](#escrita-do-zero-modo_criacao).
 
 Preservar sempre o modo escolhido pelo usuário. Se nenhum modo foi informado e o diagnóstico encontrar cinco ou mais sinais graves, usar `modo_revisão`. Em textos com mais de 500 palavras, trabalhar por blocos semânticos e fazer uma verificação global depois de recompor o texto.
+
+## Inventário, notas e perguntas
+
+Antes de editar ou criar, inventariar as afirmações, responsáveis, força de cada
+compromisso, prazos, condições e proveniência. Conferir depois nos dois sentidos:
+tudo que estava protegido sobrevive, e tudo que entrou tem respaldo.
+
+Para texto curto, o inventário pode ser mental. Para múltiplas fontes, notas,
+transcrições ou lacunas essenciais, consultar
+[Material autoral e auditoria semântica](references/material-autoral.md).
+Notas e transcrições do autor são a base principal; preservar seu raciocínio e
+expressões, usando eventual rascunho de IA como apoio. Resolver conflitos de fontes
+sem inventar ou excluir informações em silêncio.
+
+Perguntas são opcionais e limitadas a uma rodada de até três, sobre lacunas reais.
+Não iniciar entrevista automática no `modo_direto` nem em pipeline sem interlocutor.
+Resposta ausente não autoriza invenção ou corte de conteúdo protegido. Manter as
+fontes imutáveis e registrar separadamente as adições aprovadas pelo usuário.
 
 ## Perfis de voz
 
@@ -415,7 +434,7 @@ Em caso de dúvida sobre uma escolha de forma, decidir pelo que reduz o custo de
 Quando o texto ainda não existe, a lista de padrões vale como filtro de saída, não como conserto.
 
 1. **Escolher o perfil de voz antes de escrever** (Passo 1). Sem perfil e sem amostra, usar voz neutra.
-2. **Escrever direto**, com o material que o usuário forneceu. Não tentar desviar dos padrões durante a redação: isso trava a frase e produz o texto sem graça que a skill existe para evitar.
+2. **Escrever direto**, com o inventário e o material factual aprovado. Se houver notas ou transcrição, preservar o raciocínio, a ordem e as expressões do autor. Não tentar desviar dos padrões durante a redação: isso trava a frase e produz o texto sem graça que a skill existe para evitar.
 3. **Passar o diagnóstico sobre o próprio rascunho** (Passo 2) antes de entregar. Cinco padrões respondem pela maior parte dos escorregões em texto novo:
    - travessão de aparte;
    - "não apenas X, mas também Y";
@@ -427,13 +446,13 @@ Quando o texto ainda não existe, a lista de padrões vale como filtro de saída
 4. **Aplicar a guarda de falso positivo** (Passo 6) e a **verificação final** (Passo 7).
 5. **Entregar só o texto.** Sem rascunho, sem diagnóstico, sem lista de padrões: o usuário pediu um texto, não um relatório.
 
-**TRAVA FACTUAL em `modo_criacao`.** Não há original a preservar, e por isso a regra pesa mais: escrevendo do zero é fácil tapar buraco com número plausível, data aproximada ou fonte que soa certa. Usar apenas o que o usuário forneceu ou o que foi efetivamente verificado. Faltando um dado para a frase funcionar, escrever a frase mais simples e dizer ao usuário o que falta, ou marcar `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Ficção pedida explicitamente é exceção, porque inventar faz parte do trabalho, e deve ser identificada como ficção.
+**TRAVA FACTUAL em `modo_criacao`.** Não há original a preservar, e por isso a regra pesa mais: escrevendo do zero é fácil tapar buraco com número plausível, data aproximada ou fonte que soa certa. Usar apenas o que o usuário forneceu ou o que foi efetivamente verificado. Faltando um dado para a frase funcionar, escrever a frase mais simples e dizer ao usuário o que falta, ou, em rascunho de trabalho, marcar `[DADO OU EXEMPLO REAL NECESSÁRIO]`. Ficção pedida explicitamente é exceção, porque inventar faz parte do trabalho, e deve ser identificada como ficção.
 
 Não anunciar que passou pela lista. E nunca afirmar ter conferido um texto sem ter conferido: dizer "passei pelos padrões" sem ter passado é pior que o vício que ficou.
 
 ## Processo de Humanização
 
-Executar primeiro a **Triagem obrigatória**. Manter `texto_fonte` imutável durante todo o processo. Em `modo_criacao` não há `texto_fonte`: o rascunho da primeira tentativa ocupa o lugar de `texto_atual` e a validação factual segue as regras de [Escrita do zero](#escrita-do-zero-modo_criacao).
+Executar primeiro a **Triagem obrigatória** e o inventário semântico abaixo. Manter `texto_fonte` imutável durante todo o processo. Em `modo_criacao` não há `texto_fonte`: o rascunho da primeira tentativa ocupa o lugar de `texto_atual` e a validação factual segue as regras de [Escrita do zero](#escrita-do-zero-modo_criacao).
 
 ### Passo 1 — 🎯 Seleção do perfil de voz
 
@@ -626,6 +645,8 @@ Estes detalhes costumam carregar a voz de quem escreve. Preservar, salvo quando 
 
 ### Passo 7 — 🔥 Verificação final
 
+Auditar primeiro nos dois sentidos contra o texto-fonte e as adições aprovadas: toda proposição protegida sobrevive e toda afirmação da candidata tem respaldo. Conferir possibilidade versus promessa, proposta versus compromisso, reconhecimento versus desculpa, condições de oferta e quem assume a responsabilidade. Em criação, auditar contra o material factual aprovado.
+
 Verificar cada item. Marcar ✓, ✗ ou N/A conforme o perfil e o tamanho do trecho.
 
 | # | Verificação | ✓/✗ |
@@ -658,9 +679,11 @@ Falha nos itens 1 ou 2 invalida a candidata. Nos demais itens, corrigir apenas s
 
 ### Passo 8 — 📊 Avaliação pós-reescrita
 
-Validar a **TRAVA FACTUAL** antes da pontuação. Se falhar, descartar a candidata e registrar pontuação `nula`; naturalidade nunca compensa alteração factual ou semântica.
+Validar a **TRAVA FACTUAL** antes da avaliação de estilo. Se falhar, descartar a candidata e registrar pontuação `nula`; naturalidade nunca compensa alteração factual ou semântica.
 
-Se a validação factual passar, avaliar quatro dimensões de 0 a 100, sempre em relação ao perfil ativo:
+Por padrão, avaliar qualitativamente correção dos padrões, naturalidade, consistência de voz e legibilidade. Não atribuir nota nem iterar para alcançar um número.
+
+Calcular pontuação somente quando o usuário pedir ou fornecer `limiar`. Identificá-la como julgamento editorial subjetivo, não como medição ou probabilidade calibrada. Se a validação factual passar e a pontuação estiver ativa, avaliar quatro dimensões de 0 a 100, sempre em relação ao perfil ativo:
 
 | Dimensão | Peso | Critério de avaliação |
 |---|---|---|
@@ -671,45 +694,44 @@ Se a validação factual passar, avaliar quatro dimensões de 0 a 100, sempre em
 
 **Pontuação final** = Σ (dimensão × peso)
 
-Usar o `limiar` solicitado pelo usuário ou 80 como padrão. Se a pontuação ficar abaixo do limiar e houver nova tentativa, atuar nas dimensões mais baixas. Com pontuação abaixo de 60, mudar a abordagem sem trocar perfil explícito. Indicadores quantitativos opcionais nunca alteram a pontuação.
+Com pontuação ativa, usar o `limiar` solicitado ou 80 se foi pedida uma nota sem limiar. Sem pontuação, `limiar`, `pontuacao` e `convergiu` ficam `null`. Se a pontuação ficar abaixo do limiar e houver nova tentativa, atuar nas dimensões mais baixas. Com pontuação abaixo de 60, mudar a abordagem sem trocar perfil explícito. Indicadores quantitativos opcionais nunca alteram a pontuação.
 
 ### Passo 9 — 📦 Controle de tentativas e entrega
 
-Executar a seleção de perfil e o diagnóstico uma vez. Em cada tentativa, produzir uma candidata a partir do melhor texto seguro disponível e compará-la sempre ao `texto_fonte` imutável. Executar os Passos 3–7 antes de calcular a pontuação.
+Executar a seleção de perfil, o inventário e o diagnóstico uma vez. Em cada
+tentativa, partir do melhor texto seguro e comparar ao `texto_fonte` imutável e
+às adições aprovadas. Em criação, comparar ao material factual aprovado. Executar
+os Passos 3–7 antes da avaliação qualitativa ou da pontuação opcional.
 
 ```text
-texto_fonte = entrada original imutável
-texto_atual = entrada atual ou texto_fonte
-limiar = valor solicitado ou 80
-tentativas_maximas = limite do modo
+pontuacao_ativa = usuário pediu nota ou forneceu limiar
+limiar = (valor solicitado ou 80) se pontuacao_ativa, senão null
 melhor_texto = nenhum
-melhor_pontuacao = -1
 
-para cada tentativa:
-    gerar candidata a partir de texto_atual
-    verificar TRAVA FACTUAL e argumento contra texto_fonte
+para cada tentativa, respeitando o limite do modo:
+    gerar candidata
+    auditar fonte → candidata e candidata → fonte
+    se falhar: descartar candidata sem pontuação
+    senão:
+        avaliar estilo em relação ao perfil
+        calcular nota somente se pontuacao_ativa
+        guardar candidata se melhorar o melhor texto seguro
+        parar se não houver melhoria útil a fazer
+        parar se pontuacao_ativa e nota atingir limiar
 
-    se a candidata falhar:
-        descartar candidata sem calcular pontuação
-        continuar somente se houver nova tentativa
-
-    calcular pontuação
-    se pontuação > melhor_pontuacao:
-        guardar candidata como melhor_texto
-        texto_atual = melhor_texto
-
-    se pontuação >= limiar:
-        estado = concluida
-        entregar
-
-se não houver candidata segura:
+se nenhuma candidata for segura:
     estado = reprovada_trava_factual
-    melhor_texto = texto_fonte
-    pontuação = nula
-senão:
+    devolver texto_fonte sem nota
+senão se pontuacao_ativa e melhor nota < limiar:
     estado = melhor_resultado
-    entregar melhor_texto com nota de limitação
+    devolver melhor_texto com limitação
+senão:
+    estado = concluida
+    devolver melhor_texto
 ```
+
+O limite é um máximo, não uma meta: parar quando outro passe não melhorar o
+resultado. Conservar a melhor candidata segura, não necessariamente a última.
 
 No `modo_direto`, produzir exatamente uma candidata e não repetir. Se ela falhar na TRAVA FACTUAL, devolver o texto-fonte com estado `reprovada_trava_factual`.
 
@@ -734,9 +756,9 @@ estado: concluida
 texto: "texto final ou texto-fonte seguro"
 modo: modo_completo  # ou modo_direto, modo_revisão, modo_criacao
 perfil_de_voz: voz_neutra
-limiar: 80
-pontuacao: 86
-convergiu: true
+limiar: null  # 80 ou valor solicitado apenas com pontuação ativa
+pontuacao: null  # nota editorial somente se solicitada
+convergiu: null  # true/false somente com pontuação ativa
 trava_factual:
   estado: intacta
   violacoes: []
@@ -746,7 +768,7 @@ tentativas:
 relatorio: {}
 ```
 
-Usar os valores conforme o estado final:
+Sem pontuação ativa, `concluida` indica que a candidata passou pela auditoria e pela avaliação qualitativa; os três campos numéricos/de convergência ficam `null`. Com pontuação ativa, usar os valores conforme o estado final:
 
 | `estado` | `convergiu` | `pontuacao` | `texto` |
 |---|---:|---:|---|
@@ -759,9 +781,9 @@ Em conversa, apresentar primeiro o texto e depois o relatório no nível do modo
 
 | Modo | Conteúdo do relatório |
 |---|---|
-| `modo_completo` | Pontuação, padrões corrigidos, ressalvas e indicadores opcionais se calculados |
-| `modo_direto` | Uma linha por padrão corrigido, pontuação e estado |
-| `modo_revisão` | Diagnóstico completo, pontuação, ressalvas e indicadores opcionais se calculados |
+| `modo_completo` | Padrões corrigidos e ressalvas; nota e indicadores somente se solicitados/calculados |
+| `modo_direto` | Relatório sintético e estado; nota somente se solicitada |
+| `modo_revisão` | Diagnóstico e ressalvas; nota e indicadores somente se solicitados/calculados |
 | `modo_criacao` | Somente o texto final. Relatório apenas se o usuário pedir, ou uma linha curta quando faltar dado factual |
 
 ### Integração com ciclos externos
@@ -773,10 +795,11 @@ proxima_entrada:
   texto_fonte: "original imutável"
   texto_atual: "saída.texto"
   perfil_de_voz: "mesmo perfil"
-  limiar: 80
+  adicoes_aprovadas: []
+  limiar: null  # preservar valor solicitado se houver
 ```
 
-Nunca realimentar relatório, pontuação ou o envelope inteiro como se fossem parte do texto. Toda chamada continua comparando o resultado ao `texto_fonte` original.
+Nunca realimentar relatório, pontuação ou o envelope inteiro como se fossem parte do texto. Toda chamada continua comparando o resultado ao `texto_fonte` original e às adições aprovadas com proveniência; em criação, preservar a base factual aprovada entre chamadas.
 
 ## Estrangeirismos
 
@@ -811,7 +834,7 @@ Conjunto mínimo para validar evoluções futuras. Rodar cada caso em `modo_comp
 
 ## Avaliação com Jev (opcional)
 
-A skill pode usar **TypeSafe Jev** para avaliação calibrada — um modelo que retorna decisões tipadas com probabilidades precisas. Jev é ideal para diagnóstico, verificação e scoring; o LLM continua fazendo a reescrita.
+Somente quando o usuário solicitar avaliação externa e Jev já estiver disponível, a skill pode usar **TypeSafe Jev** para avaliação calibrada — um modelo que retorna decisões tipadas com probabilidades precisas. O LLM continua fazendo a reescrita. Scoring permanece opcional; nenhuma decisão do avaliador supera uma violação semântica detectada. Não instalar serviços, escolher provedores pagos ou delegar automaticamente.
 
 ### Protocolo de Descoberta
 

@@ -1,6 +1,8 @@
 # TypeSafe Jev Integration
 
-Documentation on how the `human-ai` skill detects and uses Jev for calibrated evaluation.
+Optional protocol for an explicitly requested, already available evaluator.
+The current [SKILL.md](../SKILL.md) governs source provenance, semantic rejection,
+and pass limits. Evaluator scores never override the semantic lock.
 
 ## What is Jev
 
@@ -202,19 +204,19 @@ Each AI pattern mapped to binary question (P(yes) between 0-1):
 | Check | Critical | Question |
 |-------|----------|----------|
 | FACTUAL LOCK | ✓ | "Was any fact altered, added, or removed?" |
-| Argument | ✓ | "Was author's argument and position preserved?" |
-| Modality | ✓ | "Was modality preserved?" |
-| Voice | | "Was opinion or first person improperly added?" |
+| Argument | ✓ | "Was the author's argument or position altered?" |
+| Modality | ✓ | "Was modality altered?" |
+| Voice | ✓ | "Was opinion or first person improperly added?" |
 
 ### Evaluation (5 Score questions)
 
 | Dimension | Weight | Levels |
 |-----------|--------|--------|
-| Pattern removal | 30% | 5 levels (0-20 to 81-100) |
-| Naturalness | 25% | 5 levels |
-| Factual completeness | 20% | 5 levels |
-| Voice consistency | 15% | 5 levels |
-| Readability | 10% | 5 levels |
+| Pattern removal | 35% | 5 levels (0-20 to 81-100) |
+| Naturalness | 30% | 5 levels |
+| Factual completeness | 0% | Diagnostic only; mandatory semantic gate |
+| Voice consistency | 20% | 5 levels |
+| Readability | 15% | 5 levels |
 
 ---
 
@@ -278,7 +280,8 @@ Each AI pattern mapped to binary question (P(yes) between 0-1):
 
 ### Score (Evaluation)
 
-- **Final score** = Σ(dimension × weight)
+- Validate all semantic checks first; any violation invalidates the candidate with score `null`.
+- **Final score** = Σ(style dimension × weight); subjective editorial assessment, not a calibrated probability.
 - **Converged**: score ≥ threshold (default: 80)
 
 ### Decisions
@@ -288,7 +291,7 @@ Each AI pattern mapped to binary question (P(yes) between 0-1):
 | FACTUAL LOCK violated | Discard candidate, return source_text |
 | Argument altered | Discard candidate |
 | Score < threshold | Iterate or return best_result |
-| Score ≥ threshold | Converged, return candidate |
+| Score ≥ threshold AND all semantic checks passed | Converged, return candidate |
 
 ---
 
@@ -311,3 +314,7 @@ The `jev_questions.json` file contains all questions in the format expected by t
 - [OpenRouter - Jev](https://openrouter.ai/typesafe/jev-latest)
 - `scripts/jev_questions.json` - Typed questions
 - `scripts/measure.py` - Statistical measurement script
+
+## Workflow authority
+
+Use this integration only when the user requests an external evaluator and it is already available. Never install a service, select a paid provider, or delegate automatically. The current SKILL.md governs source provenance, semantic rejection, and pass limits. An evaluator score cannot override a detected semantic failure.

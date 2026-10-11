@@ -1,6 +1,9 @@
 # Integração com TypeSafe Jev
 
-Documentação de como a skill `humanizar` detecta e usa Jev para avaliação calibrada.
+Protocolo opcional para avaliação externa solicitada pelo usuário, com Jev já
+disponível. O [SKILL.md](../SKILL.md) vigente define limites de tentativas,
+proveniência e trava semântica. Não instalar serviços nem delegar automaticamente.
+Pontuação é julgamento editorial subjetivo e só é calculada quando solicitada.
 
 ## O que é o Jev
 
@@ -238,7 +241,8 @@ Cada padrão de IA mapeado para pergunta binária (P(sim) entre 0-1):
 
 ### Score (Avaliação)
 
-- **Pontuação final** = Σ(dimensão × peso)
+- Auditar nos dois sentidos antes de avaliar estilo; qualquer violação invalida a candidata.
+- **Pontuação final** = Σ(dimensão × peso), somente quando solicitada ou houver `limiar`. Sem pontuação, `limiar`, `pontuacao` e `convergiu` ficam `null`.
 - **Convergiu**: pontuação ≥ limiar (default: 80)
 
 ### Decisões
@@ -248,7 +252,7 @@ Cada padrão de IA mapeado para pergunta binária (P(sim) entre 0-1):
 | TRAVA FACTUAL violada | Descartar candidata, retornar texto_fonte |
 | Argumento alterado | Descartar candidata |
 | Pontuação < limiar | Iterar ou retornar melhor_resultado |
-| Pontuação ≥ limiar | Convergiu, retornar candidata |
+| Pontuação ≥ limiar e trava semântica intacta | Convergiu, retornar candidata |
 
 ---
 

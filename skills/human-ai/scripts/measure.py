@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-measure.py — AI vs Human text metrics analyzer.
+measure.py — Descriptive English prose metrics.
 
 Usage:
     echo "some text" | python3 measure.py
     python3 measure.py --file path/to/text.txt
 
 Calculates linguistic metrics (TTR, burstiness, entropy, sentence/paragraph
-variation, passive voice, contractions, etc.) and compares against empirical
-baselines to produce a verdict: likely_ai, mixed, or likely_human.
+variation, passive voice, contractions, etc.) for editorial inspection. These measurements do not determine authorship.
+Passive voice, contraction rate, and noun density use approximate heuristics.
 
 Requires Python 3.10+. No external dependencies.
 """
@@ -21,16 +21,6 @@ import statistics
 import sys
 from collections import Counter
 
-
-# --- Empirical baselines ---
-BASELINES = {
-    "ttr": {"ai_typical": 0.455, "human_typical": 0.553, "source": "SSRN"},
-    "burstiness": {"ai_typical": 0.00, "human_typical": 0.70, "source": "GPTZero"},
-    "sentence_length_cov": {"ai_typical": 0.30, "human_typical": 0.50},
-    "paragraph_length_cov": {"ai_typical": 0.30, "human_typical": 0.60},
-    "contraction_rate": {"ai_typical_range": [0.30, 0.50], "human_typical_range": [0.80, 0.95]},
-    "passive_voice_pct": {"ai_typical": 0.30, "human_typical_range": [0.10, 0.20]},
-}
 
 # Common contractions and their expanded forms
 CONTRACTION_PAIRS = {
@@ -211,76 +201,15 @@ def calc_contraction_rate(text: str) -> float:
     return contracted_count / total
 
 
-def calc_concrete_noun_density(tokens: list[str]) -> float:
+def calc_concrete_noun_density(tokens: list[str]) -> float | None:
     """Ratio of concrete nouns to (concrete + abstract) nouns found."""
     text = " ".join(tokens)
     concrete_matches = len(CONCRETE_PATTERNS.findall(text))
     abstract_matches = len(ABSTRACT_PATTERNS.findall(text))
     total = concrete_matches + abstract_matches
     if total == 0:
-        return 0.5  # neutral if can't determine
+        return None  # no matching nouns; density was not measured
     return concrete_matches / total
-
-
-def score_metric(name: str, value: float) -> str:
-    """Score a metric as 'ai', 'human', or 'neutral'."""
-    match name:
-        case "ttr":
-            midpoint = (BASELINES["ttr"]["ai_typical"] + BASELINES["ttr"]["human_typical"]) / 2
-            return "human" if value > midpoint else "ai"
-        case "burstiness":
-            midpoint = (BASELINES["burstiness"]["ai_typical"] + BASELINES["burstiness"]["human_typical"]) / 2
-            return "human" if value > midpoint else "ai"
-        case "sentence_length_cov":
-            midpoint = (BASELINES["sentence_length_cov"]["ai_typical"] + BASELINES["sentence_length_cov"]["human_typical"]) / 2
-            return "human" if value > midpoint else "ai"
-        case "paragraph_length_cov":
-            midpoint = (BASELINES["paragraph_length_cov"]["ai_typical"] + BASELINES["paragraph_length_cov"]["human_typical"]) / 2
-            return "human" if value > midpoint else "ai"
-        case "contraction_rate":
-            if value >= 0.65:
-                return "human"
-            elif value <= 0.40:
-                return "ai"
-            return "neutral"
-        case "passive_voice_pct":
-            if value > 0.25:
-                return "ai"
-            elif value <= 0.20:
-                return "human"
-            return "neutral"
-        case "ly_adverbs_per_100":
-            # AI tends to overuse adverbs
-            if value > 2.5:
-                return "ai"
-            elif value < 1.5:
-                return "human"
-            return "neutral"
-        case "concrete_noun_density":
-            # Humans use more concrete language
-            if value > 0.55:
-                return "human"
-            elif value < 0.40:
-                return "ai"
-            return "neutral"
-        case _:
-            return "neutral"
-
-
-def determine_verdict(scores: dict[str, str]) -> str:
-    """Determine overall verdict based on majority of metric signals."""
-    ai_count = sum(1 for v in scores.values() if v == "ai")
-    human_count = sum(1 for v in scores.values() if v == "human")
-    total_decisive = ai_count + human_count
-
-    if total_decisive == 0:
-        return "mixed"
-    ai_ratio = ai_count / total_decisive
-    if ai_ratio >= 0.6:
-        return "likely_ai"
-    elif ai_ratio <= 0.4:
-        return "likely_human"
-    return "mixed"
 
 
 def analyze(text: str) -> dict:
@@ -289,6 +218,7 @@ def analyze(text: str) -> dict:
     sentences = split_sentences(text)
     paragraphs = split_paragraphs(text)
 
+    noun_density = calc_concrete_noun_density(tokens)
     metrics = {
         "ttr": round(calc_ttr(tokens), 4),
         "burstiness": round(calc_burstiness(sentences), 4),
@@ -299,22 +229,16 @@ def analyze(text: str) -> dict:
         "ly_adverbs_per_100": round(calc_ly_adverbs_per_100(tokens), 4),
         "passive_voice_pct": round(calc_passive_voice_pct(text), 4),
         "contraction_rate": round(calc_contraction_rate(text), 4),
-        "concrete_noun_density": round(calc_concrete_noun_density(tokens), 4),
+        "concrete_noun_density": round(noun_density, 4) if noun_density is not None else None,
     }
-
-    scored_metrics = [
-        "ttr", "burstiness", "sentence_length_cov", "paragraph_length_cov",
-        "contraction_rate", "passive_voice_pct", "ly_adverbs_per_100",
-        "concrete_noun_density",
-    ]
-    signals = {name: score_metric(name, metrics[name]) for name in scored_metrics}
-    verdict = determine_verdict(signals)
 
     return {
         "metrics": metrics,
-        "signals": signals,
-        "verdict": verdict,
-        "baselines": BASELINES,
+        "limitations": [
+            "Descriptive metrics do not establish authorship or editorial quality.",
+            "Passive voice, contractions, and noun density use approximate heuristics.",
+            "Sentence splitting and lexical metrics depend on text length and genre.",
+        ],
         "meta": {
             "total_tokens": len(tokens),
             "unique_tokens": len(set(tokens)),
@@ -326,7 +250,7 @@ def analyze(text: str) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Analyze text for AI vs human authorship signals.",
+        description="Measure descriptive English prose metrics without authorship classification.",
     )
     parser.add_argument(
         "--file", "-f",
