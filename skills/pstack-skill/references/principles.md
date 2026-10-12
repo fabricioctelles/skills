@@ -1,4 +1,4 @@
-# The 23 principles
+# The 24 principles
 
 One section per principle, in the order the orchestrator indexes them. Each entry names when it applies. Cite a principle only when it changed a real decision.
 
@@ -465,6 +465,28 @@ The check: before you keep a test, ask whether it would still pass if every func
 **The fix:** call the subject inside the test body with one concrete input and assert the literal output or the observable effect, `expect(slugify("Hello, World!")).toBe("hello-world")`. For an absence, assert the presence on the other input in the same test. For a constant, test the mechanism that reads it with one input instead of restating the value. For a mock, assert the payload it received or the state after the call, not that it was called. When no such assertion exists, delete the test.
 
 **Keep** a test of a relation across a table's rows (a key present in two tables, a parent that exists), and a compile-time check in a `*.test-d.ts` file.
+
+---
+
+## explain-the-number
+
+
+# Explain the Number
+
+Before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result), find what limits it and rule out that it measured something other than the work you think.
+
+**Why:** A number without provenance is meaningless. A guess from reading the code is not evidence. If you cannot say why the number is not twice as good, you do not know what you measured.
+
+**Pattern:**
+- **Ask "why not double?"** Name the resource or code path that bounds the result, such as a core, a lock, the disk, the network, or the load generator itself. Get it from a profile or from system counters taken during a run, then map it to source. A guess from reading the code is not a limiter. If you cannot say why the number is not twice as good, you do not know what you measured.
+- **List what else the number could be measuring, and rule out each one with evidence.** The usual suspects are errors, skipped or cached work, code that never ran, an untuned side (one left on default settings), noise, and a piece too small to matter end to end.
+- **Keep the evidence with the number.** Put the run count, the spread, and the limiter in the notes or a linked artifact.
+
+For a performance number, run the full procedure with the `benchmark-checklist` skill. For an eval result, ask the same of the trials: did every run do the task, does the gap hold across trials and models, and does the scenario matter.
+
+You skipped this when the evidence behind a number has no run count, no spread, or no named limiter, or when the time saved is larger than the time the changed piece took.
+
+Distinct from [Prove It Works](#prove-it-works), which checks that an output is real.
 
 ---
 
