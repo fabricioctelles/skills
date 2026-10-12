@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.2"
-  date: 2026-10-11
+  version: "1.3"
+  date: 2026-10-12
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 

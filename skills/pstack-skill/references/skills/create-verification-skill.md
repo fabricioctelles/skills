@@ -18,7 +18,7 @@ If the checkout does not build or start as-is, fix that or report precisely befo
 
 Write `verify-<app>/SKILL.md` with frontmatter (`name: verify-<app>`, description naming app, surface, and when to reach for it) plus sections grounded in what the interview found, no placeholders:
 
-- **Launch:** exact start command and readiness signal (log line, port answering, prompt); teardown included.
+- **Launch:** exact start command and readiness signal (log line, prompt); must reach a usable state from an empty data dir, including migrations and seed data. Ready means usable, not just that a process answers (a database health check can pass while init scripts still run). Teardown included.
 - **Doctor:** one read-only check answering "is this instance worth driving": process up, right version, port owned by us, auth valid.
 - **Drive:** harness recipe with real selectors/commands from this repo; stable handles (ARIA labels, data attributes, route paths) over coordinates.
 - **Evidence:** what to capture and where; proof standards: real user path not internal setters, action plus resulting state, side effects verified, dry-runs observed rather than trusted by name.
@@ -27,11 +27,11 @@ Write `verify-<app>/SKILL.md` with frontmatter (`name: verify-<app>`, descriptio
 
 ## 3. Seed the feature map
 
-Create `verify-<app>/features/README.md` plus one file per top user-facing feature (start with 3-5). Each answers from the user's POV: what it is, how to reach it, how to drive it with the harness, what observable end state proves it works. The map is the maintained verification source.
+Create `verify-<app>/features/README.md` plus one file per top user-facing feature (start with 3-5). Each answers from the user's POV: what it is, how to reach it, how to drive it with the harness, what observable end state proves it works. If seed data lacks a precondition a journey needs, the journey reports a failure and the reason goes in that feature's Gotchas; never weaken the journey to make it pass. The map is the maintained verification source.
 
 ## 4. Prove the generated skill before handing over
 
-Run its own instructions once end to end: launch, doctor, drive ONE mapped feature, capture evidence, clean up, confirm evidence survived cleanup. Fix failures and clean residue after every failed iteration too. A generated skill never executed is a draft, not a deliverable.
+Run its own instructions once end to end: launch, doctor, drive ONE mapped feature, capture evidence, clean up, confirm evidence survived cleanup. Fix failures and clean residue after every failed iteration too. A generated skill never executed is a draft, not a deliverable. If proved in a stand-in for the real target (a container for a fresh VM, a local stack for a remote one), list every setup step the stand-in did that the target will not; those stay unverified until a run on the real target.
 
 ## 5. Offer the maintenance loop
 
