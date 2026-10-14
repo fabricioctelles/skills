@@ -666,6 +666,18 @@ class Runner:
             self.append_log("revision", gate=gate_name, revision=revision, artifact=artifact_label)
 
     def run(self) -> int:
+        try:
+            return self._run()
+        except Exception as exc:
+            # Any crash - not just RunnerError - must leave a terminal state:
+            # a state file claiming "running" after the process died is a
+            # phantom in-flight run for resume logic and audits.
+            if self.state.get("status") not in {"failed", "blocked"}:
+                self.save_state(status="failed", failure=str(exc))
+            self.append_log("run_error", error=str(exc))
+            raise
+
+    def _run(self) -> int:
         self.save_state(status="running")
         self.append_log("run_start", spec=str(self.spec_path))
         self.gather_context()
