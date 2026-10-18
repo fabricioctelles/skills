@@ -157,7 +157,8 @@ pstack-skill/
 ├── references/
 │   ├── principles.md         ← full text of the 21 principles
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
-│   └── skills/               ← 21 bundled procedures (how, arena, unslop...)
+│   ├── harness/              ← per-harness name mappings (claude-code.md)
+│   └── skills/               ← 28 bundled procedures (how, arena, unslop, sharpen, create-formal-verification-skill...)
 └── scripts/
     ├── check-upstream.sh     ← manual upstream update check
     ├── check-plan.mjs        ← multi-phase plan checklist validator

@@ -23,11 +23,13 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 | The user wants to | Skill |
 |---|---|
 | Do any non-trivial task with rigor | poteto-mode |
+| Check that the agent understood their goal and the problem before it starts | in-your-own-words |
+| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | sharpen |
 | Know how code works now, or where new code should live | how |
 | Know why code is shaped this way, or where a number came from | why |
 | Understand a change or subsystem, explained plainly | teach |
 | Catch up on their own recent work on a topic | recall |
-| Catch up on everything in this chat since their last message | ketchup |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | ketchup |
 | Know what a small diff could break outside itself | blast-radius |
 | Settle types and module shape before code that crosses a function boundary | architect |
 | Get several attempts at one brief, merged into the best one | arena |
@@ -41,6 +43,7 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 | Hear the last reply again in plain words | bro |
 | Give agents a scripted way to drive the app and prove behavior | create-verification-skill |
 | Bring a verification skill and its feature map back in line with the app | maintain-verification-skill |
+| Formally verify a race, invariant, or other property that tests rarely reach | create-formal-verification-skill |
 | Vet a performance number before reporting or acting on it | benchmark-checklist |
 | Run a large or cross-cutting change, or one to review after stepping away | figure-it-out |
 | Keep a decision log during a run, and review it afterward | show-me-your-work |
