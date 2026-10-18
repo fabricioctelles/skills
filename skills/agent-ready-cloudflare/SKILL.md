@@ -11,8 +11,8 @@ description: >
   "x402", "UCP", "ACP", or wants to make a website discoverable and usable by AI agents.
 metadata:
   author: Cloudflare / isitagentready.com
-  version: "3.1"
-  date: 2026-09-18
+  version: "3.2"
+  date: 2026-10-18
   source: https://isitagentready.com
   category: product-verification
 ---
@@ -42,7 +42,7 @@ curl -s -X POST 'https://isitagentready.com/api/scan' \
   -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36' \
   -H 'Referer: https://isitagentready.com/' \
   -H 'Origin: https://isitagentready.com' \
-  -d '{"url":"https://DOMAIN/","enabledChecks":["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation","robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog","oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard","a2aAgentCard","agentSkills","webMcp","ard","x402","mpp","ucp","acp","ap2"]}'
+  -d '{"url":"https://DOMAIN/","enabledChecks":["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation","robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog","oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard","a2aAgentCard","agentSkills","webMcp","ard","personalAgentProtocol","x402","mpp","ucp","acp","ap2"]}'
 ```
 
 Replace `DOMAIN` with the target domain.
@@ -151,7 +151,7 @@ write it to the requested path.
 | Content Signals | `contentSignals` | robots.txt contains `Content-Signal` directives with ai-train/search/ai-input |
 | Web Bot Auth | `webBotAuth` | `/.well-known/http-message-signatures-directory` exists with valid JWKS (informational — neutral does not affect score) |
 
-### API, Auth, MCP & Skill Discovery (9 checks)
+### API, Auth, MCP & Skill Discovery (10 checks)
 | Check | API Key | Pass criteria |
 |-------|---------|---------------|
 | API Catalog | `apiCatalog` | `/.well-known/api-catalog` returns valid `linkset+json` with API entries |
@@ -163,6 +163,7 @@ write it to the requested path.
 | Agent Skills Index | `agentSkills` | `/.well-known/agent-skills/index.json` with valid `skills` array (legacy `/.well-known/skills/` also accepted) |
 | WebMCP | `webMcp` | Page exposes MCP tools via `navigator.modelContext.provideContext()` |
 | ARD | `ard` | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
+| Personal Agent Protocol (Poppy) | `personalAgentProtocol` | `/.well-known/poppy.json` (draft 0.1) with valid `organization`/`domain` and interfaces; when auth is declared, a matching OAuth issuer whose metadata lists the domain in `poppy_domains` (informational — does not affect level or score) |
 
 ### Commerce — Optional (5 checks, scored only if e-commerce signals detected)
 | Check | API Key | Pass criteria |
@@ -216,6 +217,7 @@ Origin: https://isitagentready.com
     "robotsTxtAiRules", "contentSignals", "webBotAuth",
     "apiCatalog", "oauthDiscovery", "oauthProtectedResource", "authMd",
     "mcpServerCard", "a2aAgentCard", "agentSkills", "webMcp", "ard",
+    "personalAgentProtocol",
     "x402", "mpp", "ucp", "acp", "ap2"
   ]
 }
@@ -245,9 +247,9 @@ The scanner practices what it preaches. These are its own agent-ready endpoints:
 | `/.well-known/api-catalog` | RFC 9727 linkset with scan API and MCP server entries |
 | `/.well-known/mcp/server-card.json` | MCP Server Card (Streamable HTTP transport) |
 | `/.well-known/mcp.json` | Same MCP Server Card (alternate path) |
-| `/.well-known/agent-skills/index.json` | 24 skills in Agent Skills Discovery v0.2.0 format |
+| `/.well-known/agent-skills/index.json` | 25 skills in Agent Skills Discovery v0.2.0 format |
 | `/llms.txt` | LLM-friendly overview of the scanner |
-| `/llms-full.txt` | Full documentation — canonical reference for all 22 checks, pass criteria, and level system |
+| `/llms-full.txt` | Full documentation — canonical reference for all 23 checks, pass criteria, and level system |
 | `/api/health` | Health check (`{"status":"ok"}`) |
 | `/mcp` | Streamable HTTP MCP server with `scan_site` tool |
 
@@ -349,7 +351,8 @@ HEADERS = {
 CHECKS = ["robotsTxt","sitemap","linkHeaders","dnsAid","markdownNegotiation",
           "robotsTxtAiRules","contentSignals","webBotAuth","apiCatalog",
           "oauthDiscovery","oauthProtectedResource","authMd","mcpServerCard",
-          "a2aAgentCard","agentSkills","webMcp","ard","x402","mpp","ucp","acp","ap2"]
+          "a2aAgentCard","agentSkills","webMcp","ard","personalAgentProtocol",
+          "x402","mpp","ucp","acp","ap2"]
 
 for domain in domains:
     body = json.dumps({"url": f"https://{domain}/", "enabledChecks": CHECKS}).encode()
@@ -391,6 +394,7 @@ for domain in domains:
 - [agent-skills/SKILL.md](agent-skills/SKILL.md) — Agent Skills Discovery Index
 - [webmcp/SKILL.md](webmcp/SKILL.md) — WebMCP browser API
 - [ard/SKILL.md](ard/SKILL.md) — ARD / ai-catalog (Agentic Resource Discovery)
+- [personal-agent-protocol/SKILL.md](personal-agent-protocol/SKILL.md) — Personal Agent Protocol (Poppy) discovery (informational)
 
 ### Commerce (Optional)
 - [x402/SKILL.md](x402/SKILL.md) — x402 HTTP payment protocol
@@ -643,6 +647,22 @@ Docs: https://agenticresourcediscovery.org/, https://github.com/Agent-Card/ai-ca
 ```
 
 Sub-skill: [ard/SKILL.md](ard/SKILL.md)
+
+### `personalAgentProtocol`
+
+```
+Goal: Publish Personal Agent Protocol (Poppy) discovery at /.well-known/poppy.json
+
+Issue: {issue}
+
+Fix: Publish the manifest and any required RFC 8414 metadata. Website-only declarations can use web: {} without auth. When agent protocols, APIs, or a browser session endpoint are declared, set auth.issuer and publish issuer metadata with a matching issuer, poppy_domains containing organization.domain, and HTTPS token_endpoint and revocation_endpoint. Informational: does not affect level or score.
+
+Skill: https://isitagentready.com/.well-known/agent-skills/personal-agent-protocol/SKILL.md
+
+Docs: https://personalagentprotocol.org/docs/spec#3-discovery
+```
+
+Sub-skill: [personal-agent-protocol/SKILL.md](personal-agent-protocol/SKILL.md)
 
 ### `x402`
 

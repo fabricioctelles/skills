@@ -195,7 +195,7 @@ Reescreve currículos para compatibilidade ATS e audita perfis LinkedIn para pos
 ---
 
 ### 🤖 Agent Ready — Cloudflare Scanner [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-agent-ready-cloudflare/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-agent-ready-cloudflare) · `product-verification`
-Audita qualquer website para prontidão de agentes de IA usando o scanner [isitagentready.com](https://isitagentready.com) da Cloudflare. Verifica 18 checks em 5 categorias (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), atribui um nível (0–5) e gera prompts de correção copy-paste para cada check que falha. Inclui 20 sub-skills de implementação cobrindo robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP e mais.
+Audita qualquer website para prontidão de agentes de IA usando o scanner [isitagentready.com](https://isitagentready.com) da Cloudflare. Verifica 23 checks em 5 categorias (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), atribui um nível (0–5) e gera prompts de correção copy-paste para cada check que falha. Inclui 25 sub-skills de implementação cobrindo robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP e mais.
 
 **Quando usar:** escanear site para prontidão de agentes, verificar score agent-ready, corrigir checks que falham, implementar MCP Server Card, adicionar Content Signals, publicar Agent Skills index, configurar Markdown for Agents, escanear múltiplos domínios em batch, melhorar descoberta por agentes de IA.
 
@@ -744,7 +744,7 @@ skills/
 ├── agent-ready-cloudflare/
 │   ├── README.md   # documentação legível com exemplos
 │   ├── SKILL.md    # skill principal (docs da API, fluxo operacional, templates de prompt)
-│   └── */SKILL.md  # 20 sub-skills de implementação (robots-txt, mcp-server-card, etc.)
+│   └── */SKILL.md  # 25 sub-skills de implementação (robots-txt, mcp-server-card, etc.)
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/  # template do protocolo, regras de validação, schema de metadata, exemplo, guia de implementação

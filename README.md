@@ -198,7 +198,7 @@ Rewrites resumes for ATS compatibility and audits LinkedIn profiles for professi
 ---
 
 ### 🤖 Agent Ready — Cloudflare Scanner [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-agent-ready-cloudflare/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-agent-ready-cloudflare) · `product-verification`
-Audits any website for AI agent readiness using the Cloudflare [isitagentready.com](https://isitagentready.com) scanner. Scans 18 checks across 5 categories (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), assigns a level (0–5), and generates copy-paste fix prompts for every failing check. Includes 20 implementation sub-skills covering robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP, and more.
+Audits any website for AI agent readiness using the Cloudflare [isitagentready.com](https://isitagentready.com) scanner. Scans 23 checks across 5 categories (Discoverability, Content, Bot Access Control, API/Auth/MCP Discovery, Commerce), assigns a level (0–5), and generates copy-paste fix prompts for every failing check. Includes 25 implementation sub-skills covering robots.txt, sitemap, Markdown for Agents, Content Signals, MCP Server Card, A2A Agent Card, Agent Skills Index, OAuth, WebMCP, and more.
 
 **When to use:** scan a site for agent readiness, check agent-ready score, fix failing checks, implement MCP Server Card, add Content Signals, publish Agent Skills index, set up Markdown for Agents, batch scan multiple domains, improve AI agent discoverability.
 
@@ -749,7 +749,7 @@ skills/
 ├── agent-ready-cloudflare/
 │   ├── README.md   # human-readable documentation with examples
 │   ├── SKILL.md    # main skill (API docs, operational flow, prompt templates)
-│   └── */SKILL.md  # 20 implementation sub-skills (robots-txt, mcp-server-card, etc.)
+│   └── */SKILL.md  # 25 implementation sub-skills (robots-txt, mcp-server-card, etc.)
 ├── auth-md/
 │   ├── SKILL.md
 │   └── references/  # protocol template, validation rules, metadata schema, example, implementation guide

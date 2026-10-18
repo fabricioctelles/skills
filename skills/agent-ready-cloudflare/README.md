@@ -8,7 +8,7 @@ This skill wraps the Cloudflare "Is It Agent Ready?" scanner into a reusable age
 
 ## What It Does
 
-Give it a domain. It scans 22 checks across 5 categories and tells you:
+Give it a domain. It scans 23 checks across 5 categories and tells you:
 
 - **What level** your site is at (0–5)
 - **What's passing** and what's failing
@@ -59,7 +59,7 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 
 ---
 
-## The 22 Checks
+## The 23 Checks
 
 ### Discoverability
 
@@ -97,16 +97,17 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 | 15 | **Agent Skills Index** | `/.well-known/agent-skills/index.json` with skills array (v0.2.0) |
 | 16 | **WebMCP** | Page calls `navigator.modelContext.provideContext()` with tool definitions |
 | 17 | **ARD** | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
+| 18 | **Personal Agent Protocol (Poppy)** | `/.well-known/poppy.json` (draft 0.1) with valid organization/domain; matching OAuth issuer + `poppy_domains` when auth is declared *(informational)* |
 
 ### Commerce *(optional — scored only for e-commerce sites)*
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 18 | **x402** | API routes return HTTP 402 with x402 payment headers |
-| 19 | **MPP** | `/openapi.json` with `x-payment-info` on payable operations |
-| 20 | **UCP** | `/.well-known/ucp` with protocol_version and services |
-| 21 | **ACP** | `/.well-known/acp.json` with protocol metadata |
-| 22 | **AP2** | A2A Agent Card includes AP2 extension with role |
+| 19 | **x402** | API routes return HTTP 402 with x402 payment headers |
+| 20 | **MPP** | `/openapi.json` with `x-payment-info` on payable operations |
+| 21 | **UCP** | `/.well-known/ucp` with protocol_version and services |
+| 22 | **ACP** | `/.well-known/acp.json` with protocol metadata |
+| 23 | **AP2** | A2A Agent Card includes AP2 extension with role |
 
 ---
 
@@ -202,7 +203,7 @@ Skill: <URL to the detailed SKILL.md>
 Docs: <links to RFCs and specs>
 ```
 
-The SKILL.md contains templates for all 22 checks. The `{issue}` placeholder is replaced with the actual message from the API response.
+The SKILL.md contains templates for all 23 checks. The `{issue}` placeholder is replaced with the actual message from the API response.
 
 ---
 
@@ -317,6 +318,7 @@ agent-ready-cloudflare/
 ├── agent-skills/SKILL.md              ← Agent Skills Discovery Index
 ├── webmcp/SKILL.md                    ← WebMCP browser API
 ├── ard/SKILL.md                       ← ARD / ai-catalog (Agentic Resource Discovery)
+├── personal-agent-protocol/SKILL.md   ← Personal Agent Protocol / Poppy (informational)
 │
 │   Commerce
 ├── x402/SKILL.md                      ← x402 payment protocol
@@ -325,9 +327,9 @@ agent-ready-cloudflare/
 └── acp/SKILL.md                       ← Agent Commerce Protocol
 ```
 
-Note: no local `ap2/` folder (AP2 is covered via parent prompt / A2A card extension). Upstream lists 22 scanner checks.
+Note: no local `ap2/` folder (AP2 is covered via parent prompt / A2A card extension). Upstream lists 23 scanner checks.
 
-**26 files** — 1 README + 1 main skill + 24 implementation sub-skills.
+**27 files** — 1 README + 1 main skill + 25 implementation sub-skills.
 
 ---
 
