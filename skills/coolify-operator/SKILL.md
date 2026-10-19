@@ -3,22 +3,40 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "3.1"
-  date: 2026-09-22
+  version: "3.2"
+  date: 2026-10-19
   license: MIT
   category: ci-cd-and-deployment
-  coolify_cli_version: "1.8.0"
-  coolify_version: "4.3.23"
-  upstream_commit: "ff0ea90fc40e2d5f10e993f79759f705e5e6af10"
+  coolify_cli_version: "1.10.0"
+  coolify_version: "4.4.6"
+  upstream_commit: "e1d60947fc66c194d256b1049fd69c1ddf819760"
 ---
 
 # Coolify Operator
 
 Skill for operating Coolify instances through the **official CLI** or **REST API**. Coolify is a self-hosted open-source platform alternative to Heroku/Vercel/Netlify for deploying applications, databases, and services.
 
-**Pinned upstream:** coolify-cli **v1.8.0** (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
+**Pinned upstream:** coolify-cli **v1.10.0** (`e1d60947fc66c194d256b1049fd69c1ddf819760`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
 
-**Coolify version tested:** v4.3.23 (September 2026)
+**Coolify version tested:** v4.4.6 (October 2026)
+
+### CLI v1.10.0 Highlights
+
+- **New:** `coolify database import start|upload|status` and `coolify service database import ...` — restore backups from a local file, a previous upload, S3, or a server path
+- **New:** `coolify audit list` — team audit log (admins/owners)
+- **New:** `coolify integration-token create` + `coolify app secret-manager set` — Doppler / Infisical / Vault secret managers
+- **New:** `coolify app previews logs`, `coolify teams update --build-server-fallback`, `coolify project environments get`
+- **New:** `sqlite` database type (`--sqlite-databases`)
+- `coolify service application logs` accepts `-n, --lines`
+
+### CLI v1.9.0 Highlights
+
+- **New:** `coolify app previews list|get|create|update` (preview deployments API, Coolify v4.4.0+)
+- **New:** `coolify server registry list|login|check|logout` — Docker registry logins on servers
+- **New:** `coolify server remove --force` / `--delete-from-provider`
+- **New:** `--server-role deployment|build|both` on `server add` / `server update` (`--is-build-server` deprecated)
+- **Changed:** `coolify server get <uuid> --resources` now calls `GET /servers/{uuid}/resources` and prints a flat list (`uuid`, `name`, `type`, `status`) instead of the server details
+- GitHub App commands also accept the numeric app ID
 
 ### CLI v1.8.0 Highlights
 
@@ -39,10 +57,41 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 - Integrate with GitHub / GitLab Apps for private repositories
 - Configure notifications and instance email (SMTP/Resend)
 - Manage cloud-init scripts and provision servers (Hetzner, DigitalOcean, Vultr)
+- Restore database backups (database import), read the team audit log, configure external secret managers, and manage Docker registry logins on servers
 
 ---
 
-## Recent Breaking Changes (v4.3.x)
+## Recent Changes (v4.4.x)
+
+### v4.4.0 — Major feature release
+Highlights relevant to CLI/API operators (see the [v4.4.0 release](https://github.com/coollabsio/coolify/releases/tag/v4.4.0)):
+
+- **SQLite** as a standalone database type (experimental)
+- **Third-party secret managers** (Doppler, Infisical, HashiCorp Vault). `{{vault.KEY}}` references are resolved at deployment/database start and never stored in Coolify
+- **Team audit log** (`GET /audit-events`, admins/owners only; events pruned after 90 days)
+- **Database import API** for standalone and service databases (upload, server path, or S3). Upload/start need `write`; a server-path import also needs `deploy`
+- **Server roles** (`server_role`: deployment / build / both); `is_build_server` is deprecated. Team setting decides whether builds fall back to the deployment server
+- **Docker registry logins** per server (`GET/POST /servers/{uuid}/registries`, `.../{registry}/check`, `DELETE .../{registry}`). Coolify runs `docker login` on the server and does not store the token
+- **Preview deployments API** (`GET /applications/{uuid}/previews[/{pr_id}]`, `POST /applications/{uuid}/previews` needs `deploy`)
+- Delete a server from its cloud provider: `DELETE /servers/{uuid}?delete_from_provider=true`
+- Named volumes for new mounts (existing bind mounts keep their paths)
+
+**Behavior changes to watch:**
+- Single-database PostgreSQL restores no longer drop existing objects by default — pass `replace_existing` (`--replace-existing`) to get the old `--clean` behavior; owners/privileges are skipped unless `keep_owners` (`--keep-owners`)
+- Env var names must match `[A-Za-z_][A-Za-z0-9_.]*` (invalid build-time names stop builds)
+- Container labels use UUIDs (`coolify.applicationUuid`, `coolify.serviceUuid`, `coolify.databaseUuid`); generated container names use an ISO 8601 suffix
+- Container log and scheduled-task output endpoints require `read:sensitive` in the API
+- Multi-server applications: extra servers must use the same proxy and pull the primary server's image; persistent volumes and Docker Compose apps can no longer be combined with multiple servers
+
+### v4.4.1 – v4.4.6
+- v4.4.1: volume backup notifications and missing-volume-backup alerts; Sentinel 1.0.2
+- v4.4.2: GitHub Actions runners on deployment+build servers; per-server traffic analytics IP storage controls
+- v4.4.3: static-site PR previews fixed; nested Base64 custom labels fixed in API updates
+- v4.4.4: optional Cloudflare proxy mode for new DNS records; IPv6 fixes; Infisical reference expansion fix
+- v4.4.5: removed the 5 GB free-space requirement that blocked updates
+- v4.4.6: pinned PHP base image to fix self-hosted startup failures
+
+## Breaking Changes (v4.3.x)
 
 ### v4.3.22 — Host Path Removal
 **Removed:** `host_path` configuration for persistent volumes. API requests including `host_path` are now rejected.
@@ -86,7 +135,7 @@ irm https://raw.githubusercontent.com/coollabsio/coolify-cli/main/scripts/instal
 go install github.com/coollabsio/coolify-cli/coolify@latest
 ```
 
-Pin a version on Windows with `$env:COOLIFY_VERSION='v1.8.0'` before `irm ... | iex`. User-local install: `$env:COOLIFY_USER_INSTALL=1`.
+Pin a version on Windows with `$env:COOLIFY_VERSION='v1.10.0'` before `irm ... | iex`. User-local install: `$env:COOLIFY_USER_INSTALL=1`.
 
 ## Fundamental Concepts
 
@@ -113,7 +162,7 @@ COOLIFY=$(sed -n 's/^COOLIFY=//p' .env)
 
 ### Global Flags
 
-All commands support these flags (match coolify-cli v1.8.0):
+All commands support these flags (match coolify-cli v1.10.0):
 
 ```bash
 --context <name>              # Use specific context instead of default
@@ -201,6 +250,9 @@ coolify project environments list <project_uuid>
 
 # Create new project
 coolify project create --name "My Project" --description "Description"
+
+# Get one environment and its applications, databases and services (v1.10.0+, alias: env)
+coolify project environments get <project_uuid> <environment_name_or_uuid>
 ```
 
 ### Resources
@@ -210,7 +262,7 @@ coolify project create --name "My Project" --description "Description"
 coolify resource list
 ```
 
-### Command aliases (v1.8)
+### Command aliases (v1.10)
 
 Prefer primary forms from `llms.txt`. These aliases still work:
 
@@ -222,6 +274,9 @@ Prefer primary forms from `llms.txt`. These aliases still work:
 - `coolify server` | `servers`
 - `coolify teams` | `team`
 - `coolify github` | `gh` (and GitLab: `gitlab` | `gl` | `gitlab-app`)
+- `coolify audit` | `audit-events` | `audit-log`
+- `coolify integration-token` | `integration-tokens`
+- `coolify server registry` | `registries`; `coolify database import` | `imports`
 
 ---
 
@@ -506,16 +561,53 @@ coolify app deployments logs <uuid> --debuglogs
 
 ### Application Previews
 
+Full CRUD since CLI v1.9.0 (logs since v1.10.0). Requires Coolify v4.4.0+ for list/get/create (`create` needs a token with `deploy`).
+
 ```bash
+# List / get preview deployments
+coolify app previews list <app_uuid>
+coolify app previews get <app_uuid> <pr_id>
+
+# Open (or redeploy) a preview and queue its deployment (aliases: open, deploy)
+coolify app previews create <app_uuid> 42 --git-type github
+coolify app previews create <app_uuid> 42 --git-type bitbucket --commit 1a2b3c4d
+coolify app previews create <app_uuid> 42 --docker-tag pr-42     # Docker Image apps
+coolify app previews create <app_uuid> 42 --git-type gitlab --no-deploy
+# --git-type github|gitlab|gitea|bitbucket (not needed for GitHub App / GitLab App sources)
+# --url <pr-url>, --force (rebuild without cache)
+
+# Replace the domains of a preview (--domains and --compose-domain are mutually exclusive)
+coolify app previews update <app_uuid> 42 --domains "pr-42.example.com"
+coolify app previews update <app_uuid> 42 --compose-domain web=https://pr-42.example.com
+coolify app previews update <app_uuid> 42 --domains "pr-42.example.com" --force-domain-override
+
+# Runtime logs of a preview (v1.10.0+)
+coolify app previews logs <app_uuid> 42
+coolify app previews logs <app_uuid> 42 -n -1 --show-timestamps   # -1 = all lines
+coolify app previews logs <app_uuid> 42 -f --service web
+
 # Delete preview deployment
 coolify app previews delete <app_uuid> <pr_id>
 coolify app previews delete <app_uuid> <pr_id> --force
 
-# Get runtime logs for preview deployment (v4.3.23+)
-# API: GET /api/v1/applications/{uuid}/previews/{pr_id}/logs
-# Params: lines (int or "all"), timestamps (bool)
+# API equivalent for logs (v4.3.23+; token needs read:sensitive since v4.4.0): lines (int or "all"), timestamps (bool)
 curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
   "$COOLIFY/applications/{uuid}/previews/{pr_id}/logs?lines=100&timestamps=true"
+```
+
+### Application Secret Manager (v1.10.0+)
+
+Point an application at an external secret manager (Doppler, Infisical, HashiCorp Vault). Create the integration token first (see [Secret Manager Integration Tokens](#secret-manager-integration-tokens)), then reference secrets as `{{vault.KEY}}` in env values. Values are resolved at deployment and never stored in Coolify.
+
+```bash
+coolify app secret-manager set <app_uuid> --integration-token <token_uuid>
+coolify app secret-manager set <app_uuid> --integration-token <token_uuid> \
+  --settings '{"mount":"secret","path":"apps/web"}'
+
+# --settings per provider (JSON object):
+#   doppler    {"project":"...","config":"..."}   (required for service account tokens)
+#   infisical  {"project_id":"...","environment":"...","secret_path":"/"}
+#   vault      {"mount":"...","path":"..."}
 ```
 
 ---
@@ -535,7 +627,7 @@ coolify database get <uuid>
 ### Create Database
 
 ```bash
-# Supported types: postgresql, mysql, mariadb, mongodb, redis, keydb, clickhouse, dragonfly
+# Supported types: postgresql, mysql, mariadb, mongodb, redis, keydb, clickhouse, dragonfly, sqlite (v1.10.0+)
 
 coolify database create postgresql \
   --server-uuid <uuid> \
@@ -552,6 +644,13 @@ coolify database create postgresql \
 
 # Database-specific flags available (postgres-user, mysql-root-password, etc.)
 # Supports --tag and --tags for tagging
+
+# SQLite (Coolify v4.4.0+, experimental) — no --is-public / --public-port
+coolify database create sqlite \
+  --server-uuid <uuid> \
+  --project-uuid <uuid> \
+  --environment-name production \
+  --sqlite-databases app.db,cache.db
 ```
 
 ### Update and Delete
@@ -559,6 +658,7 @@ coolify database create postgresql \
 ```bash
 # Update database configuration
 coolify database update <uuid> --name "New Name"
+coolify database update <uuid> --sqlite-databases app.db,cache.db  # SQLite only
 
 # Delete database
 coolify database delete <uuid> \
@@ -653,6 +753,33 @@ coolify database backup executions <uuid> <backup-uuid>
 coolify database backup delete-execution <uuid> <backup-uuid> <execution-uuid>
 ```
 
+### Database Import (Restore) — v1.10.0+
+
+Requires Coolify v4.4.0+. Give `start` **exactly one** source: `--file`, `--upload-id`, `--s3-storage-uuid` + `--s3-path`, or `--server-path`. Uploading and starting need a token with `write`; `--server-path` also needs `deploy`. Local files max 10 GiB (uploaded in 10 MB chunks).
+
+```bash
+# Upload a local dump and import it, waiting for the result (non-zero exit on failure)
+coolify database import start <database_uuid> --file ./dump.sql.gz --wait
+
+# Two-step: upload first (prints an upload ID), then import
+coolify database import upload <database_uuid> ./dump.sql.gz
+coolify database import start <database_uuid> --upload-id <upload_id>
+
+# From S3 storage or from a file already on the database's server
+coolify database import start <database_uuid> --s3-storage-uuid <s3-uuid> --s3-path /backups/db.dump
+coolify database import start <database_uuid> --server-path /path/on/server/db.dump
+
+# Check status (activity ID is printed by start); --wait to follow, --poll-interval (default 3s)
+coolify database import status <database_uuid> <activity_id> --wait
+
+# Restore options
+#   --dump-all              backup contains all databases
+#   --replace-existing      PostgreSQL: drop matching objects first (old --clean behavior; off by default since v4.4.0)
+#   --keep-owners           PostgreSQL: restore owners and privileges
+#   --restore-mysql-users   MySQL/MariaDB all-databases: also restore users/passwords/privileges
+#   --sqlite-database app.db  SQLite: target database file
+```
+
 ---
 
 ## Services (One-Click)
@@ -720,8 +847,9 @@ coolify service application get <service-uuid> <app-uuid>
 # Update application
 coolify service application update <service-uuid> <app-uuid>
 
-# Get logs
+# Get logs (-n/--lines, default 100 — v1.10.0+)
 coolify service application logs <service-uuid> <app-uuid>
+coolify service application logs <service-uuid> <app-uuid> -n 500
 
 # Lifecycle
 coolify service application start <service-uuid> <app-uuid>
@@ -748,6 +876,12 @@ coolify service database logs <service-uuid> <db-uuid>
 coolify service database start <service-uuid> <db-uuid>
 coolify service database restart <service-uuid> <db-uuid>
 coolify service database stop <service-uuid> <db-uuid>
+
+# Import a backup into a service database (v1.10.0+, same source/option flags as `database import start`)
+coolify service database import start <service-uuid> <db-uuid> \
+  --s3-storage-uuid <s3-uuid> --s3-path /backups/db.dump
+coolify service database import upload <service-uuid> <db-uuid> ./dump.sql.gz
+coolify service database import status <service-uuid> <db-uuid> <activity_id> --wait
 ```
 
 ### Service Environment Variables
@@ -827,8 +961,12 @@ coolify servers list  # alias
 # Get server details
 coolify server get <uuid>
 
-# Get server with resources status
+# List resources deployed on the server (v1.9.0+ shape)
 coolify server get <uuid> --resources
+coolify server get <uuid> --resources --format json | jq -r '.[] | "\(.type)\t\(.name)\t\(.status)"'
+# Since CLI v1.9.0 this calls GET /servers/{uuid}/resources and returns a flat JSON array of
+# {id, uuid, name, type, status, created_at, updated_at} — it no longer prints the server
+# details, and there is no top-level `resources` key (old: GET /servers/{uuid}?resources=true).
 
 # Get server domains
 coolify server domains <uuid>
@@ -840,12 +978,39 @@ coolify server domains <uuid>
 # Add new server
 coolify server add <name> <ip> <private_key_uuid>
 coolify server add myserver 192.168.1.100 <key-uuid> -p 22 -u root --validate
+coolify server add builder 192.168.1.101 <key-uuid> --server-role build   # v1.9.0+
+
+# Update a server (only the given flags change)
+coolify server update <uuid> --server-role deployment   # deployment|build|both
+# 'deployment' requires another usable build server in the team.
+# --is-build-server is deprecated (true → build, false → both) and cannot be combined with --server-role.
+# Other flags: --name, --description, --ip, --port, --user, --private-key-uuid, --proxy-type, ...
 
 # Remove server
 coolify server remove <uuid>
+coolify server remove <uuid> --force                          # also delete all resources on it (v1.9.0+)
+coolify server remove <uuid> --force --delete-from-provider   # also delete the VM at Hetzner/Vultr/DigitalOcean — irreversible
 
 # Validate server connection
 coolify server validate <uuid>
+```
+
+### Server Docker Registries (v1.9.0+)
+
+Requires Coolify v4.4.0+. Coolify runs `docker login` on the server and does not store the password. There is **no password flag** — pipe it with `--password-stdin` or enter it at the no-echo prompt.
+
+```bash
+# List registry logins and which resources use them (token needs read:sensitive; -s shows usernames)
+coolify server registry list <server_uuid>
+
+# Log in on one or more servers
+echo "$GHCR_TOKEN" | coolify server registry login <server_uuid> \
+  --registry ghcr.io --username octocat --password-stdin
+coolify server registry login <uuid_1> <uuid_2> --registry registry.example.com:5000 -u deploy
+
+# Check that a saved login still works / log out
+coolify server registry check <server_uuid> ghcr.io
+coolify server registry logout <server_uuid> ghcr.io -f
 ```
 
 ### Server Destinations
@@ -943,7 +1108,7 @@ coolify gitlab delete <app_id_or_uuid> -f
 
 ### Creating an Application from a GitLab App
 
-Confirmed in Coolify `4.3.23`. The API creates the OAuth **source**. The **application** linked to that source is created via UI under "Git Repository (with GitLab App)".
+Confirmed in Coolify `4.3.23` and still true in `4.4.6` (no `private-gitlab-app` route). The API creates the OAuth **source**. The **application** linked to that source is created via UI under "Git Repository (with GitLab App)".
 
 `POST /api/v1/gitlab-apps` only stores the source (`name`, `html_url`, credentials). There is no `POST /api/v1/applications/private-gitlab-app` — this route returns 404. The only application create endpoints are:
 
@@ -1053,6 +1218,45 @@ coolify settings email update --json '{"smtp_ehlo_domain":null}'
 
 ---
 
+## Secret Manager Integration Tokens
+
+v1.10.0+ / Coolify v4.4.0+. Providers: `doppler`, `infisical`, `vault`. There is **no flag for the provider token** and it is never printed: pipe it with `--provider-token-stdin`, set `COOLIFY_INTEGRATION_TOKEN`, or enter it at the no-echo prompt.
+
+```bash
+echo "$DOPPLER_TOKEN" | coolify integration-token create \
+  --provider doppler --name prod --provider-token-stdin
+
+# Infisical / Vault need --metadata
+#   infisical {"base_url":"...","client_id":"..."}
+#   vault     {"base_url":"...","namespace":"..."}   (namespace optional)
+echo "$VAULT_TOKEN" | coolify integration-token create \
+  --provider vault --name vault --provider-token-stdin \
+  --metadata '{"base_url":"https://vault.example.com"}'
+```
+
+Then attach it to an app with `coolify app secret-manager set` (see Applications).
+
+---
+
+## Audit Log
+
+v1.10.0+ / Coolify v4.4.0+. Only team admins and owners can read audit events (newest first).
+
+```bash
+coolify audit list
+coolify audit list --source api --per-page 50
+coolify audit list --action deleted --search my-app --page 2
+coolify audit list --format json
+
+# --per-page 1-100 (default 25), --page (default 1), --search <text>
+# --action created|updated|deleted|... (all = every action)
+# --source all|ui|api|mcp|webhook|system|scheduler
+# Actor e-mail, token, metadata, changes, IP and user agent are returned only for
+# tokens with read:sensitive — use --format json to see them.
+```
+
+---
+
 ## Tags
 
 ```bash
@@ -1109,6 +1313,10 @@ coolify team get <team_id>
 
 # Get current team
 coolify team current
+
+# Allow/deny build fallback to the deployment server when no build server is usable (v1.10.0+)
+coolify teams update --build-server-fallback
+coolify teams update --build-server-fallback=false
 
 # List team members
 coolify team members list
@@ -1201,6 +1409,22 @@ curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/deployments/applicati
 ```bash
 curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers"
 curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}"
+
+# Resources deployed on a server (flat array)
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/resources"
+
+# Registry logins (v4.4.0+)
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/registries"
+```
+
+### Previews, Imports, Audit (API, v4.4.0+)
+
+```bash
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/applications/{uuid}/previews"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/applications/{uuid}/previews/{pr_id}"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/databases/{uuid}/imports/{activity_id}"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/audit-events"
+# Service databases: /services/{uuid}/databases/{database_uuid}/imports
 ```
 
 ---
@@ -1536,9 +1760,9 @@ coolify app restart <uuid>
 
 ## LLM / AI Agent Integration
 
-For AI agents using Coolify CLI (prefer the **v1.8.0** pin this skill targets):
-- Quick instructions (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.8.0/llms.txt
-- Full command catalog (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.8.0/llms-full.txt
+For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
+- Quick instructions (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.10.0/llms.txt
+- Full command catalog (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.10.0/llms-full.txt
 - Latest on main: https://raw.githubusercontent.com/coollabsio/coolify-cli/main/llms.txt and `llms-full.txt`
 
 ---
@@ -1547,7 +1771,8 @@ For AI agents using Coolify CLI (prefer the **v1.8.0** pin this skill targets):
 
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
 - **CLI Releases**: https://github.com/coollabsio/coolify-cli/releases
-- **CLI v1.8.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.8.0 (`ff0ea90fc40e2d5f10e993f79759f705e5e6af10`)
+- **CLI v1.10.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.10.0 (`e1d60947fc66c194d256b1049fd69c1ddf819760`)
+- **Coolify v4.4.0 release notes**: https://github.com/coollabsio/coolify/releases/tag/v4.4.0
 - **Coolify Releases**: https://github.com/coollabsio/coolify/releases
 - **Official Docs**: https://coolify.io/docs
 - **API Reference**: https://coolify.io/docs/api-reference
@@ -1556,6 +1781,16 @@ For AI agents using Coolify CLI (prefer the **v1.8.0** pin this skill targets):
 ---
 
 ## Changelog
+
+### v3.2 (2026-10-19)
+- Pinned coolify-cli v1.10.0 (`e1d6094`) and Coolify v4.4.6
+- Added `app previews list/get/create/update/logs` (full preview CRUD + runtime logs)
+- Added `database import start/upload/status` and `service database import ...` (restore from file, upload, S3, server path)
+- Added `audit list`, `integration-token create`, `app secret-manager set` (Doppler/Infisical/Vault)
+- Added `server registry list/login/check/logout`, `server remove --force/--delete-from-provider`, `--server-role` on `server add/update`
+- Documented the new `server get --resources` shape (flat array from `GET /servers/{uuid}/resources`)
+- Added `sqlite` database type, `teams update --build-server-fallback`, `project environments get`, `service application logs -n`
+- Added Coolify v4.4.x changes (secret managers, audit log, server roles, restore defaults, registry logins)
 
 ### v3.1 (2026-09-22)
 - Updated for Coolify v4.3.23

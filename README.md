@@ -157,7 +157,16 @@ Master operator for Coolify — the self-hosted open-source deployment platform 
 - **Deploy module**: deploy by UUID, name, or batch multiple resources at once
 - **GitHub Apps**: create integrations, list accessible repos and branches
 - **Services (one-click)**: WordPress, Ghost, n8n, and 50+ more with sub-resource management
-- **Infrastructure**: destinations, cloud tokens (Hetzner/DO/Vultr), private keys, tags
+- **Infrastructure**: destinations, cloud tokens (Hetzner/DO/Vultr), private keys, tags, Docker registry logins, server roles
+- **Restore & governance**: database import (file, upload, S3, server path), team audit log, Doppler/Infisical/Vault secret managers
+
+**New in v3.2 (Oct 19, 2026):**
+- Pinned to coolify-cli v1.10.0 and Coolify v4.4.6
+- Added `app previews list/get/create/update/logs` (full preview deployment CRUD + runtime logs)
+- Added `database import` and `service database import` (start/upload/status)
+- Added `audit list`, `integration-token create`, `app secret-manager set`
+- Added `server registry list/login/check/logout`, `server remove --force/--delete-from-provider`, `--server-role`
+- Documented the new `server get --resources` output (flat resource list)
 
 **New in v2.0 (Aug 15, 2026):**
 - Complete rewrite covering 100% of official Coolify CLI commands
