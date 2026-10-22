@@ -158,11 +158,12 @@ pstack-skill/
 │   ├── principles.md         ← full text of the 21 principles
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
 │   ├── harness/              ← per-harness name mappings (claude-code.md)
-│   └── skills/               ← 28 bundled procedures (how, arena, unslop, sharpen, create-formal-verification-skill...)
+│   └── skills/               ← 30 bundled procedures (how, arena, unslop, sharpen, statechart, create-formal-verification-skill...)
 └── scripts/
     ├── check-upstream.sh     ← manual upstream update check
     ├── check-plan.mjs        ← multi-phase plan checklist validator
     ├── log.sh                ← decision-log helper (TSV, formula-safe)
+    ├── statechart/           ← TLA+ model ⇄ Mermaid statechart scripts (Node, TLC via java)
     └── worktree-audit.sh     ← disk reclaim audit
 ```
 

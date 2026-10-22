@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.4"
-  date: 2026-10-18
+  version: "1.5"
+  date: 2026-10-22
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 
@@ -30,10 +30,11 @@ Everything referenced here ships inside this skill:
 - `playbooks/*.md` — the step-by-step workflows. Copy matched steps verbatim.
 - `references/principles.md` — the full text of the 24 principles indexed below.
 - `references/bugbot-triage.md` — bot-review triage.
-- `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `in-your-own-words`, `sharpen`, `setup-pstack`, `benchmark-checklist`, `correct`, `ketchup`, `poteto-help`). Read the file when a step routes to one.
+- `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, `in-your-own-words`, `sharpen`, `setup-pstack`, `benchmark-checklist`, `correct`, `ketchup`, `poteto-help`). Read the file when a step routes to one.
 - `references/harness/*.md` — one tool, subagent, model, and path mapping per harness (`claude-code.md` today). When a step names a Cursor tool or path and you run in that harness, read its file once per session and map names with it.
 - `scripts/log.sh` — decision-log helper. `scripts/worktree-audit.sh` — disk reclaim audit.
 - `scripts/check-plan.mjs` — validates the multi-phase plan checklist.
+- `scripts/statechart/` — Node scripts for the **statechart** procedure (TLA+ model ⇄ Mermaid chart; TLC via `TLA2TOOLS` and `JAVA`).
 - `scripts/check-upstream.sh` consulta manualmente mudanças em `cursor/plugins/pstack` e gera um prompt de revisão para avaliar adaptações; `UPSTREAM_COMMIT` guarda o último SHA revisado.
 
 Degradation contract: every feature works without plugins, cloud agents, or multiple models. Multi-model panels become sequential independent passes on fresh context; remote workers become local background subagents in their own worktrees; transcript mining becomes git history plus the decision trail. Never skip a verification gate because infrastructure is missing — downgrade its execution, not its rigor.

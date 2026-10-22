@@ -56,3 +56,12 @@ Run this when the user asks to configure pstack models, set a pstack budget, or 
 ## Runtime resolution
 
 When a playbook says "spawn a subagent using the builder role": read the config files in order, take the first hit, and spawn through whatever harness the prefix names (no prefix = this session's native subagent mechanism). No hit anywhere: use the best model available to you now and keep going. If a spawn errors because the bound model is unresolvable, fall back once to the inline default, note it in the reply, and suggest a setup pass at the end of the task.
+
+## Offer verification skills (optional)
+
+After writing the bindings, offer once each, unless the project already has one:
+
+- **Verification skill.** Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work?" On yes, run the **create-verification-skill** procedure.
+- **Formal verification skill.** Check whether the project already has a project skill that runs a model checker, a proof, or another verifier against the code. If not, offer: "want a formal verification skill, so agents can prove a key property of your code holds in every case in scope, not only the cases tests reach?" On yes, run the **create-formal-verification-skill** procedure.
+
+On no, move on without pushing.

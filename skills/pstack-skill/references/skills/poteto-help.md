@@ -24,7 +24,7 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 |---|---|
 | Do any non-trivial task with rigor | poteto-mode |
 | Check that the agent understood their goal and the problem before it starts | in-your-own-words |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | sharpen |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | sharpen |
 | Know how code works now, or where new code should live | how |
 | Know why code is shaped this way, or where a number came from | why |
 | Understand a change or subsystem, explained plainly | teach |
@@ -44,6 +44,8 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 | Give agents a scripted way to drive the app and prove behavior | create-verification-skill |
 | Bring a verification skill and its feature map back in line with the app | maintain-verification-skill |
 | Formally verify a race, invariant, or other property that tests rarely reach | create-formal-verification-skill |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | maintain-formal-verification-skill |
+| Show a PM or designer what the user sees as a chart checked by a model, with each bug drawn as a numbered path, turn an agreed chart into a TLA+ skeleton, or audit the code against its TLA+ spec | statechart |
 | Vet a performance number before reporting or acting on it | benchmark-checklist |
 | Run a large or cross-cutting change, or one to review after stepping away | figure-it-out |
 | Keep a decision log during a run, and review it afterward | show-me-your-work |
