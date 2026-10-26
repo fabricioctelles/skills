@@ -81,3 +81,15 @@ console.log(report.findings);       // Finding[]
 console.log(report.summary);        // { errors, warnings, infos }
 console.log(report.designSystem);   // Parsed DesignSystemState
 ```
+
+## Duplicate top-level YAML key (spec `6e5da53`)
+
+Since spec commit `6e5da53` (#178, 2026-10-16) tokens may be split across
+front matter and ` ```yaml ` blocks inside `##` sections. Per the spec's
+consumer-behavior table, a top-level key defined in more than one block is an
+error and the file is rejected (example: `colors` in both front matter and a
+code block). Fix by merging all entries of that key into one block.
+
+CLI gap: npm 0.4.0 only emits a **warning** (no rule id), e.g. `Section
+'colors' is defined in both frontmatter and code block 1.`, with `errors: 0`.
+Treat that warning as a spec error and tell the user to fix it.

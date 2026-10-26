@@ -1,7 +1,28 @@
 # Token Schema — DESIGN.md Spec (version alpha)
 
-The YAML front matter in a DESIGN.md file contains machine-readable design
-tokens. These are the normative values that agents use to generate code.
+A DESIGN.md file carries machine-readable design tokens in YAML. These are
+the normative values that agents use to generate code.
+
+Spec reference: `google-labs-code/design.md` main at commit
+[`6e5da53`](https://github.com/google-labs-code/design.md/commit/6e5da5382f41edbba9d73b2c62f33f32e9971f15)
+(#178, 2026-10-16). Published CLI: npm `@google/design.md` 0.4.0, which
+already lints hybrid files.
+
+## Where Tokens Live
+
+Tokens may be embedded in two ways:
+
+1. **YAML front matter** — at the top of the file, opened and closed by a
+   line containing exactly `---`.
+2. **Interleaved YAML code blocks** — fenced ` ```yaml ` blocks placed inside
+   the relevant `##` section.
+
+Both may be used in the same document (hybrid), e.g. `name` and
+`description` in the front matter and `colors` / `typography` in blocks
+inside their sections. All blocks are parsed and merged into one token tree.
+Each top-level schema key may be defined **at most once** across the whole
+document — defining the same top-level key in two blocks (e.g. `colors` in
+both front matter and a code block) is an error and the file is rejected.
 
 ## Top-Level Schema
 
@@ -129,10 +150,10 @@ components:
 Broken references (pointing to undefined tokens) trigger a `broken-ref` error.
 
 Since npm 0.3.0 (PR #103), token groups support nested sub-levels in the
-frontmatter — e.g. `colors.brand.primary` — and references use the full
+token YAML — e.g. `colors.brand.primary` — and references use the full
 dotted path to the leaf token: `{colors.brand.primary}`.
 
-## File Structure Summary
+## File Structure Summary (front matter only)
 
 ```
 ---                         ← YAML front matter start
@@ -151,6 +172,39 @@ components: ...
 ## Typography
 ...
 ```
+
+Hybrid layout (front matter + interleaved blocks):
+
+````markdown
+---
+version: alpha
+name: Daylight Prestige
+description: Editorial design system with high-contrast neutrals.
+---
+
+## Colors
+
+The palette is rooted in high-contrast neutrals and a single accent color.
+
+```yaml
+colors:
+  primary: "#1A1C1E"
+  secondary: "#6C7278"
+  tertiary: "#B8422E"
+```
+
+## Typography
+
+```yaml
+typography:
+  h1:
+    fontFamily: Public Sans
+    fontSize: 48px
+    fontWeight: 600
+    lineHeight: 1.1
+    letterSpacing: -0.02em
+```
+````
 
 The tokens are the normative values. The prose provides context for how to
 apply them.

@@ -14,8 +14,8 @@ description: >
   "frontmatter tokens", or any request to verify a DESIGN.md file.
 metadata:
   author: https://ft.ia.br
-  version: "1.3"
-  date: 2026-09-16
+  version: "1.4"
+  date: 2026-10-26
   repository: https://github.com/fabricioctelles/skills
   license: Apache 2.0
   category: product-verification
@@ -167,8 +167,15 @@ detailed explanations of lint failures.
 
 ## Token Schema Quick Reference
 
-Load `references/token-schema.md` for the complete YAML frontmatter schema
-when helping users author or fix their frontmatter tokens.
+Load `references/token-schema.md` for the complete token schema when helping
+users author or fix their tokens.
+
+Since spec commit `6e5da53` (#178, 2026-10-16; CLI npm 0.4.0 already
+accepts it), tokens may live in YAML front matter, in fenced ` ```yaml `
+blocks inside each `##` section, or both (hybrid). All blocks merge into one
+token tree; a top-level key (e.g. `colors`) defined in more than one block is
+a spec error (CLI 0.4.0 only warns: `Section '<key>' is defined in both
+frontmatter and code block N`) — when it shows up, move every entry of that key into a single block.
 
 ---
 
@@ -205,7 +212,10 @@ npx skills add google-labs-code/stitch-skills
 ## Anti-Patterns
 
 - Never vendor or cache the CLI — always use `npx` for latest spec
-- Never manually parse YAML frontmatter when the linter can do it
+- Never manually parse token YAML (front matter or section blocks) when the
+  linter can do it
+- Never assume tokens live only in front matter — check `##` sections for
+  ` ```yaml ` blocks too
 - Never guess at contrast ratios — let the linter compute them
 - Never assume section order is correct — let the linter verify
 - Never skip re-validation after fixes
