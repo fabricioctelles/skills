@@ -3,12 +3,12 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "3.2"
-  date: 2026-10-19
+  version: "3.3"
+  date: 2026-10-28
   license: MIT
   category: ci-cd-and-deployment
   coolify_cli_version: "1.10.0"
-  coolify_version: "4.4.6"
+  coolify_version: "4.5.3"
   upstream_commit: "e1d60947fc66c194d256b1049fd69c1ddf819760"
 ---
 
@@ -18,7 +18,7 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 
 **Pinned upstream:** coolify-cli **v1.10.0** (`e1d60947fc66c194d256b1049fd69c1ddf819760`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
 
-**Coolify version tested:** v4.4.6 (October 2026)
+**Release notes reviewed:** Coolify v4.5.3 (October 2026). This records upstream changes; it does not assert that every homelab instance has been upgraded.
 
 ### CLI v1.10.0 Highlights
 
@@ -33,6 +33,7 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 
 - **New:** `coolify app previews list|get|create|update` (preview deployments API, Coolify v4.4.0+)
 - **New:** `coolify server registry list|login|check|logout` — Docker registry logins on servers
+- **New:** `coolify mcp enable|disable` — toggle the instance MCP endpoint (requires a root team API token)
 - **New:** `coolify server remove --force` / `--delete-from-provider`
 - **New:** `--server-role deployment|build|both` on `server add` / `server update` (`--is-build-server` deprecated)
 - **Changed:** `coolify server get <uuid> --resources` now calls `GET /servers/{uuid}/resources` and prints a flat list (`uuid`, `name`, `type`, `status`) instead of the server details
@@ -60,6 +61,71 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 - Restore database backups (database import), read the team audit log, configure external secret managers, and manage Docker registry logins on servers
 
 ---
+
+## Recent Changes (v4.5.x)
+
+Highlights for operators, based on the [v4.5.0](https://github.com/coollabsio/coolify/releases/tag/v4.5.0) through [v4.5.3](https://github.com/coollabsio/coolify/releases/tag/v4.5.3) releases:
+
+- **Security and access:** v4.5.0 encrypts secrets at rest, scopes deployment queries to the caller's team, and enforces instance IP allow-lists on the MCP endpoint. v4.5.1 uses Cloudflare's client IP for API allow-lists and audit logs when requests pass through Cloudflare. Confirm the source IP behavior before tightening allow-lists behind a proxy.
+- **Sensitive API data:** v4.5.2 gates application commands/configuration, service configuration, custom database config, and custom Docker options by team role or the API token's `read:sensitive` ability. Grant that ability only when the operator needs those fields; treat returned values as secrets.
+- **Service deletion:** v4.5.1 removed “Remove from Coolify only”. The `delete_from_coolify_only` services API option now returns HTTP 422. Do not use it as a way to unregister an unreachable service; ordinary deletion is designed to work when its server cannot be reached.
+- **Timeouts and retries:** v4.5.3 stops retrying HTTP requests that timed out after being sent, to avoid duplicate actions. For state-changing API calls, a timeout is an unknown outcome: inspect the resource/deployment state before manually retrying.
+- **Deploy/build fixes:** v4.5.3 preserves a Dockerfile `HEALTHCHECK`, fixes Compose builds whose required variable exists only at runtime, and fixes concurrent Railpack builds. If a deployment fails on these paths, first confirm the instance includes this release before changing the app configuration.
+- **Preview variables:** v4.5.2 preserves production values when an existing PR preview is redeployed; newly created previews use their own variables. Check preview-specific environment values when diagnosing differences between a new preview and a redeploy.
+- **Updates and recovery:** v4.5.0 adds an automatic database backup before Coolify updates. Still confirm backup health and recovery requirements before a maintenance window. v4.5.1 also adds per-server security patching in beta; inspect server scope and policy before enabling it.
+- **v4.4 users:** v4.4.7 fixes multiple critical dependency CVEs. Upgrade at least to that patch if staying on the 4.4 line, or follow the appropriate security patch for the installed release line.
+
+### New REST API operations in v4.5.0
+
+Comparing the official OpenAPI specs for v4.4.7 and v4.5.0, these operations were added. The v4.5.0–v4.5.3 specs show no further added or removed REST operations:
+
+| Operation | Purpose |
+|---|---|
+| `GET /hostinger/data-centers` | List Hostinger VPS data centers |
+| `GET /hostinger/catalog` | List Hostinger VPS plans and prices |
+| `GET /hostinger/templates` | List Hostinger OS templates |
+| `GET /hostinger/ssh-keys` | List SSH keys in the connected Hostinger account |
+| `GET /hostinger/post-install-scripts` | List Hostinger post-install scripts |
+| `POST /servers/hostinger` | Purchase a Hostinger VPS and create its Coolify server record |
+| `POST /servers/{uuid}/migrate` | Start a server migration to another Coolify instance |
+| `GET /servers/{uuid}/transfer` | Check transfer progress/status |
+| `GET /servers/import/check` | Check whether a transfer bundle can be imported |
+| `POST /servers/import` | Import a server transfer bundle |
+| `POST /servers/{uuid}/transfer/complete` | Mark a server transfer complete |
+
+Server migrations run in the background. Check transfer status before treating a migration as complete. Hostinger provisioning can incur provider charges, so inspect the selected plan and data center before calling `POST /servers/hostinger`.
+
+**Other v4.5.0 API contract changes (existing routes):** application updates accept `dockerfile` and `github_app_uuid`; database updates apply `redis_password` and `instant_deploy`; service creation accepts `connect_to_docker_network`. The application write API uses `domains` rather than `fqdn`, and `force_domain_override` is honored for `docker_compose_domains` on create.
+
+### Built-in MCP server (v4.5.0+)
+
+Coolify exposes its MCP server at `https://<coolify-host>/mcp` using Streamable HTTP. This is separate from the REST API base `/api/v1`. The instance MCP setting and the token's team MCP setting must both allow access. The endpoint also obeys the instance IP allow-list.
+
+```bash
+# Enable or disable the instance MCP endpoint (requires a root team API token)
+coolify mcp enable
+coolify mcp disable
+
+# REST API equivalents
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/mcp/enable"
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/mcp/disable"
+```
+
+Create a team-scoped token and configure the MCP client with the instance URL plus `/mcp` and `Authorization: Bearer <token>`. Use `read` for inventory/inspection, add `read:sensitive` only for supported sensitive output, and add `deploy` for deploy/start/stop/restart/cancel actions. Avoid `root` for routine MCP use. Resource-management tools include inventory and discovery (`get_infrastructure_overview`, `search_resources`, `list_unhealthy_resources`), plus application, database, service, deployment, log, and lifecycle operations. Ask `coolify_help` or inspect MCP tool capabilities on the connected instance because available tools depend on version and token permissions. MCP responses do not return environment values or file contents; log summaries are limited and best-effort redacted.
+
+The v4.5.0 release also notes that MCP API-token creation works while REST API access is disabled. This does not remove MCP's own instance/team enablement and IP-allow-list checks.
+
+**Coolify application console command:** v4.5.0 adds Laravel Artisan `php artisan app-key:reencrypt` to re-encrypt stored secrets after rotating `APP_KEY`. It is not a `coolify` CLI subcommand; run it only in the Coolify application container as part of a planned key rotation, after reviewing the release instructions and taking a recoverable backup.
+
+**CLI/API coverage:** the pinned coolify-cli v1.10.0 documents `coolify mcp enable|disable`, but does not expose the Hostinger provisioning or server transfer operations listed above. Use the REST API/OpenAPI schema for those request bodies and permissions; do not invent a CLI equivalent.
+
+### Operational checks after upgrading to v4.5.x
+
+1. Verify the deployed Coolify version before relying on new behavior; the `coolify_version` metadata above tracks reviewed release notes, not the state of each instance.
+2. For Cloudflare-proxied API access, validate the IP seen by Coolify before changing allow-lists, and confirm the access path still works.
+3. Use least-privilege API tokens. Add `read:sensitive` only for operations that require protected configuration or audit details.
+4. After a timed-out mutation, query the affected resource or deployment before issuing another request.
+5. Review release-specific breaking changes before deleting services or changing preview environment variables.
 
 ## Recent Changes (v4.4.x)
 
@@ -1417,6 +1483,26 @@ curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/resour
 curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/registries"
 ```
 
+#### Hostinger provisioning and server transfer (v4.5.0+)
+
+```bash
+# Inspect provider catalog before provisioning
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/hostinger/data-centers"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/hostinger/catalog"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/hostinger/templates"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/hostinger/ssh-keys"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/hostinger/post-install-scripts"
+
+# Transfer lifecycle; POST bodies follow the instance's OpenAPI schema
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/migrate"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/transfer"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/import/check"
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/import"
+curl -sS -X POST -H "Authorization: Bearer $COOLIFY_KEY" "$COOLIFY/servers/{uuid}/transfer/complete"
+```
+
+These are route sketches, not complete request examples. POST bodies are required where defined by the instance's OpenAPI schema; do not send empty bodies copied from these sketches. Hostinger provisioning is a separate paid operation; inspect plan and data center before purchase.
+
 ### Previews, Imports, Audit (API, v4.4.0+)
 
 ```bash
@@ -1772,6 +1858,8 @@ For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
 - **CLI Releases**: https://github.com/coollabsio/coolify-cli/releases
 - **CLI v1.10.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.10.0 (`e1d60947fc66c194d256b1049fd69c1ddf819760`)
+- **Coolify v4.5.3 OpenAPI schema**: https://raw.githubusercontent.com/coollabsio/coolify/v4.5.3/openapi.json
+- **Coolify MCP docs**: https://coolify.io/docs/mcp/overview
 - **Coolify v4.4.0 release notes**: https://github.com/coollabsio/coolify/releases/tag/v4.4.0
 - **Coolify Releases**: https://github.com/coollabsio/coolify/releases
 - **Official Docs**: https://coolify.io/docs
@@ -1791,6 +1879,13 @@ For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
 - Documented the new `server get --resources` shape (flat array from `GET /servers/{uuid}/resources`)
 - Added `sqlite` database type, `teams update --build-server-fallback`, `project environments get`, `service application logs -n`
 - Added Coolify v4.4.x changes (secret managers, audit log, server roles, restore defaults, registry logins)
+
+### v3.3 (2026-10-28)
+- Reviewed Coolify releases through v4.5.3 and updated the version metadata without implying all instances are upgraded
+- Documented v4.5 sensitive-data permissions, Cloudflare client IP allow-lists, service deletion change, and timeout retry behavior
+- Added operational notes for preview variables, build fixes, update backups, server patching beta, and the v4.4.7 security update
+- Added CLI `mcp enable|disable`, MCP endpoint setup/permissions and v4.5 resource-management capabilities
+- Compared v4.4.7 and v4.5.0–v4.5.3 OpenAPI specs; documented new Hostinger/server-transfer routes and v4.5 request contract changes
 
 ### v3.1 (2026-09-22)
 - Updated for Coolify v4.3.23
