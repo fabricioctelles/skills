@@ -143,7 +143,7 @@ Gera entregáveis de design no nível Apple/Pentagram/frog/Vercel/Figma usando 1
 ### 🚀 Coolify Operator[^coolify-grade] · `ci-cd-and-deployment`
 Operador mestre do Coolify — plataforma self-hosted open-source de deployment (alternativa ao Heroku/Vercel/Netlify). Cobertura completa do CLI oficial com 100+ comandos para gerenciar aplicações, servidores, databases, serviços, GitHub Apps e integrações com cloud providers.
 
-**Quando usar:** conectar em instâncias Coolify, criar/fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente e storage, configurar backups de database, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), integrar com GitHub Apps, provisionar servidores na Hetzner/DigitalOcean/Vultr.
+**Quando usar:** conectar em instâncias Coolify, criar/fazer deploy/restart/stop de aplicações, gerenciar variáveis de ambiente e storage, configurar backups de database, listar servidores e databases, monitorar logs de deployment, gerenciar múltiplos ambientes (dev/staging/prod), integrar com GitHub Apps, provisionar servidores na Hetzner/DigitalOcean/Vultr/Hostinger.
 
 **Principais funcionalidades:**
 - **Criação de aplicações** (5 métodos): repo público, GitHub App, deploy key, Dockerfile, imagem Docker
@@ -154,8 +154,19 @@ Operador mestre do Coolify — plataforma self-hosted open-source de deployment 
 - **Módulo de deploy**: deploy por UUID, nome, ou batch de múltiplos recursos
 - **GitHub Apps**: criar integrações, listar repos e branches acessíveis
 - **Services (one-click)**: WordPress, Ghost, n8n, e 50+ mais com sub-recursos
-- **Infraestrutura**: destinations, cloud tokens (Hetzner/DO/Vultr), private keys, tags, logins em Docker registries, server roles
+- **Infraestrutura**: destinations, cloud tokens (Hetzner/DO/Vultr/Hostinger), private keys, tags, logins em Docker registries, server roles
 - **Restore e governança**: import de database (arquivo, upload, S3, caminho no servidor), audit log do time, secret managers Doppler/Infisical/Vault
+
+**Novidades na v3.4 (29 Out 2026):**
+- Fixado no coolify-cli v1.11.0 e Coolify v4.5.3
+- Adicionado `server hostinger catalog|data-centers|templates|ssh-keys|post-install-scripts` e `server hostinger create` (compra paga de VPS, com confirmação — nunca usar `--force` em automação)
+- Documentado o mascaramento de campos sensíveis em `table`, `json` e `pretty`, com `-s` pra revelar; `context get` nunca imprime o token
+- Adicionado `--provider hostinger` no gerenciamento de cloud tokens
+
+**Novidades na v3.3 (28 Out 2026):**
+- Revisado o Coolify v4.5.3: permissões de dados sensíveis, allow-list de IP do Cloudflare, mudança na remoção de serviços, retry em timeout
+- Documentado `mcp enable|disable` do CLI, setup do endpoint MCP e permissões de token
+- Adicionadas notas sobre variáveis de preview, correções de build, backups de update, beta de server patching e o security update do v4.4.7
 
 **Novidades na v3.2 (19 Out 2026):**
 - Fixado no coolify-cli v1.10.0 e Coolify v4.4.6

@@ -3,22 +3,30 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "3.3"
-  date: 2026-10-28
+  version: "3.4"
+  date: 2026-10-29
   license: MIT
   category: ci-cd-and-deployment
-  coolify_cli_version: "1.10.0"
+  coolify_cli_version: "1.11.0"
   coolify_version: "4.5.3"
-  upstream_commit: "e1d60947fc66c194d256b1049fd69c1ddf819760"
+  upstream_commit: "3738289a2a47050fa70007a571fbed00cb1c6d6e"
 ---
 
 # Coolify Operator
 
 Skill for operating Coolify instances through the **official CLI** or **REST API**. Coolify is a self-hosted open-source platform alternative to Heroku/Vercel/Netlify for deploying applications, databases, and services.
 
-**Pinned upstream:** coolify-cli **v1.10.0** (`e1d60947fc66c194d256b1049fd69c1ddf819760`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
+**Pinned upstream:** coolify-cli **v1.11.0** (`3738289a2a47050fa70007a571fbed00cb1c6d6e`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
 
 **Release notes reviewed:** Coolify v4.5.3 (October 2026). This records upstream changes; it does not assert that every homelab instance has been upgraded.
+
+### CLI v1.11.0 Highlights
+
+- **New:** `coolify server hostinger catalog|data-centers|templates|ssh-keys|post-install-scripts <cloud_token_uuid>` — inspect plans/prices, data centers, OS templates, SSH keys, and post-install scripts before provisioning (`catalog` alias: `plans`)
+- **New:** `coolify server hostinger create` — buys a Hostinger VPS and adds it as a Coolify server. Paid and recurring: see **Server Provisioning on Hostinger** under Servers
+- **New:** `coolify cloud-token create --provider hostinger` — Hostinger joins hetzner, digitalocean, and vultr
+- **Security:** sensitive fields (tokens, passwords, private keys, secrets, IPs, emails) are now masked as `********` in `json` and `pretty` output too, not only in `table`; `-s` / `--show-sensitive` reveals them in every format. Scripts that read secrets from `--format json` must add `-s`
+- **Changed:** `coolify context get` now uses the token-free view — it never prints the saved API token, in any format, even with `--show-sensitive`
 
 ### CLI v1.10.0 Highlights
 
@@ -42,7 +50,7 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 ### CLI v1.8.0 Highlights
 
 - **New:** Commands for instance-wide SMTP/Resend settings (`coolify settings email get/update`)
-- **Security:** API tokens redacted by default in `context list` output (use `--show-sensitive` to reveal)
+- **Security:** API tokens redacted by default in `context list` output (use `--show-sensitive` to reveal); since v1.11.0 every output format masks sensitive fields, see CLI v1.11.0 Highlights
 - **Fix:** `is_buildtime` field now correctly sent on app env create/update
 - **Breaking:** `--retention-max-storage-locally` and `--retention-max-storage-s3` accept **numeric GB** (e.g., `1`, `10.5`), not unit-suffixed strings
 
@@ -57,7 +65,7 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 - Operate multiple Coolify instances (contexts)
 - Integrate with GitHub / GitLab Apps for private repositories
 - Configure notifications and instance email (SMTP/Resend)
-- Manage cloud-init scripts and provision servers (Hetzner, DigitalOcean, Vultr)
+- Manage cloud-init scripts and provision servers (Hetzner, DigitalOcean, Vultr, and Hostinger since CLI v1.11.0)
 - Restore database backups (database import), read the team audit log, configure external secret managers, and manage Docker registry logins on servers
 
 ---
@@ -117,7 +125,7 @@ The v4.5.0 release also notes that MCP API-token creation works while REST API a
 
 **Coolify application console command:** v4.5.0 adds Laravel Artisan `php artisan app-key:reencrypt` to re-encrypt stored secrets after rotating `APP_KEY`. It is not a `coolify` CLI subcommand; run it only in the Coolify application container as part of a planned key rotation, after reviewing the release instructions and taking a recoverable backup.
 
-**CLI/API coverage:** the pinned coolify-cli v1.10.0 documents `coolify mcp enable|disable`, but does not expose the Hostinger provisioning or server transfer operations listed above. Use the REST API/OpenAPI schema for those request bodies and permissions; do not invent a CLI equivalent.
+**CLI/API coverage:** the pinned coolify-cli v1.11.0 documents `coolify mcp enable|disable`, and since v1.11.0 it also covers Hostinger provisioning (`coolify server hostinger catalog|data-centers|templates|ssh-keys|post-install-scripts` and `coolify server hostinger create`, see **Server Provisioning on Hostinger** under Servers). Server transfer/migration is still not exposed by the CLI. Use the REST API/OpenAPI schema for those request bodies and permissions; do not invent a CLI equivalent.
 
 ### Operational checks after upgrading to v4.5.x
 
@@ -201,7 +209,7 @@ irm https://raw.githubusercontent.com/coollabsio/coolify-cli/main/scripts/instal
 go install github.com/coollabsio/coolify-cli/coolify@latest
 ```
 
-Pin a version on Windows with `$env:COOLIFY_VERSION='v1.10.0'` before `irm ... | iex`. User-local install: `$env:COOLIFY_USER_INSTALL=1`.
+Pin a version on Windows with `$env:COOLIFY_VERSION='v1.11.0'` before `irm ... | iex`. User-local install: `$env:COOLIFY_USER_INSTALL=1`.
 
 ## Fundamental Concepts
 
@@ -228,13 +236,13 @@ COOLIFY=$(sed -n 's/^COOLIFY=//p' .env)
 
 ### Global Flags
 
-All commands support these flags (match coolify-cli v1.10.0):
+All commands support these flags (match coolify-cli v1.11.0):
 
 ```bash
 --context <name>              # Use specific context instead of default
 --token <token>               # Override authentication token
 --format table|json|pretty    # Output format (default: table)
--s, --show-sensitive          # Reveal sensitive fields (tokens, IPs, emails)
+-s, --show-sensitive          # Reveal masked fields (tokens, passwords, keys, IPs, emails) in any format — v1.11.0+
 --debug                       # Enable debug mode
 ```
 
@@ -262,7 +270,7 @@ coolify completion bash   # or: zsh, fish, powershell
 
 ### Context Management
 
-Tokens, IPs, and emails are **hidden by default** in `coolify context list` / `get` (v1.8.0+). Pass `-s` / `--show-sensitive` to reveal them. The config file still stores plaintext tokens — do not commit it.
+Since CLI v1.11.0, fields the CLI marks sensitive (tokens, passwords, private keys, secrets, IPs, emails) are masked as `********` by default in every output format — `table`, `json`, and `pretty`. Pass `-s` / `--show-sensitive` to reveal them. `coolify context get` uses the token-free view and never prints the saved API token, even with `--show-sensitive`. The config file still stores plaintext tokens — do not commit it.
 
 ```bash
 # List all configured contexts (redacted by default — v1.8.0+ security fix)
@@ -1100,6 +1108,39 @@ coolify server vultr
 # Optional: pass --cloud-init '<yaml>' on create (see Cloud-init Scripts)
 ```
 
+### Server Provisioning on Hostinger (CLI v1.11.0+)
+
+The CLI can now buy a Hostinger VPS and register it in Coolify. This needs a Hostinger cloud token stored in Coolify (`coolify cloud-token create --provider hostinger`) and a Coolify instance with the v4.5.0 Hostinger routes (`/hostinger/*`, `POST /servers/hostinger`).
+
+> **Paid, recurring purchase.** `coolify server hostinger create` buys a VPS that renews until cancelled in Hostinger. Confirm the plan, billing period, data center, and price with the operator before running it, and **do not pass `--force` / `-f`** — that flag skips the purchase confirmation. Declining the prompt, an empty answer, or EOF sends no request.
+
+```bash
+# 1. Inspect what you are about to buy (every listing takes the cloud token UUID)
+coolify cloud-token list
+coolify server hostinger catalog <cloud_token_uuid>            # alias: plans — item_id is the value for --item-id
+coolify server hostinger data-centers <cloud_token_uuid>
+coolify server hostinger templates <cloud_token_uuid>          # OS images
+coolify server hostinger ssh-keys <cloud_token_uuid>           # key contents hidden unless --show-sensitive
+coolify server hostinger post-install-scripts <cloud_token_uuid>
+
+# 2. Buy the VPS and add it as a server (paid, recurring)
+coolify server hostinger create \
+  --cloud-token <cloud_token_uuid> \
+  --item-id hostingercom-vps-kvm1-usd-1m \
+  --data-center-id <id> \
+  --template-id <id> \
+  --private-key <coolify_private_key_uuid> \
+  --name my-hostinger-vps \
+  --validate
+```
+
+`catalog` prints one row per plan and billing period; prices are in cents and include the first period. `--item-id` takes the `item_id` from that listing (plan + billing period), `--data-center-id` and `--template-id` take the numeric IDs from the listings above, and `--private-key` is the **Coolify** private key UUID, not a Hostinger key. Optional flags: `--name`, `--ssh-key-ids` (Hostinger SSH key IDs), `--post-install-script-id`, `--enable-backups` (weekly Hostinger backups, **extra cost**, off by default), `--validate`. There is no `--cloud-init` flag on this provider; use `post-install-scripts` instead.
+
+The CLI sends the purchase request exactly once and does not retry on 5xx/429, so a manual retry after an ambiguous error can buy a second VPS:
+
+- **HTTP 202** — Hostinger is still processing the payment and no server exists yet. Check the Hostinger account before retrying.
+- **5xx including `hostinger_virtual_machine_id`** — the VM may already have been bought.
+- **422** — per-field validation details; **429** — retry after the `Retry-After` value.
 
 ---
 
@@ -1355,7 +1396,7 @@ coolify destination delete <uuid>
 ## Cloud Provider Tokens
 
 ```bash
-# Manage Hetzner, DigitalOcean, Vultr API tokens
+# Manage Hetzner, DigitalOcean, Vultr, and Hostinger API tokens (hostinger since v1.11.0)
 coolify cloud-token list
 coolify cloud-token get <uuid>
 coolify cloud-token create
@@ -1846,9 +1887,9 @@ coolify app restart <uuid>
 
 ## LLM / AI Agent Integration
 
-For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
-- Quick instructions (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.10.0/llms.txt
-- Full command catalog (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.10.0/llms-full.txt
+For AI agents using Coolify CLI (prefer the **v1.11.0** pin this skill targets):
+- Quick instructions (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.11.0/llms.txt
+- Full command catalog (tag): https://raw.githubusercontent.com/coollabsio/coolify-cli/v1.11.0/llms-full.txt
 - Latest on main: https://raw.githubusercontent.com/coollabsio/coolify-cli/main/llms.txt and `llms-full.txt`
 
 ---
@@ -1857,7 +1898,7 @@ For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
 
 - **CLI GitHub**: https://github.com/coollabsio/coolify-cli
 - **CLI Releases**: https://github.com/coollabsio/coolify-cli/releases
-- **CLI v1.10.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.10.0 (`e1d60947fc66c194d256b1049fd69c1ddf819760`)
+- **CLI v1.11.0 tag**: https://github.com/coollabsio/coolify-cli/tree/v1.11.0 (`3738289a2a47050fa70007a571fbed00cb1c6d6e`)
 - **Coolify v4.5.3 OpenAPI schema**: https://raw.githubusercontent.com/coollabsio/coolify/v4.5.3/openapi.json
 - **Coolify MCP docs**: https://coolify.io/docs/mcp/overview
 - **Coolify v4.4.0 release notes**: https://github.com/coollabsio/coolify/releases/tag/v4.4.0
@@ -1870,6 +1911,21 @@ For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
 
 ## Changelog
 
+### v3.4 (2026-10-29)
+- Pinned coolify-cli v1.11.0 (`3738289`) — Coolify surface unchanged, still v4.5.3
+- Added `server hostinger catalog|data-centers|templates|ssh-keys|post-install-scripts` and `server hostinger create` (paid VPS purchase)
+- Added a Hostinger provisioning section: inspect first, no `--force`, `--enable-backups` extra cost, and 202/5xx/429 purchase safety
+- Corrected the CLI/API coverage note — Hostinger is in the CLI now, server transfer/migration is still API-only
+- Documented sensitive-field masking in `table`, `json`, and `pretty` since v1.11.0, and that `context get` never prints the token
+- Added `--provider hostinger` to cloud token docs
+
+### v3.3 (2026-10-28)
+- Reviewed Coolify releases through v4.5.3 and updated the version metadata without implying all instances are upgraded
+- Documented v4.5 sensitive-data permissions, Cloudflare client IP allow-lists, service deletion change, and timeout retry behavior
+- Added operational notes for preview variables, build fixes, update backups, server patching beta, and the v4.4.7 security update
+- Added CLI `mcp enable|disable`, MCP endpoint setup/permissions and v4.5 resource-management capabilities
+- Compared v4.4.7 and v4.5.0–v4.5.3 OpenAPI specs; documented new Hostinger/server-transfer routes and v4.5 request contract changes
+
 ### v3.2 (2026-10-19)
 - Pinned coolify-cli v1.10.0 (`e1d6094`) and Coolify v4.4.6
 - Added `app previews list/get/create/update/logs` (full preview CRUD + runtime logs)
@@ -1879,13 +1935,6 @@ For AI agents using Coolify CLI (prefer the **v1.10.0** pin this skill targets):
 - Documented the new `server get --resources` shape (flat array from `GET /servers/{uuid}/resources`)
 - Added `sqlite` database type, `teams update --build-server-fallback`, `project environments get`, `service application logs -n`
 - Added Coolify v4.4.x changes (secret managers, audit log, server roles, restore defaults, registry logins)
-
-### v3.3 (2026-10-28)
-- Reviewed Coolify releases through v4.5.3 and updated the version metadata without implying all instances are upgraded
-- Documented v4.5 sensitive-data permissions, Cloudflare client IP allow-lists, service deletion change, and timeout retry behavior
-- Added operational notes for preview variables, build fixes, update backups, server patching beta, and the v4.4.7 security update
-- Added CLI `mcp enable|disable`, MCP endpoint setup/permissions and v4.5 resource-management capabilities
-- Compared v4.4.7 and v4.5.0–v4.5.3 OpenAPI specs; documented new Hostinger/server-transfer routes and v4.5 request contract changes
 
 ### v3.1 (2026-09-22)
 - Updated for Coolify v4.3.23

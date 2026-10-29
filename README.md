@@ -146,7 +146,7 @@ Generates Apple/Pentagram/frog/Vercel/Figma-level design deliverables using 10 s
 ### 🚀 Coolify Operator[^coolify-grade] · `ci-cd-and-deployment`
 Master operator for Coolify — the self-hosted open-source deployment platform (alternative to Heroku/Vercel/Netlify). Complete coverage of the official CLI with 100+ commands for managing applications, servers, databases, services, GitHub Apps, and cloud provider integrations.
 
-**When to use:** connect to Coolify instances, create/deploy/restart/stop applications, manage environment variables and storage, configure database backups, list servers and databases, monitor deployment logs, manage multiple environments (dev/staging/prod), integrate with GitHub Apps, provision servers on Hetzner/DigitalOcean/Vultr.
+**When to use:** connect to Coolify instances, create/deploy/restart/stop applications, manage environment variables and storage, configure database backups, list servers and databases, monitor deployment logs, manage multiple environments (dev/staging/prod), integrate with GitHub Apps, provision servers on Hetzner/DigitalOcean/Vultr/Hostinger.
 
 **Key features:**
 - **Application creation** (5 methods): public repo, GitHub App, deploy key, Dockerfile, Docker image
@@ -157,8 +157,19 @@ Master operator for Coolify — the self-hosted open-source deployment platform 
 - **Deploy module**: deploy by UUID, name, or batch multiple resources at once
 - **GitHub Apps**: create integrations, list accessible repos and branches
 - **Services (one-click)**: WordPress, Ghost, n8n, and 50+ more with sub-resource management
-- **Infrastructure**: destinations, cloud tokens (Hetzner/DO/Vultr), private keys, tags, Docker registry logins, server roles
+- **Infrastructure**: destinations, cloud tokens (Hetzner/DO/Vultr/Hostinger), private keys, tags, Docker registry logins, server roles
 - **Restore & governance**: database import (file, upload, S3, server path), team audit log, Doppler/Infisical/Vault secret managers
+
+**New in v3.4 (Oct 29, 2026):**
+- Pinned to coolify-cli v1.11.0 and Coolify v4.5.3
+- Added `server hostinger catalog|data-centers|templates|ssh-keys|post-install-scripts` and `server hostinger create` (paid VPS purchase, confirmation prompt — never use `--force` in automation)
+- Documented sensitive-field masking in `table`, `json`, and `pretty` output, with `-s` to reveal; `context get` never prints the token
+- Added `--provider hostinger` to cloud token management
+
+**New in v3.3 (Oct 28, 2026):**
+- Reviewed Coolify v4.5.3: sensitive-data permissions, Cloudflare client IP allow-lists, service deletion change, timeout retry behavior
+- Documented CLI `mcp enable|disable`, MCP endpoint setup and token permissions
+- Added notes on preview variables, build fixes, update backups, server patching beta, and the v4.4.7 security update
 
 **New in v3.2 (Oct 19, 2026):**
 - Pinned to coolify-cli v1.10.0 and Coolify v4.4.6
