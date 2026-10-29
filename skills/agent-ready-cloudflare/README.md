@@ -2,7 +2,7 @@
 
 Scan any website for AI agent readiness and get actionable fix prompts — powered by [isitagentready.com](https://isitagentready.com).
 
-This skill wraps the Cloudflare "Is It Agent Ready?" scanner into a reusable agent skill with full API documentation, 24 implementation sub-skills, and copy-paste prompts for every failing check.
+This skill wraps the Cloudflare "Is It Agent Ready?" scanner into a reusable agent skill with full API documentation, 25 implementation sub-skills, and copy-paste prompts for every failing check.
 
 ---
 
