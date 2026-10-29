@@ -80,7 +80,7 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 
 | # | Check | What passes |
 |---|-------|-------------|
-| 6 | **AI bot rules** | robots.txt has `User-agent` entries for GPTBot, Claude-Web, Google-Extended, etc. |
+| 6 | **AI bot rules** | robots.txt has `User-agent` entries for AI search crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot) or training crawlers (GPTBot, ClaudeBot, Google-Extended), or wildcard rules that apply to all crawlers |
 | 7 | **Content Signals** | robots.txt has `Content-Signal:` directives (ai-train, search, ai-input) |
 | 8 | **Web Bot Auth** | `/.well-known/http-message-signatures-directory` with valid JWKS *(informational)* |
 
@@ -95,7 +95,7 @@ Call the `scan_site` tool with `{"url": "https://example.com"}`.
 | 13 | **MCP Server Card** | `/.well-known/mcp/server-card.json` with `serverInfo`, transport, capabilities (SEP-1649) |
 | 14 | **A2A Agent Card** | `/.well-known/agent-card.json` with name, version, supportedInterfaces |
 | 15 | **Agent Skills Index** | `/.well-known/agent-skills/index.json` with skills array (v0.2.0) |
-| 16 | **WebMCP** | Page calls `navigator.modelContext.provideContext()` with tool definitions |
+| 16 | **WebMCP** | Page registers tools via `document.modelContext.registerTool()` (legacy `navigator.modelContext` also detected) or declares them with `<form toolname tooldescription>` |
 | 17 | **ARD** | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
 | 18 | **Personal Agent Protocol (Poppy)** | `/.well-known/poppy.json` (draft 0.1) with valid organization/domain; matching OAuth issuer + `poppy_domains` when auth is declared *(informational)* |
 

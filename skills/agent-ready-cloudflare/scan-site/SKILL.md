@@ -1,14 +1,14 @@
 ---
 name: agent-ready-scan-site
 description: >
-  Sub-skill: Scan any URL for agent readiness. Checks 22 standards across 5 categories,
+  Sub-skill: Scan any URL for agent readiness. Checks 23 standards across 5 categories,
   returns readiness level (0-5), status of all checks, and fix instructions.
 ---
 # Skill: Scan Site for Agent Readiness
 
 ## What This Skill Does
 
-Scans any website URL and checks whether it implements the standards and protocols that make it accessible to AI agents. Checks 22 standards across 5 categories: discoverability, content accessibility, bot access control, API/auth/MCP discovery, and commerce. Returns a readiness level (0-5), the status of all 22 checks, and fix instructions for any failing checks.
+Scans any website URL and checks whether it implements the standards and protocols that make it accessible to AI agents. Checks 23 standards across 5 categories: discoverability, content accessibility, bot access control, API/auth/MCP discovery, and commerce. Returns a readiness level (0-5), the status of all 23 checks, and fix instructions for any failing checks.
 
 ## When to Use It
 
@@ -72,3 +72,7 @@ Returns a markdown document listing:
 | 3 | Agent-Readable | Level 2 + markdown content negotiation |
 | 4 | Agent-Integrated | Level 3 + 1 of 4: MCP Server Card, A2A Agent Card, agent skills, API catalog |
 | 5 | Agent-Native | Level 4 + 2 of 3: Web Bot Auth, all integrations, auth metadata (OAuth or Auth.md) |
+
+Personal Agent Protocol (Poppy) draft discovery is included in all/API scans as
+`personalAgentProtocol`. It validates public metadata and issuer binding, and is
+informational: it does not affect readiness levels or percentage scores.

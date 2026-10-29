@@ -11,8 +11,8 @@ description: >
   "x402", "UCP", "ACP", or wants to make a website discoverable and usable by AI agents.
 metadata:
   author: Cloudflare / isitagentready.com
-  version: "3.2"
-  date: 2026-10-18
+  version: "3.3"
+  date: 2026-10-28
   source: https://isitagentready.com
   category: product-verification
 ---
@@ -147,7 +147,7 @@ write it to the requested path.
 ### Bot Access Control (3 checks)
 | Check | API Key | Pass criteria |
 |-------|---------|---------------|
-| AI bot rules | `robotsTxtAiRules` | robots.txt contains `User-agent` entries for known AI bots (GPTBot, Claude-Web, Google-Extended, etc.) |
+| AI bot rules | `robotsTxtAiRules` | robots.txt contains `User-agent` entries for known AI bots (OAI-SearchBot, Claude-SearchBot, GPTBot, ClaudeBot, Google-Extended, etc.) or wildcard rules that apply to all crawlers |
 | Content Signals | `contentSignals` | robots.txt contains `Content-Signal` directives with ai-train/search/ai-input |
 | Web Bot Auth | `webBotAuth` | `/.well-known/http-message-signatures-directory` exists with valid JWKS (informational — neutral does not affect score) |
 
@@ -161,7 +161,7 @@ write it to the requested path.
 | MCP Server Card | `mcpServerCard` | Valid card at `/.well-known/mcp/server-card.json`, `server-cards.json`, or `mcp.json` with `serverInfo.name` |
 | A2A Agent Card | `a2aAgentCard` | `/.well-known/agent-card.json` with `name`, `version`, and `supportedInterfaces` |
 | Agent Skills Index | `agentSkills` | `/.well-known/agent-skills/index.json` with valid `skills` array (legacy `/.well-known/skills/` also accepted) |
-| WebMCP | `webMcp` | Page exposes MCP tools via `navigator.modelContext.provideContext()` |
+| WebMCP | `webMcp` | Page registers tools via `document.modelContext.registerTool()` (legacy `navigator.modelContext` also detected) or declares them with `<form toolname tooldescription>` |
 | ARD | `ard` | `/.well-known/ai-catalog.json` with `specVersion`, `host`, and non-empty `entries` |
 | Personal Agent Protocol (Poppy) | `personalAgentProtocol` | `/.well-known/poppy.json` (draft 0.1) with valid `organization`/`domain` and interfaces; when auth is declared, a matching OAuth issuer whose metadata lists the domain in `poppy_domains` (informational — does not affect level or score) |
 
@@ -490,11 +490,11 @@ Sub-skill: [markdown-negotiation/SKILL.md](markdown-negotiation/SKILL.md)
 ### `robotsTxtAiRules`
 
 ```
-Goal: Add User-agent rules for AI crawlers like GPTBot, Claude-Web, and others
+Goal: Add User-agent rules for AI crawlers like OAI-SearchBot, Claude-SearchBot, and GPTBot
 
 Issue: {issue}
 
-Fix: Add explicit User-agent entries for AI crawlers (GPTBot, OAI-SearchBot, Claude-Web, Google-Extended) with allow/disallow rules that match your policy.
+Fix: Add explicit User-agent entries for AI crawlers with allow/disallow rules that match your policy. Search crawlers (OAI-SearchBot, Claude-SearchBot, PerplexityBot) fetch the pages AI assistants use in their answers, so blocking them affects whether you appear in AI answers. Training crawlers (GPTBot, ClaudeBot, Google-Extended) collect model training data; blocking them does not affect whether your pages appear in AI search results.
 
 Skill: https://isitagentready.com/.well-known/agent-skills/ai-rules/SKILL.md
 
@@ -623,7 +623,7 @@ Goal: Support WebMCP to expose site tools to AI agents via the browser
 
 Issue: {issue}
 
-Fix: Implement the WebMCP API by calling navigator.modelContext.provideContext() with tool definitions that expose your site's key actions to AI agents. Each tool needs a name, description, inputSchema (JSON Schema), and an execute callback function.
+Fix: Call document.modelContext.registerTool() for your site's key actions, or annotate existing forms with toolname, tooldescription and toolparamdescription. Each tool needs a name, description, inputSchema (JSON Schema), and an execute callback function. Older Chrome builds expose the API on navigator.modelContext; feature-detect document.modelContext first and fall back to it if needed.
 
 Skill: https://isitagentready.com/.well-known/agent-skills/webmcp/SKILL.md
 

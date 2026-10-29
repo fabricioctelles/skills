@@ -10,9 +10,11 @@ Add explicit `User-agent` entries for AI crawlers in your robots.txt per
 
 ## Requirements
 
-- Add `User-agent` blocks for AI-specific bots: `GPTBot`, `OAI-SearchBot`, `Claude-Web`, `Google-Extended`, `Amazonbot`, `anthropic-ai`, `Bytespider`, `CCBot`, `Applebot-Extended`
+- Add `User-agent` blocks for AI search crawlers: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`. These fetch the pages AI assistants use in their answers, so blocking them affects whether you appear in AI answers
+- Add `User-agent` blocks for AI training crawlers: `GPTBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, `CCBot`, `Bytespider`, `Amazonbot`. Blocking these does not affect whether your pages appear in AI search results
+- User-triggered fetchers (`ChatGPT-User`, `Claude-User`, `Perplexity-User`) retrieve pages when a user asks; some vendors do not apply robots.txt to them
 - Set `Allow` and/or `Disallow` rules matching your content policy
-- A wildcard `User-agent: *` block alone is not sufficient — explicit AI bot entries are required
+- A `User-agent: *` group with rules also passes, but applies one policy to every crawler. Explicit entries let you treat search and training crawlers differently
 
 ## Cloudflare
 
