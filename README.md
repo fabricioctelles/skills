@@ -235,6 +235,14 @@ Validates DESIGN.md files against the official [Google design.md specification](
 
 ---
 
+### 🧪 agent-qa testing · `product-verification`
+
+Validate, run, and triage natural-language web and mobile tests with [agent-qa](https://github.com/vostride/agent-qa), including advanced memidex memory and self-improvement. Use it in an existing agent-qa project or when the user chooses agent-qa.
+
+Requires Node.js 24+, a separate agent-qa installation, and configured model providers. These original skill instructions are Apache-2.0; agent-qa is FSL-1.1-ALv2 and provider costs may apply.
+
+[View skill](skills/agent-qa-testing/SKILL.md)
+
 ### 🔁 Ralph Loop for Kiro Specs [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-ralph-loop-kiro-specs/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-ralph-loop-kiro-specs) · `code-scaffolding-and-templates`
 Automated iterative agent runner for spec-based development in [Kiro](https://kiro.dev). Wraps `kiro-cli` in a self-correcting bash loop that picks up tasks from a Kiro spec, implements them one at a time, verifies against exit criteria, and accumulates corrections and codebase patterns across iterations. Based on [ralph-loop-kiro-specs](https://github.com/mreferre/ralph-loop-kiro-specs) by [mreferre](https://github.com/mreferre).
 
@@ -588,6 +596,7 @@ npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
 npx skills add https://github.com/fabricioctelles/skills -s design-md-validator
+npx skills add https://github.com/fabricioctelles/skills -s agent-qa-testing
 npx skills add https://github.com/fabricioctelles/skills -s skill-evaluation
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
@@ -750,6 +759,8 @@ skills/
 ├── ultimate-design-system-master/
 │   ├── SKILL.md
 │   └── references/  # briefing questionnaire, 10 specialized prompt files
+├── agent-qa-testing/
+│   └── SKILL.md
 ├── design-md-validator/
 │   ├── SKILL.md
 │   └── references/  # Google DESIGN.md spec, lint rules, export formats

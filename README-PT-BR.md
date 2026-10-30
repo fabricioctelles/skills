@@ -232,6 +232,14 @@ Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://g
 
 ---
 
+### 🧪 agent-qa testing · `product-verification`
+
+Valide, execute e investigue testes de aplicações web e móveis em linguagem natural com [agent-qa](https://github.com/vostride/agent-qa), incluindo a memória avançada memidex e recursos de autoaperfeiçoamento. Use em um projeto que já utiliza agent-qa ou quando o usuário escolher agent-qa.
+
+Requer Node.js 24+, uma instalação separada de agent-qa e provedores de modelo configurados. Estas instruções originais usam Apache-2.0; agent-qa usa FSL-1.1-ALv2 e os provedores podem cobrar pelo uso.
+
+[Ver skill](skills/agent-qa-testing/SKILL.md)
+
 ### 🔁 Ralph Loop for Kiro Specs [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-ralph-loop-kiro-specs/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-ralph-loop-kiro-specs) · `code-scaffolding-and-templates`
 Runner iterativo automatizado para desenvolvimento baseado em specs no [Kiro](https://kiro.dev). Encapsula o `kiro-cli` em um loop bash auto-corretivo que pega tasks de uma Kiro spec, implementa uma por vez, verifica contra critérios de saída e acumula correções e padrões de codebase entre iterações. Baseado em [ralph-loop-kiro-specs](https://github.com/mreferre/ralph-loop-kiro-specs) por [mreferre](https://github.com/mreferre).
 
@@ -586,6 +594,7 @@ npx skills add https://github.com/fabricioctelles/skills -s astro-sites-manager
 npx skills add https://github.com/fabricioctelles/skills -s security-specialist
 npx skills add https://github.com/fabricioctelles/skills -s ultimate-design-system-master
 npx skills add https://github.com/fabricioctelles/skills -s design-md-validator
+npx skills add https://github.com/fabricioctelles/skills -s agent-qa-testing
 npx skills add https://github.com/fabricioctelles/skills -s skill-evaluation
 npx skills add https://github.com/fabricioctelles/skills -s slop-eval
 npx skills add https://github.com/fabricioctelles/skills -s agent-plugin-eval
@@ -745,6 +754,8 @@ skills/
 ├── ultimate-design-system-master/
 │   ├── SKILL.md
 │   └── references/  # questionário de briefing, 10 arquivos de prompt especializados
+├── agent-qa-testing/
+│   └── SKILL.md
 ├── design-md-validator/
 │   ├── SKILL.md
 │   └── references/  # spec DESIGN.md do Google, regras de lint, formatos de export
