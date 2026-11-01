@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.5"
-  date: 2026-10-22
+  version: "1.6"
+  date: 2026-11-01
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 
@@ -30,11 +30,11 @@ Everything referenced here ships inside this skill:
 - `playbooks/*.md` — the step-by-step workflows. Copy matched steps verbatim.
 - `references/principles.md` — the full text of the 24 principles indexed below.
 - `references/bugbot-triage.md` — bot-review triage.
-- `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, `in-your-own-words`, `sharpen`, `setup-pstack`, `benchmark-checklist`, `correct`, `ketchup`, `poteto-help`). Read the file when a step routes to one.
+- `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, `in-your-own-words`, `sharpen`, `setup-pstack`, `benchmark-checklist`, `correct`, `ketchup`, `ketchup-video`, `poteto-help`). Read the file when a step routes to one.
 - `references/harness/*.md` — one tool, subagent, model, and path mapping per harness (`claude-code.md` today). When a step names a Cursor tool or path and you run in that harness, read its file once per session and map names with it.
 - `scripts/log.sh` — decision-log helper. `scripts/worktree-audit.sh` — disk reclaim audit.
 - `scripts/check-plan.mjs` — validates the multi-phase plan checklist.
-- `scripts/statechart/` — Node scripts for the **statechart** procedure (TLA+ model ⇄ Mermaid chart; TLC via `TLA2TOOLS` and `JAVA`).
+- `scripts/statechart/statechart` executa o compilador TypeScript da procedure **statechart**. Checa TLA+ com TLC e gera Mermaid e caminhos mínimos. O launcher escolhe Node, Bun ou Deno compatível; TLC e Java vêm de `TLA2TOOLS` e `JAVA`, sem instalação automática.
 - `scripts/check-upstream.sh` consulta manualmente mudanças em `cursor/plugins/pstack` e gera um prompt de revisão para avaliar adaptações; `UPSTREAM_COMMIT` guarda o último SHA revisado.
 
 Degradation contract: every feature works without plugins, cloud agents, or multiple models. Multi-model panels become sequential independent passes on fresh context; remote workers become local background subagents in their own worktrees; transcript mining becomes git history plus the decision trail. Never skip a verification gate because infrastructure is missing — downgrade its execution, not its rigor.
@@ -44,6 +44,8 @@ Degradation contract: every feature works without plugins, cloud agents, or mult
 **Start every multi-step task with a todolist whose first item is to read the Principles section below in full.** The principles ground every trigger here. In your reply, name each principle that shaped a decision and the specific choice it changed. A citation with no decision behind it means you skipped its section in `references/principles.md`; it must trace to a real choice the principle drove.
 
 Remaining triggers:
+
+- Na primeira mensagem de uma tarefa, reafirme com suas palavras o objetivo do usuário, o problema que ele quer resolver e a menor mudança que você espera que o resolva. Prossiga sem esperar confirmação. Se a evidência descartar a mudança pedida, mostre a evidência e pare. Reafirme o objetivo em cada brief de subagente, na abertura do `## Why` de cada PR e no início de cada relatório final, inclusive sua resposta final. Uma edição de uma linha completamente especificada dispensa a repetição no relatório final.
 
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** procedure.
 - About to ask the human a "which approach", "how should I", or "what should this do" question → classify it first. If the answer is a fact observable by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's question. Sketch it via the Prototype playbook and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve questions for genuine product or preference calls no experiment can settle. Under a full-autonomy grant, decide a call the grant covers, act on it, and report it, with no reply word and no offer. Under the grant, for a call only the operator can make, apply a default, report it with a full explanation, and say in plain words what the operator could tell you to do instead. The operator answers in their own words. Never give a shorthand token to type back. Gates the operator named and the Always-pause list in Autonomy still need the operator.
@@ -96,7 +98,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 - **Fix Root Causes.** Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (principle-sequence-verifiable-units). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
 - **Test Behavior, Not Implementation.** Writing, changing, or keeping a test. Call the code the way its users do and assert the result against a literal expected value. If the test would still pass when every imported function returns `undefined`, rewrite the assertion or delete the test.
-- **Explain the Number.** Before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result). Find what limits it, and rule out that it measured something other than the work you think.
+- **Explain the Number.** Apply before you measure, and before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result). Find what limits it, and rule out that it measured something other than the work you think.
 
 **Delegation**
 
@@ -119,7 +121,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 
 ## Delegation
 
-Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps; brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer.
+Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps; brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer. Mantenha também direcionamentos e retomadas em background quando o mecanismo oferecer essa opção, para que outros resultados possam chegar enquanto o agente trabalha.
 
 Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation — feature, refactoring, bug fix, perf, hillclimb), `judge` (reasoning, prose, synthesis, lead review), `peer` (second opinion from a different family than judge). Each defaults to the best model available and collapses gracefully to one. Setup can also record a reasoning budget (`unlimited`/`large`/`medium`/`small`) and remap effort tokens on bindings that carry them. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask. Each code playbook's configured model comes from its line (`feature`, `refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), and the hardest changes read `hardest tasks`. Prose and judgment read `judgment and prose`.
 
@@ -167,7 +169,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Autonomous run.** A long task to drive to completion without stopping ("run until done").
 - **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, minimal human turns ("run this whole project", "own this migration until it lands"). Distinct from Autonomous run, which drives one task to a predicate. Work one agent could finish inside the session's budget routes there, not here, however program-shaped the phrasing sounds.
 - **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges ("autopilot this queue", "full autopilot", one-owner-per-PR programs).
-- **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands ("autopilot-stack", "stack them, don't ship", "build the stack, I'll land it").
+- **Autopilot-stack.** Autopilot-full sem merge. Uma fila de PRs construída e verificada com autonomia e entregue ao operador para integrar. Um PR só entra em uma stack quando depende de outro PR ("autopilot-stack", "autopilot, don't merge", "stack them, don't ship", "build the stack, I'll land it").
 - **Session pickup.** Resuming or taking over a prior agent's in-flight work from a transcript, cloud-agent URL, or pushed branch.
 - **Pause safely.** Suspending in-flight work cleanly so it can be resumed, on an explicit pause, going offline, a restart, or imminent context compaction. The complement to Session pickup.
 - **Multi-phase or multi-PR plan.** Work that spans phases or stacked PRs. File: `playbooks/multi-phase-plan.md`.

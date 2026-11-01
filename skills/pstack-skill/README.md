@@ -2,6 +2,8 @@
 
 > Lauren Tan's rigorous engineering workflow — `poteto-mode` and the whole pstack stack — as **one self-contained skill**. No plugin marketplace, no Cursor required, no vendor lock-in. Drop the folder in any agent that reads skills.sh-format skills.
 
+**Catálogo 1.6.** 23 playbooks, 31 procedures e 24 princípios de engenharia.
+
 Ported from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by [Lauren Tan (@poteto)](https://x.com/poteto), informed by [open-pstack](https://github.com/ericlitman/open-pstack). MIT-licensed; all credit for the method is hers.
 
 ---
@@ -27,12 +29,12 @@ The skill is **sticky**: once invoked it stays on across turns, applying itself 
 | | pstack plugin | pstack-skill |
 |---|---|---|
 | Install | `/add-plugin pstack`, marketplaces | one folder, any agent |
-| Platform | Cursor only | Claude Code, Codex, Cursor, opencode, Kiro, anything reading SKILL.md |
-| Models | vendor slugs (`grok-4.6-fast-xhigh`, ...) | roles bound to whatever you have: `worker`, `builder`, `judge`, `peer` |
-| Stacks & merges | Graphite cloud agents | plain git + `gh`, subagents in isolated worktrees |
+| Platform | Cursor and a generated Claude Code adapter | Claude Code, Codex, Cursor, opencode, Kiro, anything reading SKILL.md |
+| Models | harness-specific model IDs | roles bound to whatever you have: `worker`, `builder`, `judge`, `peer` |
+| Stacks & merges | one owner per PR, forge CLI | plain git + available forge CLI, isolated worktrees |
 | Multi-model panels | native cloud fan-out | same gates, sequential fresh-context passes when only one model exists |
 
-Nothing essential was removed — Cursor-specific mechanics were translated to platform-agnostic equivalents while preserving the operating method.
+Ferramentas específicas do Cursor são adaptadas para os recursos disponíveis no agente. As dependências e os limites do porte estão descritos nos procedimentos e na seção Versão 1.6.
 
 ## Install
 
@@ -94,19 +96,19 @@ Bug fix (repro → binary-search root cause → failing-test-first fix), Perf is
 
 > pstack-skill, check on PR 123 — anything outstanding? then land the stack if green.
 
-Babysit (drive PRs to merge-ready: conflicts, threads, flaky CI), Shipping (verify each PR independently, land only the contiguous verified run), Autopilot-full / Autopilot-stack (queues of PRs with one owner each, root swarm-verifies every merge head), Opening a PR (conventional commits, evidence-bearing descriptions).
+Babysit (drive PRs to merge-ready: conflicts, threads, flaky CI), Shipping (verify each PR independently, land only the contiguous verified run), Autopilot-full / Autopilot-stack (queues of PRs with one owner each; only dependent PRs stack; the operator lands Autopilot-stack PRs), Opening a PR (conventional commits, evidence-bearing descriptions).
 
 ### Run long, unattended, auditable
 
 > /pstack-skill i'm going to bed. drive the migration until done, leave a trail i can audit at breakfast.
 
-Autonomous run (exit predicate, wake mechanisms, checkpoints), Orchestrate (multi-day programs: briefs, rolling windows, verification ledgers, merge frontiers), Session pickup / Pause safely (resume or suspend cleanly), show-me-your-work (append-only TSV decision trail with cross-review).
+Autonomous run (exit predicate, wake mechanisms, checkpoints), Orchestrate (multi-day programs: native agents, one owner per PR, durable TSV/Markdown records), Session pickup / Pause safely (resume or suspend cleanly), show-me-your-work (append-only TSV decision trail with cross-review).
 
 ### Quality gates
 
 > run interrogate on this diff before we ship it.
 
-Interrogate (adversarial multi-model review with lead judgment), Arena (N candidates, pick base, graft best), Swarm (parallel coverage/races), unslop + technical-writing + no-comments (prose and diff hygiene), TDD (failing test first when cheap).
+Interrogate (adversarial review with findings proved by a run), Arena (N candidates, pick base, graft best), Swarm (parallel coverage/races), unslop + technical-writing + no-comments (prose and diff hygiene), TDD (failing test first when cheap).
 
 ### Agent tooling
 
@@ -133,17 +135,17 @@ judge:   claude:opus-5-thinking
 peer:    gemini:3.1-pro          # family must differ from judge
 ```
 
-Cursor-only note: upstream currently defaults five code-delegate roles to `grok-4.6-fast-xhigh`. This skill keeps those playbooks on the portable `builder` role — optionally bind `builder` to that Cursor slug if you want the same default inside Cursor; do not require it elsewhere.
+Os slugs acima são exemplos de formato. Configure apenas modelos confirmados como disponíveis na sessão. Os playbooks usam papéis portáteis, sem exigir um modelo ou fornecedor específico.
 
 One model available? All four collapse to it and panels become sequential independent passes on fresh context. Gates are downgraded in execution, never skipped.
 
 ## The principles
 
-Twenty-one short rules the orchestrator indexes and cites by name. Full text in `references/principles.md`.
+Twenty-four short rules the orchestrator indexes and cites by name. Full text in `references/principles.md`.
 
-**Core:** laziness protocol · foundational thinking · redesign from first principles · subtract before you add · minimize reader load · outcome-oriented execution · experience first · exhaust the design space · build the lever.
+**Core:** laziness protocol · foundational thinking · redesign from first principles · attack the premise · subtract before you add · minimize reader load · outcome-oriented execution · experience first · exhaust the design space · build the lever.
 **Architecture:** model the domain · boundary discipline · type system discipline · make operations idempotent · migrate callers then delete legacy APIs · separate before serializing shared state.
-**Verification:** prove it works · fix root causes · sequence work into verifiable units.
+**Verification:** prove it works · fix root causes · sequence work into verifiable units · test behavior, not implementation · explain the number.
 **Delegation:** guard the context window · never block on the human.
 **Meta:** encode lessons in structure.
 
@@ -151,21 +153,34 @@ Twenty-one short rules the orchestrator indexes and cites by name. Full text in 
 
 ```
 pstack-skill/
+├── README.md                 ← instalação, uso, versão e manutenção
 ├── SKILL.md                  ← the orchestrator (agent entry point)
 ├── UPSTREAM_COMMIT           ← last reviewed commit from cursor/plugins
 ├── playbooks/                ← 23 workflows, steps copied verbatim onto todolists
 ├── references/
-│   ├── principles.md         ← full text of the 21 principles
+│   ├── principles.md         ← full text of the 24 principles
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
 │   ├── harness/              ← per-harness name mappings (claude-code.md)
-│   └── skills/               ← 30 bundled procedures (how, arena, unslop, sharpen, statechart, create-formal-verification-skill...)
+│   ├── upstream-review-*.md  ← decisões, segurança e validação do porte
+│   └── skills/               ← 31 bundled procedures (how, arena, unslop, sharpen, statechart, create-formal-verification-skill...)
 └── scripts/
     ├── check-upstream.sh     ← manual upstream update check
     ├── check-plan.mjs        ← multi-phase plan checklist validator
+    ├── check-plan.test.mjs   ← regressões do validador de planos
     ├── log.sh                ← decision-log helper (TSV, formula-safe)
-    ├── statechart/           ← TLA+ model ⇄ Mermaid statechart scripts (Node, TLC via java)
+    ├── statechart/           ← compilador TLA+ → Mermaid (TypeScript, Node/Bun/Deno, TLC via Java)
     └── worktree-audit.sh     ← disk reclaim audit
 ```
+
+## Versão 1.6
+
+Porte revisado contra `cursor/plugins/pstack` em `c742dd61706fbacc1b95f1a20b7b988cf096ce6c` (27/10/2026). O registro completo está em [Revisão upstream](references/upstream-review-2026-11-01.md). `UPSTREAM_COMMIT` continua em `eb4db2b` até o reconhecimento humano pelo comando `accept`.
+
+- **Statechart.** O compilador TypeScript substitui os scripts `.mjs`. Um comando checa TLA+ com TLC, gera Mermaid e relata caminhos mínimos. Use `scripts/statechart/statechart SPEC.tla --out NOVA-PASTA`. O launcher escolhe Node 22.18 a 22.x, Node 23.6+, Bun 1.1.5+ ou Deno 2+. Defina `TLA2TOOLS` e, se necessário, `JAVA`. Não instala dependências automaticamente. Consulte [statechart](references/skills/statechart.md) para saídas e migração dos comandos antigos.
+- **Ketchup video.** [ketchup-video](references/skills/ketchup-video.md) gera uma atualização em slides legendados com um renderizador disponível, como FFmpeg. Não exige serviço de geração de vídeo ou outra skill. Sem renderizador, entrega as decisões pendentes em texto.
+- **Orchestrate.** Usa agentes nativos ou execução sequencial, com registros em TSV e Markdown. Não depende de Task ou Project tracker do Cursor nem de scripts `orch`.
+- **Objetivo e revisão.** O objetivo reaparece na primeira mensagem, briefs, PRs e relatórios finais. Interrogate mantém somente achados comprovados por execução. Autopilot-stack entrega PRs verificados ao operador e só empilha os dependentes.
+- **Correções.** Swarm, mtime GNU/BSD, delimitadores de código inline e destino das edições de reflect foram alinhados. A [nota do Claude Code](references/harness/claude-code.md#atualização-do-plugin-upstream) distingue o auto-update do plugin upstream da manutenção desta pasta.
 
 ## Manutenção do porte
 

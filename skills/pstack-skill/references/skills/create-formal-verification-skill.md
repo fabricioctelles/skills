@@ -28,6 +28,8 @@ Pick the tool that answers the question at the lowest cost: a model checker, a p
 
 Write a project-local skill with frontmatter that names the area and says when to use it. Without frontmatter, the skill never registers. From the skill alone, the next agent must be able to tell whether a change touches the verified code, run the check, tell a real bug from a modeling error, and update the verification when a change is intended. Put the coverage record and the sync commit in the skill, and tell the next agent to move the sync commit forward only after it confirms that the verification describes the code at the new commit. Use this repo's real commands, paths, and nouns, and leave no placeholders.
 
+Se a verificação usa um modelo TLA+, instrua o próximo agente a ler cada resultado com o procedimento [statechart](statechart.md). Ele mostra o caminho mais curto até cada violação de invariante e desenha as transições quando a verificação passa. Cite o procedimento pelo nome. Não copie seus comandos, opções ou caminhos para a skill gerada ou seus scripts, pois mudam entre versões e máquinas.
+
 ## Prove it before you hand off
 
 Follow the generated skill once, as the next agent would, on a scratch change that breaks the property in the real code. It must catch the break. Then drop the scratch change and confirm that the check is back where it started: passing, or failing only on the findings you will report. A verify skill that was never run is a draft. If the skill misses the break or a step does not run, fix the skill or the verification, not the scratch change.

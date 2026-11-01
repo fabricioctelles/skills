@@ -1,29 +1,25 @@
 # Interrogate
 
-Adversarial multi-model review of a change or design. One reviewer per available model, same prompt and rubric for all; the signal comes from diversity, not personas. Agreement across models is high-confidence; lone-model findings are worth reading but weighted lower. The deliverable is a synthesized verdict, never auto-applied changes.
+Adversários tentam quebrar uma mudança ou um design. Só mantenha um achado quando uma execução o comprovar. Reporte os achados. Não aplique correções.
 
-## Steps
+## Delimite
 
-1. **Scope.** Specific files or diff if pointed at one; otherwise the full changeset against the base branch (`git diff main...HEAD`).
-2. **State the intent.** One clear paragraph on what this change is trying to accomplish, derived from the message, commit messages, PR description, and code. Reviewers challenge whether the work achieves the intent well, not whether the intent is right. If intent is unclear, ask before proceeding.
-3. **Spawn reviewers.** All in one message, read-only, different model families when available (extend or shrink labels A/B/C/D to the count). Same filled template to every reviewer: stated intent, the diff or files, this review rubric: correctness bugs, security holes, data loss, concurrency races, error-handling gaps, API misuse, performance cliffs, test gaps; plus this code-quality lens: dead abstractions, speculative generality, narrating comments, layers without compression, misleading names, hidden mutable state.
-4. **Synthesize.** Parse all findings; consensus is 2+ models raising it independently; deduplicate paraphrases noting which models raised each; note explicit disagreements between models.
-5. **Lead judgment.** You are a pragmatic senior lead, not a neutral aggregator. You hold context reviewers lack: goal, constraints, timeline, tradeoffs already considered. Use it aggressively. Categorize every finding:
-   - **Act on.** Real correctness, security, or maintainability issues given actual goals. Would block a real PR.
-   - **Consider.** Legitimate but cost/benefit unclear right now.
-   - **Noted.** Valid yet not actionable here: premature, low-impact, context-dependent.
-   - **Dismissed.** Wrong, nitpicky, missing context. One-line why.
+Use o escopo indicado pelo usuário. Caso contrário, examine o diff desde o merge base com a branch base até a árvore de trabalho, incluindo mudanças não commitadas e arquivos novos relevantes. Reafirme a intenção com [in-your-own-words](in-your-own-words.md), a partir do pedido, dos commits e da descrição do PR. Pergunte ao usuário se a intenção continuar incerta depois de examinar as fontes disponíveis.
 
-## Output format
+## Distribua
 
-### Intent
-> The stated intent paragraph.
+Siga a fase A, passos 3 e 4, e a fase B de [arena](arena.md). Escolha adversários com os papéis `judge` e `peer`, conforme [setup-pstack](setup-pstack.md), em vez de candidatos a implementação. Use agentes de propósito geral com escrita restrita ao próprio worktree, pois precisam executar reproduções. Copie as mudanças não commitadas e os arquivos novos do escopo para cada worktree. Sem subagentes, faça passes independentes sequenciais em cópias isoladas, registrando a limitação. Cada adversário recebe o mesmo escopo, a intenção e este brief:
 
-### Reviewers
-- Reviewer A: `<model>`, N findings (one bullet per reviewer)
+> Quebre esta mudança. Comprove cada achado com uma execução contra o código real, como um teste que falha, um script de reprodução ou a saída de um comando que mostre o comportamento errado. Para um design ou plano, execute um protótipo ou uma sondagem da árvore atual. Mantenha reproduções no seu próprio worktree. Reporte cada achado com título, comando exato, saída observada e saída exigida pela intenção. Omita o que não executou, incluindo críticas de estilo, nomes ou estrutura sem falha demonstrada e riscos que só existiriam após uma mudança futura. Não encontrar achados também é um resultado válido.
 
-### Act On / Consider / Noted / Dismissed
-Findings grouped by bucket, each with which models raised it and a one-line rationale. Dismissed shows your filters so the user can override them.
+## Verifique
 
-### Agreement Map
-Where models agreed and diverged, and what the pattern tells us.
+Verifique cada achado conforme arena, fase F, executando seu comando novamente. Mantenha-o quando a saída demonstrar uma falha que contrarie a intenção. Descarte os demais. Una achados com a mesma causa raiz.
+
+Pule as fases C, D e E de arena. Os adversários encontram falhas diferentes. O veredito mantém todos os achados comprovados, em vez de escolher a lista de um adversário.
+
+## Entregue
+
+- **Intenção.** O objetivo reafirmado.
+- **Achados.** Para cada achado comprovado, o comando, sua saída, como a falha contraria a intenção e quais adversários a encontraram. Diga “nenhum achado comprovado” quando nenhum sobreviver.
+- **Descartados.** Para cada adversário, a quantidade de achados descartados e os motivos.

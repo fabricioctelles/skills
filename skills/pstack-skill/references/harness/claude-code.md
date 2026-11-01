@@ -58,3 +58,9 @@ Claude Code has no Cursor Automations, Bugbot, Cursor cloud agents, or built-in 
 | Bugbot | Bugbot comments on a GitHub PR are ordinary review threads, so triage them with the forge command that the step gives. Skip a step that starts, waits for, or configures Bugbot when the PR has no Bugbot check or comment. |
 | Cursor cloud agents | `environment: "cloud"` maps to a worktree, as in Subagent fields. Skip a step that needs the cloud agent itself, such as its dashboard status or its own machine. |
 | A built-in PR tool | Use the forge command that the step gives, such as `gh pr create`. That is not a skip, so write no line. |
+
+## Atualização do plugin upstream
+
+Esta pasta portátil segue o método de instalação usado pelo mantenedor. As opções de marketplace abaixo se aplicam apenas ao plugin upstream `pstack@cursor-plugins`, não a esta skill.
+
+Conforme a nota upstream de 23/10/2026, o Claude Code deixa a atualização automática desativada para marketplaces de terceiros. Para habilitá-la, execute `/plugin`, abra **Marketplaces**, selecione `cursor-plugins` e escolha **Enable auto-update**. Para atualizar uma vez, execute `claude plugin update pstack@cursor-plugins`.

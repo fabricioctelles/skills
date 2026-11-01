@@ -17,7 +17,7 @@ The candidates receive the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate produces.
 2. Derive the rubric: 3-6 concrete gradeable criteria. "Adds a --dry-run flag that skips writes", not "code is correct". Candidates see only the task; the rubric is the picker's tool.
-3. Pick the runners. Different models when available (diversity is signal); more runners when the arena covers multiple design directions; same model N times when work is generation-bound rather than judgment-sensitive.
+3. Escolha os candidatos pelos papéis de [setup-pstack](setup-pstack.md). Use modelos diferentes quando disponíveis e mais candidatos quando houver várias direções de design. Para trabalho de geração, pode repetir o mesmo modelo. Se uma configuração for rejeitada, tente uma opção válida da mesma família. Não repita um identificador já rejeitado. Sem opção válida, use o modelo da sessão e informe a limitação. Preserve pelo menos dois candidatos, exceto quando o usuário tiver pedido um. Sem execução paralela, faça passes independentes sequenciais.
 4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`). Shared output paths are shared mutable state and fail [separate-before-serializing-shared-state](../principles.md#separate-before-serializing-shared-state).
 
 ## Phase B: Fan out
@@ -28,13 +28,13 @@ A candidate that fails to produce output: proceed with N-1 and note the dropout.
 
 ## Phase C: Cross-judge
 
-After all candidates complete, spawn one read-only judge on a model different from the parent's family when possible. It sees rubric plus candidates by sanitized path label, scores each criterion, recommends a base with rationale. Launch it after candidates finish writing; a judge spawned early reads partial outputs and reports them as dropouts. It runs in parallel with your own reading in Phase D.
+Depois que todos os candidatos terminarem, use um avaliador somente de leitura do papel `peer`, de uma família diferente da sua. Ele recebe a rubrica e os candidatos com rótulos neutros, pontua cada critério e recomenda uma base com justificativa. Não o inicie enquanto os candidatos escrevem. Pode trabalhar em paralelo com sua leitura da fase D. Se nenhuma família diferente puder executar, mantenha a revisão por um agente em contexto novo ou por um passe independente sequencial, sem mostrar sua escolha antecipadamente. Informe que não houve diversidade de famílias. Não apresente outro passe do mesmo modelo como diversidade de famílias. Se sua família for desconhecida, informe que não foi possível conferir a diversidade.
 
 ## Phase D: Pick a base
 
-Read every candidate end to end before picking; skimming surfaces only the most familiar-looking surface. Score criterion by criterion against the rubric, not holistic feel. Compare with the cross-judge: agreement confirms, disagreement means bias or an ambiguous rubric, so read both rationales.
+Read every candidate end to end before picking; skimming surfaces only the most familiar-looking surface. Score criterion by criterion against the rubric, not holistic feel. Compare com o avaliador quando a fase C tiver ocorrido. Concordância confirma a escolha. Divergência exige ler ambas as justificativas antes de decidir.
 
-Pick the base a future maintainer can extend most easily without breaking invariants. When tied, prefer the cleaner boundary or smaller surface ([laziness-protocol](../principles.md#laziness-protocol)). Record pick and reason in a short synthesis note beside the artifact, including the judge's verdict.
+Pick the base a future maintainer can extend most easily without breaking invariants. When tied, prefer the cleaner boundary or smaller surface ([laziness-protocol](../principles.md#laziness-protocol)). Record pick and reason in a short synthesis note beside the artifact, including the judge's verdict or why Phase C had no independent judge.
 
 ## Phase E: Graft
 
@@ -46,4 +46,4 @@ N candidates converging on one shape is strong agreement: note it and ship the c
 
 The synthesized artifact faces the same bar as any other output ([prove-it-works](../principles.md#prove-it-works)). A problem verification surfaces that the arena missed means either Phase A was wrong (re-frame) or a candidate caught it and you missed the graft (return to Phase E). Do not paper over.
 
-**Output:** one synthesized artifact plus a synthesis note naming base, grafts with sources, rejections, dropouts, verification result.
+**Output:** one synthesized artifact plus a synthesis note naming base, the independent judge's verdict or its absence, grafts with sources, rejections, dropouts, and verification result.

@@ -4,7 +4,7 @@ import process from "node:process";
 
 const RULE =
 	"Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.";
-const LANES = "Ten lanes on `grok-4.6-fast-xhigh` at the PR head";
+const LANES = "Ten lanes on `worker` at the PR head";
 const SUB_BLOCKS = [
 	"Depends on.",
 	"Files.",
@@ -72,7 +72,7 @@ for (let i = start; i < raw.length; i++) {
 	lines.push({ n, text, code });
 	if (code) continue;
 	const prose = text
-		.replace(/`[^`]*`/g, "`")
+		.replace(/(?<!`)(`+)(?!`)(.*?)(?<!`)\1(?!`)/g, "`")
 		.replace(/!\[[^\]]*\]\([^)]*\)/g, "")
 		.replace(/\]\([^)]*\)/g, "]");
 	if (/[\u2013\u2014]/.test(prose)) fail(n, "long dash");

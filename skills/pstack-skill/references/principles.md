@@ -473,11 +473,12 @@ The check: before you keep a test, ask whether it would still pass if every func
 
 # Explain the Number
 
-Before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result), find what limits it and rule out that it measured something other than the work you think.
+Antes de medir, e antes de confiar, relatar ou agir sobre um número medido, identifique o que o limita e descarte medições de outra coisa. Isso vale para ganhos de velocidade, regressões, vazão, latência e resultados de avaliações.
 
 **Why:** A number without provenance is meaningless. A guess from reading the code is not evidence. If you cannot say why the number is not twice as good, you do not know what you measured.
 
 **Pattern:**
+- **Defina a decisão antes de medir.** Escreva qual resultado mudaria uma decisão e qual é o limite de ruído. Pare quando a variação entre execuções superar o efeito.
 - **Ask "why not double?"** Name the resource or code path that bounds the result, such as a core, a lock, the disk, the network, or the load generator itself. Get it from a profile or from system counters taken during a run, then map it to source. A guess from reading the code is not a limiter. If you cannot say why the number is not twice as good, you do not know what you measured.
 - **List what else the number could be measuring, and rule out each one with evidence.** The usual suspects are errors, skipped or cached work, code that never ran, an untuned side (one left on default settings), noise, and a piece too small to matter end to end.
 - **Keep the evidence with the number.** Put the run count, the spread, and the limiter in the notes or a linked artifact.

@@ -6,13 +6,13 @@ Invoked at the end of every other playbook.
 
 **Commits.** Commit liberally; rebase into small, ordered commits before opening PRs. Each commit is a future PR: landable, ordered to tell the story. Amend when the fix belongs in a just-made commit; new commit when separable.
 
-**PRs.** Strip slop from the diff before commit: dead abstractions, speculative generality, narrating comments, premature layers. Run `no-comments`](../references/skills/no-comments.md) before review. Write every PR title, PR description, and commit body per [technical-writing](../references/skills/technical-writing.md), then apply [unslop](../references/skills/unslop.md). Apply every technical-writing layer except Diátaxis. Use one word for each action, keep articles, and avoid `-ing` when a plain verb works.
+**PRs.** Strip slop from the diff before commit: dead abstractions, speculative generality, narrating comments, premature layers. Run [no-comments](../references/skills/no-comments.md) before review. Write every PR title, PR description, and commit body per [technical-writing](../references/skills/technical-writing.md), then apply [unslop](../references/skills/unslop.md). Apply every technical-writing layer except Diátaxis. Use one word for each action, keep articles, and avoid `-ing` when a plain verb works.
 
 **Titles.** Use Conventional Commits in the form `type(scope): subject`. Use `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, or `perf` as the type. Use the changed area as the scope (the module or component name). Keep the subject short and imperative. Apply the same technical-writing and unslop pass as the body. Name a real symbol when one carries the change. For example, `fix(pstack): retarget opening-a-pr babysit trigger`. Do not add a trailing period.
 
 **Descriptions.** Use these sections in order. Drop a section when it is empty.
 
-- `## Why`. State the intent and why this approach fits.
+- `## Why`. Abra com o objetivo do usuário, em suas palavras. Depois explique por que a abordagem atende a esse objetivo.
 - `## Scope`. State facts from the diff. Name real symbols and paths. Name both sides of a rename or retarget. State what is in and out when the boundary matters.
 - `## Tradeoffs`. State real choices only. Skip this section when there are none.
 - `## Blast Radius`. State who and what the change touches. Explain why the change is safe or risky. If main is red without the fix, name the continuing cost.
@@ -26,4 +26,4 @@ After these sections, attach videos or screenshots when they prove a claim. Do n
 
 **Babysit.** Opening a PR does not start a babysit. Post the URL and keep building. Finish the phase or stack first. Run a separate babysit pass only when the user asks for one after the whole stack exists. A babysit for each new PR stalls the build and spends checks on commits that later waves restart. Push back when feedback drifts from intent.
 
-A subagent that opens a PR runs `interrogate`, a diff slop-strip, and the no-comments procedure. It returns the URL and does not babysit. Return to the parent.
+Um subagente que abre um PR remove slop do diff, segue o procedimento no-comments e devolve a URL ao coordenador. Só inicia babysit quando seu brief o atribui explicitamente, como nos owners de Autopilot-full e Autopilot-stack. Nesses casos, inicia o loop depois de informar o head pronto para verificação e reporta merge-ready ao concluir.

@@ -30,6 +30,7 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 | Understand a change or subsystem, explained plainly | teach |
 | Catch up on their own recent work on a topic | recall |
 | Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | ketchup |
+| Receber a atualização de ketchup em um vídeo curto legendado, com decisões pendentes em texto | [ketchup-video](ketchup-video.md) |
 | Know what a small diff could break outside itself | blast-radius |
 | Settle types and module shape before code that crosses a function boundary | architect |
 | Get several attempts at one brief, merged into the best one | arena |
@@ -45,7 +46,7 @@ The default answer is poteto-mode, which runs most of the others when its steps 
 | Bring a verification skill and its feature map back in line with the app | maintain-verification-skill |
 | Formally verify a race, invariant, or other property that tests rarely reach | create-formal-verification-skill |
 | Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | maintain-formal-verification-skill |
-| Show a PM or designer what the user sees as a chart checked by a model, with each bug drawn as a numbered path, turn an agreed chart into a TLA+ skeleton, or audit the code against its TLA+ spec | statechart |
+| Mostrar o comportamento ao usuário num diagrama Mermaid gerado de TLA+, com o caminho mais curto até cada estado que viola uma regra | statechart |
 | Vet a performance number before reporting or acting on it | benchmark-checklist |
 | Run a large or cross-cutting change, or one to review after stepping away | figure-it-out |
 | Keep a decision log during a run, and review it afterward | show-me-your-work |
@@ -72,7 +73,7 @@ Playbooks are step lists inside poteto-mode, not skills, so they have no slash c
 - "land the stack" runs Shipping.
 - "take over this branch" runs Session pickup.
 - "pause safely" runs Pause safely.
-- "full autopilot on this queue" runs Autopilot-full. "stack them, don't ship" runs Autopilot-stack.
+- "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
 - "run the eval playbook" runs Eval.
 
 Principles are one-rule skills that poteto-mode reads and cites in its replies. The user rarely invokes one. They steer with the names instead, as in "apply prove it works. show me the real output."

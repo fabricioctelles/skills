@@ -15,7 +15,7 @@ Open a todolist with one entry per phase before launching anything.
 2. Choose the shape: partition into disjoint slices, race N workers on identical briefs, or mix. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
 3. Set N from the user or derive from the shape. N is total workers, not a concurrency limit.
 4. Pick worker models up front; name each arm's model in a race.
-5. Give each worker its own writable output when it writes: its own worktree, branch, or `/tmp/swarm-<slug>/worker-<n>/`.
+5. Give each worker its own writable output when it writes: its own worktree, branch, or `/tmp/swarm-<slug>/worker-<n>/`. Ao verificar ou medir commits, nomeie os SHAs exatos no brief. Para medições, nomeie também o método, a quantidade de amostras, o que constitui uma amostra e a ordem de execução. O resultado registra os SHAs e o método.
 
 ## Phase B: Fan out
 
@@ -29,4 +29,4 @@ For coverage, every required slice needs a result. For a race, apply the selecti
 
 ## Phase D: Report
 
-One consolidated report: the table, issue one-liners, gaps or dropouts, and the race rule when used.
+One consolidated report with a result table, issue one-liners, gaps or dropouts, and the race rule when used.

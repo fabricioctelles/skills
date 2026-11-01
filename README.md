@@ -254,9 +254,11 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 ---
 
 ### 👑 Pstack Skills — 23 Playbooks for Claude Code, Cursor & OpenCode [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-pstack-skill/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-pstack-skill) · `code-quality-and-review`
-Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) — 23 playbooks, 30 procedures, 21 engineering principles. No plugin install, no Cursor required. Runs in Claude Code, Cursor, Kiro, and OpenCode. One orchestrator that reads your task, picks the right playbook (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, tdd), and applies engineering principles with traceable citations.
+Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) — 23 playbooks, 31 procedures, 24 engineering principles. No plugin install, no Cursor required. Runs in Claude Code, Cursor, Kiro, and OpenCode. One orchestrator that reads your task, picks the right playbook (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, tdd), and applies engineering principles with traceable citations.
 
 **When to use:** any task that needs rigor — nontrivial code changes, architecture decisions, debugging with repro-first discipline, adversarial reviews, PR babysitting and shipping, long autonomous runs — or "poteto-mode", "work like poteto", "pstack". Works single-model; panels degrade to fresh-context passes without weakening any verification gate.
+
+**Version 1.6:** statechart checks TLA+ with TLC and generates Mermaid with shortest bug paths, using TypeScript and a Node/Bun/Deno launcher. `ketchup-video` produces subtitled slide updates with an available renderer. Orchestrate uses native agents and file records. The user's goal stays in briefs, PRs, and final reports, and interrogate keeps only findings proved by a run.
 
 📄 [View full documentation](skills/pstack-skill/README.md)
 
@@ -778,8 +780,8 @@ skills/
 │   ├── SKILL.md         # the orchestrator (playbook router, principles index, autonomy rules)
 │   ├── UPSTREAM_COMMIT  # reviewed upstream reference
 │   ├── playbooks/       # 23 step-by-step workflows copied verbatim onto todolists
-│   ├── references/      # 21 principles, 21 bundled procedures, plan + bot-review triage
-│   └── scripts/         # decision-log helper, worktree audit
+│   ├── references/      # 24 principles, 31 bundled procedures, adapters and upstream review
+│   └── scripts/         # statechart compiler, plan validator, log, audit and upstream checker
 ├── okf-open-knowledge-format/
 │   ├── SKILL.md
 │   ├── references/  # OKF spec, bundle anatomy, enrichment rules
