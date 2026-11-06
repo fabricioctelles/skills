@@ -42,6 +42,7 @@
         "slop-eval",
         "agent-plugin-eval",
         "design-md-validator",
+        "agent-qa-testing",
         "agent-ready-cloudflare"
       ]
     },
