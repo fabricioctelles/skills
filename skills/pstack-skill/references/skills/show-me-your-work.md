@@ -28,4 +28,4 @@ Before handing back: every row maps to a real action; each evidence pointer reso
 
 ## Cross-model review of the trail
 
-Spawn a reviewer on a different model family than the one that did the work (an independent fresh-context pass when only one model exists). It reads the trail and flags: decisions with weak or absent evidence, verification claimed without proof, choices risky in hindsight, gaps a casual skim would miss. Every reply for a run that produced a trail ends with an "Attention" section led by `reviewed by <model>` and listing flags by row. "No flags" is valid; omitting the section is not.
+Use a reviewer from a confirmed different model family when available; otherwise use an independent fresh-context pass and report the limitation. It reads the trail and flags: decisions with weak or absent evidence, verification claimed without proof, choices risky in hindsight, gaps a casual skim would miss. Every reply for a run that produced a trail ends with an "Attention" section led by `reviewed by <model>` and listing flags by row. "No flags" is valid; omitting the section is not.

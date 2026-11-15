@@ -12,7 +12,7 @@ Open a todolist with one entry per phase.
 
 ## Phase A: Ground
 
-Build a traced mental model of every system the new code touches: run the `how` procedure over the relevant subsystems, critique mode when existing structure is the constraint. Naming a file is not grounding. If the design redefines ownership or layering, also run `why` so the rationale becomes a constraint, not a guess.
+Build a traced mental model of every system the new code touches: trace the relevant subsystems and explain their architecture. Naming a file is not grounding. If the design redefines ownership or layering, also run `why` so the rationale becomes a constraint, not a guess.
 
 Skip only for genuinely greenfield work with nothing to integrate.
 
@@ -38,4 +38,4 @@ The sketch is the contract. Deviations are signal, not friction to absorb silent
 
 The trigger is a *pattern* of friction, not single instances: the same workaround shape recurring across unrelated code, unrelated edge cases all needing special branches, types needing escape hatches to compile, callers having to know internal rules, two or more independent same-shaped deviations during fill-in.
 
-When you scrap: re-run `how` over what has been built so lessons enter as inputs; redesign as if the new constraints were day-one assumptions ([redesign-from-first-principles](../principles.md#redesign-from-first-principles)); subtract before adding, so the new sketch starts smaller than the old one; return to Phase B.
+When you scrap: trace what has been built so lessons enter as inputs; redesign as if the new constraints were day-one assumptions ([redesign-from-first-principles](../principles.md#redesign-from-first-principles)); subtract before adding, so the new sketch starts smaller than the old one; return to Phase B.

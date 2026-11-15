@@ -9,53 +9,36 @@ pstack routes work by role. The skill speaks only role slugs; your environment b
 | `worker` | Fast, cheap, reliable instruction-following; mechanical work needing no judgment | Trivial edits, refactoring moves, codebase explorers, swarm workers |
 | `builder` | Strongest instruction-following at high complexity, long context | Precisely specified implementation: named data shape, scope, success criteria already settled by the parent (feature, refactoring, bug fix, perf, hillclimb) |
 | `judge` | Deepest reasoning plus calibrated epistemics and clear prose | Prose, synthesis, explanation, lead reviews, cross-judging |
-| `peer` | Strong reasoner from a **different family** than `judge`; when only one family exists, a fresh-context pass instead | Panel diversity, second opinions, red-team lanes |
+| `peer` | Independent reasoner, preferably from a confirmed different family; otherwise a fresh-context pass | Panel diversity, second opinions, red-team lanes |
 
-The `peer` constraint is family diversity, not depth: agreement across families is high signal, agreement within one family is not. A slug never encodes a vendor.
+Prefer a peer from a demonstrably different model family when available. Treat model identifiers as opaque and do not infer family or provider from their spelling. If diversity is unavailable or unknown, use an independent fresh-context pass and report that diversity was not verified.
 
-Upstream Cursor pstack maps five code-delegate playbooks (feature, refactoring, bug fix, perf, hillclimb) onto one fast code model. This portable skill does the same by routing all five through `builder` — bind `builder` once; do not hardcode Cursor-only slugs into playbooks.
+The five code-delegate playbooks use `builder`. Choose the strongest available instruction-follower for that role. The upstream defaults are not requirements for this portable skill.
 
 ## Binding syntax
 
-One line per role. The value is whatever string your harness needs to spawn that model; a `prefix:` names an alternative CLI/harness. Comments carry the contract for future readers. An optional `# budget:` line records the reasoning budget chosen in setup (see below).
+Store one `role: value` line per role in `.agents/pstack-models.md` or `~/.agents/pstack-models.md`. Values are opaque identifiers accepted by the active harness. Any routing syntax must be supported by that harness and authorized in this session. An optional `# budget:` line records the user's preference. For example, the following placeholders illustrate the shape and are not runnable values:
 
-```
-# pstack role bindings. One line per role. Delete a line to fall back to defaults.
-# budget: unlimited (max)
-worker:  grok-4-fast
-builder: codex:gpt-5.6-high      # spawns via Codex CLI
-judge:   claude:opus-5-thinking
-peer:    gemini:3.1-pro          # family must differ from judge
+```text
+worker: <available-worker-model>
+builder: <available-builder-model>
+judge: <available-judge-model>
+peer: <available-peer-model>
 ```
 
-### Optional Cursor-context defaults
+## Setup flow
 
-If you run inside Cursor and want upstream's current code-delegate defaults, you may bind `builder` to a Cursor agent model id such as `grok-4.6-fast-xhigh` (and keep `judge` on a deeper reasoning slug). That is optional and Cursor-context only — never required for Claude Code, Codex, opencode, Kiro, or other non-Cursor agents. Prefer role contracts over vendor slugs in shared/public catalog copies.
+Run setup only when requested or when resolving a failed binding. Runtime never requires setup.
 
-## Setup flow (explicit, interactive)
-
-Run this when the user asks to configure pstack models, set a pstack budget, or when a spawn fails because a binding points at nothing runnable. Setup is the one place pstack talks to the human about configuration; **runtime never does**: with no config file and no detection, every role falls back and work proceeds.
-
-1. **Detect first.** Enumerate the models this session can actually spawn (your platform's model list, CLI sign-ins such as `codex` / `gemini` / `grok`, or prior successful spawns). Never write a binding you have not confirmed runnable.
-2. **Load current state.** If a config file already exists, read its `# budget` line and role values as the current choices. Otherwise start from the role contracts and any inline examples above.
-3. **Budget, map, and confirm.**
-
-   **(a) Ask for a budget.** Prefer one structured question over free text. Offer these four options with these exact labels, and name the current budget when the file records one.
-
-   - `unlimited — keep max`
-   - `large — xhigh reasoning`
-   - `medium — high reasoning`
-   - `small — medium reasoning`
-
-   **(b) Apply it when bindings carry effort tokens.** Build the working table from the role defaults (and on a re-run keep any role the user already changed by family, prefix, or alias). `unlimited` leaves every effort as in that table. `large`, `medium`, and `small` rewrite the effort token of every real slug that has one to `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not in the detected set, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. Bindings with no effort token (plain `grok-4-fast`, `codex:gpt-5.6-high`, single-model collapses) are left unchanged aside from recording the budget line. Aliases such as `inherit-parent` / `auto` (parent chat model), when the harness supports them, do not change.
-
-   **(c) Propose bindings and confirm.** Fill the four roles from detection: `builder` gets your strongest instruction-follower, `judge` your deepest reasoner, `peer` the strongest model from a different family than `judge`, `worker` the fastest cheap model. Show the table with budget applied. Ask whether to accept as proposed / edit specific roles (offer detected models per role) / paste slugs for anything undetected. Single-model setup: skip the role questions, state the collapse plainly, still record the budget if the user picked one, write nothing else unless the user wants the file anyway.
-4. **Validate.** Every real slug in the file must be in the confirmed-runnable set. A bad binding silently breaks every delegation downstream, so stop and re-ask instead of writing a guess. Harness prefixes (`codex:`, `claude:`) validate against the named tool's own model list.
-5. **Write and confirm.** Overwrite the whole file so re-runs stay idempotent. Include `# budget: <label> (<target>)` when a budget was chosen. Tell the user which file was written and that new sessions pick it up.
+1. Discover the models and delegation controls actually exposed and authorized in this session. A locally installed CLI or a known model name alone does not establish availability or permission. If discovery is unavailable, inherit the session model rather than guessing.
+2. Read existing role bindings and budget. Preserve explicit user choices unless unavailable or the user changes them.
+3. Select `builder` for instruction-following, `judge` for reasoning, `worker` for mechanical work, and `peer` for independent review. Prefer confirmed family diversity for `peer` when available. A single model can fill all roles.
+4. If a reasoning budget is requested, record it and apply it only through documented controls and supported values exposed by the active harness. Never rewrite or parse model identifiers to infer effort, family, or provider. If no supported control exists, report that the preference could not be applied.
+5. Validate bindings against confirmed capabilities. Explicitly configured identifiers that cannot be verified require a user choice during setup; do not silently invent one. Write the configuration only as authorized and report the result.
 
 ## Runtime resolution
 
-When a playbook says "spawn a subagent using the builder role": read the config files in order, take the first hit, and spawn through whatever harness the prefix names (no prefix = this session's native subagent mechanism). No hit anywhere: use the best model available to you now and keep going. If a spawn errors because the bound model is unresolvable, fall back once to the inline default, note it in the reply, and suggest a setup pass at the end of the task.
+Resolve each role from the project file first, then the user file. Use a binding only if the active harness supports it and the session permits the action. Otherwise inherit the session model and report the fallback. When delegation is unavailable or prohibited, perform independent passes sequentially in fresh context where possible. Never claim model diversity without evidence. An unavailable binding or effort setting must not block the task or weaken verification.
 
 ## Offer verification skills (optional)
 

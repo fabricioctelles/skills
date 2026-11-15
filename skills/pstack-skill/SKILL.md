@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.6"
-  date: 2026-11-01
+  version: "1.7"
+  date: 2026-11-15
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 
@@ -47,7 +47,6 @@ Remaining triggers:
 
 - Na primeira mensagem de uma tarefa, reafirme com suas palavras o objetivo do usuário, o problema que ele quer resolver e a menor mudança que você espera que o resolva. Prossiga sem esperar confirmação. Se a evidência descartar a mudança pedida, mostre a evidência e pare. Reafirme o objetivo em cada brief de subagente, na abertura do `## Why` de cada PR e no início de cada relatório final, inclusive sua resposta final. Uma edição de uma linha completamente especificada dispensa a repetição no relatório final.
 
-- Nontrivial change, architecture decision, or "are we sure?" → the **how** procedure.
 - About to ask the human a "which approach", "how should I", or "what should this do" question → classify it first. If the answer is a fact observable by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's question. Sketch it via the Prototype playbook and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve questions for genuine product or preference calls no experiment can settle. Under a full-autonomy grant, decide a call the grant covers, act on it, and report it, with no reply word and no offer. Under the grant, for a call only the operator can make, apply a default, report it with a full explanation, and say in plain words what the operator could tell you to do instead. The operator answers in their own words. Never give a shorthand token to type back. Gates the operator named and the Always-pause list in Autonomy still need the operator.
 - Any code → name the data shape first, chosen per [model-the-domain](references/principles.md#model-the-domain).
 - Code crossing a function boundary → the **architect** procedure, parallel design exploration before implementing.
@@ -123,7 +122,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 
 Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps; brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer. Mantenha também direcionamentos e retomadas em background quando o mecanismo oferecer essa opção, para que outros resultados possam chegar enquanto o agente trabalha.
 
-Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation — feature, refactoring, bug fix, perf, hillclimb), `judge` (reasoning, prose, synthesis, lead review), `peer` (second opinion from a different family than judge). Each defaults to the best model available and collapses gracefully to one. Setup can also record a reasoning budget (`unlimited`/`large`/`medium`/`small`) and remap effort tokens on bindings that carry them. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask. Each code playbook's configured model comes from its line (`feature`, `refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), and the hardest changes read `hardest tasks`. Prose and judgment read `judgment and prose`.
+Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation — feature, refactoring, bug fix, perf, hillclimb), `judge` (reasoning, prose, synthesis, lead review), `peer` (independent second opinion, preferably from a confirmed different family). Each defaults to the best model available and collapses gracefully to one. Setup can record a reasoning budget and apply it only through controls supported by the active harness. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask. Code playbooks use `builder`; reasoning and prose use `judge`.
 
 You own every subagent's work. Review the diff and write your own summary; never pass through what it said. A second opinion is the same prompt against a different model or a fresh context; agreement is high-signal.
 

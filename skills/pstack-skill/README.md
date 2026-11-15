@@ -2,7 +2,7 @@
 
 > Lauren Tan's rigorous engineering workflow — `poteto-mode` and the whole pstack stack — as **one self-contained skill**. No plugin marketplace, no Cursor required, no vendor lock-in. Drop the folder in any agent that reads skills.sh-format skills.
 
-**Catálogo 1.6.** 23 playbooks, 31 procedures e 24 princípios de engenharia.
+**Catálogo 1.7.** 23 playbooks, 31 procedures e 24 princípios de engenharia.
 
 Ported from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by [Lauren Tan (@poteto)](https://x.com/poteto), informed by [open-pstack](https://github.com/ericlitman/open-pstack). MIT-licensed; all credit for the method is hers.
 
@@ -34,7 +34,7 @@ The skill is **sticky**: once invoked it stays on across turns, applying itself 
 | Stacks & merges | one owner per PR, forge CLI | plain git + available forge CLI, isolated worktrees |
 | Multi-model panels | native cloud fan-out | same gates, sequential fresh-context passes when only one model exists |
 
-Ferramentas específicas do Cursor são adaptadas para os recursos disponíveis no agente. As dependências e os limites do porte estão descritos nos procedimentos e na seção Versão 1.6.
+Ferramentas específicas do Cursor são adaptadas para os recursos disponíveis no agente. As dependências e os limites do porte estão descritos nos procedimentos e nas notas de versão abaixo.
 
 ## Install
 
@@ -58,7 +58,7 @@ Two steps, like upstream:
 
 > Use pstack-skill's setup procedure to configure model roles and pick a reasoning budget.
 
-It detects what you can actually run, asks for a budget (`unlimited` / `large` / `medium` / `small`), remaps effort tokens when your bindings carry them, proposes bindings for the four roles, asks before writing `.agents/pstack-models.md`, and validates every slug against what is runnable. Skip it and everything falls back to your single best model, gracefully.
+It detects what you can actually run, can record a requested reasoning budget using supported harness controls, proposes bindings for the four roles, and validates identifiers against available capabilities before writing `.agents/pstack-models.md`. Skip it and everything falls back to your single best model, gracefully.
 
 **2. Start tasks that need rigor with the skill invoked.**
 
@@ -123,16 +123,16 @@ Delegations never name vendors. Four role slugs, each with a capability contract
 | `worker` | fast, cheap instruction-following | mechanical edits, explorers, swarm workers |
 | `builder` | strongest instruction-follower, long context | specified implementation (feature, refactoring, bug fix, perf, hillclimb) |
 | `judge` | deepest reasoning, calibrated prose | synthesis, reviews, cross-judging |
-| `peer` | strong reasoner from a **different family** than judge | panel diversity, second opinions |
+| `peer` | independent reasoner, preferably from a confirmed different family | panel diversity, second opinions |
 
 Bindings live in `.agents/pstack-models.md` (project) or `~/.agents/pstack-models.md` (user). Setup may also write a `# budget:` line. Example:
 
 ```
 # budget: unlimited (max)
-worker:  grok-4-fast
-builder: codex:gpt-5.6-high      # prefix = alternative CLI/harness
-judge:   claude:opus-5-thinking
-peer:    gemini:3.1-pro          # family must differ from judge
+worker:  <available-worker-model>
+builder: <available-builder-model>
+judge:   <available-judge-model>
+peer:    <available-peer-model>
 ```
 
 Os slugs acima são exemplos de formato. Configure apenas modelos confirmados como disponíveis na sessão. Os playbooks usam papéis portáteis, sem exigir um modelo ou fornecedor específico.
@@ -172,9 +172,14 @@ pstack-skill/
     └── worktree-audit.sh     ← disk reclaim audit
 ```
 
+## Versão 1.7
+
+- `how` e `why` foram simplificados e os fluxos agora traçam diretamente os subsistemas.
+- O statechart recebeu correções para entradas em estados compostos e diagnóstico de erros SANY.
+- Os papéis de modelos usam capacidades disponíveis e identificadores opacos, sem padrões de provedor.
+
 ## Versão 1.6
 
-Porte revisado contra `cursor/plugins/pstack` em `c742dd61706fbacc1b95f1a20b7b988cf096ce6c` (27/10/2026). O registro completo está em [Revisão upstream](references/upstream-review-2026-11-01.md). `UPSTREAM_COMMIT` continua em `eb4db2b` até o reconhecimento humano pelo comando `accept`.
 
 - **Statechart.** O compilador TypeScript substitui os scripts `.mjs`. Um comando checa TLA+ com TLC, gera Mermaid e relata caminhos mínimos. Use `scripts/statechart/statechart SPEC.tla --out NOVA-PASTA`. O launcher escolhe Node 22.18 a 22.x, Node 23.6+, Bun 1.1.5+ ou Deno 2+. Defina `TLA2TOOLS` e, se necessário, `JAVA`. Não instala dependências automaticamente. Consulte [statechart](references/skills/statechart.md) para saídas e migração dos comandos antigos.
 - **Ketchup video.** [ketchup-video](references/skills/ketchup-video.md) gera uma atualização em slides legendados com um renderizador disponível, como FFmpeg. Não exige serviço de geração de vídeo ou outra skill. Sem renderizador, entrega as decisões pendentes em texto.
