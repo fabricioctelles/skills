@@ -3,12 +3,12 @@ name: coolify-operator
 description: Master Coolify operator for self-hosted deployment platform. Use when the user mentions 'coolify', 'deploy on coolify', 'list/restart/redeploy applications', 'view coolify logs', 'coolify API/CLI', 'manage coolify servers/databases/apps', or 'coolify context'. Automates deployments and management via REST API or official CLI.
 metadata:
   author: ft.ia.br
-  version: "3.4"
-  date: 2026-10-29
+  version: "3.5"
+  date: 2026-11-12
   license: MIT
   category: ci-cd-and-deployment
   coolify_cli_version: "1.11.0"
-  coolify_version: "4.5.3"
+  coolify_version: "4.7.3"
   upstream_commit: "3738289a2a47050fa70007a571fbed00cb1c6d6e"
 ---
 
@@ -18,7 +18,11 @@ Skill for operating Coolify instances through the **official CLI** or **REST API
 
 **Pinned upstream:** coolify-cli **v1.11.0** (`3738289a2a47050fa70007a571fbed00cb1c6d6e`) — Coolify v4 surface. Prefer command forms from `llms.txt` / `llms-full.txt` on that tag.
 
-**Release notes reviewed:** Coolify v4.5.3 (October 2026). This records upstream changes; it does not assert that every homelab instance has been upgraded.
+**Release notes reviewed:** Coolify v4.7.3 (November 2026). This records upstream changes; it does not assert that every homelab instance has been upgraded.
+
+### CLI v1.11.0 / Current CLI Coverage
+
+The pinned CLI v1.11.0 and the current upstream `main` command catalog do not document commands for image vulnerability scanning. Use the REST API documented below (or the Coolify UI); do not assume a `coolify vulnerability` or `coolify image-scanning` command exists. Recheck the CLI catalog when upgrading the CLI pin.
 
 ### CLI v1.11.0 Highlights
 
@@ -247,6 +251,53 @@ All commands support these flags (match coolify-cli v1.11.0):
 ```
 
 Config file holds plaintext tokens — never commit `~/.config/coolify/config.json` (Windows: `%APPDATA%\coolify\config.json`).
+
+---
+
+## Image Vulnerability Scanning (v4.7.0+)
+
+Coolify v4.7.0 added native container image scanning, with follow-up fixes and controls in v4.7.1–v4.7.3. Syft creates the SBOM and Grype checks it against the vulnerability database on the server. Images and SBOMs are not sent to a third party. Scanning is **off by default**, enabled per server, and covers that server's applications, databases, and services unless an application opts out. If an application builds on a separate build server, enable scanning there too.
+
+Prerequisites and operational impact:
+
+- Server must reach Docker Hub for `anchore/syft`, `anchore/grype`, `regclient/regctl`, and `alpine`, plus `grype.anchore.io` for the vulnerability database.
+- A scan can use up to 1 CPU and 1 GB RAM by default (v4.7.3 adds configurable CPU/time limits; v4.7.2 added memory tuning). Scanner data uses about 1.2 GB plus temporary image space.
+- Team admin/owner enables scanning on a server. Coolify scans daily and on deploy/start events; users with resource write access can scan an individual resource and set application rules.
+- Deploy blocking is application-only and defaults off. `On` blocks new exploited/likely-exploited findings; `Strict` also blocks fixable critical/high and optionally medium findings. Set the behavior for failed scans deliberately.
+- Findings, status, recommended versions, and scan timestamps appear in resource Security pages and the team Security page. Notifications can deliver daily summaries and urgent findings.
+
+### API coverage
+
+Coolify v4.7.3 OpenAPI documents the following endpoints. Replace `$COOLIFY` with the API base including `/api/v1`. The server image-scanning GET/PATCH requires team admin/owner; read endpoints need `read`; PATCH needs `write`.
+
+```bash
+# Read / change server scanning and scanner limits
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/servers/{server_uuid}/image-scanning"
+curl -sS -X PATCH -H "Authorization: Bearer $COOLIFY_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{"is_image_scan_enabled":true,"image_scan_memory_mb":2048}' \
+  "$COOLIFY/servers/{server_uuid}/image-scanning"
+
+# Team-wide resource statuses; optional comma-separated status filter
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/vulnerabilities?status=update_now,security_update"
+
+# Per-resource findings; supported query filters include state, severity,
+# image, search, page, and per_page
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/applications/{app_uuid}/vulnerabilities?severity=critical,high"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/databases/{database_uuid}/vulnerabilities"
+curl -sS -H "Authorization: Bearer $COOLIFY_KEY" \
+  "$COOLIFY/services/{service_uuid}/vulnerabilities"
+```
+
+`PATCH /servers/{uuid}/image-scanning` supports `is_image_scan_enabled`, `image_scan_memory_mb` (`1024`, `2048`, `4096`, `8192`), `image_scan_syft_timeout`, `image_scan_grype_timeout`, and `image_scan_cpus` in current v4.7.3. Confirm allowed values in that instance's OpenAPI before setting limits. `PATCH /applications/{uuid}` supports the per-app `is_image_scan_enabled` toggle; `PATCH /team` supports `scan_images_on_new_servers`. The API exposes reading results and changing server/app/team settings, but the documented endpoints do not expose a manual “scan now” action, finding ignore management, or deploy-rule management; use UI/MCP for those unless the instance's OpenAPI adds routes.
+
+### API-only workflow, no CLI subcommands
+
+The current CLI catalog (`coolify-cli` upstream main) has no vulnerability/image-scanning commands. Use REST for server configuration and reading results. The native Coolify MCP tools `manage_image_scanning` and `get_vulnerabilities` are another supported integration route when MCP is enabled and token permissions allow it.
 
 ---
 
@@ -1215,21 +1266,38 @@ coolify gitlab delete <app_id_or_uuid> -f
 
 ### Creating an Application from a GitLab App
 
-Confirmed in Coolify `4.3.23` and still true in `4.4.6` (no `private-gitlab-app` route). The API creates the OAuth **source**. The **application** linked to that source is created via UI under "Git Repository (with GitLab App)".
+In Coolify `4.7.5`, `POST /applications/private-gitlab-app` is absent, but an application already linked to the desired GitLab App can be cloned and repurposed entirely through the API. This was verified on 2026-11-13. Creating via the UI remains an alternative when there is no suitable existing application to clone.
 
-`POST /api/v1/gitlab-apps` only stores the source (`name`, `html_url`, credentials). There is no `POST /api/v1/applications/private-gitlab-app` — this route returns 404. The only application create endpoints are:
+`POST /api/v1/gitlab-apps` only stores the source (`name`, `html_url`, credentials). There is no `POST /api/v1/applications/private-gitlab-app` — this route returns 404. Other application create endpoints include:
 
 - `POST /api/v1/applications/public`
 - `POST /api/v1/applications/private-github-app` (`github_app_uuid`)
+- `POST /api/v1/applications/private-gitea-app` (`gitea_app_uuid`)
 - `POST /api/v1/applications/private-deploy-key` (`private_key_uuid`)
 - `POST /api/v1/applications/dockerfile`
 - `POST /api/v1/applications/dockerimage`
 
-After the UI creates the application, `source_type` becomes `App\Models\GitlabApp` and `source_id` is the numeric ID of the source. From there, the API can edit normally: `PATCH /api/v1/applications/{uuid}`, envs, and storages.
+After creation, `source_type` becomes `App\Models\GitlabApp` and `source_id` is the numeric ID of the source. From there, the API can edit normally: `PATCH /api/v1/applications/{uuid}`, envs, and storages.
+
+### API: clonar aplicação vinculada a GitLab App (4.7.5)
+
+1. Na **mesma instância e equipe**, identifique uma aplicação vinculada à GitLab App desejada (`source_type` e `source_id`). Não é possível clonar por essa API entre instalações Coolify diferentes. Confira projeto/ambiente, destino, configurações, domínios, envs, secrets, storage e tarefas. Prefira uma aplicação modelo mínima e um ambiente apropriado.
+2. Execute `POST /api/v1/applications/{source_uuid}/clone` com `{"destination_uuid":"<uuid_destino_docker>","name":"<nome>","clone_volumes":false}`. O `destination_uuid` é da rede Docker, não do servidor ou projeto. A resposta 201 retorna o UUID da nova aplicação, inicialmente parada; ela preserva o ambiente e a associação GitLab App. `clone_volumes: false` não impede a cópia das definições de storage ou das demais configurações.
+3. **Antes de qualquer deploy**, revise envs de produção e preview, flags, secrets e vínculos ao secret manager, webhook secrets, definições de volumes e arquivos, tarefas, tags, labels, rede, comandos e domínios. O clone pode copiar o FQDN ou gerar outro e enfileirar DNS automático: confira a integração DNS e seus efeitos antes de clonar. `clone_volumes: true` pode parar e iniciar a origem. Remova ou substitua os dados herdados que não pertencem ao novo projeto e nunca exponha segredos.
+4. Faça `PATCH /api/v1/applications/{new_uuid}` com `git_repository` no formato GitLab App `namespace/repo`, branch, `build_pack`, `dockerfile_location`, `base_directory` e `ports_exposes`; use `instant_deploy: false`. Relia `source_type`, `source_id` e a configuração. Recrie as envs da origem: criar uma env de produção pode gerar também uma entrada preview, portanto relacione antes de criar outra e compare valores somente em memória.
+5. Faça deploy e confira status, logs e commit. Teste endereço temporário ou IP de origem com Host/SNI antes de alterar DNS; `curl -k` comprova roteamento, não validade TLS. Configure domínios finais e teste webhook e deploy antes da virada.
+
+Este é um procedimento alternativo validado, não um endpoint dedicado para criação com GitLab App. A rota `private-gitlab-app` retornou 404 na instância verificada; consulte as rotas da versão instalada antes de concluir que a API não atende.
+
+### Webhook GitLab e TLS na migração
+
+Uma GitLab App e um build bem-sucedido não comprovam que os pushes chegam ao destino. Confira URL do hook, filtro de branch e secret; teste evento de push e confirme que um **novo deploy** iniciou e terminou. Um token pode permitir leitura e retornar 403 ao criar ou testar hooks. Quando disponível, use uma credencial da integração já autorizada no projeto, com o menor privilégio, sem imprimir, persistir em histórico ou incluir na URL. Na rota manual, gere um `manual_webhook_secret_gitlab` novo por aplicação e crie hook para `/webhooks/source/gitlab/events/manual`. Só desative o push no hook antigo depois da validação e preserve o rollback.
+
+Em uma migração, DNS proxied do Cloudflare produziu falha no desafio HTTP-01 (404/526). Funcionou colocar temporariamente apenas os dois registros A da aplicação em DNS-only, reiniciar o proxy geral do Coolify no destino, validar os certificados de origem dos dois hosts, restaurar o proxy Cloudflare e testar externamente. É um procedimento observado, não uma afirmação de que o proxy sempre impede ACME. Preserve estado e rollback do DNS; reiniciar o proxy afeta outros serviços. Evite alterar um curinga quando um registro `www` específico for suficiente.
 
 While `build_pack` is `dockercompose`, `domains` is rejected with "The domains field cannot be used for dockercompose applications". Change the pack first (`build_pack: dockerfile`, `dockerfile_location`, `ports_exposes`), then send `domains`. Define `ports_exposes` before the first deploy that generates `custom_labels`; changing the port afterward won't regenerate Traefik labels.
 
-Coolify does not create the webhook on the GitLab project. Push-triggered deploys require a project hook at `POST /webhooks/source/gitlab/events` with the source's webhook token. The UI suggests the Git App manages this, but there's no call to `POST /api/v4/projects/:id/hooks` in the code (issue `coollabsio/coolify#11602`).
+A integração GitLab não garante, por si só, que o hook de projeto esteja criado. Há diferentes rotas e secrets para eventos da source e webhook manual: confira a configuração efetiva e teste a entrega e o deploy. O hook manual `/webhooks/source/gitlab/events/manual` foi validado com `manual_webhook_secret_gitlab`; não confunda esse secret com o token de webhook da source (ver issue `coollabsio/coolify#11602`).
 
 ---
 
@@ -1770,7 +1838,7 @@ Fixed: Stopped containers are now visible after reaching restart limit. Actions 
 
 ### GitLab App Does Not Create Application via API
 
-`POST /applications/private-gitlab-app` returns 404 in Coolify 4.3.x. Create the application via UI with the GitLab App, then edit via `PATCH /applications/{uuid}`. With `build_pack=dockercompose`, use `docker_compose_domains`, not `domains`. See the "GitLab Apps" section for details.
+`POST /applications/private-gitlab-app` returns 404 in the verified versions. In 4.7.5, clone a suitable application already linked to the same GitLab App through `POST /applications/{uuid}/clone`, then reconcile inherited resources and edit via `PATCH /applications/{uuid}`. UI creation is an alternative if no suitable clone source exists. With `build_pack=dockercompose`, use `docker_compose_domains`, not `domains`. See the "GitLab Apps" section for details.
 
 ### Error: 404 on context verify
 
@@ -1910,6 +1978,10 @@ For AI agents using Coolify CLI (prefer the **v1.11.0** pin this skill targets):
 ---
 
 ## Changelog
+
+### v3.5 (2026-11-12)
+- Updated reviewed Coolify version through v4.7.3; documented native image vulnerability scanning, prerequisites, cadence, deploy gates, and permissions
+- Added v4.7.3 REST API examples and confirmed current CLI catalog has no scan commands; noted MCP tools as an alternative
 
 ### v3.4 (2026-10-29)
 - Pinned coolify-cli v1.11.0 (`3738289`) — Coolify surface unchanged, still v4.5.3
