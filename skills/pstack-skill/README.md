@@ -2,7 +2,7 @@
 
 > Lauren Tan's rigorous engineering workflow — `poteto-mode` and the whole pstack stack — as **one self-contained skill**. No plugin marketplace, no Cursor required, no vendor lock-in. Drop the folder in any agent that reads skills.sh-format skills.
 
-**Catálogo 1.7.** 23 playbooks, 31 procedures e 24 princípios de engenharia.
+**Version 1.7.** 23 playbooks, 31 procedures, and 24 engineering principles.
 
 Ported from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by [Lauren Tan (@poteto)](https://x.com/poteto), informed by [open-pstack](https://github.com/ericlitman/open-pstack). MIT-licensed; all credit for the method is hers.
 
@@ -34,7 +34,7 @@ The skill is **sticky**: once invoked it stays on across turns, applying itself 
 | Stacks & merges | one owner per PR, forge CLI | plain git + available forge CLI, isolated worktrees |
 | Multi-model panels | native cloud fan-out | same gates, sequential fresh-context passes when only one model exists |
 
-Ferramentas específicas do Cursor são adaptadas para os recursos disponíveis no agente. As dependências e os limites do porte estão descritos nos procedimentos e nas notas de versão abaixo.
+Cursor-specific tools are adapted to the capabilities available to the agent. See the procedures for requirements and limitations.
 
 ## Install
 
@@ -58,7 +58,7 @@ Two steps, like upstream:
 
 > Use pstack-skill's setup procedure to configure model roles and pick a reasoning budget.
 
-It detects what you can actually run, can record a requested reasoning budget using supported harness controls, proposes bindings for the four roles, and validates identifiers against available capabilities before writing `.agents/pstack-models.md`. Skip it and everything falls back to your single best model, gracefully.
+It detects what you can actually run, can record a requested reasoning budget using supported harness controls, proposes bindings for the four roles, and validates identifiers against available capabilities before writing `.agents/pstack-models.md`. Skip it and roles fall back to the current session model.
 
 **2. Start tasks that need rigor with the skill invoked.**
 
@@ -135,7 +135,7 @@ judge:   <available-judge-model>
 peer:    <available-peer-model>
 ```
 
-Os slugs acima são exemplos de formato. Configure apenas modelos confirmados como disponíveis na sessão. Os playbooks usam papéis portáteis, sem exigir um modelo ou fornecedor específico.
+These placeholders illustrate the format and are not runnable identifiers. Configure only models confirmed available in the session. Playbooks use portable roles without requiring a specific model or provider.
 
 One model available? All four collapse to it and panels become sequential independent passes on fresh context. Gates are downgraded in execution, never skipped.
 
@@ -153,7 +153,7 @@ Twenty-four short rules the orchestrator indexes and cites by name. Full text in
 
 ```
 pstack-skill/
-├── README.md                 ← instalação, uso, versão e manutenção
+├── README.md                 ← installation, usage, and maintenance
 ├── SKILL.md                  ← the orchestrator (agent entry point)
 ├── UPSTREAM_COMMIT           ← last reviewed commit from cursor/plugins
 ├── playbooks/                ← 23 workflows, steps copied verbatim onto todolists
@@ -161,31 +161,15 @@ pstack-skill/
 │   ├── principles.md         ← full text of the 24 principles
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
 │   ├── harness/              ← per-harness name mappings (claude-code.md)
-│   ├── upstream-review-*.md  ← decisões, segurança e validação do porte
 │   └── skills/               ← 31 bundled procedures (how, arena, unslop, sharpen, statechart, create-formal-verification-skill...)
 └── scripts/
     ├── check-upstream.sh     ← manual upstream update check
     ├── check-plan.mjs        ← multi-phase plan checklist validator
-    ├── check-plan.test.mjs   ← regressões do validador de planos
+    ├── check-plan.test.mjs   ← plan validator tests
     ├── log.sh                ← decision-log helper (TSV, formula-safe)
-    ├── statechart/           ← compilador TLA+ → Mermaid (TypeScript, Node/Bun/Deno, TLC via Java)
+    ├── statechart/           ← TLA+ to Mermaid compiler (TypeScript, Node/Bun/Deno, TLC via Java)
     └── worktree-audit.sh     ← disk reclaim audit
 ```
-
-## Versão 1.7
-
-- `how` e `why` foram simplificados e os fluxos agora traçam diretamente os subsistemas.
-- O statechart recebeu correções para entradas em estados compostos e diagnóstico de erros SANY.
-- Os papéis de modelos usam capacidades disponíveis e identificadores opacos, sem padrões de provedor.
-
-## Versão 1.6
-
-
-- **Statechart.** O compilador TypeScript substitui os scripts `.mjs`. Um comando checa TLA+ com TLC, gera Mermaid e relata caminhos mínimos. Use `scripts/statechart/statechart SPEC.tla --out NOVA-PASTA`. O launcher escolhe Node 22.18 a 22.x, Node 23.6+, Bun 1.1.5+ ou Deno 2+. Defina `TLA2TOOLS` e, se necessário, `JAVA`. Não instala dependências automaticamente. Consulte [statechart](references/skills/statechart.md) para saídas e migração dos comandos antigos.
-- **Ketchup video.** [ketchup-video](references/skills/ketchup-video.md) gera uma atualização em slides legendados com um renderizador disponível, como FFmpeg. Não exige serviço de geração de vídeo ou outra skill. Sem renderizador, entrega as decisões pendentes em texto.
-- **Orchestrate.** Usa agentes nativos ou execução sequencial, com registros em TSV e Markdown. Não depende de Task ou Project tracker do Cursor nem de scripts `orch`.
-- **Objetivo e revisão.** O objetivo reaparece na primeira mensagem, briefs, PRs e relatórios finais. Interrogate mantém somente achados comprovados por execução. Autopilot-stack entrega PRs verificados ao operador e só empilha os dependentes.
-- **Correções.** Swarm, mtime GNU/BSD, delimitadores de código inline e destino das edições de reflect foram alinhados. A [nota do Claude Code](references/harness/claude-code.md#atualização-do-plugin-upstream) distingue o auto-update do plugin upstream da manutenção desta pasta.
 
 ## Manutenção do porte
 

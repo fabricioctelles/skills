@@ -191,6 +191,8 @@ Master operator for Coolify — the self-hosted open-source deployment platform 
 - Added LLM/AI Agent integration section with llms.txt references
 - Updated to match latest CLI documentation
 
+**Latest updates:** Image vulnerability scanning through the REST API and a GitLab App cloning workflow for supported Coolify versions.
+
 📄 [View full documentation](skills/coolify-operator/SKILL.md)
 
 [^coolify-grade]: The Skills Directory assigned this skill **F (0/100)** after its automated scan flagged remote installer execution (`curl | bash`, `irm | iex`), private-key references, bearer-token API examples, destructive commands, and package installation. These pattern matches do not establish malicious intent: the API examples send credentials to the configured Coolify host, which the scanner cannot verify. Remote script execution and destructive commands still carry real risk; review them before use. See the [scan](https://www.skillsdirectory.com/skills/fabricioctelles-coolify-operator) and [scanning methodology](https://www.skillsdirectory.com/security/methodology).
@@ -258,7 +260,7 @@ Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/t
 
 **When to use:** any task that needs rigor — nontrivial code changes, architecture decisions, debugging with repro-first discipline, adversarial reviews, PR babysitting and shipping, long autonomous runs — or "poteto-mode", "work like poteto", "pstack". Works single-model; panels degrade to fresh-context passes without weakening any verification gate.
 
-**Version 1.6:** statechart checks TLA+ with TLC and generates Mermaid with shortest bug paths, using TypeScript and a Node/Bun/Deno launcher. `ketchup-video` produces subtitled slide updates with an available renderer. Orchestrate uses native agents and file records. The user's goal stays in briefs, PRs, and final reports, and interrogate keeps only findings proved by a run.
+**Version 1.7:** Model roles are provider-agnostic and use capabilities available in the current environment. `how` and `why` provide focused explanations, and statechart includes improved Mermaid rendering and SANY error reporting.
 
 📄 [View full documentation](skills/pstack-skill/README.md)
 

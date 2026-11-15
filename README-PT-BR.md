@@ -188,6 +188,8 @@ Operador mestre do Coolify — plataforma self-hosted open-source de deployment 
 - Adicionada seção de integração LLM/AI Agent com referências ao llms.txt
 - Atualizado para coincidir com a documentação mais recente do CLI
 
+**Atualizações recentes:** análise de vulnerabilidades de imagens pela API REST e fluxo de clonagem de aplicações vinculadas a GitLab App nas versões compatíveis do Coolify.
+
 📄 [Ver documentação completa](skills/coolify-operator/SKILL.md)
 
 [^coolify-grade]: O Skills Directory atribuiu **F (0/100)** após a análise automatizada sinalizar execução de instaladores remotos (`curl | bash`, `irm | iex`), referências a chaves privadas, exemplos de chamadas à API com token Bearer, comandos destrutivos e instalação de pacotes. Esses padrões não comprovam intenção maliciosa: os exemplos de API enviam credenciais ao host Coolify configurado, mas o scanner não consegue verificar esse destino. A execução de scripts remotos e os comandos destrutivos ainda oferecem riscos reais; revise-os antes de usar. Consulte a [análise](https://www.skillsdirectory.com/skills/fabricioctelles-coolify-operator) e a [metodologia de análise](https://www.skillsdirectory.com/security/methodology).
@@ -255,7 +257,7 @@ Porte autocontido do [pstack](https://github.com/cursor/plugins/tree/main/pstack
 
 **Quando usar:** qualquer tarefa que exija rigor — mudanças de código não triviais, decisões de arquitetura, debug com disciplina de reprodução primeiro, reviews adversariais, babysitting e shipping de PRs, execuções autônomas longas — ou "poteto-mode", "work like poteto", "pstack". Funciona com um único modelo; painéis degradam para passes independentes em contexto fresco sem enfraquecer nenhum gate de verificação.
 
-**Versão 1.6:** statechart checa TLA+ com TLC e gera Mermaid com caminhos mínimos, usando TypeScript e um launcher Node/Bun/Deno. `ketchup-video` produz atualizações em slides legendados com um renderizador disponível. Orchestrate usa agentes nativos e registros em arquivos. O objetivo do usuário acompanha briefs, PRs e relatórios, e interrogate mantém apenas achados comprovados por execução.
+**Versão 1.7:** Os papéis de modelo são agnósticos de provedor e usam os recursos disponíveis no ambiente. `how` e `why` oferecem explicações focadas, e o statechart traz melhorias na renderização Mermaid e no diagnóstico de erros SANY.
 
 📄 [Ver documentação completa](skills/pstack-skill/README.md)
 
