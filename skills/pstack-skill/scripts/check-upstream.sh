@@ -161,7 +161,7 @@ Leia o diff completo antes de decidir. Use estes comandos, sem assumir que nomes
 ```bash
 git -C "__UPSTREAM_CACHE__" diff --find-renames "__REFERENCE__..__LATEST__" -- "__UPSTREAM_PATH__"
 git -C "__UPSTREAM_CACHE__" log --reverse --format=fuller "__REFERENCE__..__LATEST__" -- "__UPSTREAM_PATH__"
-rg -n --glob '*.md' --glob '*.sh' 'multi-phase|plan|check-plan|<termo relevante>' "__SKILL_DIR__"
+rg -n --glob '*.md' --glob '*.sh' 'multi-phase|plan|<termo relevante>' "__SKILL_DIR__"
 ```
 
 Leia cada arquivo upstream afetado com `git -C "__UPSTREAM_CACHE__" show "__LATEST__:<caminho>"`. Depois localize o comportamento correspondente na skill local e compare intenção, não apenas texto.

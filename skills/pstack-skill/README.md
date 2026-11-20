@@ -2,7 +2,7 @@
 
 > Lauren Tan's rigorous engineering workflow — `poteto-mode` and the whole pstack stack — as **one self-contained skill**. No plugin marketplace, no Cursor required, no vendor lock-in. Drop the folder in any agent that reads skills.sh-format skills.
 
-**Version 1.7.** 23 playbooks, 31 procedures, and 24 engineering principles.
+**Version 1.8.** 22 playbooks, 31 procedures, and 24 engineering principles.
 
 Ported from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by [Lauren Tan (@poteto)](https://x.com/poteto), informed by [open-pstack](https://github.com/ericlitman/open-pstack). MIT-licensed; all credit for the method is hers.
 
@@ -14,7 +14,7 @@ There is a growing sense that AI writes too much slop code. Throughput without q
 
 This skill turns a coding agent into a disciplined engineering team. It is not a model or a hosted service — it gives your agent engineering rules, step-by-step workflows, focused procedures, and small local tools. Give it a task in plain language and it will:
 
-- read the task and pick the workflow that fits (one of 23 playbooks);
+- read the task and pick the workflow that fits (one of 22 playbooks);
 - learn how the current system works before changing it (`how` / `why`);
 - compare competing designs before committing when the choice matters (`architect` / `arena`);
 - favor the smallest change that solves the problem;
@@ -102,7 +102,7 @@ Babysit (drive PRs to merge-ready: conflicts, threads, flaky CI), Shipping (veri
 
 > /pstack-skill i'm going to bed. drive the migration until done, leave a trail i can audit at breakfast.
 
-Autonomous run (exit predicate, wake mechanisms, checkpoints), Orchestrate (multi-day programs: native agents, one owner per PR, durable TSV/Markdown records), Session pickup / Pause safely (resume or suspend cleanly), show-me-your-work (append-only TSV decision trail with cross-review).
+Autonomous run (exit predicate, wake mechanisms, checkpoints), figure-it-out (designs a bespoke run, multi-day programs included), Session pickup / Pause safely (resume or suspend cleanly), show-me-your-work (append-only TSV decision trail with cross-review).
 
 ### Quality gates
 
@@ -156,7 +156,8 @@ pstack-skill/
 ├── README.md                 ← installation, usage, and maintenance
 ├── SKILL.md                  ← the orchestrator (agent entry point)
 ├── UPSTREAM_COMMIT           ← last reviewed commit from cursor/plugins
-├── playbooks/                ← 23 workflows, steps copied verbatim onto todolists
+├── worker.md                 ← rules every delegated agent reads first
+├── playbooks/                ← 22 workflows, steps copied verbatim onto todolists
 ├── references/
 │   ├── principles.md         ← full text of the 24 principles
 │   ├── bugbot-triage.md      ← skeptical triage of bot-review comments
@@ -164,10 +165,8 @@ pstack-skill/
 │   └── skills/               ← 31 bundled procedures (how, arena, unslop, sharpen, statechart, create-formal-verification-skill...)
 └── scripts/
     ├── check-upstream.sh     ← manual upstream update check
-    ├── check-plan.mjs        ← multi-phase plan checklist validator
-    ├── check-plan.test.mjs   ← plan validator tests
     ├── log.sh                ← decision-log helper (TSV, formula-safe)
-    ├── statechart/           ← TLA+ to Mermaid compiler (TypeScript, Node/Bun/Deno, TLC via Java)
+    ├── statechart/           ← TLA+ to Mermaid compiler (TypeScript, Node/Bun/Deno, TLC via Java, native Windows via Node)
     └── worktree-audit.sh     ← disk reclaim audit
 ```
 

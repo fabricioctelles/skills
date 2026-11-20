@@ -14,7 +14,7 @@ TLA2TOOLS=/caminho/absoluto/tla2tools.jar JAVA=/caminho/absoluto/java \
   [--config ARQUIVO] [--view ARQUIVO] [--out PASTA]
 ```
 
-O launcher POSIX escolhe o primeiro runtime compatível disponível no `PATH`. Aceita Node 22.18 a 22.x, Node 23.6 ou posterior, Bun 1.1.5 ou posterior, ou Deno 2.0 ou posterior. Não exige compilação nem pacotes npm para executar. O runtime e o launcher usam `/bin/sh` para encerrar os processos filhos e limpar os temporários; use um ambiente POSIX.
+O launcher POSIX escolhe o primeiro runtime compatível disponível no `PATH`. Aceita Node 22.18 a 22.x, Node 23.6 ou posterior, Bun 1.1.5 ou posterior, ou Deno 2.0 ou posterior. Não exige compilação nem pacotes npm para executar. O launcher `statechart` é um script POSIX. No Windows nativo, rode `node --disable-warning=ExperimentalWarning <pstack-skill>/scripts/statechart/statechart.ts` com Node 22.18 a 22.x ou Node 23.6 ou posterior. O encerramento usa `kill.ts` e `janitor.ts`: mata só o grupo do processo worker da própria execução (`taskkill /t` no Windows) e apaga só as pastas temporárias dessa execução. A leitura da saída do TLC aceita finais de linha `\r\n`.
 
 Instale TLC e Java separadamente. Defina `TLA2TOOLS` como o caminho do `tla2tools.jar`. `JAVA` é opcional quando `java` já está no `PATH`; requer Java 11 ou posterior. O upstream usa TLC 1.7.4, cujo jar oficial tem SHA-256 `936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88`. Este porte não instala dependências automaticamente e pode funcionar sem rede com essas dependências locais.
 

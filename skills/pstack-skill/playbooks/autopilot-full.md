@@ -1,6 +1,6 @@
 ### Autopilot-full
 
-**Você decide os vereditos. Um owner conduz cada PR da construção ao merge. Nada integra antes de verificação independente do código que será entregue.** Use para uma fila de PRs independentes com autorização de integração. Orchestrate conduz um programa contínuo. Autopilot-stack usa este fluxo e entrega os PRs ao operador sem merge.
+**Você decide os vereditos. Um owner conduz cada PR da construção ao merge. Nada integra antes de verificação independente do código que será entregue.** Use para uma fila de PRs independentes com autorização de integração. Autopilot-stack usa este fluxo e entrega os PRs ao operador sem merge.
 
 Um veredito cobre um patch e CI verde cobre um head. Execute o swarm completo uma vez e repita-o apenas para mudanças substanciais. A regra de patch-id de [shipping](shipping.md) pode preservar o resultado de uma lane. Cada head novo precisa de CI verde.
 

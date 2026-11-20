@@ -2,9 +2,9 @@
 name: pstack-skill
 description: >
   Rigorous engineering orchestrator ported from Lauren Tan's pstack
-  (poteto-mode): reads your task, picks one of 23 playbooks (bug fix,
+  (poteto-mode): reads your task, picks one of 22 playbooks (bug fix,
   feature, refactoring, perf, investigation, prototype, babysit, shipping,
-  autonomous run, orchestrate, and more), routes to bundled procedures
+  autonomous run, multi-phase plan, and more), routes to bundled procedures
   (how, why, architect, arena, swarm, interrogate, unslop, technical-writing,
   show-me-your-work, tdd, and others), and applies 24 engineering principles.
   Self-contained: no plugin install, no sibling skills required, works with
@@ -14,8 +14,8 @@ description: >
   "pstack".
 metadata:
   author: Port of pstack by Lauren Tan (MIT) — cursor/plugins/pstack and ericlitman/open-pstack
-  version: "1.7"
-  date: 2026-11-15
+  version: "1.8"
+  date: 2026-11-20
   source: https://github.com/cursor/plugins/tree/main/pstack
 ---
 
@@ -30,11 +30,11 @@ Everything referenced here ships inside this skill:
 - `playbooks/*.md` — the step-by-step workflows. Copy matched steps verbatim.
 - `references/principles.md` — the full text of the 24 principles indexed below.
 - `references/bugbot-triage.md` — bot-review triage.
+- `worker.md` — rules every delegated agent reads first.
 - `references/skills/*.md` — bundled procedures named by bold lowercase words (`how`, `why`, `architect`, `arena`, `swarm`, `interrogate`, `unslop`, `no-comments`, `technical-writing`, `show-me-your-work`, `figure-it-out`, `tdd`, `blast-radius`, `recall`, `reflect`, `teach`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `statechart`, `in-your-own-words`, `sharpen`, `setup-pstack`, `benchmark-checklist`, `correct`, `ketchup`, `ketchup-video`, `poteto-help`). Read the file when a step routes to one.
 - `references/harness/*.md` — one tool, subagent, model, and path mapping per harness (`claude-code.md` today). When a step names a Cursor tool or path and you run in that harness, read its file once per session and map names with it.
 - `scripts/log.sh` — decision-log helper. `scripts/worktree-audit.sh` — disk reclaim audit.
-- `scripts/check-plan.mjs` — validates the multi-phase plan checklist.
-- `scripts/statechart/statechart` executa o compilador TypeScript da procedure **statechart**. Checa TLA+ com TLC e gera Mermaid e caminhos mínimos. O launcher escolhe Node, Bun ou Deno compatível; TLC e Java vêm de `TLA2TOOLS` e `JAVA`, sem instalação automática.
+- `scripts/statechart/statechart` executa o compilador TypeScript da procedure **statechart**. Checa TLA+ com TLC e gera Mermaid e caminhos mínimos. O launcher POSIX escolhe Node, Bun ou Deno compatível; no Windows nativo, rode `statechart.ts` com Node. TLC e Java vêm de `TLA2TOOLS` e `JAVA`, sem instalação automática.
 - `scripts/check-upstream.sh` consulta manualmente mudanças em `cursor/plugins/pstack` e gera um prompt de revisão para avaliar adaptações; `UPSTREAM_COMMIT` guarda o último SHA revisado.
 
 Degradation contract: every feature works without plugins, cloud agents, or multiple models. Multi-model panels become sequential independent passes on fresh context; remote workers become local background subagents in their own worktrees; transcript mining becomes git history plus the decision trail. Never skip a verification gate because infrastructure is missing — downgrade its execution, not its rigor.
@@ -49,7 +49,7 @@ Remaining triggers:
 
 - About to ask the human a "which approach", "how should I", or "what should this do" question → classify it first. If the answer is a fact observable by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's question. Sketch it via the Prototype playbook and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve questions for genuine product or preference calls no experiment can settle. Under a full-autonomy grant, decide a call the grant covers, act on it, and report it, with no reply word and no offer. Under the grant, for a call only the operator can make, apply a default, report it with a full explanation, and say in plain words what the operator could tell you to do instead. The operator answers in their own words. Never give a shorthand token to type back. Gates the operator named and the Always-pause list in Autonomy still need the operator.
 - Any code → name the data shape first, chosen per [model-the-domain](references/principles.md#model-the-domain).
-- Code crossing a function boundary → the **architect** procedure, parallel design exploration before implementing.
+- Code crossing a function boundary → the **architect** procedure, to settle the shape before implementing.
 - Parallel fan-out → the **swarm** procedure for coverage matrices, races, gauntlets, exploration partitions; the **arena** procedure for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** procedure (multi-model adversarial review) before shipping.
 - Nontrivial multi-step work → write the throughput checkpoint (Feature playbook step 3).
@@ -120,7 +120,7 @@ Read the full rule in `references/principles.md` for any principle you apply. Ea
 
 ## Delegation
 
-Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps; brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer. Mantenha também direcionamentos e retomadas em background quando o mecanismo oferecer essa opção, para que outros resultados possam chegar enquanto o agente trabalha.
+Spawn general-purpose subagents (your platform's Task/subagent mechanism) for delegated steps. The first line of every kickoff is `Read <path>/worker.md before anything else.`, with `<path>` the absolute path of this skill's folder; the rest of the kickoff is the goal and the task. Brief each with its exact scope, the named data shape, success criteria, and the report format expected back. Background spawns where the platform supports them; isolated worktrees per concurrent writer. Mantenha também direcionamentos e retomadas em background quando o mecanismo oferecer essa opção, para que outros resultados possam chegar enquanto o agente trabalha.
 
 Model roles resolve per `references/skills/setup-pstack.md`: `worker` (mechanical edits, explorers, swarm), `builder` (precisely specified implementation — feature, refactoring, bug fix, perf, hillclimb), `judge` (reasoning, prose, synthesis, lead review), `peer` (independent second opinion, preferably from a confirmed different family). Each defaults to the best model available and collapses gracefully to one. Setup can record a reasoning budget and apply it only through controls supported by the active harness. Route work by contract, not brand: mechanical to `worker`, specified implementation to `builder`, judgment to `judge`, panel diversity to `peer`. Configure bindings once via setup; runtime never pauses to ask. Code playbooks use `builder`; reasoning and prose use `judge`.
 
@@ -149,7 +149,7 @@ Comments follow the same rule as the reply. Write them clean as you go; a flat "
 
 Your first todolist actions are the matched playbook's steps, copied in verbatim, before any task-specific todos and before you reason about the task. The failure mode is reading a playbook then writing a bespoke plan that drops its named steps (`architect`, the throughput checkpoint). A step you choose not to do stays in the list with a one-line `skip: <reason>`; skipping silently is not allowed. Match the task to a playbook below and open its full steps at `playbooks/<title>.md`, with the title in kebab case, hyphens kept and other punctuation dropped, unless the entry gives its file. Copy its steps in verbatim.
 
-A large or cross-cutting effort (a migration across many call sites, an ambitious multi-part change), or work the user steps away from to trust later, routes to the **figure-it-out** procedure even when a narrower playbook like Feature fits. Use **figure-it-out** whenever no bundled playbook fits. It designs a bespoke, rigorous playbook for the task. A standing project-scale program (multi-day, many stacked PRs, a fleet of subagents under one coordinator) routes to **Orchestrate** instead; figure-it-out designs one bespoke run, Orchestrate runs the program.
+A large or cross-cutting effort (a migration across many call sites, an ambitious multi-part change), or work the user steps away from to trust later, routes to the **figure-it-out** procedure even when a narrower playbook like Feature fits. Use **figure-it-out** whenever no bundled playbook fits. It designs a bespoke, rigorous playbook for the task, including multi-day programs that span many PRs and subagents.
 
 - **Investigation.** Read-only question: how does X work, why was Y built this way, are we sure about Z, should we do X or Y.
 - **Bug fix.** A reported defect to reproduce, root-cause, and fix with runtime evidence.
@@ -164,9 +164,8 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Authoring or modifying a skill.** Writing or editing a SKILL.md. File: `playbooks/authoring-a-skill.md`.
 - **Eval.** Testing how a skill, structure, or prompt change affects agent behavior before promoting it.
 - **Babysit.** Driving a PR or a stack to merge-ready: conflicts, review threads, CI.
-- **Shipping.** The half after Babysit. Independently verifying a green stack, then landing the contiguous verified run bottom-up through `gh` by default or Origin when its CLI is available.
+- **Shipping.** The half after Babysit. Independently verifying a green stack, then landing the contiguous verified run bottom-up through the forge's own CLI or API, such as `gh` or `glab`.
 - **Autonomous run.** A long task to drive to completion without stopping ("run until done").
-- **Orchestrate.** A standing project handed to one coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, minimal human turns ("run this whole project", "own this migration until it lands"). Distinct from Autonomous run, which drives one task to a predicate. Work one agent could finish inside the session's budget routes there, not here, however program-shaped the phrasing sounds.
 - **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges ("autopilot this queue", "full autopilot", one-owner-per-PR programs).
 - **Autopilot-stack.** Autopilot-full sem merge. Uma fila de PRs construída e verificada com autonomia e entregue ao operador para integrar. Um PR só entra em uma stack quando depende de outro PR ("autopilot-stack", "autopilot, don't merge", "stack them, don't ship", "build the stack, I'll land it").
 - **Session pickup.** Resuming or taking over a prior agent's in-flight work from a transcript, cloud-agent URL, or pushed branch.

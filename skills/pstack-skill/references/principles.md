@@ -27,19 +27,11 @@ Writing code is cheap for you, which makes over-engineering easy. Counter it by 
 
 # Foundational Thinking
 
-**Structural decisions** protect option value. **Code-level decisions** protect simplicity. Over-engineering is often a premature decision that closes doors. The right foundational data structure keeps doors open.
+Get the data shape right before writing logic. Define core types early, trace every access pattern, and choose structures that match the dominant paths. DRY the structure, not every line.
 
-**Data structures first.** Get the data shape right before writing logic. The right shape makes downstream code obvious. Define core types early, trace every access pattern, and choose structures that match the dominant paths. A data-structure change late is a rewrite. Early, it is often a one-line diff.
+Before sharing state between actors, ask what happens if another actor modifies it concurrently. If the answer is not "nothing", isolate.
 
-At code level, DRY the structure, not every line. Types and data models should converge. Three similar statements still beat a premature abstraction. Prefer explicit over clever. Test behavior and edge cases, not line counts.
-
-**Concurrency corollary.** Before sharing state between actors, ask "what happens if another actor modifies this concurrently?" If not "nothing", isolate.
-
-**Scaffold first.** If something helps every later phase, do it first. Ask "does every subsequent phase benefit from this existing?" CI, linting, test infrastructure, and shared types are scaffold. Sequence for option value: setup before features, tests before fixes. Keep commits small and single-purpose.
-
-Each increment should land a coherent abstraction or deepen one that exists. Do not spread a new capability across callers as special-case coordination.
-
-Subtraction comes before scaffolding: remove dead weight first, then lay foundations.
+Scaffold first. Whatever helps every later phase (CI, tests, shared types) goes first, after removing dead code. Keep commits small and single-purpose.
 
 ---
 
@@ -66,19 +58,11 @@ This is the method for preserving option value when integrating changes into an 
 
 When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.
 
-**Why:** Each failure under a shared premise is evidence about the premise.
+- Write the premise down: the one sentence every failed fix assumed.
+- Test it before the next fix. Find an observation that would come out differently if the premise were false, and make it. Look at how the failures are distributed, not only at how large they are.
+- If the evidence contradicts the premise, look for what the failures share that it did not predict. If one part always lands on the losing side, change what puts it there instead of adding a mechanism that cleans up after it.
 
-**Pattern:**
-- **Write the premise down.** The premise is the one sentence that every failed fix assumed.
-- **Take a census before the next fix.** Count the imbalance per actor. The census shows which actors hold the imbalance, not how large it is. Write the census as a rerunnable script per Build the Lever.
-- **Read the skew.** If the same few actors hold most of the imbalance on every run, something assigns them that role. Find what assigns the role. That assignment is the next "why" per Fix Root Causes.
-- **Remove the asymmetry instead of compensating for it**, per the Laziness Protocol. Rotate the role between actors, randomize the assignment, or move the role, so that no actor holds it on every run. A return path, a shared pool, a batched hand-off, or a periodic rebalance leaves the assignment in place and adds work on every run.
-
-**Stop:**
-- Do not start the next fix before the premise is written down and the census exists.
-- If the census is even across actors, the premise is not the cause. Look for the cause elsewhere and keep the census as evidence.
-
-This principle is distinct from Redesign from First Principles, which rebuilds a design around a new requirement. It questions a fact the current design assumes.
+Do not start the next fix before the premise is written down and tested.
 
 ---
 
@@ -109,21 +93,13 @@ Make simplification a continual investment. Leave the design slightly simpler an
 
 # Minimize Reader Load
 
-Maintainability is the work a reader must do to understand code. Track two axes:
-1. **Layers to trace.** How many indirections sit between the question and the answer.
-2. **State to hold.** How much hidden or mutable context the reader must keep in their head.
+Reader load is the work a reader must do to understand code. It has two independent axes: layers to trace between the question and the answer, and hidden or mutable state to hold in their head. Guard both.
 
-**Why:** Code is read far more than it is written. LOC, cyclomatic complexity, and "clean architecture" are proxies. Reader load is the thing that matters. The two axes are independent. A flat file with 50 globals can be as hard to reason about as a 6-layer adapter stack. Guard both. This is the human analog of [Guard the Context Window](#guard-the-context-window): working memory is finite for readers too.
+- Collapse layers that only forward: wrappers with one caller, adapters with no second implementation, pass-through methods. Inline them.
+- Shrink state scope: returns over mutations, locals over fields, fields over module state, module state over globals. Derive instead of sync.
+- Name an invariant once at the boundary, not in every consumer.
 
-**The pattern:**
-- **Collapse layers** that do not earn their keep: wrappers with one caller, adapters with no second implementation, indirection introduced for a future that never came. Inline them.
-- **Make adjacent layers change the abstraction.** A layer that repeats the same methods and arguments adds reader load without compression. Collapse pass-through layers.
-- **Demand interface compression.** A broad interface that hides little complexity makes readers learn both the surface and the implementation. Prefer boundaries that hide meaningful decisions.
-- **Shrink state scope:** prefer pure functions (returns over mutations), locals over fields, fields over module state, and module state over globals. Derive instead of sync.
-- **Name the invariant at the boundary,** not in every consumer, so the reader learns it once.
-- Before adding a layer or a piece of state, ask: does this reduce reader load somewhere else by at least as much?
-
-**The test:** Can a new reader answer "where does X come from?" and "what can change X?" in under 30 seconds? If not, cut layers or cut state.
+The test: can a new reader answer "where does X come from?" and "what can change X?" in under 30 seconds? If not, cut layers or cut state.
 
 ---
 
@@ -191,24 +167,15 @@ When a novel interaction or architectural decision has no established precedent,
 
 ## build-the-lever
 
+
 # Build the Lever
 
-When the work isn't trivial, build the tool that does it instead of doing it by hand.
+When the work isn't trivial, build the tool that does it (a codemod, script, generator, or rerunnable check) instead of doing it by hand. The bar is triviality, not repetition. Skip the tool only for a couple of obvious edits.
 
-**Why:** Two payoffs. Throughput: a codemod, generator, or script does the work the same way every time and reruns for free. Confidence: the tool is one artifact a reviewer can read and rerun to check the work. Hand-done changes can only be re-verified by redoing them. A deterministic script turns "trust me" into "run this".
-
-**Pattern:** Default to building the lever. Skip it only when the task is genuinely trivial, a couple of obvious edits you can see at a glance.
-
-- Do the first unit by hand to learn the recipe, then build the tool. Prove it by rerunning it on that unit and diffing against your hand-done version. Make the lever safe to rerun. A reviewer will.
-- Codemod or script for edits, generator for repetitive files, a dump-to-sqlite query for analysis, a rerunnable check for verification.
-- A deterministic lever beats fan-out. If the tool can process every unit in one pass, run it yourself; don't fan out delegates to hand-apply what a script can do.
-- When you fan work out to subagents, write the lever as a skill they all read: the recipe, the verification contract, and the do-not-touch fences in one artifact, so every delegate inherits the same hardened version instead of re-explaining it per prompt and watching each one drift. Keep it outside the delegates' write scope so they can't quietly edit the contract.
-- Applying this principle produces a file. If you cited it and there is no codemod, script, generator, or delegate skill in the diff, you didn't apply it.
-- Commit the lever when the work outlives the session, so the next run reruns it instead of redoing it.
-
-**Balance:** The bar is triviality, not repetition. A one-off still earns a lever when the lever is what makes the work checkable. Per the [Laziness Protocol](#laziness-protocol), build the smallest script that does or proves the job, never a framework.
-
-Distinct from [Encode Lessons in Structure](#encode-lessons-in-structure), which makes a recurring instruction a durable guardrail. This is throughput and reviewability on the work in front of you. For scripting the verification itself, see [Prove It Works](#prove-it-works).
+- Do the first unit by hand, then build the tool and prove it by rerunning it on that unit. Make it safe to rerun.
+- A deterministic tool beats fan-out. When you do fan out, write the recipe, the verification contract, and the fences as one skill the delegates read and cannot edit.
+- Applying this produces a file. No script, codemod, generator, or delegate skill in the diff means you didn't apply it. Commit it when the work outlives the session.
+- Build the smallest script that does or proves the job, never a framework.
 
 ---
 
@@ -217,24 +184,13 @@ Distinct from [Encode Lessons in Structure](#encode-lessons-in-structure), which
 
 # Model the Domain
 
-Encode the real domain in a data structure instead of scattering it across conditionals.
+Encode the domain in a data structure instead of scattering it across conditionals. The right structure makes invalid states unrepresentable and deletes branches.
 
-**Why:** Scattered booleans, repeated shape assumptions, and branching spread across files are accidental complexity. A structure that matches the domain makes invalid states unrepresentable and deletes branches. Choosing it at write time is cheap; recovering it later reads as a refactor and gets deferred.
+Reach for a state machine instead of scattered booleans or phase checks, a typed model instead of loose parameters, a map, registry, or discriminated union instead of branching spread across files, a reducer instead of ad hoc mutations, and an index, queue, or normalized collection where the access pattern calls for it.
 
-**Reach for structures like these:**
+Do not force it. Keep boring code when the shape is clear, local, and unlikely to grow, and distrust an abstraction that adds indirection without removing branches or invalid states.
 
-- A state machine instead of scattered booleans, phases, or lifecycle checks.
-- A typed object/model instead of loose parameters or repeated shape assumptions.
-- A map, registry, lookup table, or discriminated union instead of branching spread across files.
-- A reducer or command/event model instead of ad hoc state mutations.
-- A module organized around one body of domain knowledge instead of a sequence such as load, validate, transform, and save. Execution order is not ownership.
-- A small module boundary that gathers repeated behavior, ownership, or invariants.
-- A queue, cache, index, graph/tree, or normalized collection where the data access pattern calls for it.
-- Any other structure that fits. The list above covers the common cases only. When none fits, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.
-
-Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
-
-The tell that you skipped this is a new feature that grows an existing if/else chain by one more branch, or a second boolean that must stay in sync with the first. Temporal decomposition is another tell. Phase-named modules repeat the same domain rules across steps.
+The sign that you skipped this: a feature that grows an if/else chain by one more branch, or a second boolean that must stay in sync with the first.
 
 ---
 
@@ -243,32 +199,9 @@ The tell that you skipped this is a new feature that grows an existing if/else c
 
 # Boundary Discipline
 
-Place validation, type narrowing, and error handling at system boundaries. Trust internal code unconditionally. Business logic lives in pure functions; the shell is thin and mechanical.
+Validate, narrow types, and handle errors where data crosses a system boundary (CLI args, config files, external APIs, network). Inside, trust the types: no re-validation and no redundant nil checks. Parse raw data into domain types at the boundary, and keep transport and framework types out of the public surface. Business logic lives in pure functions with no framework dependencies. The shell that calls them is thin.
 
-**Why:** Scattered validation is noisy, redundant, and gives a false sense of safety. Validate data once at the boundary. Keep logic out of framework wiring so it can be tested without the framework.
-
-**The pattern:**
-- **At boundaries** (CLI args, config files, external APIs, network protocols): validate, return errors, handle defensively.
-- **Inside the system:** typed data, error propagation, no re-validation. Trust the types.
-- **Across the boundary.** Expose domain concepts, not the boundary's private representation. Keep general-purpose mechanism inside and special-purpose policy at the edge.
-
-**Applications:**
-
-Validation and error handling:
-- Validate config at parse time (the boundary), not inside business logic
-- Parse raw data into domain types at the boundary
-- Do not re-export transport, storage, framework, or wire types through the public surface
-- No redundant nil checks deep in call chains if the boundary already validated
-
-Code organization:
-- Business logic in pure functions with no framework dependencies
-- Parse functions: pure transforms from raw bytes to typed state
-- Prompt construction: structured state in, string out
-- Scoring and assessment: pure transforms from state to results
-
-**The tests:**
-- "Is this data crossing a system boundary right now?" If not, validation is redundant.
-- "Can this be a pure function that the shell just calls?" If yes, extract it.
+Two tests. Is this data crossing a boundary right now? If not, the validation is redundant. Can this be a pure function the shell just calls? If yes, extract it.
 
 ---
 
@@ -277,29 +210,13 @@ Code organization:
 
 # Type System Discipline
 
-The type checker is a proof assistant. Use it to eliminate impossible states, mismatched primitives, and unhandled variants at compile time. A case the types let you ignore becomes a runtime failure the compiler could have stopped. Prefer defining errors and special cases out of existence over proliferating handlers; unrepresentable states, total functions, and interface redesign (the patterns below) are the tools.
+Make the compiler reject impossible states, mismatched primitives, and unhandled variants.
 
-Applies to any typed language. Skills like `typescript-best-practices` ground it in specific syntax.
+- **Brand semantic primitives.** If two arguments share a primitive type but mean different things, give each its own type. Validate once at creation.
+- **External data is untyped until parsed.** JSON, RPC payloads, CLI args, config, environment variables, and database rows go through a parse function at the boundary that returns the typed model.
+- **Derive types from authoritative schemas.** When a schema file owns a shape, derive the type from it instead of hand-rolling a parallel one.
 
-**The patterns:**
-
-- **Make illegal states unrepresentable.** Model variants as sum types: discriminated unions in TypeScript, enums with payloads in Rust/Swift/Kotlin, sealed classes in Scala, ADTs in Haskell/OCaml. Don't model state as a bag of optional fields where contradictory combinations compile. A subtle anti-pattern worth naming: `{ completed: boolean; completedAt?: Date }` admits `completed: true; completedAt: undefined`, which is meaningless. Derive the boolean from a single source like `completedAt !== null`, or model the variants explicitly as `{ kind: 'open' } | { kind: 'done'; at: Date }`. If a bug forces the question "wait, can this combination actually happen?", the type is too loose.
-- **Types are constructions, not restrictions.** Build the type up from the values you want instead of carving them out of a looser type with checks. The invariant that seems to need a refinement type is usually a construction away. A non-empty list is a head plus a rest, not a list with a length check. A valid time range is a start plus a duration, not two timestamps you must keep ordered. No representation is privileged. A list of pairs is an even-length list if you interpret it that way, so choose the shape that cannot build the illegal value and expose the interface callers need on top.
-- **Brand semantic primitives.** `UserId` and `OrderId` are strings underneath but should not be interchangeable. Newtypes in Rust, opaque types in Swift, value classes in Kotlin, phantom types in Haskell, branded intersections in TypeScript. Validate once at creation, trust the type downstream.
-- **External data is untyped until parsed.** RPC payloads, JSON, IPC messages, CLI args, config files, environment variables, database rows. Have a parse function at every boundary that turns unstructured input into the typed model. See the **boundary-discipline** principle skill for where to put validation.
-- **Don't lie to the type system.** Casts, unsafe coercions, and assertion functions that bypass the compiler are runtime crashes waiting to happen. If the compiler can't prove a fact, prove it (validate, narrow, refine the model) or accept that the cast is a hazard. The cast you bury today is the postmortem you write next week.
-- **Exhaustive matching is the compiler's job.** When you match on a sum type, the compiler must fail compilation if a new variant is added without handling. Use the idiom your language provides: `never`-typed binding in TypeScript, unannotated `match` in Rust, `-Wincomplete-patterns` in Haskell, sealed-class match exhaustiveness in Kotlin.
-- **Derive types from authoritative schemas.** When a protocol buffer, OpenAPI spec, GraphQL schema, database migration, or design-system token file defines a shape, derive from it instead of hand-rolling a parallel type. Manual duplication drifts. See the **encode-lessons-in-structure** principle skill.
-- **Strengthen a type only where partiality appears.** A runtime assertion, null check, or "this should never happen" throw marks the place a type is too weak. Push that check up into the type. Then stop. The type system's job is to track the cases each use site must handle, not to describe the data as precisely as possible. Prefer total functions. `sum` of an empty list is 0, so it takes the plain list. `head` of an empty list has no answer, so it demands the non-empty one. Extra precision costs reuse and ceremony and buys no safety.
-
-**The tests:**
-
-- "Can I write a comment explaining when this combination of fields is valid?" If yes, the type is too loose. Split it into a sum type.
-- "Do two of my function arguments share a primitive type but mean different things?" Brand them.
-- "Where did this `any`, this `as`, this `assertNotNull` come from?" Trace it to the boundary and validate there instead.
-- "If a new variant is added next month, will the compiler tell the next agent where to add a case?" If no, the match isn't exhaustive.
-- "Is this type duplicating a shape another file owns?" Derive instead.
-- "Am I strengthening this type to keep an operation total, or just to be more precise?" If nothing would otherwise panic, keep the plain type.
+For TypeScript syntax, see the **typescript-best-practices** skill.
 
 ---
 
@@ -308,22 +225,13 @@ Applies to any typed language. Skills like `typescript-best-practices` ground it
 
 # Make Operations Idempotent
 
-Design operations so they converge to the correct state regardless of how many times they run or where they start from. Every state-mutating operation should answer: "What happens if this runs twice? What happens if the previous run crashed halfway?"
+Design every state-changing operation to converge to the correct state however many times it runs and wherever the previous run stopped.
 
-**Why:** Commands, lifecycle operations, and processing loops run where crashes, restarts, and retries are normal. If partial state changes the next run's outcome, every restart becomes a debugging session.
+Derive each step from the state that exists, not from what the previous run meant to do. Read the current state, compare it to the goal, and apply only the difference.
 
-**The pattern:**
-- Convergent startup: scan for existing state, clean stale artifacts, adopt live sessions
-- Content-based cleanup: compare by content equivalence, not creation order
-- Self-healing locks: use PID-based stale lock detection
-- Idempotent scheduling: failed work respawns cleanly, fresh input regenerated after each cycle
+Anything a run leaves behind (a lock, a temporary file, a half-written record, a claimed job) must be recognizable as stale by the next run, by evidence that holds wherever the previous run could have stopped. Write to a temporary path and rename it into place.
 
-**The test:**
-1. What happens if this runs twice in a row?
-2. What happens if the previous run crashed at every possible point?
-3. Does re-execution converge to the same end state?
-
-If any answer is "it depends on what state was left behind," the operation needs a reconciliation step.
+The test: what happens if this runs twice? What if the previous run crashed at every possible point? If the answer depends on what was left behind, add a reconciliation step.
 
 ---
 
@@ -354,14 +262,9 @@ Keeping both old and new APIs creates dual-path complexity, slows cleanup, and m
 
 # Separate Before Serializing Shared State
 
-When concurrent actors might share mutable state, first ask whether they truly need the same mutable object. If not, eliminate the sharing. When sharing is real, enforce serialization structurally: lockfiles, sequential phases, exclusive ownership. Instructions and conventions are not concurrency control.
+When concurrent actors might write the same file, branch, key, or object, first ask whether they need one shared object or are publishing independent facts. Default to giving each actor its own file, key, branch, or state directory, and merge only where the state is read. Two workers writing their own field into one `state.json` is still shared mutation.
 
-**Why:** Concurrent writes to shared state create race conditions that are intermittent, hard to reproduce, and expensive to debug. Telling agents or goroutines to "take turns" does not work.
-
-**Pattern:**
-1. **Identify shared mutable state** (files both read and write, branches both push to, APIs both define and consume).
-2. **Default: eliminate the shared write target.** Ask: do these actors need one canonical object, or are they publishing independent facts? Give each actor its own owned file, key, branch, or state directory, and merge only at the read/reporting boundary. Two workers writing their own `lastX` field into one `state.json` is still shared mutation; `indexer-state.json` + `metrics-state.json` is not.
-3. **Only when one shared write target is a real invariant, serialize access structurally** (lockfiles, sequential phases, single-writer actor, or atomic compare-and-swap). Treat "we need a lock" as a design smell to check, not as the default answer.
+Only when one shared write target is a real invariant, serialize access structurally (a lockfile, a single writer, sequential phases, compare-and-swap). Instructions are not concurrency control, and "we need a lock" is a smell to check first.
 
 ---
 
@@ -370,31 +273,9 @@ When concurrent actors might share mutable state, first ask whether they truly n
 
 # Prove It Works
 
-Verify every task output by checking the real thing directly. Do not infer from proxies, self-reports, or "it compiles."
+Verify every output by checking the real thing directly: run the feature, read the actual value, inspect the diff. Proxies (file mtimes, self-reports, cached output, "it compiles") do not count. When a check fails, suspect the observation method before the system.
 
-**Why:** Unverified work has unknown correctness. Indirect verification (file mtimes, output freshness, agent self-reports, cached screenshots) feels cheaper than direct observation. Acting on a wrong inference costs far more than checking the source.
-
-**Pattern:** After completing any task, ask: "how do I prove this actually works?"
-
-Check the real thing, not a proxy:
-- Check process liveness directly, not indirectly through derived state
-- Read the actual value, not a cached or derived representation
-- When verification fails, suspect the observation method before suspecting the system
-
-Code and features:
-1. Build it (necessary but not sufficient)
-2. Run it and exercise the actual feature path
-3. Check the full chain: does data flow from input to output?
-4. For integrations, test the full communication path end-to-end
-
-Delegation: trust artifacts, not self-reports.
-When verifying delegated work, inspect the actual output artifact (git diff, file contents, runtime behavior), not the delegate's summary. Agents report what they intended, not always what happened.
-
-## Script the check when you can
-
-The strongest proof is a deterministic script that re-runs the same comparison, not a one-time eyeball. Write the script, run it, and keep its output as an artifact a reviewer can re-run instead of trusting your word. A script comparing the old and new compiled output catches what a glance misses.
-
-Keep the artifact visible for the human. Commit it only for large or complex work where the trail has to be auditable later, like a big port or migration (the **show-me-your-work** skill). Most work just needs it visible, not committed.
+Script the check when you can. A deterministic script that reruns the comparison beats a one-time look. Keep its output where the human can see it, and commit it only when the trail must be auditable later.
 
 ---
 
@@ -403,21 +284,12 @@ Keep the artifact visible for the human. Commit it only for large or complex wor
 
 # Fix Root Causes
 
-When debugging, do not paper over symptoms. Trace every problem to its root cause and fix it there.
+Fix the fault, not the place where it surfaced. The root cause is the first place the system did something it should not do, or failed to handle a state it should handle.
 
-**Why:** Symptom fixes accumulate. Each workaround makes the system harder to reason about, and the real bug remains. Root-cause fixes are slower upfront but reduce total debugging time.
-
-**Pattern:**
-- Reproduce first (if you can't reproduce it, you can't verify your fix)
-- Ask "why" until you hit the root cause
-- Resist the urge to add guards (adding a nil check to silence a crash is a symptom fix)
-- If a workaround needs a paragraph-long comment to justify it, the code is wrong (fix the code, not the comment)
-- Check for the pattern, not just the instance (grep for the same pattern, fix all instances)
-- When stuck, instrument. Don't guess (add logging, read the actual error)
-
-**Restart bugs: suspect state before code**
-
-Code doesn't change between runs. State does. When something "fails after restart," suspect stale persistent state first: config files, caches, lock files, serialized state. If clearing a state file restores behavior, prioritize state validation as the fix.
+- Reproduce first. Ask "why" until the answer is a wrong decision in the code. When stuck, instrument and read the actual state.
+- Ask whether the state that triggered the symptom is legitimate. If it is, handle it where the code broke. If it should never exist, a check there hides the bug, so find what produced it. Guards, retries, swallowed errors, clamped values, and discarded state are the usual ways to hide a bug.
+- Fix the pattern, not the instance. Find every place with the same fault.
+- If the deciding fact took a deep dig, propose the cheap, always-on signal that would have shown it at first look.
 
 ---
 
@@ -426,20 +298,11 @@ Code doesn't change between runs. State does. When something "fails after restar
 
 # Sequence work into verifiable units
 
-Order work as a sequence of small units, each ending in a state you can check, and don't advance until the current one is green. The same discipline runs at two altitudes, how you execute and how you deliver.
+Order work as small units that each end in a state you can check, and do not advance until the current one is green.
 
-**Why:** A break caught at the unit that caused it is cheap to localize. A break caught after a batch is buried, and you have already built further on a broken base. Sequencing those same units into a delivery a reviewer can replay turns "trust me" into "watch it go red, then green."
+In a sweep, migration, or run of similar edits, each unit is a bracket: known-good state, one change, run the check, proceed. Run the per-unit check even when a tool does the edits.
 
-**Execution.** In a sweep, migration, or any run of similar edits, verify each change before starting the next. Never batch the edits and verify once at the end. Each unit is a before/after bracket: known-good state, one change, run the check, then proceed. Rebase onto clean trunk first so every check measures against the real baseline. When a lever does the edits, the per-unit check is nearly free; run it anyway.
-
-**Delivery.** Stack commits and PRs in the order that proves the work. The canonical shape is the failing test first, then the fix on top. The first unit shows the bug is real (red), the next shows it resolved (green), so a reviewer sees both the problem and the proof. Other story orders are a subtraction before the reshape, a baseline capture before the treatment, the scaffold before the feature. Each commit lands on its own and the sequence reads as an argument.
-
-**Pattern:**
-- Pick the smallest unit that ends in a check: an edit plus its test, or a commit that stands alone.
-- Verify before advancing. Red to green per unit, never deferred to a final batch.
-- Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
-
-The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+Deliver in the order that proves the work: the failing test first, then the fix. The subtraction before the reshape. The baseline before the treatment. Each commit lands on its own.
 
 ---
 
@@ -448,23 +311,14 @@ The sequencing complement to the **prove-it-works** principle skill, which keeps
 
 # Test Behavior, Not Implementation
 
-A test calls the code the way its users do and asserts the result they observe against a literal expected value. A test that asserts which calls the code made, or restates a constant the code contains, does neither.
+A test is a claim about what users of the code can observe through its interface: return values, errors, state they can read back, and effects on outside systems. Private helpers, internal call order, and intermediate data are implementation.
 
-The check: before you keep a test, ask whether it would still pass if every function it imports returned `undefined`. If yes, it observes no behavior and cannot fail for a defect. Rewrite the assertion or delete the test.
+Judge each test against two imagined edits:
 
-**Why:** A test that cannot fail for a defect costs CI time and review attention and catches nothing. A constant pin also fails when someone edits the constant or the prompt it restates, so it prevents that edit.
+- **Break the behavior** (a wrong value, a skipped or doubled effect). If the test still passes, it proves nothing. The usual causes are a loose assertion, an expected value computed by the code under test, and an assertion on data the test built itself.
+- **Change the internals** and keep every observable result. If the test fails, it is pinned to the implementation.
 
-**Five shapes that still pass when every imported function returns `undefined`:**
-
-- **Weak or no assertion.** No `expect`, or only `toBeDefined`, `toBeTruthy`, `not.toThrow`, `toBeInstanceOf`, `toBeGreaterThan(0)`.
-- **Mock or absence only.** Only `toHaveBeenCalled`, `not.toHaveBeenCalled`, `toBeUndefined`, `toEqual([])`, `toHaveLength(0)`, `not.toBe(wrongValue)`.
-- **Self-referential.** The expected value comes from the code under test: `expect(f(a)).toBe(f(a))`, `expect(parsed.url).toBe(buildUrl(...))`.
-- **Constant pin.** The assertion restates a hand-maintained constant, config default, table row, or prompt string: `expect(LIMITS.maxTools).toBe(8)`, `expect(PROMPT).toContain("You are")`.
-- **Fixture asserts fixture.** The assertion reads data the test built or a value computed in `beforeEach`, and the subject never runs inside the body.
-
-**The fix:** call the subject inside the test body with one concrete input and assert the literal output or the observable effect, `expect(slugify("Hello, World!")).toBe("hello-world")`. For an absence, assert the presence on the other input in the same test. For a constant, test the mechanism that reads it with one input instead of restating the value. For a mock, assert the payload it received or the state after the call, not that it was called. When no such assertion exists, delete the test.
-
-**Keep** a test of a relation across a table's rows (a key present in two tables, a parent that exists), and a compile-time check in a `*.test-d.ts` file.
+Keep a test that catches the first edit and survives the second. Rewrite or delete the rest. Drive the code through its public interface with a concrete input, and derive the expected value from the requirement. What an external service receives is behavior. A call to an internal helper is not. Pair "this never happens" with a case where it does happen. Assert the error type that callers branch on, not the message.
 
 ---
 
@@ -473,21 +327,12 @@ The check: before you keep a test, ask whether it would still pass if every func
 
 # Explain the Number
 
-Antes de medir, e antes de confiar, relatar ou agir sobre um número medido, identifique o que o limita e descarte medições de outra coisa. Isso vale para ganhos de velocidade, regressões, vazão, latência e resultados de avaliações.
+- **Write the decision before you run.** Name the result that would change it, and the noise floor. Stop when the run-to-run spread is larger than the effect.
+- **Ask "why not double?"** Name the resource or code path that bounds the result, from a profile or counters taken during a run. A guess from reading the code is not a limiter.
+- **List what else the number could be measuring** (errors, skipped or cached work, code that never ran, an untuned side, noise, a piece too small to matter) and rule out each one with evidence.
+- **Keep the run count, the spread, and the limiter with the number.**
 
-**Why:** A number without provenance is meaningless. A guess from reading the code is not evidence. If you cannot say why the number is not twice as good, you do not know what you measured.
-
-**Pattern:**
-- **Defina a decisão antes de medir.** Escreva qual resultado mudaria uma decisão e qual é o limite de ruído. Pare quando a variação entre execuções superar o efeito.
-- **Ask "why not double?"** Name the resource or code path that bounds the result, such as a core, a lock, the disk, the network, or the load generator itself. Get it from a profile or from system counters taken during a run, then map it to source. A guess from reading the code is not a limiter. If you cannot say why the number is not twice as good, you do not know what you measured.
-- **List what else the number could be measuring, and rule out each one with evidence.** The usual suspects are errors, skipped or cached work, code that never ran, an untuned side (one left on default settings), noise, and a piece too small to matter end to end.
-- **Keep the evidence with the number.** Put the run count, the spread, and the limiter in the notes or a linked artifact.
-
-For a performance number, run the full procedure with the `benchmark-checklist` skill. For an eval result, ask the same of the trials: did every run do the task, does the gap hold across trials and models, and does the scenario matter.
-
-You skipped this when the evidence behind a number has no run count, no spread, or no named limiter, or when the time saved is larger than the time the changed piece took.
-
-Distinct from [Prove It Works](#prove-it-works), which checks that an output is real.
+For a performance number, run the `benchmark-checklist` skill. For an eval result, ask whether every run did the task, whether the gap holds across trials and models, and whether the scenario matters.
 
 ---
 

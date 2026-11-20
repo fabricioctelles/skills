@@ -1,41 +1,9 @@
 # Architect
 
-Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies; fill in code against the chosen sketch afterward. If implementation proves the sketch wrong, throw it out and redesign. Use whenever code crosses a function boundary and the shape is not already obvious.
+Before writing code, trace every system the change touches, then sketch two structurally different shapes for it (types, signatures, module boundaries, with `not implemented` bodies) and pick the one where each piece of state has one owner, each task has one way to do it, and callers need to know least. Write caller usage first, then the types. Naming a file is not grounding. If the design redefines ownership or layering, run `why` first so the rationale is a constraint, not a guess.
 
-Open a todolist with one entry per phase.
+For a large or contested design, run the **arena** procedure instead of sketching alone, with the traced systems as shared grounding.
 
-1. Ground
-2. Sketch
-3. Agree
-4. Implement
-5. Scrap
+Reject a shape with shallow modules that leak what they should hide, phase-named modules that repeat domain rules, or pass-through layers. Proceed to implementation by default. Pause for sign-off only when the invoker asks ("with checkpoint"), and run `interrogate` on the sketch when it needs adversarial pressure.
 
-## Phase A: Ground
-
-Build a traced mental model of every system the new code touches: trace the relevant subsystems and explain their architecture. Naming a file is not grounding. If the design redefines ownership or layering, also run `why` so the rationale becomes a constraint, not a guess.
-
-Skip only for genuinely greenfield work with nothing to integrate.
-
-## Phase B: Sketch
-
-Run the arena procedure on the design-sketch task with Phase A artifacts as shared grounding. Require at least two structurally distinct candidates before synthesis, whole-shape alternatives rather than point fixes inside one shape ([exhaust-the-design-space](../principles.md#exhaust-the-design-space)). Each candidate writes: caller usage first, then type sketch, signatures, module map, prose rationale derived from it.
-
-Screen every candidate against these red flags before synthesis: shallow modules that leak what they should hide, information leaking across boundaries, temporal decomposition (phase-named modules repeating domain rules), pass-through methods that add layers without compression. Prefer the candidate that hides more complexity behind a smaller public surface.
-
-Arena returns one synthesized package plus a synthesis-decision note.
-
-## Phase C: Agree
-
-Default: proceed straight to implementation. Pause for sign-off only when the invoker explicitly asks. The sketch can land as its own scaffold-first commit; planned, scoped breakage during fill-in is fine ([outcome-oriented-execution](../principles.md#outcome-oriented-execution)). For adversarial pressure before implementing, run interrogate on the sketch.
-
-Human pushback on the shape, at a checkpoint or after the fact, is Phase A evidence: re-ground and re-run Phase B before writing more code.
-
-## Phase D: Implement against the sketch
-
-The sketch is the contract. Deviations are signal, not friction to absorb silently: if a function needs an unanticipated parameter, decide whether the sketch was wrong, the requirement was missed, or the implementation overreaches, and surface it.
-
-## Phase E: Scrap when the architecture is wrong
-
-The trigger is a *pattern* of friction, not single instances: the same workaround shape recurring across unrelated code, unrelated edge cases all needing special branches, types needing escape hatches to compile, callers having to know internal rules, two or more independent same-shaped deviations during fill-in.
-
-When you scrap: trace what has been built so lessons enter as inputs; redesign as if the new constraints were day-one assumptions ([redesign-from-first-principles](../principles.md#redesign-from-first-principles)); subtract before adding, so the new sketch starts smaller than the old one; return to Phase B.
+The sketch is the contract. Surface every deviation. Redesign instead of patching when workarounds repeat: the same workaround in unrelated code, types that need escape hatches, or callers that must know internal rules. Redesign as if the new constraints were there from day one ([redesign-from-first-principles](../principles.md#redesign-from-first-principles)), starting smaller than the old sketch.

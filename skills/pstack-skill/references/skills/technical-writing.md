@@ -16,21 +16,21 @@ Vary rhythm so the doc does not read machine-clipped: mix sentence lengths on pu
 
 One document, one mode. Action+learning: tutorial. Action+work: how-to. Understanding+work: reference. Understanding+learning: explanation. No mixing; split and link instead.
 
-- **Tutorial.** You are the teacher. Open with what the learner will build. Every step produces visible results early and often; tell them what they should see.
-- **How-to.** Steps to a goal for a competent person. No digressions, no background. Name it by task: "How to calibrate the radar array".
+- **Tutorial.** You are the teacher. Open with what the learner will build. Every step produces visible results early and often; tell them what they should see. Explanation gets one clause and a link.
+- **How-to.** Steps to a goal for a competent person. No digressions, no background. Forks are fine. Name it by task: "How to calibrate the radar array".
 - **Reference.** Describe, only describe. Dry, complete, sure. Mirror the structure of the thing described.
 - **Explanation.** One bounded topic anchored on a real why question. Context, decisions, alternatives. Opinion lives here and nowhere else.
 
 ## Write to the reader
 
-Present tense, "you", active voice naming the actor. Instructions as commands. Condition before instruction ("To delete the document, click Delete"). Common case first. Headings carry the point, not just the topic; sentence case. Numbered lists for sequences, bullets otherwise, introduced by a complete sentence. Never "simply", "easy", or "please" in a procedure. Links say where they go.
+Present tense, "you", active voice naming the actor. Instructions as commands. Condition before instruction ("To delete the document, click Delete"). Common case first. Headings carry the point, not just the topic; sentence case, one h1 per page, no skipped levels. Don't pre-announce, and don't start consecutive sentences with the same phrase. Numbered lists for sequences, bullets otherwise, introduced by a complete sentence, with parallel items. Never "simply", "easy", or "please" in a procedure. Links say where they go.
 
 ## One statement per sentence
 
-One instruction per sentence; split instructions past ~20 words. Warning before the step it guards. Keep articles ("Remove the backup file", not "Remove backup file"). One meaning per word; one verb per action everywhere. Procedures as direct commands, never narration or passive. Prefer "-ing"-free constructions.
+One instruction per sentence; split instructions past ~20 words and other sentences past ~25. Warning before the step it guards. Keep articles ("Remove the backup file", not "Remove backup file"). One meaning per word; one verb per action everywhere. Procedures as direct commands, never narration or passive. Prefer "-ing"-free constructions.
 
 ## Leave no sentence open to two readings
 
 "Only" and "not" sit next to what they change. Break long noun strings. Every "it" and "this" points at one obvious thing; repeat the noun when in doubt. No dropped verbs in series. Keep structural small words ("that"). Disambiguate joins ("both...and", "either...or"). Periods, not semicolons. Parenthetical text is a full grammatical unit. No "(s)" plurals, no slashes-for-or. One name per thing across the whole doc. Skip idioms and Latin abbreviations; plain constructions parse best for non-native readers and agents alike.
 
-PR descriptions and commit messages follow every layer except Diataxis. Apply [unslop](unslop.md) to everything this procedure touches.
+PR descriptions and commit messages follow every layer except Diataxis. A PR body is a briefing a reviewer reads in under a minute: link logs and tables instead of pasting them. Make every count or tree claim true at the commit that lands it, with the command that regenerates it. Apply [unslop](unslop.md) to everything this procedure touches.

@@ -255,12 +255,12 @@ Design well-structured agent loops with best-practice coaching and cross-model r
 
 ---
 
-### 👑 Pstack Skills — 23 Playbooks for Claude Code, Cursor & OpenCode [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-pstack-skill/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-pstack-skill) · `code-quality-and-review`
-Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) — 23 playbooks, 31 procedures, 24 engineering principles. No plugin install, no Cursor required. Runs in Claude Code, Cursor, Kiro, and OpenCode. One orchestrator that reads your task, picks the right playbook (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, orchestrate), routes to bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, tdd), and applies engineering principles with traceable citations.
+### 👑 Pstack Skills — 22 Playbooks for Claude Code, Cursor & OpenCode [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-pstack-skill/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-pstack-skill) · `code-quality-and-review`
+Self-contained port of Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (`poteto-mode`) — 22 playbooks, 31 procedures, 24 engineering principles. No plugin install, no Cursor required. Runs in Claude Code, Cursor, Kiro, and OpenCode. One orchestrator that reads your task, picks the right playbook (bug fix, feature, refactoring, perf, investigation, prototype, babysit, shipping, autonomous run, multi-phase plan), routes to bundled procedures (how, why, architect, arena, swarm, interrogate, unslop, tdd), and applies engineering principles with traceable citations.
 
 **When to use:** any task that needs rigor — nontrivial code changes, architecture decisions, debugging with repro-first discipline, adversarial reviews, PR babysitting and shipping, long autonomous runs — or "poteto-mode", "work like poteto", "pstack". Works single-model; panels degrade to fresh-context passes without weakening any verification gate.
 
-**Version 1.7:** Model roles are provider-agnostic and use capabilities available in the current environment. `how` and `why` provide focused explanations, and statechart includes improved Mermaid rendering and SANY error reporting.
+**Version 1.8:** Shorter texts for 14 principles, unslop, architect, reflect, and the Opening a PR, Babysit, and Multi-phase plan playbooks. The Orchestrate playbook is gone: multi-day programs route to `figure-it-out`. New `worker.md` holds the rules every delegated agent reads first. The plan validator was removed. statechart runs on native Windows with Node and reads TLC output with `\r\n` line ends.
 
 📄 [View full documentation](skills/pstack-skill/README.md)
 
@@ -781,9 +781,10 @@ skills/
 │   ├── README.md        # human-readable guide: install, use cases, model roles
 │   ├── SKILL.md         # the orchestrator (playbook router, principles index, autonomy rules)
 │   ├── UPSTREAM_COMMIT  # reviewed upstream reference
-│   ├── playbooks/       # 23 step-by-step workflows copied verbatim onto todolists
+│   ├── worker.md        # rules every delegated agent reads first
+│   ├── playbooks/       # 22 step-by-step workflows copied verbatim onto todolists
 │   ├── references/      # 24 principles, 31 bundled procedures, adapters and upstream review
-│   └── scripts/         # statechart compiler, plan validator, log, audit and upstream checker
+│   └── scripts/         # statechart compiler, log, audit and upstream checker
 ├── okf-open-knowledge-format/
 │   ├── SKILL.md
 │   ├── references/  # OKF spec, bundle anatomy, enrichment rules
