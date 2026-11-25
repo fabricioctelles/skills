@@ -226,7 +226,7 @@ Audita qualquer website para prontidão de agentes de IA usando o scanner [isita
 ---
 
 ### ✅ DESIGN.md Validator [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-design-md-validator/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-design-md-validator) · `product-verification`
-Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://github.com/google-labs-code/design.md) usando o CLI `@google/design.md`. Funciona com arquivos locais e URLs remotas. Sempre usa `npx` para rodar a versão mais recente — nunca desatualizado.
+Valida arquivos DESIGN.md contra a [especificação oficial do Google](https://github.com/google-labs-code/design.md) usando o CLI `@google/design.md`. Funciona com arquivos locais e URLs remotas. Sempre usa `npx` para rodar a versão mais recente — nunca desatualizado. Acompanha a spec `db977b3` (tokens de motion, Voice & Content Strategy, referências externas `@`, tokens agrupados) e indica o que está na spec main mas ainda não no npm 0.4.0.
 
 **Quando usar:** validar DESIGN.md contra a spec, checar contraste WCAG, encontrar referências de tokens quebradas, comparar duas versões de design system, exportar tokens para Tailwind v3/v4 ou W3C DTCG, auditar schema do frontmatter.
 

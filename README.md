@@ -229,7 +229,7 @@ Audits any website for AI agent readiness using the Cloudflare [isitagentready.c
 ---
 
 ### ✅ DESIGN.md Validator [![Security: A — Skills Directory](https://www.skillsdirectory.com/api/skills/fabricioctelles-design-md-validator/badge)](https://www.skillsdirectory.com/skills/fabricioctelles-design-md-validator) · `product-verification`
-Validates DESIGN.md files against the official [Google design.md specification](https://github.com/google-labs-code/design.md) using the `@google/design.md` CLI linter. Works with local files and remote URLs. Always uses `npx` to run the latest published version — never stale.
+Validates DESIGN.md files against the official [Google design.md specification](https://github.com/google-labs-code/design.md) using the `@google/design.md` CLI linter. Works with local files and remote URLs. Always uses `npx` to run the latest published version — never stale. Tracks spec `db977b3` (motion tokens, Voice & Content Strategy, external `@` references, grouped tokens) and flags what is spec main but not yet in npm 0.4.0.
 
 **When to use:** lint a DESIGN.md for spec compliance, check WCAG contrast ratios, find broken token references, diff two design system versions, export tokens to Tailwind v3/v4 or W3C DTCG format, audit frontmatter schema.
 
